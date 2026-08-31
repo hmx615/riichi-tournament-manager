@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1st XRC 四人数据对比</title>
+  <style>
+    :root { --ink:#20252b; --muted:#69717b; --line:#dfe3e7; --soft:#f4f6f7; --paper:#ffffff; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#eef1f2; font-family:Inter,"Noto Sans SC","Microsoft YaHei",Arial,sans-serif; letter-spacing:0; }
+    header { background:#fff; border-bottom:1px solid var(--line); }
+    .header-inner, .section-inner { width:min(1180px, calc(100% - 40px)); margin:0 auto; }
+    .header-inner { min-height:88px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    h1 { margin:0; font-size:26px; line-height:1.2; font-weight:760; }
+    .meta { color:var(--muted); font-size:13px; text-align:right; line-height:1.6; }
+    .player-key { display:flex; flex-wrap:wrap; gap:18px; padding:0 0 18px; }
+    .player-key span { display:inline-flex; align-items:center; gap:7px; }
+    .player-label { width:max-content; max-width:100%; padding:5px 10px; border:1px solid var(--player); border-radius:5px; background:color-mix(in srgb, var(--player) 10%, white); color:var(--player); font-weight:800; font-size:12px; line-height:1.2; }
+    .dot { width:10px; height:10px; border-radius:50%; flex:0 0 auto; }
+    section { background:#fff; border-bottom:1px solid var(--line); }
+    section:nth-of-type(even) { background:#f8f9fa; }
+    .section-inner { padding:30px 0 34px; }
+    h2 { margin:0 0 20px; font-size:18px; line-height:1.35; }
+    .rank-legend { display:flex; gap:16px; flex-wrap:wrap; margin:-8px 0 18px; color:var(--muted); font-size:12px; }
+    .rank-legend span::before { content:""; display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px; background:var(--rank); }
+    .rank-legend span:nth-child(1) { --rank:#e3a51a; }.rank-legend span:nth-child(2) { --rank:#3b91b8; }
+    .rank-legend span:nth-child(3) { --rank:#8b929a; }.rank-legend span:nth-child(4) { --rank:#cf5560; }
+    .rank-grid { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:14px; }
+    .rank-card { background:var(--paper); border:1px solid var(--line); border-top:4px solid var(--player); border-radius:6px; padding:18px 14px 15px; min-width:0; }
+    .rank-name { font-size:14px; text-align:center; margin:0 auto 13px; padding:6px 15px; }
+    .donut-wrap { position:relative; width:150px; height:150px; margin:0 auto; }
+    .donut { width:150px; height:150px; border-radius:50%; background:var(--pie); position:relative; }
+    .donut::after { content:""; position:absolute; inset:31px; border-radius:50%; background:#fff; box-shadow:0 0 0 1px var(--line); }
+    .donut-center { position:absolute; inset:0; z-index:1; display:grid; place-content:center; text-align:center; pointer-events:none; }
+    .donut-center strong { font-size:27px; line-height:1; }.donut-center small { color:var(--muted); margin-top:6px; }
+    .rank-counts { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; margin-top:15px; text-align:center; }
+    .rank-counts strong { display:block; font-size:15px; }.rank-counts small { color:var(--muted); font-size:11px; }
+    .summary-strip { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); border-radius:6px; overflow:hidden; margin-top:20px; }
+    .summary-item { padding:14px 16px; border-right:1px solid var(--line); background:#fff; }
+    .summary-item:last-child { border-right:0; }.summary-item small { display:block; color:var(--muted); font-size:11px; margin-bottom:5px; }
+    .summary-item strong { font-size:20px; color:var(--player); }
+    .comparison-scroll { overflow-x:auto; border:1px solid var(--line); border-radius:6px; background:#fff; }
+    .comparison { min-width:870px; }.compare-head, .metric-row { display:grid; grid-template-columns:170px repeat(4, minmax(150px,1fr)); }
+    .compare-head { position:sticky; top:0; z-index:2; border-bottom:1px solid var(--line); background:#f5f7f8; font-size:12px; font-weight:800; }
+    .compare-head > div, .metric-row > div { padding:11px 13px; border-right:1px solid var(--line); }
+    .compare-head > div:last-child, .metric-row > div:last-child { border-right:0; }
+    .metric-row { border-bottom:1px solid #eaedef; align-items:center; min-height:58px; }.metric-row:last-child { border-bottom:0; }
+    .metric-label { font-size:13px; font-weight:700; }
+    .bar-cell { position:relative; min-width:0; }.bar-track { height:7px; border-radius:4px; background:#e8ebed; overflow:hidden; margin-top:7px; }
+    .bar-fill { height:100%; background:var(--player); border-radius:4px; min-width:0; }
+    .bar-value { font-variant-numeric:tabular-nums; }
+    .bar-value strong { font-size:14px; }
+    .rating-table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); table-layout:fixed; }
+    .rating-table th, .rating-table td { padding:14px 16px; border-bottom:1px solid var(--line); border-right:1px solid var(--line); text-align:right; }
+    .rating-table th:first-child, .rating-table td:first-child { text-align:left; width:180px; }.rating-table th:last-child, .rating-table td:last-child { border-right:0; }
+    .rating-table tr:last-child td { border-bottom:0; }.rating-table th { background:#f5f7f8; font-size:12px; }
+    .rating-table td { font-size:16px; font-weight:750; }
+    .source-table { width:100%; border-collapse:collapse; font-size:12px; }.source-table th, .source-table td { padding:9px 10px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; }
+    .source-table th { color:var(--muted); font-weight:650; }.source-table a { color:#315e9b; text-decoration:none; }.source-url { color:#4e5963; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }.source-wrap { overflow-x:auto; }
+    footer { color:var(--muted); font-size:11px; padding:20px; text-align:center; }
+    @media (max-width:900px) {
+      .rank-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.summary-strip { grid-template-columns:repeat(2,1fr); }
+      .summary-item:nth-child(2) { border-right:0; }.summary-item:nth-child(-n+2) { border-bottom:1px solid var(--line); }
+    }
+    @media (max-width:560px) {
+      .header-inner, .section-inner { width:min(100% - 24px,1180px); }.header-inner { min-height:104px; align-items:flex-start; flex-direction:column; justify-content:center; gap:6px; }
+      .meta { text-align:left; }h1 { font-size:22px; }.rank-grid { grid-template-columns:1fr; }
+      .rank-card { display:grid; grid-template-columns:120px 1fr; align-items:center; padding:14px; }.rank-name { grid-column:1/-1; margin-bottom:8px; }
+      .donut-wrap, .donut { width:112px; height:112px; }.donut::after { inset:24px; }.donut-center strong { font-size:21px; }
+      .rank-counts { margin:0 0 0 10px; grid-template-columns:repeat(2,1fr); row-gap:12px; }
+      .comparison { min-width:0; }.compare-head { display:none; }
+      .metric-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); min-height:0; }
+      .metric-row > div { border-right:1px solid var(--line); }.metric-row > div:nth-child(odd) { border-right:0; }
+      .metric-label { grid-column:1/-1; border-right:0 !important; border-bottom:1px solid var(--line); background:#f5f7f8; padding:9px 11px !important; }
+      .bar-cell { padding:10px 11px 12px !important; }.bar-cell::before { content:attr(data-player); display:block; color:var(--player); font-size:10px; font-weight:800; margin-bottom:5px; }
+      .rating-table th, .rating-table td { padding:11px 8px; font-size:12px; }.rating-table th:first-child, .rating-table td:first-child { width:112px; }
+    }
+  </style>
+</head>
+<body>
+  <header><div class="header-inner"><h1>1st XRC 四人数据对比</h1><div class="meta" id="meta"></div></div></header>
+  <section><div class="section-inner"><div class="player-key" id="playerKey"></div><h2>顺位分布</h2><div class="rank-legend"><span>一位</span><span>二位</span><span>三位</span><span>四位</span></div><div class="rank-grid" id="rankGrid"></div><div class="summary-strip" id="summaryStrip"></div></div></section>
+  <section><div class="section-inner"><h2>攻守与选择</h2><div class="comparison-scroll"><div class="comparison" id="basicMetrics"></div></div></div></section>
+  <section><div class="section-inner"><h2>打点与效率</h2><div class="comparison-scroll"><div class="comparison" id="pointMetrics"></div></div></div></section>
+  <section><div class="section-inner"><h2>立直与副露结果</h2><div class="comparison-scroll"><div class="comparison" id="strategyMetrics"></div></div></div></section>
+  <section><div class="section-inner"><h2>AI 平均 Rating</h2><div style="overflow-x:auto"><table class="rating-table" id="ratingTable"></table></div></div></section>
+  <section><div class="section-inner"><h2>牌谱与 NAGA 分析</h2><div class="source-wrap"><table class="source-table" id="sourceTable"></table></div></div></section>
+  <footer>统计口径：副露不含暗杠；双响放铳按一局计。Rating 直接读取 1st XRC.xlsx。</footer>
+  <script>
+    const DATA = __XRC_DATA__;
+    const ids = DATA.identities;
+    const rankColors = ["#e3a51a", "#3b91b8", "#8b929a", "#cf5560"];
+    const pct = value => value == null ? "—" : (value * 100).toFixed(2) + "%";
+    const num = (value, digits=0) => value == null ? "—" : Number(value).toLocaleString("zh-CN", {maximumFractionDigits:digits, minimumFractionDigits:digits});
+    document.getElementById("meta").innerHTML = `成绩 ${DATA.scoreGameCount} 场 · 牌谱 ${DATA.dataGameCount} 场 / ${DATA.handCount} 小局<br>${DATA.generatedDate}`;
+    document.getElementById("playerKey").innerHTML = ids.map(id => `<span class="player-label" style="--player:${DATA.colors[id]}"><i class="dot" style="background:${DATA.colors[id]}"></i>${id}</span>`).join("");
+    function pieStops(counts) {
+      const total = counts.reduce((a,b)=>a+b,0) || 1; let cursor = 0;
+      return counts.map((count,index) => { const start=cursor; cursor += count/total*100; return `${rankColors[index]} ${start}% ${cursor}%`; }).join(",");
+    }
+    document.getElementById("rankGrid").innerHTML = ids.map(id => {
+      const p=DATA.players[id];
+      return `<article class="rank-card" style="--player:${DATA.colors[id]}"><div class="rank-name player-label">${id}</div><div class="donut-wrap"><div class="donut" style="--pie:conic-gradient(${pieStops(p.rankCounts)})"></div><div class="donut-center"><strong>${p.summary["平均顺位"].toFixed(2)}</strong><small>平均顺位</small></div></div><div class="rank-counts">${p.rankCounts.map((count,i)=>`<div><strong style="color:${rankColors[i]}">${count}</strong><small>${i+1}位 · ${pct(count/DATA.scoreGameCount)}</small></div>`).join("")}</div></article>`;
+    }).join("");
+    document.getElementById("summaryStrip").innerHTML = ids.map(id => `<div class="summary-item" style="--player:${DATA.colors[id]}"><small>${id} · 比赛总分</small><strong>${DATA.players[id].competitionPoints>=0?"+":""}${DATA.players[id].competitionPoints.toFixed(1)}</strong></div>`).join("");
+    const metricGroups = {
+      basicMetrics:[["和牌率","rate","wins/hands"],["放铳率","rate","dealInHands/hands"],["副露率","rate","furoHands/hands"],["立直率","rate","riichiHands/hands"],["自摸率","rate","tsumoWins/wins"],["默听率","rate","damaWins/wins"],["流听率","rate","drawTenpaiHands/drawHands"],["平均起手向听","decimal",null]],
+      pointMetrics:[["平均打点","point","winPointSum/wins"],["平均铳点","point","dealInPointSum/dealInEvents"],["打点效率","point",null],["铳点损失","point",null],["净打点效率","signed",null],["和了巡数","decimal",null],["平均被炸点数","point",null]],
+      strategyMetrics:[["立直后和牌率","rate","riichiWins/riichiHands"],["副露后和牌率","rate","furoWins/furoHands"],["立直后放铳率","rate","dealInWhileRiichi/riichiHands"],["副露后放铳率","rate","dealInWhileFuro/furoHands"],["立直后流局率","rate","drawWhileRiichi/riichiHands"],["副露后流局率","rate","drawWhileFuro/furoHands"],["先制率","rate","firstRiichi/riichiHands"],["追立率","rate","chaseRiichi/riichiHands"]]
+    };
+    function renderMetrics(target,metrics) {
+      const header=`<div class="compare-head"><div>指标</div>${ids.map(id=>`<div><span class="player-label" style="--player:${DATA.colors[id]}">${id}</span></div>`).join("")}</div>`;
+      const rows=metrics.map(([field,type])=>{ const values=ids.map(id=>DATA.players[id].summary[field]); const finite=values.filter(v=>v!=null&&Number.isFinite(v)); const maxAbs=Math.max(...finite.map(v=>Math.abs(v)),1); return `<div class="metric-row"><div class="metric-label">${field}</div>${ids.map((id,index)=>{ const value=values[index]; const width=value==null?0:(type==="rate"?Math.max(0,value*100):Math.abs(value)/maxAbs*100); const display=type==="rate"?pct(value):type==="decimal"?num(value,2):num(value,0); return `<div class="bar-cell" data-player="${id}" style="--player:${DATA.colors[id]}"><div class="bar-value"><strong>${display}</strong></div><div class="bar-track"><div class="bar-fill" style="width:${width}%"></div></div></div>`; }).join("")}</div>`; }).join("");
+      document.getElementById(target).innerHTML=header+rows;
+    }
+    Object.entries(metricGroups).forEach(([target,metrics])=>renderMetrics(target,metrics));
+    const models=[["Mortal","Mortal Rating"],["ニシキ","NAGA · ニシキ"],["カガシ","NAGA · カガシ"]];
+    const ratingIds=["hmx","xiaop"];
+    document.getElementById("ratingTable").innerHTML=`<thead><tr><th>模型</th>${ratingIds.map(id=>`<th><span class="player-label" style="--player:${DATA.colors[id]}">${id}</span></th>`).join("")}</tr></thead><tbody>${models.map(([key,label])=>`<tr><td>${label}</td>${ratingIds.map(id=>{const r=DATA.ratings[id]?.[key];return `<td>${r.average.toFixed(2)}</td>`}).join("")}</tr>`).join("")}</tbody>`;
+    document.getElementById("sourceTable").innerHTML=`<thead><tr><th>局号</th><th>原始牌谱链接</th><th>NAGA 分析</th></tr></thead><tbody>${DATA.matches.map(m=>{const tenhouUrl=`https://tenhou.net/3/?log=${m.logId}`;const nagaLink=m.sourceType==="NAGA"?`<a href="${m.url}" target="_blank" rel="noopener noreferrer">打开 NAGA 分析</a>`:"无";return `<tr><td>${m.matchNumber}</td><td><span class="source-url">${tenhouUrl}</span></td><td>${nagaLink}</td></tr>`}).join("")}</tbody>`;
+  </script>
+</body>
+</html>

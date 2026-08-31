@@ -1,0 +1,31 @@
+# 格式：局号<TAB>天凤或NAGA链接<TAB>seats=东,南,西,北
+# seats 可省略；换号或身份无法自动判断时再填写。以 # 开头的行不会计入统计。
+1	http://tenhou.net/0/?log=2026072823gm-0009-1940-a2d00834&tw=0	seats=hmx,xiaop,Mortal,NAGA
+2	http://tenhou.net/0/?log=2026072823gm-0009-1940-e0dc14c7&tw=1	seats=xiaop,hmx,NAGA,Mortal
+3	http://tenhou.net/0/?log=2026073117gm-0009-1940-e7ad0628&tw=1	seats=NAGA,hmx,Mortal,xiaop
+4	https://tenhou.net/3/?log=2026080101gm-0009-1940-2b3bcf15	seats=xiaop,NAGA,Mortal,hmx
+5	https://tenhou.net/3/?log=2026080102gm-0009-1940-fe1c41de	seats=Mortal,NAGA,xiaop,hmx
+6	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=47eeabb773866a55715b48069cdc78be1832512d089c56ecb71ce8f27f12ea14v2_2&tw=0	seats=xiaop,NAGA,Mortal,hmx
+7	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=8109dde93ddddc0615938fbd757a3d826e6e2fd8f340676925f8d9a8577d16c4v2_2&tw=0	seats=NAGA,xiaop,hmx,Mortal
+8	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=8af4f933b3292a6c78f0f5dcd6a671aef4fe77ee7804552a7deaa0aa0d502c65v2_2&tw=0	seats=NAGA,hmx,xiaop,Mortal
+9	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=0bd94614d896f9120e978640186b14a91908fb3ce84a316c69b0d7f61740c906v2_2&tw=0	seats=NAGA,Mortal,hmx,xiaop
+10	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=9f2ee9cf07c6bb9803785c7179b7aa73e4438bb5d159efd220c9dd14003c8c07v2_2&tw=0	seats=xiaop,hmx,Mortal,NAGA
+11	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=37d3bdb8e5b55bbaa3e566e5facade5f70f78dc88f3f795399b861a1d3c2672av2_2&tw=0	seats=hmx,Mortal,xiaop,NAGA
+12	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=4aa377733a2fe09e79c2b55cd912b210592c801b6d8dea45ae16f8a0c10cde0ev2_2&tw=0	seats=hmx,Mortal,NAGA,xiaop
+13	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=fdcb5b341b16aa622c23547d047080e934b6caf4efbe0a157c0428246a970e42v2_2&tw=0	seats=Mortal,hmx,NAGA,xiaop
+14	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=3efcb08f3ea099f483cf38607fd4dd512e5e936d30395fdbdb4fbd47f8a4e46ev2_2&tw=0	seats=xiaop,hmx,NAGA,Mortal
+15	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=a35a149436a423eeebe41bd1c7a292e6ae5d12622944dff06a21bd322157dad8v2_2&tw=0	seats=NAGA,xiaop,Mortal,hmx
+16	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=1e356155c0ab17b39fa53bee1778801925b1c9e0fda8fed0d37528f2a9ffc780v2_2&tw=0	seats=xiaop,hmx,Mortal,NAGA
+17	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=1079ae4bc323c01573a33aa4750d5fe1530e86cecee7352858ee8a7665ffbfd6v2_2&tw=0	seats=hmx,NAGA,Mortal,xiaop
+18	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=514ff1c3328ad586b8ebc4709c30d9ac73598d02e91810113ea0a0d28f482dd4v2_2&tw=0	seats=Mortal,hmx,xiaop,NAGA
+19	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=b9b968be2437749c1405a7302d85e34a629c5ee97a6ddbdffe137ec5ad029dfev2_2&tw=0	seats=xiaop,hmx,Mortal,NAGA
+20	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=9cd765844ee84d86578e5164886f8c65fb28d46092a4142eaf978d5a3e1b3022v2_2&tw=0	seats=NAGA,hmx,Mortal,xiaop
+21	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=cae1c6abcf3bcf9d5ecd51b50d80f294e0767cbd0f5e5730752a51f7dc0a605cv2_2&tw=0	seats=hmx,NAGA,xiaop,Mortal
+22	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=ddecaee26a5831b865d3d269d0af981a2c133dccda79cc9a1bdb21ae2147d1ecv2_2&tw=0	seats=hmx,Mortal,xiaop,NAGA
+23	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=7453bb1790f05dc3e3db164c1052f3f25bcf3ae8879d380b33fe8bcea342ddb6v2_2&tw=0	seats=NAGA,xiaop,Mortal,hmx
+24	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=cc4b797621ddb65894e2ed3baf4f344c9c62578be890c6bf0ba537adc9e40d14v2_2&tw=0	seats=Mortal,xiaop,NAGA,hmx
+25	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=91d9f9d01ba724d7317b3f8df242b634e8f496a2d610d7d88588f7bc3289c91dv2_2&tw=0	seats=xiaop,NAGA,Mortal,hmx
+26	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=411a1627b602b6f9cefeb25a88dcef87d9596de44cc49987867ab8f0a520afd5v2_2&tw=0	seats=Mortal,NAGA,hmx,xiaop
+27	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=d4410a45d5b0706e219535f871ef1c278c62ef23447672129e84d78a6b204ed5v2_2&tw=0	seats=NAGA,hmx,xiaop,Mortal
+28	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=b8f406e10b7395bc9a2a7e4c4a79408e363908464f878a87465e5511640eeafbv2_2&tw=0	seats=xiaop,Mortal,hmx,NAGA
+29	https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=2b2999034f08a3af3c38618b14f44b0f6ad6447ed534923dc5826bc2a8a38bcev2_2&tw=0	seats=xiaop,NAGA,hmx,Mortal

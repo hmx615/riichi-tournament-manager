@@ -1,0 +1,30 @@
+{
+  "name": "riichi-tournament-manager",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "import:legacy": "node scripts/import-legacy-xrc.mjs",
+    "backfill:naga-ratings": "vite-node scripts/backfill-naga-ratings.ts",
+    "audit:excel": "node scripts/audit-xrc-excel.mjs",
+    "admin:credentials": "vite-node scripts/generate-admin-credentials.ts"
+  },
+  "dependencies": {
+    "lucide-react": "1.34.0",
+    "next": "16.3.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^5.9.3",
+    "vitest": "3.2.4"
+  }
+}

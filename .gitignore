@@ -1,0 +1,13 @@
+node_modules/
+.next/
+coverage/
+*.log
+*.tsbuildinfo
+.DS_Store
+.env*
+!.env.example
+.secrets/
+data/*.db
+data/*.db-*
+data/backups/
+data/naga-reports/

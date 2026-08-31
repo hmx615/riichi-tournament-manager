@@ -1,0 +1,3868 @@
+{
+  "id": "1st-xrc",
+  "name": "1st XRC 人机大战",
+  "code": "1ST-XRC",
+  "status": "active",
+  "plannedMatchCount": 50,
+  "initialPoints": 25000,
+  "rankPoints": [
+    30,
+    10,
+    -10,
+    -30
+  ],
+  "participants": [
+    {
+      "id": "hmx",
+      "displayName": "hmx",
+      "kind": "human",
+      "color": "#d1495b",
+      "usernames": [
+        "東海大黄魚",
+        "猫妥"
+      ]
+    },
+    {
+      "id": "xiaop",
+      "displayName": "xiaop",
+      "kind": "human",
+      "color": "#168f83",
+      "usernames": [
+        "風蛍月",
+        "猫妥",
+        "lechanNa",
+        "こくらあさひ",
+        "ハンバーガー"
+      ]
+    },
+    {
+      "id": "NAGA",
+      "displayName": "NAGA",
+      "kind": "ai",
+      "color": "#6657c7",
+      "usernames": [
+        "◯NAGA01",
+        "◯NAGA02",
+        "◯NAGA05",
+        "◯NAGA06",
+        "◯NAGA07",
+        "◯NAGA08",
+        "◯NAGA10",
+        "◯NAGA11",
+        "◯NAGA13",
+        "◯NAGA15",
+        "◯NAGA16",
+        "◯NAGA17",
+        "◯NAGA18",
+        "◯NAGA19",
+        "ⓝNAGA25"
+      ]
+    },
+    {
+      "id": "Mortal",
+      "displayName": "Mortal",
+      "kind": "ai",
+      "color": "#d58a18",
+      "usernames": [
+        "NoName"
+      ]
+    }
+  ],
+  "matches": [
+    {
+      "id": "1st-xrc-001",
+      "matchNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-07-28T23:00:00+08:00",
+      "tenhouLogId": "2026072823gm-0009-1940-a2d00834",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026072823gm-0009-1940-a2d00834",
+      "nagaUrl": "https://naga.dmv.nico/htmls/report_viewer.html?report_id=88afafc52348e55e9b8335e696a9d0d3862ff3e42cdea5cc133380301e0b1685v2_2&tw=1",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 19600,
+          "rank": 3,
+          "competitionPoints": -15.4,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "xiaop",
+          "sourceUsername": "こくらあさひ",
+          "rawPoints": 23800,
+          "rank": 2,
+          "competitionPoints": 8.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 16900,
+          "rank": 4,
+          "competitionPoints": -38.1,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA01",
+          "rawPoints": 39700,
+          "rank": 1,
+          "competitionPoints": 44.7,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "88afafc52348e55e9b8335e696a9d0d3862ff3e42cdea5cc133380301e0b1685v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 86.021,
+          "agreementRate": 0.7396,
+          "badMoveRate": 0.1354,
+          "decisionCount": 96
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 83.028,
+          "agreementRate": 0.7292,
+          "badMoveRate": 0.1354,
+          "decisionCount": 96
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 89.636,
+          "agreementRate": 0.8065,
+          "badMoveRate": 0.0645,
+          "decisionCount": 93
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 88.638,
+          "agreementRate": 0.7742,
+          "badMoveRate": 0.0753,
+          "decisionCount": 93
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.874,
+          "agreementRate": 0.8438,
+          "badMoveRate": 0.0208,
+          "decisionCount": 96
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 90.844,
+          "agreementRate": 0.8021,
+          "badMoveRate": 0.0625,
+          "decisionCount": 96
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 92.551,
+          "agreementRate": 0.8605,
+          "badMoveRate": 0.0116,
+          "decisionCount": 86
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 86
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-002",
+      "matchNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-07-28T23:00:00+08:00",
+      "tenhouLogId": "2026072823gm-0009-1940-e0dc14c7",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026072823gm-0009-1940-e0dc14c7",
+      "nagaUrl": "https://naga.dmv.nico/htmls/report_viewer.html?report_id=b5abd0654e56491aa9fc14fad3e19956252c781c55ccde138ea6281a1e44ce30v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "こくらあさひ",
+          "rawPoints": 11700,
+          "rank": 3,
+          "competitionPoints": -23.3,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 2200,
+          "rank": 4,
+          "competitionPoints": -52.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA15",
+          "rawPoints": 49200,
+          "rank": 1,
+          "competitionPoints": 54.2,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 36900,
+          "rank": 2,
+          "competitionPoints": 21.9,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "b5abd0654e56491aa9fc14fad3e19956252c781c55ccde138ea6281a1e44ce30v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 86.599,
+          "agreementRate": 0.7703,
+          "badMoveRate": 0.0473,
+          "decisionCount": 148
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 88.979,
+          "agreementRate": 0.7568,
+          "badMoveRate": 0.0743,
+          "decisionCount": 148
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 87.78,
+          "agreementRate": 0.7586,
+          "badMoveRate": 0.0345,
+          "decisionCount": 145
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 88.682,
+          "agreementRate": 0.7793,
+          "badMoveRate": 0.0414,
+          "decisionCount": 145
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 93.486,
+          "agreementRate": 0.8271,
+          "badMoveRate": 0.015,
+          "decisionCount": 133
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 133
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 95.292,
+          "agreementRate": 0.8871,
+          "badMoveRate": 0.0161,
+          "decisionCount": 124
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 90.928,
+          "agreementRate": 0.8145,
+          "badMoveRate": 0.0645,
+          "decisionCount": 124
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-003",
+      "matchNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-07-31T17:00:00+08:00",
+      "tenhouLogId": "2026073117gm-0009-1940-e7ad0628",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026073117gm-0009-1940-e7ad0628",
+      "nagaUrl": "https://naga.dmv.nico/htmls/report_viewer.html?report_id=aed66b8c61a22bf92567cfa489da49a60f6c8e6c2c63e0453f7f1140a362df52v2_2&tw=3",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA02",
+          "rawPoints": 21300,
+          "rank": 4,
+          "competitionPoints": -33.7,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "猫妥",
+          "rawPoints": 21600,
+          "rank": 3,
+          "competitionPoints": -13.4,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 23800,
+          "rank": 2,
+          "competitionPoints": 8.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "xiaop",
+          "sourceUsername": "ハンバーガー",
+          "rawPoints": 33300,
+          "rank": 1,
+          "competitionPoints": 38.3,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "aed66b8c61a22bf92567cfa489da49a60f6c8e6c2c63e0453f7f1140a362df52v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 89.543,
+          "agreementRate": 0.7907,
+          "badMoveRate": 0.0233,
+          "decisionCount": 86
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 86
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 90.288,
+          "agreementRate": 0.75,
+          "badMoveRate": 0.0326,
+          "decisionCount": 92
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 90.19,
+          "agreementRate": 0.75,
+          "badMoveRate": 0.0109,
+          "decisionCount": 92
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 96.142,
+          "agreementRate": 0.8608,
+          "badMoveRate": 0.0127,
+          "decisionCount": 79
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 92.258,
+          "agreementRate": 0.8228,
+          "badMoveRate": 0.0253,
+          "decisionCount": 79
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 88.811,
+          "agreementRate": 0.8023,
+          "badMoveRate": 0.0465,
+          "decisionCount": 86
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 88.115,
+          "agreementRate": 0.7674,
+          "badMoveRate": 0.0465,
+          "decisionCount": 86
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-004",
+      "matchNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-08-01T01:00:00+08:00",
+      "tenhouLogId": "2026080101gm-0009-1940-2b3bcf15",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080101gm-0009-1940-2b3bcf15",
+      "nagaUrl": "https://naga.dmv.nico/htmls/report_viewer.html?report_id=e029c8767a03d329ab26c84abced765074385bf49f63c8125c0289eb53958193v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "こくらあさひ",
+          "rawPoints": 20500,
+          "rank": 2,
+          "competitionPoints": 5.5,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "NAGA",
+          "sourceUsername": "ⓝNAGA25",
+          "rawPoints": 43600,
+          "rank": 1,
+          "competitionPoints": 48.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 18700,
+          "rank": 3,
+          "competitionPoints": -16.3,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 17200,
+          "rank": 4,
+          "competitionPoints": -37.8,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "e029c8767a03d329ab26c84abced765074385bf49f63c8125c0289eb53958193v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 92.643,
+          "agreementRate": 0.8537,
+          "badMoveRate": 0.0122,
+          "decisionCount": 82
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 90.686,
+          "agreementRate": 0.8415,
+          "badMoveRate": 0.0488,
+          "decisionCount": 82
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 94.411,
+          "agreementRate": 0.8442,
+          "badMoveRate": 0.013,
+          "decisionCount": 77
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 77
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.434,
+          "agreementRate": 0.791,
+          "badMoveRate": 0.0597,
+          "decisionCount": 67
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 88.613,
+          "agreementRate": 0.791,
+          "badMoveRate": 0.0746,
+          "decisionCount": 67
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 87.711,
+          "agreementRate": 0.7013,
+          "badMoveRate": 0.0519,
+          "decisionCount": 77
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 87.949,
+          "agreementRate": 0.8052,
+          "badMoveRate": 0.0519,
+          "decisionCount": 77
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-005",
+      "matchNumber": 5,
+      "status": "completed",
+      "playedAt": "2026-08-01T02:00:00+08:00",
+      "tenhouLogId": "2026080102gm-0009-1940-fe1c41de",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080102gm-0009-1940-fe1c41de",
+      "nagaUrl": "https://naga.dmv.nico/htmls/report_viewer.html?report_id=1b3a3800fa05051137aba5a6e0c160ea70f80b5a1ee51277f4c870012a59d82av2_2&tw=2",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 23000,
+          "rank": 2,
+          "competitionPoints": 8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA18",
+          "rawPoints": 4900,
+          "rank": 4,
+          "competitionPoints": -50.1,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "xiaop",
+          "sourceUsername": "こくらあさひ",
+          "rawPoints": 16300,
+          "rank": 3,
+          "competitionPoints": -18.7,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 55800,
+          "rank": 1,
+          "competitionPoints": 60.8,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "1b3a3800fa05051137aba5a6e0c160ea70f80b5a1ee51277f4c870012a59d82av2_2",
+      "nagaRatings": [
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 91.46,
+          "agreementRate": 0.784,
+          "badMoveRate": 0.024,
+          "decisionCount": 125
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 85.37,
+          "agreementRate": 0.72,
+          "badMoveRate": 0.056,
+          "decisionCount": 125
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 96.068,
+          "agreementRate": 0.8783,
+          "badMoveRate": 0,
+          "decisionCount": 115
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 115
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 88.944,
+          "agreementRate": 0.7966,
+          "badMoveRate": 0.0424,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 88.344,
+          "agreementRate": 0.7712,
+          "badMoveRate": 0.0593,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 89.638,
+          "agreementRate": 0.7917,
+          "badMoveRate": 0.0583,
+          "decisionCount": 120
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 89.608,
+          "agreementRate": 0.825,
+          "badMoveRate": 0.05,
+          "decisionCount": 120
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-006",
+      "matchNumber": 6,
+      "status": "completed",
+      "playedAt": "2026-08-04T00:00:00+08:00",
+      "tenhouLogId": "2026080400gm-0009-1940-c89e065b",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080400gm-0009-1940-c89e065b",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=47eeabb773866a55715b48069cdc78be1832512d089c56ecb71ce8f27f12ea14v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "こくらあさひ",
+          "rawPoints": 54000,
+          "rank": 1,
+          "competitionPoints": 59,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "NAGA",
+          "sourceUsername": "ⓝNAGA25",
+          "rawPoints": 16600,
+          "rank": 3,
+          "competitionPoints": -18.4,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 25900,
+          "rank": 2,
+          "competitionPoints": 10.9,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "hmx",
+          "sourceUsername": "猫妥",
+          "rawPoints": 3500,
+          "rank": 4,
+          "competitionPoints": -51.5,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "47eeabb773866a55715b48069cdc78be1832512d089c56ecb71ce8f27f12ea14v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 91.954,
+          "agreementRate": 0.7941,
+          "badMoveRate": 0.0392,
+          "decisionCount": 102
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 91.07,
+          "agreementRate": 0.8137,
+          "badMoveRate": 0.0294,
+          "decisionCount": 102
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 95.535,
+          "agreementRate": 0.8868,
+          "badMoveRate": 0.0094,
+          "decisionCount": 106
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 106
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 94.628,
+          "agreementRate": 0.8807,
+          "badMoveRate": 0.0092,
+          "decisionCount": 109
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 93.224,
+          "agreementRate": 0.8165,
+          "badMoveRate": 0.0183,
+          "decisionCount": 109
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 86.475,
+          "agreementRate": 0.7551,
+          "badMoveRate": 0.0408,
+          "decisionCount": 98
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 86.993,
+          "agreementRate": 0.7551,
+          "badMoveRate": 0.0816,
+          "decisionCount": 98
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-007",
+      "matchNumber": 7,
+      "status": "completed",
+      "playedAt": "2026-08-04T01:00:00+08:00",
+      "tenhouLogId": "2026080401gm-0009-1940-2d5667b9",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080401gm-0009-1940-2d5667b9",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=8109dde93ddddc0615938fbd757a3d826e6e2fd8f340676925f8d9a8577d16c4v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA17",
+          "rawPoints": 14700,
+          "rank": 3,
+          "competitionPoints": -20.3,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "xiaop",
+          "sourceUsername": "こくらあさひ",
+          "rawPoints": 39400,
+          "rank": 1,
+          "competitionPoints": 44.4,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "hmx",
+          "sourceUsername": "猫妥",
+          "rawPoints": 14400,
+          "rank": 4,
+          "competitionPoints": -40.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 31500,
+          "rank": 2,
+          "competitionPoints": 16.5,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "8109dde93ddddc0615938fbd757a3d826e6e2fd8f340676925f8d9a8577d16c4v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 94.354,
+          "agreementRate": 0.8652,
+          "badMoveRate": 0.0225,
+          "decisionCount": 89
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 89
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 89.836,
+          "agreementRate": 0.8481,
+          "badMoveRate": 0.0633,
+          "decisionCount": 79
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 87.694,
+          "agreementRate": 0.8101,
+          "badMoveRate": 0.0886,
+          "decisionCount": 79
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 89.291,
+          "agreementRate": 0.8101,
+          "badMoveRate": 0.0506,
+          "decisionCount": 79
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 89.053,
+          "agreementRate": 0.7848,
+          "badMoveRate": 0.038,
+          "decisionCount": 79
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 96.147,
+          "agreementRate": 0.8831,
+          "badMoveRate": 0.013,
+          "decisionCount": 77
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 94.14,
+          "agreementRate": 0.8701,
+          "badMoveRate": 0.013,
+          "decisionCount": 77
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-008",
+      "matchNumber": 8,
+      "status": "completed",
+      "playedAt": "2026-08-04T11:00:00+08:00",
+      "tenhouLogId": "2026080411gm-0009-1940-8a1d3e85",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080411gm-0009-1940-8a1d3e85",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=8af4f933b3292a6c78f0f5dcd6a671aef4fe77ee7804552a7deaa0aa0d502c65v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA05",
+          "rawPoints": 63300,
+          "rank": 1,
+          "competitionPoints": 68.3,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 18900,
+          "rank": 2,
+          "competitionPoints": 3.9,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "xiaop",
+          "sourceUsername": "猫妥",
+          "rawPoints": 18900,
+          "rank": 3,
+          "competitionPoints": -16.1,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": -1100,
+          "rank": 4,
+          "competitionPoints": -56.1,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "8af4f933b3292a6c78f0f5dcd6a671aef4fe77ee7804552a7deaa0aa0d502c65v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 94.812,
+          "agreementRate": 0.8261,
+          "badMoveRate": 0,
+          "decisionCount": 23
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 23
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 93.463,
+          "agreementRate": 0.8889,
+          "badMoveRate": 0.037,
+          "decisionCount": 27
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 91.298,
+          "agreementRate": 0.8519,
+          "badMoveRate": 0.037,
+          "decisionCount": 27
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 89.228,
+          "agreementRate": 0.7407,
+          "badMoveRate": 0,
+          "decisionCount": 27
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 89.176,
+          "agreementRate": 0.7778,
+          "badMoveRate": 0.037,
+          "decisionCount": 27
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 94.662,
+          "agreementRate": 0.8947,
+          "badMoveRate": 0.0526,
+          "decisionCount": 19
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 92.535,
+          "agreementRate": 0.7895,
+          "badMoveRate": 0,
+          "decisionCount": 19
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-009",
+      "matchNumber": 9,
+      "status": "completed",
+      "playedAt": "2026-08-04T11:00:00+08:00",
+      "tenhouLogId": "2026080411gm-0009-1940-5b401585",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080411gm-0009-1940-5b401585",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=0bd94614d896f9120e978640186b14a91908fb3ce84a316c69b0d7f61740c906v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA16",
+          "rawPoints": 29500,
+          "rank": 1,
+          "competitionPoints": 34.5,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 18300,
+          "rank": 4,
+          "competitionPoints": -36.7,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 28900,
+          "rank": 2,
+          "competitionPoints": 13.9,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "xiaop",
+          "sourceUsername": "猫妥",
+          "rawPoints": 23300,
+          "rank": 3,
+          "competitionPoints": -11.7,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "0bd94614d896f9120e978640186b14a91908fb3ce84a316c69b0d7f61740c906v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 95.54,
+          "agreementRate": 0.871,
+          "badMoveRate": 0.0054,
+          "decisionCount": 186
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 186
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.482,
+          "agreementRate": 0.797,
+          "badMoveRate": 0.0355,
+          "decisionCount": 197
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 88.913,
+          "agreementRate": 0.7513,
+          "badMoveRate": 0.0508,
+          "decisionCount": 197
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 88.028,
+          "agreementRate": 0.7912,
+          "badMoveRate": 0.044,
+          "decisionCount": 182
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 89.177,
+          "agreementRate": 0.8022,
+          "badMoveRate": 0.033,
+          "decisionCount": 182
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 89.539,
+          "agreementRate": 0.7708,
+          "badMoveRate": 0.0208,
+          "decisionCount": 192
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 87.12,
+          "agreementRate": 0.7552,
+          "badMoveRate": 0.0677,
+          "decisionCount": 192
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-010",
+      "matchNumber": 10,
+      "status": "completed",
+      "playedAt": "2026-08-05T01:00:00+08:00",
+      "tenhouLogId": "2026080501gm-0009-1940-d1fdf8c0",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080501gm-0009-1940-d1fdf8c0",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=9f2ee9cf07c6bb9803785c7179b7aa73e4438bb5d159efd220c9dd14003c8c07v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "こくらあさひ",
+          "rawPoints": 4400,
+          "rank": 4,
+          "competitionPoints": -50.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "猫妥",
+          "rawPoints": 44000,
+          "rank": 1,
+          "competitionPoints": 49,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 31000,
+          "rank": 2,
+          "competitionPoints": 16,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA17",
+          "rawPoints": 20600,
+          "rank": 3,
+          "competitionPoints": -14.4,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "9f2ee9cf07c6bb9803785c7179b7aa73e4438bb5d159efd220c9dd14003c8c07v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 86.45,
+          "agreementRate": 0.7624,
+          "badMoveRate": 0.0495,
+          "decisionCount": 101
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 86.352,
+          "agreementRate": 0.7228,
+          "badMoveRate": 0.0594,
+          "decisionCount": 101
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 90.182,
+          "agreementRate": 0.8125,
+          "badMoveRate": 0.0268,
+          "decisionCount": 112
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 89.57,
+          "agreementRate": 0.7946,
+          "badMoveRate": 0.0446,
+          "decisionCount": 112
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 96.02,
+          "agreementRate": 0.885,
+          "badMoveRate": 0,
+          "decisionCount": 113
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 94.13,
+          "agreementRate": 0.8319,
+          "badMoveRate": 0.0265,
+          "decisionCount": 113
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 93.877,
+          "agreementRate": 0.8788,
+          "badMoveRate": 0.0303,
+          "decisionCount": 99
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 99
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-011",
+      "matchNumber": 11,
+      "status": "completed",
+      "playedAt": "2026-08-05T11:00:00+08:00",
+      "tenhouLogId": "2026080511gm-0009-1940-30f95102",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080511gm-0009-1940-30f95102",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=37d3bdb8e5b55bbaa3e566e5facade5f70f78dc88f3f795399b861a1d3c2672av2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 22900,
+          "rank": 2,
+          "competitionPoints": 7.9,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": -2000,
+          "rank": 4,
+          "competitionPoints": -57,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "xiaop",
+          "sourceUsername": "猫妥",
+          "rawPoints": 60200,
+          "rank": 1,
+          "competitionPoints": 65.2,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA18",
+          "rawPoints": 18900,
+          "rank": 3,
+          "competitionPoints": -16.1,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "37d3bdb8e5b55bbaa3e566e5facade5f70f78dc88f3f795399b861a1d3c2672av2_2",
+      "nagaRatings": [
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 94.838,
+          "agreementRate": 0.8772,
+          "badMoveRate": 0.0175,
+          "decisionCount": 57
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 92.757,
+          "agreementRate": 0.8421,
+          "badMoveRate": 0.0526,
+          "decisionCount": 57
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 97.473,
+          "agreementRate": 0.8983,
+          "badMoveRate": 0,
+          "decisionCount": 59
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 94.38,
+          "agreementRate": 0.8644,
+          "badMoveRate": 0.0339,
+          "decisionCount": 59
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 93.777,
+          "agreementRate": 0.9074,
+          "badMoveRate": 0.0185,
+          "decisionCount": 54
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 93.74,
+          "agreementRate": 0.8704,
+          "badMoveRate": 0.0185,
+          "decisionCount": 54
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 92.677,
+          "agreementRate": 0.8448,
+          "badMoveRate": 0,
+          "decisionCount": 58
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 58
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-012",
+      "matchNumber": 12,
+      "status": "completed",
+      "playedAt": "2026-08-05T16:00:00+08:00",
+      "tenhouLogId": "2026080516gm-0009-1940-9e296154",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080516gm-0009-1940-9e296154",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=4aa377733a2fe09e79c2b55cd912b210592c801b6d8dea45ae16f8a0c10cde0ev2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 53600,
+          "rank": 1,
+          "competitionPoints": 58.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 15900,
+          "rank": 3,
+          "competitionPoints": -19.1,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA02",
+          "rawPoints": 23500,
+          "rank": 2,
+          "competitionPoints": 8.5,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "xiaop",
+          "sourceUsername": "猫妥",
+          "rawPoints": 7000,
+          "rank": 4,
+          "competitionPoints": -48,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "4aa377733a2fe09e79c2b55cd912b210592c801b6d8dea45ae16f8a0c10cde0ev2_2",
+      "nagaRatings": [
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 88.503,
+          "agreementRate": 0.7762,
+          "badMoveRate": 0.0979,
+          "decisionCount": 143
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 87.25,
+          "agreementRate": 0.7483,
+          "badMoveRate": 0.0769,
+          "decisionCount": 143
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 91.796,
+          "agreementRate": 0.8452,
+          "badMoveRate": 0.0387,
+          "decisionCount": 155
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 91.55,
+          "agreementRate": 0.8258,
+          "badMoveRate": 0.0258,
+          "decisionCount": 155
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 94.31,
+          "agreementRate": 0.8509,
+          "badMoveRate": 0.0062,
+          "decisionCount": 161
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 161
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 86.071,
+          "agreementRate": 0.7244,
+          "badMoveRate": 0.0641,
+          "decisionCount": 156
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 86.26,
+          "agreementRate": 0.7308,
+          "badMoveRate": 0.0513,
+          "decisionCount": 156
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-013",
+      "matchNumber": 13,
+      "status": "completed",
+      "playedAt": "2026-08-06T11:00:00+08:00",
+      "tenhouLogId": "2026080611gm-0009-1940-317d05a6",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080611gm-0009-1940-317d05a6",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=fdcb5b341b16aa622c23547d047080e934b6caf4efbe0a157c0428246a970e42v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 25000,
+          "rank": 2,
+          "competitionPoints": 10,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 57800,
+          "rank": 1,
+          "competitionPoints": 62.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA13",
+          "rawPoints": 25000,
+          "rank": 3,
+          "competitionPoints": -10,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "xiaop",
+          "sourceUsername": "猫妥",
+          "rawPoints": -7800,
+          "rank": 4,
+          "competitionPoints": -62.8,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "fdcb5b341b16aa622c23547d047080e934b6caf4efbe0a157c0428246a970e42v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 84.835,
+          "agreementRate": 0.7442,
+          "badMoveRate": 0.0698,
+          "decisionCount": 43
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 85.205,
+          "agreementRate": 0.7674,
+          "badMoveRate": 0.0233,
+          "decisionCount": 43
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 92.117,
+          "agreementRate": 0.8158,
+          "badMoveRate": 0,
+          "decisionCount": 38
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 88.75,
+          "agreementRate": 0.7895,
+          "badMoveRate": 0.0263,
+          "decisionCount": 38
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 91.357,
+          "agreementRate": 0.8222,
+          "badMoveRate": 0.0222,
+          "decisionCount": 45
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 45
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 95.745,
+          "agreementRate": 0.8864,
+          "badMoveRate": 0.0227,
+          "decisionCount": 44
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 92.059,
+          "agreementRate": 0.8409,
+          "badMoveRate": 0.0227,
+          "decisionCount": 44
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-014",
+      "matchNumber": 14,
+      "status": "completed",
+      "playedAt": "2026-08-06T11:00:00+08:00",
+      "tenhouLogId": "2026080611gm-0009-1940-0ab3fc6f",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080611gm-0009-1940-0ab3fc6f",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=3efcb08f3ea099f483cf38607fd4dd512e5e936d30395fdbdb4fbd47f8a4e46ev2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "lechanNa",
+          "rawPoints": 60700,
+          "rank": 1,
+          "competitionPoints": 65.7,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 15600,
+          "rank": 3,
+          "competitionPoints": -19.4,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "NAGA",
+          "sourceUsername": "ⓝNAGA25",
+          "rawPoints": 4100,
+          "rank": 4,
+          "competitionPoints": -50.9,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 19600,
+          "rank": 2,
+          "competitionPoints": 4.6,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "3efcb08f3ea099f483cf38607fd4dd512e5e936d30395fdbdb4fbd47f8a4e46ev2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 91.984,
+          "agreementRate": 0.8152,
+          "badMoveRate": 0.0217,
+          "decisionCount": 184
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 90.753,
+          "agreementRate": 0.7772,
+          "badMoveRate": 0.0163,
+          "decisionCount": 184
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 90.979,
+          "agreementRate": 0.7989,
+          "badMoveRate": 0.023,
+          "decisionCount": 174
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 89.821,
+          "agreementRate": 0.7816,
+          "badMoveRate": 0.0345,
+          "decisionCount": 174
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 94.623,
+          "agreementRate": 0.8611,
+          "badMoveRate": 0.0111,
+          "decisionCount": 180
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 180
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.913,
+          "agreementRate": 0.8394,
+          "badMoveRate": 0.0052,
+          "decisionCount": 193
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 91.896,
+          "agreementRate": 0.7668,
+          "badMoveRate": 0.0155,
+          "decisionCount": 193
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-015",
+      "matchNumber": 15,
+      "status": "completed",
+      "playedAt": "2026-08-06T16:00:00+08:00",
+      "tenhouLogId": "2026080616gm-0009-1940-09f09377",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080616gm-0009-1940-09f09377",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=a35a149436a423eeebe41bd1c7a292e6ae5d12622944dff06a21bd322157dad8v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA15",
+          "rawPoints": 4900,
+          "rank": 4,
+          "competitionPoints": -50.1,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "xiaop",
+          "sourceUsername": "lechanNa",
+          "rawPoints": 29700,
+          "rank": 2,
+          "competitionPoints": 14.7,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 25600,
+          "rank": 3,
+          "competitionPoints": -9.4,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 39800,
+          "rank": 1,
+          "competitionPoints": 44.8,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "a35a149436a423eeebe41bd1c7a292e6ae5d12622944dff06a21bd322157dad8v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 92.22,
+          "agreementRate": 0.8051,
+          "badMoveRate": 0,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 85.116,
+          "agreementRate": 0.754,
+          "badMoveRate": 0.1111,
+          "decisionCount": 126
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 86.341,
+          "agreementRate": 0.7381,
+          "badMoveRate": 0.1111,
+          "decisionCount": 126
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 94.615,
+          "agreementRate": 0.8793,
+          "badMoveRate": 0.0086,
+          "decisionCount": 116
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 94.997,
+          "agreementRate": 0.8966,
+          "badMoveRate": 0.0172,
+          "decisionCount": 116
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 90.372,
+          "agreementRate": 0.825,
+          "badMoveRate": 0.0417,
+          "decisionCount": 120
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 88.027,
+          "agreementRate": 0.7667,
+          "badMoveRate": 0.0583,
+          "decisionCount": 120
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-016",
+      "matchNumber": 16,
+      "status": "completed",
+      "playedAt": "2026-08-07T11:00:00+08:00",
+      "tenhouLogId": "2026080711gm-0009-1940-eca9f530",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026080711gm-0009-1940-eca9f530",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=1e356155c0ab17b39fa53bee1778801925b1c9e0fda8fed0d37528f2a9ffc780v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": -2300,
+          "rank": 4,
+          "competitionPoints": -57.3,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 35300,
+          "rank": 1,
+          "competitionPoints": 40.3,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 34100,
+          "rank": 2,
+          "competitionPoints": 19.1,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA06",
+          "rawPoints": 32900,
+          "rank": 3,
+          "competitionPoints": -2.1,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "1e356155c0ab17b39fa53bee1778801925b1c9e0fda8fed0d37528f2a9ffc780v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 89.651,
+          "agreementRate": 0.8015,
+          "badMoveRate": 0.0534,
+          "decisionCount": 131
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 88.481,
+          "agreementRate": 0.7786,
+          "badMoveRate": 0.0763,
+          "decisionCount": 131
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 90.822,
+          "agreementRate": 0.8298,
+          "badMoveRate": 0.0284,
+          "decisionCount": 141
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 90.854,
+          "agreementRate": 0.844,
+          "badMoveRate": 0.0496,
+          "decisionCount": 141
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 93.141,
+          "agreementRate": 0.8699,
+          "badMoveRate": 0.0137,
+          "decisionCount": 146
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 89.487,
+          "agreementRate": 0.8014,
+          "badMoveRate": 0.0342,
+          "decisionCount": 146
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 96.553,
+          "agreementRate": 0.8529,
+          "badMoveRate": 0,
+          "decisionCount": 136
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 136
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-017",
+      "matchNumber": 17,
+      "status": "completed",
+      "playedAt": "2026-08-13T13:00:00+08:00",
+      "tenhouLogId": "2026081313gm-0009-1940-fd6aa4f7",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026081313gm-0009-1940-fd6aa4f7",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=1079ae4bc323c01573a33aa4750d5fe1530e86cecee7352858ee8a7665ffbfd6v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 22700,
+          "rank": 3,
+          "competitionPoints": -12.3,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA05",
+          "rawPoints": 42000,
+          "rank": 1,
+          "competitionPoints": 47,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 23700,
+          "rank": 2,
+          "competitionPoints": 8.7,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 11600,
+          "rank": 4,
+          "competitionPoints": -43.4,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "1079ae4bc323c01573a33aa4750d5fe1530e86cecee7352858ee8a7665ffbfd6v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 90.504,
+          "agreementRate": 0.816,
+          "badMoveRate": 0.04,
+          "decisionCount": 125
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 92.221,
+          "agreementRate": 0.832,
+          "badMoveRate": 0.04,
+          "decisionCount": 125
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 96.252,
+          "agreementRate": 0.9296,
+          "badMoveRate": 0.007,
+          "decisionCount": 142
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 142
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 94.476,
+          "agreementRate": 0.8613,
+          "badMoveRate": 0.0073,
+          "decisionCount": 137
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 91.144,
+          "agreementRate": 0.8029,
+          "badMoveRate": 0.0511,
+          "decisionCount": 137
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 87.251,
+          "agreementRate": 0.776,
+          "badMoveRate": 0.056,
+          "decisionCount": 125
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 87.374,
+          "agreementRate": 0.744,
+          "badMoveRate": 0.072,
+          "decisionCount": 125
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-018",
+      "matchNumber": 18,
+      "status": "completed",
+      "playedAt": "2026-08-13T14:00:00+08:00",
+      "tenhouLogId": "2026081314gm-0009-1940-764495a6",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026081314gm-0009-1940-764495a6",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=514ff1c3328ad586b8ebc4709c30d9ac73598d02e91810113ea0a0d28f482dd4v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 37800,
+          "rank": 2,
+          "competitionPoints": 22.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 51400,
+          "rank": 1,
+          "competitionPoints": 56.4,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 3900,
+          "rank": 4,
+          "competitionPoints": -51.1,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA08",
+          "rawPoints": 6900,
+          "rank": 3,
+          "competitionPoints": -28.1,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "514ff1c3328ad586b8ebc4709c30d9ac73598d02e91810113ea0a0d28f482dd4v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.542,
+          "agreementRate": 0.8219,
+          "badMoveRate": 0.0228,
+          "decisionCount": 219
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 91.056,
+          "agreementRate": 0.8037,
+          "badMoveRate": 0.0228,
+          "decisionCount": 219
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 89.546,
+          "agreementRate": 0.8243,
+          "badMoveRate": 0.045,
+          "decisionCount": 222
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 90.027,
+          "agreementRate": 0.7883,
+          "badMoveRate": 0.0586,
+          "decisionCount": 222
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 90.634,
+          "agreementRate": 0.8571,
+          "badMoveRate": 0.0612,
+          "decisionCount": 196
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 89.726,
+          "agreementRate": 0.8061,
+          "badMoveRate": 0.0357,
+          "decisionCount": 196
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 95.672,
+          "agreementRate": 0.8922,
+          "badMoveRate": 0,
+          "decisionCount": 204
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 204
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-019",
+      "matchNumber": 19,
+      "status": "completed",
+      "playedAt": "2026-08-20T12:00:00+08:00",
+      "tenhouLogId": "2026082012gm-0009-1940-674c19f5",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082012gm-0009-1940-674c19f5",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=b9b968be2437749c1405a7302d85e34a629c5ee97a6ddbdffe137ec5ad029dfev2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 30000,
+          "rank": 2,
+          "competitionPoints": 15,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 14000,
+          "rank": 3,
+          "competitionPoints": -21,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 44500,
+          "rank": 1,
+          "competitionPoints": 49.5,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA02",
+          "rawPoints": 11500,
+          "rank": 4,
+          "competitionPoints": -43.5,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "b9b968be2437749c1405a7302d85e34a629c5ee97a6ddbdffe137ec5ad029dfev2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 91.249,
+          "agreementRate": 0.8362,
+          "badMoveRate": 0.0259,
+          "decisionCount": 116
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 91.842,
+          "agreementRate": 0.8276,
+          "badMoveRate": 0.0345,
+          "decisionCount": 116
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 89.584,
+          "agreementRate": 0.7731,
+          "badMoveRate": 0.0336,
+          "decisionCount": 119
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 90.481,
+          "agreementRate": 0.7899,
+          "badMoveRate": 0.042,
+          "decisionCount": 119
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 90.032,
+          "agreementRate": 0.781,
+          "badMoveRate": 0.0381,
+          "decisionCount": 105
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 87.844,
+          "agreementRate": 0.781,
+          "badMoveRate": 0.0762,
+          "decisionCount": 105
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 96.239,
+          "agreementRate": 0.8898,
+          "badMoveRate": 0.0085,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 118
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-020",
+      "matchNumber": 20,
+      "status": "completed",
+      "playedAt": "2026-08-21T11:00:00+08:00",
+      "tenhouLogId": "2026082111gm-0009-1940-cda9c10a",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082111gm-0009-1940-cda9c10a",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=9cd765844ee84d86578e5164886f8c65fb28d46092a4142eaf978d5a3e1b3022v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA08",
+          "rawPoints": 10500,
+          "rank": 4,
+          "competitionPoints": -44.5,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 31200,
+          "rank": 2,
+          "competitionPoints": 16.2,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 35500,
+          "rank": 1,
+          "competitionPoints": 40.5,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "9cd765844ee84d86578e5164886f8c65fb28d46092a4142eaf978d5a3e1b3022v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 96.752,
+          "agreementRate": 0.9297,
+          "badMoveRate": 0,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 83.495,
+          "agreementRate": 0.708,
+          "badMoveRate": 0.0803,
+          "decisionCount": 137
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 83.492,
+          "agreementRate": 0.6861,
+          "badMoveRate": 0.073,
+          "decisionCount": 137
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 95.123,
+          "agreementRate": 0.8522,
+          "badMoveRate": 0.0174,
+          "decisionCount": 115
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 91.566,
+          "agreementRate": 0.8261,
+          "badMoveRate": 0.0348,
+          "decisionCount": 115
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 90.777,
+          "agreementRate": 0.812,
+          "badMoveRate": 0.0376,
+          "decisionCount": 133
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 89.2,
+          "agreementRate": 0.7895,
+          "badMoveRate": 0.0677,
+          "decisionCount": 133
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-021",
+      "matchNumber": 21,
+      "status": "completed",
+      "playedAt": "2026-08-21T16:00:00+08:00",
+      "tenhouLogId": "2026082116gm-0009-1940-5e7cc048",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082116gm-0009-1940-5e7cc048",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=cae1c6abcf3bcf9d5ecd51b50d80f294e0767cbd0f5e5730752a51f7dc0a605cv2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 27600,
+          "rank": 2,
+          "competitionPoints": 12.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA19",
+          "rawPoints": 34600,
+          "rank": 1,
+          "competitionPoints": 39.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 18600,
+          "rank": 4,
+          "competitionPoints": -36.4,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 19200,
+          "rank": 3,
+          "competitionPoints": -15.8,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "cae1c6abcf3bcf9d5ecd51b50d80f294e0767cbd0f5e5730752a51f7dc0a605cv2_2",
+      "nagaRatings": [
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 90.389,
+          "agreementRate": 0.7814,
+          "badMoveRate": 0.0465,
+          "decisionCount": 215
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 88.448,
+          "agreementRate": 0.7628,
+          "badMoveRate": 0.0512,
+          "decisionCount": 215
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 95.243,
+          "agreementRate": 0.872,
+          "badMoveRate": 0.019,
+          "decisionCount": 211
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 211
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 87.786,
+          "agreementRate": 0.7539,
+          "badMoveRate": 0.0471,
+          "decisionCount": 191
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 88.271,
+          "agreementRate": 0.7539,
+          "badMoveRate": 0.0419,
+          "decisionCount": 191
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 93.118,
+          "agreementRate": 0.8376,
+          "badMoveRate": 0.0305,
+          "decisionCount": 197
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 90.772,
+          "agreementRate": 0.797,
+          "badMoveRate": 0.0355,
+          "decisionCount": 197
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-022",
+      "matchNumber": 22,
+      "status": "completed",
+      "playedAt": "2026-08-21T17:00:00+08:00",
+      "tenhouLogId": "2026082117gm-0009-1940-f5054b42",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082117gm-0009-1940-f5054b42",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=ddecaee26a5831b865d3d269d0af981a2c133dccda79cc9a1bdb21ae2147d1ecv2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 22900,
+          "rank": 3,
+          "competitionPoints": -12.1,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 29800,
+          "rank": 2,
+          "competitionPoints": 14.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 32000,
+          "rank": 1,
+          "competitionPoints": 37,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA06",
+          "rawPoints": 15300,
+          "rank": 4,
+          "competitionPoints": -39.7,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "ddecaee26a5831b865d3d269d0af981a2c133dccda79cc9a1bdb21ae2147d1ecv2_2",
+      "nagaRatings": [
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 89.593,
+          "agreementRate": 0.8393,
+          "badMoveRate": 0.0536,
+          "decisionCount": 112
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 87.155,
+          "agreementRate": 0.7857,
+          "badMoveRate": 0.0625,
+          "decisionCount": 112
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.35,
+          "agreementRate": 0.8125,
+          "badMoveRate": 0.0234,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 90.227,
+          "agreementRate": 0.7969,
+          "badMoveRate": 0.0469,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 86.35,
+          "agreementRate": 0.7759,
+          "badMoveRate": 0.0948,
+          "decisionCount": 116
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 85.021,
+          "agreementRate": 0.7414,
+          "badMoveRate": 0.0948,
+          "decisionCount": 116
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 95.195,
+          "agreementRate": 0.8699,
+          "badMoveRate": 0.0163,
+          "decisionCount": 123
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 123
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-023",
+      "matchNumber": 23,
+      "status": "completed",
+      "playedAt": "2026-08-21T18:00:00+08:00",
+      "tenhouLogId": "2026082118gm-0009-1940-279cf1eb",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082118gm-0009-1940-279cf1eb",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=7453bb1790f05dc3e3db164c1052f3f25bcf3ae8879d380b33fe8bcea342ddb6v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA11",
+          "rawPoints": 18200,
+          "rank": 3,
+          "competitionPoints": -16.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 29700,
+          "rank": 2,
+          "competitionPoints": 14.7,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 44600,
+          "rank": 1,
+          "competitionPoints": 49.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 7500,
+          "rank": 4,
+          "competitionPoints": -47.5,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "7453bb1790f05dc3e3db164c1052f3f25bcf3ae8879d380b33fe8bcea342ddb6v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 95.861,
+          "agreementRate": 0.8832,
+          "badMoveRate": 0.0146,
+          "decisionCount": 137
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 137
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 89.476,
+          "agreementRate": 0.7928,
+          "badMoveRate": 0.036,
+          "decisionCount": 111
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 89.038,
+          "agreementRate": 0.7748,
+          "badMoveRate": 0.0541,
+          "decisionCount": 111
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 95.528,
+          "agreementRate": 0.8865,
+          "badMoveRate": 0.0213,
+          "decisionCount": 141
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 91.656,
+          "agreementRate": 0.8298,
+          "badMoveRate": 0.0284,
+          "decisionCount": 141
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 87.592,
+          "agreementRate": 0.7656,
+          "badMoveRate": 0.0469,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 87.029,
+          "agreementRate": 0.75,
+          "badMoveRate": 0.0703,
+          "decisionCount": 128
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-024",
+      "matchNumber": 24,
+      "status": "completed",
+      "playedAt": "2026-08-24T12:00:00+08:00",
+      "tenhouLogId": "2026082412gm-0009-1940-8f5f6cc6",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082412gm-0009-1940-8f5f6cc6",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=cc4b797621ddb65894e2ed3baf4f344c9c62578be890c6bf0ba537adc9e40d14v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 21100,
+          "rank": 3,
+          "competitionPoints": -13.9,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 22100,
+          "rank": 2,
+          "competitionPoints": 7.1,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA15",
+          "rawPoints": 17500,
+          "rank": 4,
+          "competitionPoints": -37.5,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 39300,
+          "rank": 1,
+          "competitionPoints": 44.3,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "cc4b797621ddb65894e2ed3baf4f344c9c62578be890c6bf0ba537adc9e40d14v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 94.545,
+          "agreementRate": 0.8692,
+          "badMoveRate": 0.0154,
+          "decisionCount": 130
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 92.66,
+          "agreementRate": 0.8462,
+          "badMoveRate": 0.0462,
+          "decisionCount": 130
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 90.743,
+          "agreementRate": 0.8095,
+          "badMoveRate": 0.0238,
+          "decisionCount": 126
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 89.361,
+          "agreementRate": 0.7857,
+          "badMoveRate": 0.0238,
+          "decisionCount": 126
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 95.677,
+          "agreementRate": 0.8806,
+          "badMoveRate": 0.0075,
+          "decisionCount": 134
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 134
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 91.716,
+          "agreementRate": 0.8346,
+          "badMoveRate": 0.0376,
+          "decisionCount": 133
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 91.12,
+          "agreementRate": 0.8271,
+          "badMoveRate": 0.0301,
+          "decisionCount": 133
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-025",
+      "matchNumber": 25,
+      "status": "completed",
+      "playedAt": "2026-08-24T17:00:00+08:00",
+      "tenhouLogId": "2026082417gm-0009-1940-bddca1e2",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082417gm-0009-1940-bddca1e2",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=91d9f9d01ba724d7317b3f8df242b634e8f496a2d610d7d88588f7bc3289c91dv2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 17400,
+          "rank": 3,
+          "competitionPoints": -17.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA19",
+          "rawPoints": 16600,
+          "rank": 4,
+          "competitionPoints": -38.4,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 37800,
+          "rank": 1,
+          "competitionPoints": 42.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 28200,
+          "rank": 2,
+          "competitionPoints": 13.2,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "91d9f9d01ba724d7317b3f8df242b634e8f496a2d610d7d88588f7bc3289c91dv2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 86.749,
+          "agreementRate": 0.7836,
+          "badMoveRate": 0.0746,
+          "decisionCount": 134
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 85.607,
+          "agreementRate": 0.7463,
+          "badMoveRate": 0.0821,
+          "decisionCount": 134
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 96.325,
+          "agreementRate": 0.8855,
+          "badMoveRate": 0,
+          "decisionCount": 131
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 131
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 90.531,
+          "agreementRate": 0.8168,
+          "badMoveRate": 0.0382,
+          "decisionCount": 131
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 91.128,
+          "agreementRate": 0.8092,
+          "badMoveRate": 0.0153,
+          "decisionCount": 131
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 93.368,
+          "agreementRate": 0.8438,
+          "badMoveRate": 0.0313,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 91.077,
+          "agreementRate": 0.8516,
+          "badMoveRate": 0.0469,
+          "decisionCount": 128
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-026",
+      "matchNumber": 26,
+      "status": "completed",
+      "playedAt": "2026-08-24T17:00:00+08:00",
+      "tenhouLogId": "2026082417gm-0009-1940-308f2e9f",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082417gm-0009-1940-308f2e9f",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=411a1627b602b6f9cefeb25a88dcef87d9596de44cc49987867ab8f0a520afd5v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": -500,
+          "rank": 4,
+          "competitionPoints": -55.5,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA11",
+          "rawPoints": 32700,
+          "rank": 2,
+          "competitionPoints": 17.7,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 48600,
+          "rank": 1,
+          "competitionPoints": 53.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 19200,
+          "rank": 3,
+          "competitionPoints": -15.8,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "411a1627b602b6f9cefeb25a88dcef87d9596de44cc49987867ab8f0a520afd5v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 94.763,
+          "agreementRate": 0.8671,
+          "badMoveRate": 0.021,
+          "decisionCount": 143
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 92.654,
+          "agreementRate": 0.8252,
+          "badMoveRate": 0.021,
+          "decisionCount": 143
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 95.992,
+          "agreementRate": 0.8741,
+          "badMoveRate": 0,
+          "decisionCount": 135
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 135
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 92.4,
+          "agreementRate": 0.8129,
+          "badMoveRate": 0.0129,
+          "decisionCount": 155
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 93.709,
+          "agreementRate": 0.7935,
+          "badMoveRate": 0.0129,
+          "decisionCount": 155
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 86.563,
+          "agreementRate": 0.7676,
+          "badMoveRate": 0.0493,
+          "decisionCount": 142
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 86.725,
+          "agreementRate": 0.7535,
+          "badMoveRate": 0.0845,
+          "decisionCount": 142
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-027",
+      "matchNumber": 27,
+      "status": "completed",
+      "playedAt": "2026-08-25T15:00:00+08:00",
+      "tenhouLogId": "2026082515gm-0009-1940-2da24441",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082515gm-0009-1940-2da24441",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=d4410a45d5b0706e219535f871ef1c278c62ef23447672129e84d78a6b204ed5v2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA11",
+          "rawPoints": 18200,
+          "rank": 4,
+          "competitionPoints": -36.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 25500,
+          "rank": 2,
+          "competitionPoints": 10.5,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "xiaop",
+          "sourceUsername": "こくらあさひ",
+          "rawPoints": 34800,
+          "rank": 1,
+          "competitionPoints": 39.8,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 21500,
+          "rank": 3,
+          "competitionPoints": -13.5,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "d4410a45d5b0706e219535f871ef1c278c62ef23447672129e84d78a6b204ed5v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 93.786,
+          "agreementRate": 0.8372,
+          "badMoveRate": 0.0233,
+          "decisionCount": 129
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 129
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 86.696,
+          "agreementRate": 0.736,
+          "badMoveRate": 0.032,
+          "decisionCount": 125
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 84.514,
+          "agreementRate": 0.696,
+          "badMoveRate": 0.088,
+          "decisionCount": 125
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 90.292,
+          "agreementRate": 0.8462,
+          "badMoveRate": 0.0385,
+          "decisionCount": 104
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 89.507,
+          "agreementRate": 0.8173,
+          "badMoveRate": 0.0673,
+          "decisionCount": 104
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.946,
+          "agreementRate": 0.8609,
+          "badMoveRate": 0.0174,
+          "decisionCount": 115
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 92.597,
+          "agreementRate": 0.8174,
+          "badMoveRate": 0.0348,
+          "decisionCount": 115
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-028",
+      "matchNumber": 28,
+      "status": "completed",
+      "playedAt": "2026-08-26T15:00:00+08:00",
+      "tenhouLogId": "2026082615gm-0009-1940-0be39767",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082615gm-0009-1940-0be39767",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=b8f406e10b7395bc9a2a7e4c4a79408e363908464f878a87465e5511640eeafbv2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 6800,
+          "rank": 4,
+          "competitionPoints": -48.2,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 30600,
+          "rank": 2,
+          "competitionPoints": 15.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 46500,
+          "rank": 1,
+          "competitionPoints": 51.5,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA10",
+          "rawPoints": 16100,
+          "rank": 3,
+          "competitionPoints": -18.9,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "b8f406e10b7395bc9a2a7e4c4a79408e363908464f878a87465e5511640eeafbv2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 85.843,
+          "agreementRate": 0.7582,
+          "badMoveRate": 0.0719,
+          "decisionCount": 153
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 84.898,
+          "agreementRate": 0.6863,
+          "badMoveRate": 0.085,
+          "decisionCount": 153
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.916,
+          "agreementRate": 0.8491,
+          "badMoveRate": 0.0126,
+          "decisionCount": 159
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 91.288,
+          "agreementRate": 0.8176,
+          "badMoveRate": 0.0252,
+          "decisionCount": 159
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 87.78,
+          "agreementRate": 0.75,
+          "badMoveRate": 0.0577,
+          "decisionCount": 156
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 88.071,
+          "agreementRate": 0.75,
+          "badMoveRate": 0.0577,
+          "decisionCount": 156
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 97.821,
+          "agreementRate": 0.9108,
+          "badMoveRate": 0,
+          "decisionCount": 157
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 157
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-029",
+      "matchNumber": 29,
+      "status": "completed",
+      "playedAt": "2026-08-26T15:00:00+08:00",
+      "tenhouLogId": "2026082615gm-0009-1940-fa7d6a8a",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082615gm-0009-1940-fa7d6a8a",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=2b2999034f08a3af3c38618b14f44b0f6ad6447ed534923dc5826bc2a8a38bcev2_2&tw=0",
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 45600,
+          "rank": 1,
+          "competitionPoints": 50.6,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 1,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA07",
+          "rawPoints": 35300,
+          "rank": 2,
+          "competitionPoints": 20.3,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 2,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 4000,
+          "rank": 4,
+          "competitionPoints": -51,
+          "assignmentSource": "legacy_import"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 15100,
+          "rank": 3,
+          "competitionPoints": -19.9,
+          "assignmentSource": "legacy_import"
+        }
+      ],
+      "reviewNote": null,
+      "nagaReportId": "2b2999034f08a3af3c38618b14f44b0f6ad6447ed534923dc5826bc2a8a38bcev2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 85.403,
+          "agreementRate": 0.7559,
+          "badMoveRate": 0.0787,
+          "decisionCount": 127
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 88.798,
+          "agreementRate": 0.7953,
+          "badMoveRate": 0.063,
+          "decisionCount": 127
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 96.376,
+          "agreementRate": 0.9068,
+          "badMoveRate": 0,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 89.328,
+          "agreementRate": 0.7969,
+          "badMoveRate": 0.0625,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 86.858,
+          "agreementRate": 0.7344,
+          "badMoveRate": 0.0625,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 89.648,
+          "agreementRate": 0.8,
+          "badMoveRate": 0.037,
+          "decisionCount": 135
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 89.691,
+          "agreementRate": 0.7556,
+          "badMoveRate": 0.037,
+          "decisionCount": 135
+        }
+      ]
+    },
+    {
+      "id": "1st-xrc-030",
+      "matchNumber": 30,
+      "status": "completed",
+      "playedAt": "2026-08-28T15:00:00+08:00",
+      "tenhouLogId": "2026082815gm-0009-1940-4909b685",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082815gm-0009-1940-4909b685",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=222fe2be3e47aee922b487a5d2770cf4d3ff515e6c8c95d1bf0c62b582baffcdv2_2&tw=0",
+      "nagaReportId": "222fe2be3e47aee922b487a5d2770cf4d3ff515e6c8c95d1bf0c62b582baffcdv2_2",
+      "nagaRatings": [
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 86.006,
+          "agreementRate": 0.7228,
+          "badMoveRate": 0.0891,
+          "decisionCount": 101
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 86.118,
+          "agreementRate": 0.7228,
+          "badMoveRate": 0.0594,
+          "decisionCount": 101
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 93.106,
+          "agreementRate": 0.7925,
+          "badMoveRate": 0.0094,
+          "decisionCount": 106
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 106
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 92.71,
+          "agreementRate": 0.8462,
+          "badMoveRate": 0.0385,
+          "decisionCount": 104
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 89.667,
+          "agreementRate": 0.8077,
+          "badMoveRate": 0.0769,
+          "decisionCount": 104
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 89.699,
+          "agreementRate": 0.8155,
+          "badMoveRate": 0.0485,
+          "decisionCount": 103
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 89.489,
+          "agreementRate": 0.7864,
+          "badMoveRate": 0.0485,
+          "decisionCount": 103
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 36100,
+          "rank": 1,
+          "competitionPoints": 41.1,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA19",
+          "rawPoints": 25700,
+          "rank": 2,
+          "competitionPoints": 10.7,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 17100,
+          "rank": 4,
+          "competitionPoints": -37.9,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 21100,
+          "rank": 3,
+          "competitionPoints": -13.9,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "1st-xrc-031",
+      "matchNumber": 31,
+      "status": "completed",
+      "playedAt": "2026-08-29T23:00:00+08:00",
+      "tenhouLogId": "2026082923gm-0009-1940-206f8a43",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026082923gm-0009-1940-206f8a43",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=7808bc9682d51062714e78f62533f1f209da81f5d7ff64e42affe7a17d57f8acv2_2&tw=0&main=%E6%9D%B1%E6%B5%B7%E5%A4%A7%E9%BB%84%E9%AD%9A",
+      "nagaReportId": "7808bc9682d51062714e78f62533f1f209da81f5d7ff64e42affe7a17d57f8acv2_2",
+      "nagaRatings": [
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 95.35,
+          "agreementRate": 0.8613,
+          "badMoveRate": 0,
+          "decisionCount": 137
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 137
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 94.398,
+          "agreementRate": 0.8662,
+          "badMoveRate": 0.007,
+          "decisionCount": 142
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 94.255,
+          "agreementRate": 0.8592,
+          "badMoveRate": 0.007,
+          "decisionCount": 142
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 85.667,
+          "agreementRate": 0.7448,
+          "badMoveRate": 0.0828,
+          "decisionCount": 145
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 84.998,
+          "agreementRate": 0.7586,
+          "badMoveRate": 0.1034,
+          "decisionCount": 145
+        },
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 88.743,
+          "agreementRate": 0.8013,
+          "badMoveRate": 0.0705,
+          "decisionCount": 156
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 89.999,
+          "agreementRate": 0.8077,
+          "badMoveRate": 0.0513,
+          "decisionCount": 156
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA14",
+          "rawPoints": 22100,
+          "rank": 3,
+          "competitionPoints": -12.9,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 22800,
+          "rank": 2,
+          "competitionPoints": 7.8,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 20200,
+          "rank": 4,
+          "competitionPoints": -34.8,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 34900,
+          "rank": 1,
+          "competitionPoints": 39.9,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "1st-xrc-032",
+      "matchNumber": 32,
+      "status": "completed",
+      "playedAt": "2026-08-30T01:00:00+08:00",
+      "tenhouLogId": "2026083001gm-0009-1940-c3038b86",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026083001gm-0009-1940-c3038b86",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=7546c3fe3c9bf4d873051ac77a704912746192a24b52c2091713cf264de3b80cv2_2&tw=0&main=%E9%A2%A8%E8%9B%8D%E6%9C%88",
+      "nagaReportId": "7546c3fe3c9bf4d873051ac77a704912746192a24b52c2091713cf264de3b80cv2_2",
+      "nagaRatings": [
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 89.06,
+          "agreementRate": 0.7867,
+          "badMoveRate": 0.0521,
+          "decisionCount": 211
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 88.577,
+          "agreementRate": 0.7725,
+          "badMoveRate": 0.0474,
+          "decisionCount": 211
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 91.561,
+          "agreementRate": 0.8289,
+          "badMoveRate": 0.0526,
+          "decisionCount": 228
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 89.406,
+          "agreementRate": 0.8202,
+          "badMoveRate": 0.0658,
+          "decisionCount": 228
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 94.435,
+          "agreementRate": 0.8604,
+          "badMoveRate": 0,
+          "decisionCount": 222
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 222
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.835,
+          "agreementRate": 0.8502,
+          "badMoveRate": 0.029,
+          "decisionCount": 207
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 92.505,
+          "agreementRate": 0.8406,
+          "badMoveRate": 0.0338,
+          "decisionCount": 207
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 12400,
+          "rank": 3,
+          "competitionPoints": -22.6,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 32900,
+          "rank": 2,
+          "competitionPoints": 17.9,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA16",
+          "rawPoints": 46500,
+          "rank": 1,
+          "competitionPoints": 51.5,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 8200,
+          "rank": 4,
+          "competitionPoints": -46.8,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "1st-xrc-033",
+      "matchNumber": 33,
+      "status": "completed",
+      "playedAt": "2026-08-30T02:00:00+08:00",
+      "tenhouLogId": "2026083002gm-0009-1940-70cdb106",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026083002gm-0009-1940-70cdb106",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=f0a6b313943d5f0b8900db9b430e4f991c22a02621351f57cb8af1806fdeb011v2_2&tw=0&main=%E9%A2%A8%E8%9B%8D%E6%9C%88",
+      "nagaReportId": "f0a6b313943d5f0b8900db9b430e4f991c22a02621351f57cb8af1806fdeb011v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "hmx",
+          "model": "ニシキ",
+          "rating": 89.5,
+          "agreementRate": 0.8351,
+          "badMoveRate": 0.0722,
+          "decisionCount": 97
+        },
+        {
+          "participantId": "hmx",
+          "model": "カガシ",
+          "rating": 88.22,
+          "agreementRate": 0.7732,
+          "badMoveRate": 0.0515,
+          "decisionCount": 97
+        },
+        {
+          "participantId": "xiaop",
+          "model": "ニシキ",
+          "rating": 94.15,
+          "agreementRate": 0.8824,
+          "badMoveRate": 0.0392,
+          "decisionCount": 102
+        },
+        {
+          "participantId": "xiaop",
+          "model": "カガシ",
+          "rating": 92.823,
+          "agreementRate": 0.8431,
+          "badMoveRate": 0.049,
+          "decisionCount": 102
+        },
+        {
+          "participantId": "NAGA",
+          "model": "ニシキ",
+          "rating": 94.89,
+          "agreementRate": 0.8654,
+          "badMoveRate": 0.0096,
+          "decisionCount": 104
+        },
+        {
+          "participantId": "NAGA",
+          "model": "カガシ",
+          "rating": 100,
+          "agreementRate": 1,
+          "badMoveRate": 0,
+          "decisionCount": 104
+        },
+        {
+          "participantId": "Mortal",
+          "model": "ニシキ",
+          "rating": 92.477,
+          "agreementRate": 0.828,
+          "badMoveRate": 0.0108,
+          "decisionCount": 93
+        },
+        {
+          "participantId": "Mortal",
+          "model": "カガシ",
+          "rating": 91.204,
+          "agreementRate": 0.7849,
+          "badMoveRate": 0.0108,
+          "decisionCount": 93
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "hmx",
+          "sourceUsername": "東海大黄魚",
+          "rawPoints": 33200,
+          "rank": 2,
+          "competitionPoints": 18.2,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 40700,
+          "rank": 1,
+          "competitionPoints": 45.7,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "NAGA",
+          "sourceUsername": "◯NAGA09",
+          "rawPoints": 10000,
+          "rank": 4,
+          "competitionPoints": -45,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "Mortal",
+          "sourceUsername": "NoName",
+          "rawPoints": 16100,
+          "rank": 3,
+          "competitionPoints": -18.9,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    }
+  ]
+}
