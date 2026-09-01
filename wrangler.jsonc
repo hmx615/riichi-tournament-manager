@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "riichi-tournament-manager",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "riichi-tournament-manager"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "TOURNAMENT_DB",
+      "database_name": "riichi-tournament-manager",
+      "database_id": "local-development",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "STORAGE_BACKEND": "d1",
+    "AUTH_COOKIE_SECURE": "true"
+  }
+}

@@ -2,12 +2,11 @@ import "server-only";
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
 import type { Competition } from "@/domain/types";
 import { calculateNagaRatings, type SeatNagaRating } from "@/domain/naga-rating";
 import { normalizeNagaCustomLog } from "@/domain/naga-custom-log";
 import { calculateCompetitionPoints, ranksFromRawPoints } from "@/domain/scoring";
+import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
 
 export type TenhouLog = {
@@ -39,10 +38,14 @@ export type MatchPreview = {
 const logCacheDirectory = path.join(dataDirectory, "logs");
 const nagaReportCacheDirectory = path.join(dataDirectory, "naga-reports");
 const legacyCacheDirectory = path.join(process.cwd(), "reference", "1st-xrc-29", "cache");
-const execFileAsync = promisify(execFile);
 
 async function curlJson(url: string) {
   try {
+    const [{ execFile }, { promisify }] = await Promise.all([
+      import("node:child_process"),
+      import("node:util"),
+    ]);
+    const execFileAsync = promisify(execFile);
     const { stdout } = await execFileAsync("curl", [
       "--compressed", "-L", "-sS", "--fail", "--max-time", "30",
       "-A", "Mozilla/5.0 XRC-Tournament-Manager", url,
@@ -55,7 +58,6 @@ async function curlJson(url: string) {
 }
 
 async function fetchJson(url: string) {
-  if (new URL(url).hostname.endsWith("tenhou.net")) return curlJson(url);
   try {
     const response = await fetch(url, {
       cache: "no-store",
@@ -64,8 +66,10 @@ async function fetchJson(url: string) {
     });
     if (!response.ok) throw new Error(`数据源返回 ${response.status}`);
     return response.json() as Promise<unknown>;
-  } catch {
-    return curlJson(url);
+  } catch (error) {
+    if (!usesD1Storage()) return curlJson(url);
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new Error(`无法连接数据源：${detail}`);
   }
 }
 
@@ -79,6 +83,13 @@ function validateLog(value: unknown, expectedLogId: string): TenhouLog {
 }
 
 export async function readCachedLog(logId: string): Promise<TenhouLog | null> {
+  if (usesD1Storage()) {
+    const db = await tournamentDatabase();
+    const row = await db.prepare("SELECT document FROM logs WHERE id = ?")
+      .bind(logId)
+      .first<{ document: string }>();
+    return row ? validateLog(JSON.parse(row.document), logId) : null;
+  }
   for (const directory of [logCacheDirectory, legacyCacheDirectory]) {
     try {
       const value = JSON.parse(await fs.readFile(path.join(directory, `${logId}.json`), "utf8"));
@@ -90,17 +101,54 @@ export async function readCachedLog(logId: string): Promise<TenhouLog | null> {
   return null;
 }
 
+export async function readCachedLogs(logIds: string[]) {
+  const uniqueIds = [...new Set(logIds)];
+  const logs = new Map<string, TenhouLog>();
+  if (!uniqueIds.length) return logs;
+  if (!usesD1Storage()) {
+    await Promise.all(uniqueIds.map(async (logId) => {
+      const log = await readCachedLog(logId);
+      if (log) logs.set(logId, log);
+    }));
+    return logs;
+  }
+  const db = await tournamentDatabase();
+  for (let offset = 0; offset < uniqueIds.length; offset += 90) {
+    const ids = uniqueIds.slice(offset, offset + 90);
+    const placeholders = ids.map(() => "?").join(", ");
+    const result = await db.prepare(`SELECT id, document FROM logs WHERE id IN (${placeholders})`)
+      .bind(...ids)
+      .all<{ id: string; document: string }>();
+    for (const row of result.results) logs.set(row.id, validateLog(JSON.parse(row.document), row.id));
+  }
+  return logs;
+}
+
 async function fetchTenhouLog(logId: string) {
   const cached = await readCachedLog(logId);
   if (cached) return cached;
   const value = await fetchJson(`https://tenhou.net/5/mjlog2json.cgi?${encodeURIComponent(logId)}`);
   const log = validateLog(value, logId);
+  if (usesD1Storage()) {
+    const db = await tournamentDatabase();
+    await db.prepare("INSERT INTO logs (id, document, created_at) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET document = excluded.document")
+      .bind(log.ref, JSON.stringify(log), new Date().toISOString())
+      .run();
+    return log;
+  }
   await fs.mkdir(logCacheDirectory, { recursive: true });
   await fs.writeFile(path.join(logCacheDirectory, `${logId}.json`), `${JSON.stringify(log)}\n`);
   return log;
 }
 
 async function cacheLog(log: TenhouLog) {
+  if (usesD1Storage()) {
+    const db = await tournamentDatabase();
+    await db.prepare("INSERT INTO logs (id, document, created_at) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET document = excluded.document")
+      .bind(log.ref, JSON.stringify(log), new Date().toISOString())
+      .run();
+    return;
+  }
   await fs.mkdir(logCacheDirectory, { recursive: true });
   await fs.writeFile(path.join(logCacheDirectory, `${log.ref}.json`), `${JSON.stringify(log)}\n`);
 }
@@ -111,6 +159,9 @@ function logIdFromTenhouUrl(url: URL) {
 }
 
 async function readNagaReport(reportId: string) {
+  if (usesD1Storage()) {
+    return fetchJson(`https://ricochet.cn/api/naga/proxy/reports/${encodeURIComponent(reportId)}.json.gz`);
+  }
   const cacheFile = path.join(nagaReportCacheDirectory, `${reportId}.json`);
   try {
     return JSON.parse(await fs.readFile(cacheFile, "utf8")) as unknown;
@@ -132,7 +183,7 @@ async function parseNagaUrl(url: URL) {
   const logId = (report as { haihu_id?: unknown }).haihu_id;
   const ratings = calculateNagaRatings(report);
   if (typeof logId === "string" && logId.length > 0) return { logId, reportId, ratings, log: null };
-  const log = normalizeNagaCustomLog(report);
+  const log = await normalizeNagaCustomLog(report);
   await cacheLog(log);
   return { logId: log.ref, reportId, ratings, log };
 }

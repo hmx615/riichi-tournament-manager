@@ -28,7 +28,7 @@ npm run admin:credentials -- admin
 
 ## 云端部署
 
-项目提供 `Dockerfile`、`compose.yaml`、Caddy HTTPS 配置和 `/api/health` 健康检查。具体步骤见 [DEPLOY.md](./DEPLOY.md)。生产环境必须为 `/app/data` 挂载持久磁盘。
+默认使用 Cloudflare Workers + D1 免费层，支持访客只读、管理员操作和持久数据。项目也保留 Docker + Caddy 备用方案。具体步骤见 [DEPLOY.md](./DEPLOY.md)。
 
 ## 目录
 

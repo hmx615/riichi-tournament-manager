@@ -1,5 +1,3 @@
-import { createHash } from "node:crypto";
-
 export type NormalizedNagaCustomLog = {
   ref: string;
   name: string[];
@@ -79,7 +77,12 @@ function resultScores(value: unknown, rawPoints: number[]) {
   return scores;
 }
 
-export function normalizeNagaCustomLog(report: unknown): NormalizedNagaCustomLog {
+async function sha256(value: string) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+export async function normalizeNagaCustomLog(report: unknown): Promise<NormalizedNagaCustomLog> {
   if (!report || typeof report !== "object") throw new Error("NAGA 报告格式无效");
   const value = report as CustomHaihuReport;
   const names = value.player_info?.name;
@@ -90,7 +93,7 @@ export function normalizeNagaCustomLog(report: unknown): NormalizedNagaCustomLog
   const rawPoints = finalRawPoints(hands[hands.length - 1]);
   const outcomes = resultScores(value.player_info?.umaoka, rawPoints);
   const canonical = JSON.stringify({ name: names, log: hands });
-  const ref = `naga-custom-${createHash("sha256").update(canonical).digest("hex").slice(0, 32)}`;
+  const ref = `naga-custom-${(await sha256(canonical)).slice(0, 32)}`;
   return {
     ref,
     name: [...names],

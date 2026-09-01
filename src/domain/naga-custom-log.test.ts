@@ -23,8 +23,8 @@ function terminalDraw() {
 }
 
 describe("NAGA custom haihu", () => {
-  it("normalizes a custom report and accounts for the final riichi payment", () => {
-    const log = normalizeNagaCustomLog({
+  it("normalizes a custom report and accounts for the final riichi payment", async () => {
+    const log = await normalizeNagaCustomLog({
       custom_haihu: [JSON.stringify([terminalHand()])],
       player_info: {
         name: ["A", "B", "C", "D"],
@@ -38,17 +38,17 @@ describe("NAGA custom haihu", () => {
     expect(log.log).toHaveLength(1);
   });
 
-  it("uses a content-stable id independent of JSON whitespace", () => {
+  it("uses a content-stable id independent of JSON whitespace", async () => {
     const report = {
       player_info: { name: ["A", "B", "C", "D"], umaoka: [1, 2, 3, 4] },
     };
-    const compact = normalizeNagaCustomLog({ ...report, custom_haihu: [JSON.stringify([terminalHand()])] });
-    const formatted = normalizeNagaCustomLog({ ...report, custom_haihu: [JSON.stringify([terminalHand()], null, 2)] });
+    const compact = await normalizeNagaCustomLog({ ...report, custom_haihu: [JSON.stringify([terminalHand()])] });
+    const formatted = await normalizeNagaCustomLog({ ...report, custom_haihu: [JSON.stringify([terminalHand()], null, 2)] });
     expect(compact.ref).toBe(formatted.ref);
   });
 
-  it("awards a terminal draw's unclaimed riichi sticks to the final leader", () => {
-    const log = normalizeNagaCustomLog({
+  it("awards a terminal draw's unclaimed riichi sticks to the final leader", async () => {
+    const log = await normalizeNagaCustomLog({
       custom_haihu: [JSON.stringify([terminalDraw()])],
       player_info: {
         name: ["A", "B", "C", "D"],

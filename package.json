@@ -5,6 +5,13 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:preview": "npm run cf:build && opennextjs-cloudflare preview",
+    "cf:deploy": "npm run cf:build && opennextjs-cloudflare deploy",
+    "cf:types": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "cf:seed:build": "node scripts/build-d1-seed.mjs",
+    "cf:db:local": "wrangler d1 migrations apply riichi-tournament-manager --local",
+    "cf:db:remote": "wrangler d1 migrations apply riichi-tournament-manager --remote",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -21,10 +28,13 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260901.1",
+    "@opennextjs/cloudflare": "^1.20.5",
     "@types/node": "^22.15.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "typescript": "^5.9.3",
-    "vitest": "3.2.4"
+    "vitest": "3.2.4",
+    "wrangler": "^4.127.1"
   }
 }

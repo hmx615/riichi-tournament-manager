@@ -1,15 +1,18 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { randomBytes } from "node:crypto";
 import { hashAdminPassword } from "../src/domain/admin-auth";
 
 const root = process.cwd();
 const username = String(process.argv[2] || "admin").trim();
 if (!/^[A-Za-z0-9_.-]{3,40}$/.test(username)) throw new Error("管理员账号仅允许 3-40 位英文、数字、点、下划线或连字符");
 
-const password = randomBytes(18).toString("base64url");
-const passwordHash = await hashAdminPassword(password);
-const authSecret = randomBytes(48).toString("base64url");
+function randomBase64Url(length: number) {
+  return Buffer.from(crypto.getRandomValues(new Uint8Array(length))).toString("base64url");
+}
+
+const password = randomBase64Url(18);
+const authSecret = randomBase64Url(48);
+const passwordHash = await hashAdminPassword(password, authSecret);
 const envFile = path.join(root, ".env.local");
 const secretDirectory = path.join(root, ".secrets");
 const loginFile = path.join(secretDirectory, "admin-login.txt");

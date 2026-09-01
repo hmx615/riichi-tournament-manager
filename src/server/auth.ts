@@ -22,7 +22,7 @@ export function adminAuthConfigured() {
 export async function authenticateAdmin(username: string, password: string) {
   const config = configuration();
   if (!config || username !== config.username) return false;
-  return verifyAdminPassword(password, config.passwordHash);
+  return verifyAdminPassword(password, config.passwordHash, config.secret);
 }
 
 export async function createAdminSession() {
@@ -30,7 +30,7 @@ export async function createAdminSession() {
   if (!config) throw new Error("管理员认证尚未配置");
   const expiresAt = Date.now() + sessionLifetimeSeconds * 1000;
   const cookieStore = await cookies();
-  cookieStore.set(sessionCookieName, createAdminSessionToken(config.secret, expiresAt), {
+  cookieStore.set(sessionCookieName, await createAdminSessionToken(config.secret, expiresAt), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.AUTH_COOKIE_SECURE === "true" || (process.env.NODE_ENV === "production" && process.env.AUTH_COOKIE_SECURE !== "false"),
@@ -49,7 +49,7 @@ export async function isAdmin() {
   const config = configuration();
   if (!config) return false;
   const token = (await cookies()).get(sessionCookieName)?.value;
-  return Boolean(token && verifyAdminSessionToken(token, config.secret));
+  return Boolean(token && await verifyAdminSessionToken(token, config.secret));
 }
 
 export async function requireAdmin() {

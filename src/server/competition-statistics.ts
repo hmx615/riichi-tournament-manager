@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { Competition } from "@/domain/types";
-import { readCachedLog, type TenhouLog } from "@/server/tenhou";
+import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
 // @ts-expect-error The fixed legacy calculator is CommonJS and has no type declarations.
 import legacyStatsModule from "../../reference/1st-xrc-29/mrc_stats.js";
 
@@ -22,8 +22,10 @@ function legacyStats(): LegacyStatsModule {
 export async function computeCompetitionSummary(competition: Competition): Promise<CompetitionSummary> {
   const calculator = legacyStats();
   const allStats = Object.fromEntries(competition.participants.map((participant) => [participant.id, calculator.createStats()]));
-  for (const match of competition.matches.filter((item) => item.status === "completed")) {
-    const log = await readCachedLog(match.tenhouLogId);
+  const matches = competition.matches.filter((item) => item.status === "completed");
+  const logs = await readCachedLogs(matches.map((match) => match.tenhouLogId));
+  for (const match of matches) {
+    const log = logs.get(match.tenhouLogId);
     if (!log) throw new Error(`缺少牌谱缓存：${match.tenhouLogId}`);
     const seats = [...match.seats].sort((a, b) => a.seat - b.seat);
     const identities = seats.map((seat) => seat.participantId);

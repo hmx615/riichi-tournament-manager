@@ -1,37 +1,70 @@
-# 云端部署
+# Cloudflare 免费部署
 
-## 推荐形态
+正式环境使用 Cloudflare Workers + D1：OpenNext 运行 Next.js，D1 保存比赛、牌谱缓存、备份和登录限流数据。本地开发默认继续使用 `data/` JSON 仓储。
 
-首版使用单实例 Node 容器和持久磁盘。`/app/data` 保存比赛、牌谱缓存和备份，Caddy 自动申请并续期 HTTPS 证书。
+## 首次部署
 
-不要部署到没有持久磁盘的纯 Serverless 平台；当前仓储仍以 JSON 文件原子写入。
-
-## 准备服务器
-
-服务器需要安装 Docker Engine 与 Docker Compose，并开放 TCP `80`、`443`。域名 A/AAAA 记录需要指向服务器公网地址。
-
-## 配置
-
-1. 复制 `deploy.env.example` 为 `.env.production`。
-2. 设置 `DOMAIN`。
-3. 从本机 `.env.local` 复制 `ADMIN_USERNAME`、`ADMIN_PASSWORD_HASH` 和 `AUTH_SECRET`，不要复制初始明文密码。`ADMIN_PASSWORD_HASH` 在部署文件中使用单引号包裹，避免 `$` 被 Compose 展开。
-4. 保证 `.env.production` 权限为 `600`。
-
-## 启动
+1. 登录 Cloudflare：
 
 ```bash
-docker compose --env-file .env.production up -d --build
-docker compose --env-file .env.production ps
-curl -fsS https://你的域名/api/health
+npx wrangler login
+npx wrangler whoami
 ```
 
-首次启动会把仓库中的现有比赛复制到空的数据卷。后续更新镜像不会覆盖持久卷中的比赛数据。
+2. 创建 D1，将命令返回的 `database_id` 写入 `wrangler.jsonc`：
+
+```bash
+npx wrangler d1 create riichi-tournament-manager
+```
+
+3. 从本地已确认数据重新生成初始种子，并应用迁移：
+
+```bash
+npm run cf:seed:build
+npm run cf:db:remote
+```
+
+`0002_seed.sql` 只填充空数据库，不覆盖云端已有比赛和牌谱。
+
+4. 配置三个 Worker 秘密：
+
+```bash
+npx wrangler secret put ADMIN_USERNAME
+npx wrangler secret put ADMIN_PASSWORD_HASH
+npx wrangler secret put AUTH_SECRET
+```
+
+值来自本机 `.env.local`。不要把 `.env.local` 或 `.secrets/` 提交到 Git。
+
+5. 构建并部署：
+
+```bash
+npm run cf:deploy
+curl -fsS https://命令返回的-workers.dev-域名/api/health
+```
+
+## 日常更新
+
+数据已保存在 D1，重新部署 Worker 不会覆盖比赛数据：
+
+```bash
+npm run typecheck
+npm test
+npm run cf:deploy
+```
 
 ## 备份
 
 ```bash
-docker compose --env-file .env.production exec app tar -C /app -czf /tmp/xrc-data.tgz data
-docker compose --env-file .env.production cp app:/tmp/xrc-data.tgz ./xrc-data.tgz
+npx wrangler d1 export riichi-tournament-manager --remote --output backups/riichi-$(date +%F).sql
 ```
 
-在变更比赛或升级服务前执行备份。正式运行后应再配置云盘快照或定时异地备份。
+D1 免费层还提供 7 天 Time Travel。重要比赛完成或批量修改前，仍应执行一次手动导出。
+
+## 本机限制
+
+当前电脑的 glibc 低于 Wrangler/Workerd 所需版本，因此 `wrangler dev` 和本地 D1 模拟器无法启动。Next.js 构建、OpenNext 转换和 Wrangler dry-run 可正常执行；D1 运行时回归在 Cloudflare 测试部署上完成。
+
+## Docker 备用方案
+
+`Dockerfile`、`compose.yaml` 和 `Caddyfile` 仍保留。若未来转到付费云主机，可使用持久卷 `/app/data` 运行原有单实例方案。
