@@ -8,6 +8,14 @@ import { StatusPill } from "@/components/status-pill";
 
 const wind = ["东", "南", "西", "北"];
 const competitionStatus = { draft: "草稿", active: "进行中", completed: "已完成", archived: "已归档" };
+const matchDateFormatter = new Intl.DateTimeFormat("zh-CN", {
+  timeZone: "Asia/Shanghai",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
 
 export function CompetitionOverview({ competition, summary, showBackLink = false, admin }: {
   competition: Competition;
@@ -54,7 +62,7 @@ export function CompetitionOverview({ competition, summary, showBackLink = false
               <tbody>{[...competition.matches].reverse().map((match) => (
                 <tr key={match.id}>
                   <td><strong>#{match.matchNumber}</strong></td>
-                  <td>{new Intl.DateTimeFormat("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(match.playedAt))}</td>
+                  <td>{matchDateFormatter.format(new Date(match.playedAt))}</td>
                   <td><StatusPill status={match.status} /></td>
                   <td><div className="seat-result">{[...match.seats].sort((left, right) => left.rank - right.rank).map((seat) => <span key={seat.seat}><b>{seat.rank}</b><i>{wind[seat.seat]}</i><em style={{ "--player-color": participantById[seat.participantId].color } as React.CSSProperties}>{participantById[seat.participantId].displayName}</em><small className={seat.competitionPoints >= 0 ? "positive" : "negative"}>{seat.competitionPoints >= 0 ? "+" : ""}{seat.competitionPoints.toFixed(1)}</small></span>)}</div></td>
                   <td><div className="source-links">{match.tenhouUrl ? <a href={match.tenhouUrl} target="_blank" rel="noreferrer">天凤<ExternalLink size={13} /></a> : <span>—</span>}{match.nagaUrl && <a href={match.nagaUrl} target="_blank" rel="noreferrer">NAGA<ExternalLink size={13} /></a>}</div></td>

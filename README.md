@@ -30,6 +30,8 @@ npm run admin:credentials -- admin
 
 默认使用 Cloudflare Workers + D1 免费层，支持访客只读、管理员操作和持久数据。项目也保留 Docker + Caddy 备用方案。具体步骤见 [DEPLOY.md](./DEPLOY.md)。
 
+国内可访问的正式入口：<https://riichi-tournament-manager.pages.dev>
+
 ## 目录
 
 - `reference/1st-xrc-29/`：固定版网页及其回归数据，不在新代码中修改

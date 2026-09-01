@@ -4,6 +4,8 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  "preview_urls": false,
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
@@ -18,7 +20,7 @@
     {
       "binding": "TOURNAMENT_DB",
       "database_name": "riichi-tournament-manager",
-      "database_id": "local-development",
+      "database_id": "6e29a89a-e2cc-44b0-bf26-4bc293040278",
       "migrations_dir": "migrations"
     }
   ],

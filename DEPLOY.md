@@ -1,6 +1,9 @@
 # Cloudflare 免费部署
 
-正式环境使用 Cloudflare Workers + D1：OpenNext 运行 Next.js，D1 保存比赛、牌谱缓存、备份和登录限流数据。本地开发默认继续使用 `data/` JSON 仓储。
+正式环境使用 Cloudflare Workers + D1：OpenNext 运行 Next.js，D1 保存比赛、牌谱缓存、备份和登录限流数据。由于 `workers.dev` 在当前国内网络被阻断，对外入口使用一层 Cloudflare Pages 代理。本地开发默认继续使用 `data/` JSON 仓储。
+
+- 正式入口：<https://riichi-tournament-manager.pages.dev>
+- Worker 原始入口：<https://riichi-tournament-manager.hmx-mahjong.workers.dev>
 
 ## 首次部署
 
@@ -40,7 +43,8 @@ npx wrangler secret put AUTH_SECRET
 
 ```bash
 npm run cf:deploy
-curl -fsS https://命令返回的-workers.dev-域名/api/health
+npm run cf:deploy:pages
+curl -fsS https://riichi-tournament-manager.pages.dev/api/health
 ```
 
 ## 日常更新
@@ -51,6 +55,7 @@ curl -fsS https://命令返回的-workers.dev-域名/api/health
 npm run typecheck
 npm test
 npm run cf:deploy
+npm run cf:deploy:pages
 ```
 
 ## 备份
@@ -63,7 +68,7 @@ D1 免费层还提供 7 天 Time Travel。重要比赛完成或批量修改前�
 
 ## 本机限制
 
-当前电脑的 glibc 低于 Wrangler/Workerd 所需版本，因此 `wrangler dev` 和本地 D1 模拟器无法启动。Next.js 构建、OpenNext 转换和 Wrangler dry-run 可正常执行；D1 运行时回归在 Cloudflare 测试部署上完成。
+当前电脑的 glibc 低于 Wrangler/Workerd 所需版本，因此 `wrangler dev` 和本地 D1 模拟器无法启动。Next.js 构建、OpenNext 转换和 Wrangler 上传可正常执行；`cf:deploy` 通过 `--autoconfig=false` 避免 Wrangler 重复调用需要 Workerd 的 OpenNext 包装命令。D1 运行时回归在 Cloudflare 正式部署上完成。
 
 ## Docker 备用方案
 
