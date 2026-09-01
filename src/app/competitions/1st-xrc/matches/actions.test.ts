@@ -7,13 +7,18 @@ const mocks = vi.hoisted(() => ({
   getCompetition: vi.fn(),
   listCompetitions: vi.fn(),
   supplementMatchNagaAnalysis: vi.fn(),
+  parseCachedMajsoulSource: vi.fn(),
+  parseMajsoulJsonSource: vi.fn(),
   parseMatchSource: vi.fn(),
+  readCachedLogs: vi.fn(),
+  matchContentFingerprint: vi.fn(),
   isAdmin: vi.fn(),
   revalidatePath: vi.fn(),
   redirect: vi.fn(() => { throw new Error("NEXT_REDIRECT"); }),
 }));
 
 vi.mock("server-only", () => ({}));
+vi.mock("@/domain/tenhou-log-normalizer", () => ({ matchContentFingerprint: mocks.matchContentFingerprint }));
 vi.mock("next/cache", () => ({ revalidatePath: mocks.revalidatePath }));
 vi.mock("next/navigation", () => ({ redirect: mocks.redirect }));
 vi.mock("@/server/competition-repository", () => ({
@@ -22,7 +27,12 @@ vi.mock("@/server/competition-repository", () => ({
   listCompetitions: mocks.listCompetitions,
   supplementMatchNagaAnalysis: mocks.supplementMatchNagaAnalysis,
 }));
-vi.mock("@/server/tenhou", () => ({ parseMatchSource: mocks.parseMatchSource }));
+vi.mock("@/server/tenhou", () => ({
+  parseCachedMajsoulSource: mocks.parseCachedMajsoulSource,
+  parseMajsoulJsonSource: mocks.parseMajsoulJsonSource,
+  parseMatchSource: mocks.parseMatchSource,
+  readCachedLogs: mocks.readCachedLogs,
+}));
 vi.mock("@/server/auth", () => ({ isAdmin: mocks.isAdmin }));
 
 import { parseMatchAction, saveMatchAction, type MatchEntryState } from "./actions";
@@ -69,6 +79,7 @@ const preview: MatchPreview = {
   sourceUrl: "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=reportv2_2",
   sourceType: "naga",
   logId: competition.matches[0].tenhouLogId,
+  contentFingerprint: "match-fingerprint",
   tenhouUrl: competition.matches[0].tenhouUrl,
   nagaUrl: "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=reportv2_2",
   nagaReportId: "reportv2_2",
@@ -98,6 +109,8 @@ describe("saveMatchAction", () => {
     mocks.getCompetition.mockResolvedValue(competition);
     mocks.listCompetitions.mockResolvedValue([competition]);
     mocks.parseMatchSource.mockResolvedValue(preview);
+    mocks.readCachedLogs.mockResolvedValue(new Map());
+    mocks.matchContentFingerprint.mockResolvedValue("different-fingerprint");
     mocks.isAdmin.mockResolvedValue(true);
     mocks.supplementMatchNagaAnalysis.mockResolvedValue(undefined);
   });
@@ -146,5 +159,117 @@ describe("saveMatchAction", () => {
     expect(mocks.parseMatchSource).not.toHaveBeenCalled();
     expect(mocks.appendMatch).not.toHaveBeenCalled();
     expect(mocks.supplementMatchNagaAnalysis).not.toHaveBeenCalled();
+  });
+
+  it("parses an uploaded Majsoul JSON file", async () => {
+    const majsoulPreview = {
+      ...preview,
+      sourceUrl: "",
+      sourceType: "majsoul" as const,
+      logId: "majsoul-0123456789abcdef0123456789abcdef",
+      tenhouUrl: "",
+      nagaUrl: null,
+      nagaReportId: null,
+      nagaRatings: [],
+    };
+    mocks.parseMajsoulJsonSource.mockResolvedValue(majsoulPreview);
+    mocks.listCompetitions.mockResolvedValue([]);
+    const formData = new FormData();
+    formData.set("competitionId", competition.id);
+    formData.set("sourceKind", "majsoul_json");
+    formData.set("majsoulJson", new File(["{\"name\":[]}"], "match.json", { type: "application/json" }));
+
+    const state = await parseMatchAction(idleState, formData);
+
+    expect(mocks.parseMajsoulJsonSource).toHaveBeenCalledWith("{\"name\":[]}", competition);
+    expect(state.status).toBe("success");
+    expect(state.preview?.sourceType).toBe("majsoul");
+  });
+
+  it("parses pasted Majsoul JSON text", async () => {
+    const majsoulPreview = {
+      ...preview,
+      sourceUrl: "",
+      sourceType: "majsoul" as const,
+      logId: "majsoul-fedcba9876543210fedcba9876543210",
+      tenhouUrl: "",
+      nagaUrl: null,
+      nagaReportId: null,
+      nagaRatings: [],
+    };
+    mocks.parseMajsoulJsonSource.mockResolvedValue(majsoulPreview);
+    mocks.listCompetitions.mockResolvedValue([]);
+    const formData = new FormData();
+    formData.set("competitionId", competition.id);
+    formData.set("sourceKind", "majsoul_json");
+    formData.set("majsoulJsonText", "  {\"name\":[]}  ");
+
+    const state = await parseMatchAction(idleState, formData);
+
+    expect(mocks.parseMajsoulJsonSource).toHaveBeenCalledWith("{\"name\":[]}", competition);
+    expect(state.status).toBe("success");
+  });
+
+  it("matches a NAGA custom report to an existing Majsoul JSON by content hash", async () => {
+    const hash = "0123456789abcdef0123456789abcdef";
+    const majsoulMatch = {
+      ...competition.matches[0],
+      tenhouLogId: `majsoul-${hash}`,
+      tenhouUrl: "",
+      sourceType: "majsoul" as const,
+    };
+    const nagaPreview = { ...preview, logId: `naga-custom-${hash}` };
+    const majsoulCompetition = { ...competition, matches: [majsoulMatch] };
+    mocks.getCompetition.mockResolvedValue(majsoulCompetition);
+    mocks.listCompetitions.mockResolvedValue([majsoulCompetition]);
+    mocks.parseMatchSource.mockResolvedValue(nagaPreview);
+    const formData = new FormData();
+    formData.set("competitionId", competition.id);
+    formData.set("sourceUrl", nagaPreview.sourceUrl);
+
+    await expect(saveMatchAction(idleState, formData)).rejects.toThrow("NEXT_REDIRECT");
+
+    expect(mocks.supplementMatchNagaAnalysis).toHaveBeenCalledWith(
+      competition.id,
+      `majsoul-${hash}`,
+      nagaPreview.nagaUrl,
+      nagaPreview.nagaReportId,
+      expect.any(Array),
+    );
+    expect(mocks.appendMatch).not.toHaveBeenCalled();
+  });
+
+  it("rejects a Majsoul JSON when the semantic match already has NAGA analysis", async () => {
+    const existingMatch = {
+      ...competition.matches[0],
+      tenhouLogId: "naga-custom-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      contentFingerprint: "same-semantic-game",
+      nagaUrl: preview.nagaUrl,
+    };
+    const existingCompetition = { ...competition, matches: [existingMatch] };
+    const majsoulPreview = {
+      ...preview,
+      sourceUrl: "",
+      sourceType: "majsoul" as const,
+      logId: "majsoul-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      contentFingerprint: "same-semantic-game",
+      tenhouUrl: "",
+      nagaUrl: null,
+      nagaReportId: null,
+      nagaRatings: [],
+    };
+    mocks.getCompetition.mockResolvedValue(existingCompetition);
+    mocks.listCompetitions.mockResolvedValue([existingCompetition]);
+    mocks.parseMajsoulJsonSource.mockResolvedValue(majsoulPreview);
+    const formData = new FormData();
+    formData.set("competitionId", competition.id);
+    formData.set("sourceKind", "majsoul_json");
+    formData.set("majsoulJsonText", "{}");
+
+    const state = await parseMatchAction(idleState, formData);
+
+    expect(state.status).toBe("error");
+    expect(state.message).toBe("该牌谱已录入第 1 场且已有 NAGA 分析，无需补充 JSON");
+    expect(mocks.appendMatch).not.toHaveBeenCalled();
   });
 });

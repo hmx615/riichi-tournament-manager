@@ -3,9 +3,11 @@ import "server-only";
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { Competition } from "@/domain/types";
+import { normalizeMajsoulJson } from "@/domain/majsoul-json";
 import { calculateNagaRatings, type SeatNagaRating } from "@/domain/naga-rating";
 import { normalizeNagaCustomLog } from "@/domain/naga-custom-log";
 import { calculateCompetitionPoints, ranksFromRawPoints } from "@/domain/scoring";
+import { matchContentFingerprint } from "@/domain/tenhou-log-normalizer";
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
 
@@ -14,12 +16,17 @@ export type TenhouLog = {
   name: string[];
   sc: number[];
   log: unknown[][];
+  sourcePlatform?: "majsoul";
+  playedAt?: string;
+  title?: unknown[];
+  rule?: Record<string, unknown>;
 };
 
 export type MatchPreview = {
   sourceUrl: string;
-  sourceType: "tenhou" | "naga";
+  sourceType: "tenhou" | "naga" | "majsoul";
   logId: string;
+  contentFingerprint: string;
   tenhouUrl: string;
   nagaUrl: string | null;
   nagaReportId: string | null;
@@ -79,7 +86,16 @@ function validateLog(value: unknown, expectedLogId: string): TenhouLog {
   if (!Array.isArray(log.name) || log.name.length !== 4 || !log.name.every((name) => typeof name === "string")) throw new Error("牌谱缺少四家昵称");
   if (!Array.isArray(log.sc) || log.sc.length < 8 || !log.sc.every((score) => Number.isFinite(Number(score)))) throw new Error("牌谱缺少终局分数");
   if (!Array.isArray(log.log)) throw new Error("牌谱缺少小局数据");
-  return { ref: typeof log.ref === "string" ? log.ref : expectedLogId, name: log.name, sc: log.sc.map(Number), log: log.log };
+  return {
+    ref: typeof log.ref === "string" ? log.ref : expectedLogId,
+    name: log.name,
+    sc: log.sc.map(Number),
+    log: log.log,
+    ...(log.sourcePlatform === "majsoul" ? { sourcePlatform: "majsoul" as const } : {}),
+    ...(typeof log.playedAt === "string" ? { playedAt: log.playedAt } : {}),
+    ...(Array.isArray(log.title) ? { title: log.title } : {}),
+    ...(log.rule && typeof log.rule === "object" && !Array.isArray(log.rule) ? { rule: log.rule } : {}),
+  };
 }
 
 export async function readCachedLog(logId: string): Promise<TenhouLog | null> {
@@ -204,6 +220,59 @@ function inferParticipantId(competition: Competition, username: string) {
   return mortal.length === 1 ? mortal[0].id : null;
 }
 
+async function previewFromLog({
+  sourceUrl,
+  sourceType,
+  log,
+  competition,
+  nagaReportId = null,
+  nagaRatings = [],
+}: {
+  sourceUrl: string;
+  sourceType: MatchPreview["sourceType"];
+  log: TenhouLog;
+  competition: Competition;
+  nagaReportId?: string | null;
+  nagaRatings?: SeatNagaRating[];
+}): Promise<MatchPreview> {
+  const isTenhouLog = /^\d{10}gm-[0-9a-f]+-\d+-[0-9a-f]+$/i.test(log.ref);
+  const rawPoints = [log.sc[0], log.sc[2], log.sc[4], log.sc[6]].map(Number);
+  const ranks = ranksFromRawPoints(rawPoints);
+  const points = calculateCompetitionPoints(rawPoints, competition.initialPoints, competition.rankPoints);
+  return {
+    sourceUrl,
+    sourceType,
+    logId: log.ref,
+    contentFingerprint: await matchContentFingerprint(log.log),
+    tenhouUrl: isTenhouLog ? `https://tenhou.net/3/?log=${log.ref}` : "",
+    nagaUrl: sourceType === "naga" ? sourceUrl : null,
+    nagaReportId,
+    nagaRatings,
+    playedAt: log.playedAt || (isTenhouLog ? playedAtFromLogId(log.ref) : new Date().toISOString()),
+    seats: log.name.map((sourceUsername, seat) => ({
+      seat: seat as 0 | 1 | 2 | 3,
+      sourceUsername,
+      rawPoints: rawPoints[seat],
+      rank: ranks[seat],
+      competitionPoints: points[seat],
+      participantId: inferParticipantId(competition, sourceUsername),
+    })),
+  };
+}
+
+export async function parseMajsoulJsonSource(jsonText: string, competition: Competition): Promise<MatchPreview> {
+  const log = await normalizeMajsoulJson(jsonText);
+  await cacheLog(log);
+  return previewFromLog({ sourceUrl: "", sourceType: "majsoul", log, competition });
+}
+
+export async function parseCachedMajsoulSource(logId: string, competition: Competition): Promise<MatchPreview> {
+  if (!/^majsoul-[a-f0-9]{32}$/.test(logId)) throw new Error("雀魂牌谱 ID 格式无效");
+  const log = await readCachedLog(logId);
+  if (!log || log.sourcePlatform !== "majsoul") throw new Error("雀魂 JSON 缓存已失效，请重新选择文件解析");
+  return previewFromLog({ sourceUrl: "", sourceType: "majsoul", log, competition });
+}
+
 export async function parseMatchSource(sourceUrl: string, competition: Competition): Promise<MatchPreview> {
   let url: URL;
   try { url = new URL(sourceUrl); } catch { throw new Error("链接格式无效"); }
@@ -214,25 +283,12 @@ export async function parseMatchSource(sourceUrl: string, competition: Competiti
   const isTenhouLog = /^\d{10}gm-[0-9a-f]+-\d+-[0-9a-f]+$/i.test(logId);
   if (tenhouLogId && !isTenhouLog) throw new Error("天凤牌谱 ID 格式无效");
   const log = nagaSource?.log || await fetchTenhouLog(logId);
-  const rawPoints = [log.sc[0], log.sc[2], log.sc[4], log.sc[6]].map(Number);
-  const ranks = ranksFromRawPoints(rawPoints);
-  const points = calculateCompetitionPoints(rawPoints, competition.initialPoints, competition.rankPoints);
-  return {
+  return previewFromLog({
     sourceUrl,
     sourceType: tenhouLogId ? "tenhou" : "naga",
-    logId,
-    tenhouUrl: isTenhouLog ? `https://tenhou.net/3/?log=${logId}` : "",
-    nagaUrl: tenhouLogId ? null : sourceUrl,
+    log,
+    competition,
     nagaReportId: nagaSource?.reportId || null,
     nagaRatings: nagaSource?.ratings || [],
-    playedAt: isTenhouLog ? playedAtFromLogId(logId) : new Date().toISOString(),
-    seats: log.name.map((sourceUsername, seat) => ({
-      seat: seat as 0 | 1 | 2 | 3,
-      sourceUsername,
-      rawPoints: rawPoints[seat],
-      rank: ranks[seat],
-      competitionPoints: points[seat],
-      participantId: inferParticipantId(competition, sourceUsername),
-    })),
-  };
+  });
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
-import { CheckCircle2, Link2, RefreshCw } from "lucide-react";
+import { useActionState, useEffect, useState } from "react";
+import { CheckCircle2, Link2, RefreshCw, Upload } from "lucide-react";
 import type { Competition } from "@/domain/types";
 import { parseMatchAction, saveMatchAction, type MatchEntryState } from "@/app/competitions/1st-xrc/matches/actions";
 
@@ -10,9 +10,17 @@ const winds = ["东", "南", "西", "北"];
 const initialState: MatchEntryState = { status: "idle", message: "", preview: null, operation: null, targetMatchNumber: null };
 
 export function MatchEntryForm({ competition }: { competition: Competition }) {
+  const [sourceKind, setSourceKind] = useState<"link" | "majsoul_json">("link");
+  const [sourceDirty, setSourceDirty] = useState(false);
+  const [majsoulJsonText, setMajsoulJsonText] = useState("");
   const [parseState, parseAction, parsing] = useActionState(parseMatchAction, initialState);
   const [saveState, saveAction, saving] = useActionState(saveMatchAction, initialState);
-  const preview = parseState.preview;
+  const parsedPreview = parseState.preview;
+  useEffect(() => {
+    if (parsedPreview) setSourceDirty(false);
+  }, [parseState, parsedPreview]);
+  const previewMatchesSource = !sourceDirty && parsedPreview && (sourceKind === "majsoul_json" ? parsedPreview.sourceType === "majsoul" : parsedPreview.sourceType !== "majsoul");
+  const preview = previewMatchesSource ? parsedPreview : null;
   const supplementing = parseState.operation === "supplement_naga";
   const targetMatch = supplementing ? competition.matches.find((match) => match.matchNumber === parseState.targetMatchNumber) : null;
   const message = saveState.status === "error" ? saveState : parseState;
@@ -20,9 +28,30 @@ export function MatchEntryForm({ competition }: { competition: Competition }) {
   return (
     <form className="form-layout" action={parseAction}>
       <input name="competitionId" type="hidden" value={competition.id} />
+      <input name="sourceKind" type="hidden" value={sourceKind} />
+      <input name="parsedLogId" type="hidden" value={preview?.sourceType === "majsoul" ? preview.logId : ""} />
       <section className="form-section">
         <div className="form-section-title"><span>1</span><div><h2>数据源</h2></div></div>
-        <label className="field wide"><span>天凤或 NAGA 链接</span><div className="input-with-icon"><Link2 size={17} /><input name="sourceUrl" type="url" defaultValue={preview?.sourceUrl || ""} placeholder="https://tenhou.net/3/?log=..." required /></div></label>
+        <div className="source-type-switch" role="group" aria-label="牌谱数据源">
+          <button className={sourceKind === "link" ? "active" : ""} type="button" onClick={() => { if (sourceKind !== "link") setSourceDirty(true); setSourceKind("link"); }}><Link2 size={16} />链接</button>
+          <button className={sourceKind === "majsoul_json" ? "active" : ""} type="button" onClick={() => { if (sourceKind !== "majsoul_json") setSourceDirty(true); setSourceKind("majsoul_json"); }}><Upload size={16} />雀魂 JSON</button>
+        </div>
+        {sourceKind === "link" ? (
+          <label className="field wide"><span>天凤或 NAGA 链接</span><div className="input-with-icon"><Link2 size={17} /><input name="sourceUrl" type="url" defaultValue={preview?.sourceUrl || ""} onChange={() => setSourceDirty(true)} placeholder="https://tenhou.net/3/?log=..." required /></div></label>
+        ) : (
+          <div className="field wide">
+            <div className="json-input-heading">
+              <span>Ricochet 雀魂 JSON</span>
+              <label className="button json-file-button"><Upload size={15} />上传 JSON 文件<input className="json-file-input" type="file" accept=".json,application/json" onChange={async (event) => {
+                const file = event.currentTarget.files?.[0];
+                if (!file) return;
+                setMajsoulJsonText(await file.text());
+                setSourceDirty(true);
+              }} /></label>
+            </div>
+            <textarea name="majsoulJsonText" rows={10} value={majsoulJsonText} onChange={(event) => { setMajsoulJsonText(event.target.value); setSourceDirty(true); }} placeholder="粘贴 Ricochet 生成的完整 JSON" required={!preview} />
+          </div>
+        )}
         <button className="button parse-button" type="submit" disabled={parsing || saving}><RefreshCw className={parsing ? "spin" : ""} size={16} />{parsing ? "解析中" : "解析并检查"}</button>
         {message.message && <p className={`form-message ${message.status === "success" ? "success" : ""}`} role="status">{message.message}</p>}
       </section>

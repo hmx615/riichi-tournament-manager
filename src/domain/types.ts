@@ -35,7 +35,9 @@ export type MatchRecord = {
   status: MatchStatus;
   playedAt: string;
   tenhouLogId: string;
+  contentFingerprint?: string;
   tenhouUrl: string;
+  sourceType?: "tenhou" | "majsoul";
   nagaUrl: string | null;
   nagaReportId?: string | null;
   nagaRatings?: NagaRating[];

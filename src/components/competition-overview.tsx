@@ -65,7 +65,7 @@ export function CompetitionOverview({ competition, summary, showBackLink = false
                   <td>{matchDateFormatter.format(new Date(match.playedAt))}</td>
                   <td><StatusPill status={match.status} /></td>
                   <td><div className="seat-result">{[...match.seats].sort((left, right) => left.rank - right.rank).map((seat) => <span key={seat.seat}><b>{seat.rank}</b><i>{wind[seat.seat]}</i><em style={{ "--player-color": participantById[seat.participantId].color } as React.CSSProperties}>{participantById[seat.participantId].displayName}</em><small className={seat.competitionPoints >= 0 ? "positive" : "negative"}>{seat.competitionPoints >= 0 ? "+" : ""}{seat.competitionPoints.toFixed(1)}</small></span>)}</div></td>
-                  <td><div className="source-links">{match.tenhouUrl ? <a href={match.tenhouUrl} target="_blank" rel="noreferrer">天凤<ExternalLink size={13} /></a> : <span>—</span>}{match.nagaUrl && <a href={match.nagaUrl} target="_blank" rel="noreferrer">NAGA<ExternalLink size={13} /></a>}</div></td>
+                  <td><div className="source-links">{match.tenhouUrl ? <a href={match.tenhouUrl} target="_blank" rel="noreferrer">天凤<ExternalLink size={13} /></a> : !match.nagaUrl && match.sourceType === "majsoul" ? <span>雀魂 JSON</span> : !match.nagaUrl ? <span>—</span> : null}{match.nagaUrl && <a href={match.nagaUrl} target="_blank" rel="noreferrer">NAGA<ExternalLink size={13} /></a>}</div></td>
                   {admin && <td><Link className="table-edit-link" href={`/competitions/${competition.id}/matches/${match.matchNumber}`}><Pencil size={14} />修改对局</Link></td>}
                 </tr>
               ))}</tbody>
