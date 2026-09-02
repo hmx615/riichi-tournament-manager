@@ -6,6 +6,7 @@ import { z } from "zod";
 import { getCompetition, updateCompetition } from "@/server/competition-repository";
 import { isAdmin } from "@/server/auth";
 import { listPeople } from "@/server/person-repository";
+import { hasDuplicateHumanParticipants } from "@/domain/participant-validation";
 
 export type CompetitionSettingsState = { status: "idle" | "error"; message: string };
 
@@ -21,7 +22,7 @@ const schema = z.object({
     displayName: z.string().trim().min(1).max(30),
     personId: z.string().regex(/^[a-z0-9-]+$/),
     usernames: z.string().transform((value) => value.split(/[,，\n]+/).map((item) => item.trim()).filter(Boolean))
-      .refine((value) => value.length > 0, "每名选手至少需要一个天凤用户名"),
+      .refine((value) => value.length > 0, "每个参赛席位至少需要一个牌谱用户名"),
     color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
   })).length(4),
 });
@@ -54,8 +55,10 @@ export async function saveCompetitionSettingsAction(
   )) return { status: "error", message: "已有对局后不能修改原点或顺位马点" };
   const people = await listPeople();
   const personById = new Map(people.map((person) => [person.id, person]));
-  if (new Set(parsed.data.participants.map((participant) => participant.personId)).size !== 4) return { status: "error", message: "四名参赛选手必须关联不同人物" };
   if (parsed.data.participants.some((participant) => !personById.has(participant.personId))) return { status: "error", message: "参赛人物不存在，请刷新后重试" };
+  if (hasDuplicateHumanParticipants(parsed.data.participants.map((participant) => participant.personId), people)) {
+    return { status: "error", message: "同一人类人物不能占据多个参赛席位；AI 人物可以重复" };
+  }
 
   competition.name = parsed.data.name;
   competition.status = parsed.data.status;

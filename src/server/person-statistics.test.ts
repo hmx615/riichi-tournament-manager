@@ -90,4 +90,70 @@ describe("person statistics", () => {
     expect(result.hmx.matches).toHaveLength(2);
     expect(result.hmx.ratings[0]).toMatchObject({ model: "ニシキ", rating: 91.5, gameCount: 2 });
   });
+
+  it("aggregates multiple seats linked to the same AI person", async () => {
+    const mortal: Person = {
+      id: "mortal",
+      displayName: "Mortal",
+      kind: "ai",
+      color: "#6657c7",
+      aliases: ["Mortal"],
+      accounts: [],
+    };
+    const participants = [
+      { id: "player-1", personId: "hmx", displayName: "hmx", kind: "human" as const, color: "#168f83", usernames: ["hmx"] },
+      ...[2, 3, 4].map((number) => ({
+        id: `player-${number}`,
+        personId: "mortal",
+        displayName: `Mortal ${number - 1}`,
+        kind: "ai" as const,
+        color: "#6657c7",
+        usernames: [`mortal-${number - 1}`],
+      })),
+    ];
+    const match: Competition["matches"][number] = {
+      id: "solo-vs-mortal-1",
+      matchNumber: 1,
+      status: "completed",
+      playedAt: "2026-09-02T12:00:00+08:00",
+      tenhouLogId: "solo-vs-mortal-log",
+      tenhouUrl: "",
+      nagaUrl: null,
+      seats: participants.map((participant, seat) => ({
+        seat: seat as 0 | 1 | 2 | 3,
+        participantId: participant.id,
+        sourceUsername: participant.usernames[0],
+        rawPoints: [36000, 7700, 28200, 28100][seat],
+        rank: [1, 4, 2, 3][seat] as 1 | 2 | 3 | 4,
+        competitionPoints: [41, -47.3, 13.2, -6.9][seat],
+        assignmentSource: "alias",
+      })),
+      reviewNote: null,
+    };
+    const soloCompetition: Competition = {
+      id: "solo-vs-mortal",
+      name: "Solo vs Mortal",
+      code: "SVM",
+      status: "active",
+      plannedMatchCount: 50,
+      initialPoints: 25000,
+      rankPoints: [30, 10, -10, -30],
+      participants,
+      matches: [match],
+    };
+    mocks.readCachedLogs.mockResolvedValue(new Map([[match.tenhouLogId, {
+      ref: match.tenhouLogId,
+      name: participants.map((participant) => participant.usernames[0]),
+      sc: [36000, 4, 7700, 1, 28200, 3, 28100, 2],
+      log: [terminalHand()],
+    }]]));
+
+    const result = await computeAllPersonStatistics([people[0], mortal], [soloCompetition]);
+
+    expect(result.mortal.summary["对局数"]).toBe(3);
+    expect(result.mortal.summary["统计局数"]).toBe(3);
+    expect(result.mortal.rankCounts).toEqual([0, 1, 1, 1]);
+    expect(result.mortal.matches).toHaveLength(3);
+    expect(result.mortal.competitions[0].matchCount).toBe(3);
+  });
 });

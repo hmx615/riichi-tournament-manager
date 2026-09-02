@@ -33,7 +33,7 @@ export function CompetitionSettingsForm({ competition, people }: { competition: 
               <b>{index + 1}</b>
               <select name={`participantPersonId${index}`} aria-label={`选手${index + 1}人物身份`} defaultValue={participant.personId || ""} required><option value="" disabled>选择人物</option>{people.map((person) => <option value={person.id} key={person.id}>{person.displayName}</option>)}</select>
               <input name={`participantName${index}`} aria-label={`选手${index + 1}显示名称`} defaultValue={participant.displayName} required />
-              <input name={`participantUsernames${index}`} aria-label={`选手${index + 1}天凤用户名`} defaultValue={participant.usernames.join(", ")} required />
+              <input name={`participantUsernames${index}`} aria-label={`选手${index + 1}牌谱用户名`} placeholder="牌谱用户名，多个用逗号分隔" defaultValue={participant.usernames.join(", ")} required />
               <input name={`participantColor${index}`} aria-label={`选手${index + 1}颜色`} className="color-input" type="color" defaultValue={participant.color} />
             </div>
           ))}
