@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { Save } from "lucide-react";
-import type { Competition } from "@/domain/types";
+import type { Competition, Person } from "@/domain/types";
 import { saveCompetitionSettingsAction, type CompetitionSettingsState } from "@/app/competitions/[competitionId]/settings/actions";
 
 const initialState: CompetitionSettingsState = { status: "idle", message: "" };
 
-export function CompetitionSettingsForm({ competition }: { competition: Competition }) {
+export function CompetitionSettingsForm({ competition, people }: { competition: Competition; people: Person[] }) {
   const [state, action, pending] = useActionState(saveCompetitionSettingsAction, initialState);
   const scoringLocked = competition.matches.length > 0;
   return (
@@ -29,11 +29,11 @@ export function CompetitionSettingsForm({ competition }: { competition: Competit
         <div className="form-section-title"><span>2</span><div><h2>参赛选手</h2></div></div>
         <div className="participant-editor">
           {competition.participants.map((participant, index) => (
-            <div className="participant-form" key={participant.id}>
+            <div className="participant-form with-person" key={participant.id}>
               <b>{index + 1}</b>
+              <select name={`participantPersonId${index}`} aria-label={`选手${index + 1}人物身份`} defaultValue={participant.personId || ""} required><option value="" disabled>选择人物</option>{people.map((person) => <option value={person.id} key={person.id}>{person.displayName}</option>)}</select>
               <input name={`participantName${index}`} aria-label={`选手${index + 1}显示名称`} defaultValue={participant.displayName} required />
               <input name={`participantUsernames${index}`} aria-label={`选手${index + 1}天凤用户名`} defaultValue={participant.usernames.join(", ")} required />
-              <select name={`participantKind${index}`} aria-label={`选手${index + 1}类型`} defaultValue={participant.kind}><option value="human">人类</option><option value="ai">AI</option></select>
               <input name={`participantColor${index}`} aria-label={`选手${index + 1}颜色`} className="color-input" type="color" defaultValue={participant.color} />
             </div>
           ))}

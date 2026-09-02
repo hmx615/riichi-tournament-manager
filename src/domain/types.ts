@@ -2,8 +2,23 @@ export type ParticipantKind = "human" | "ai";
 export type CompetitionStatus = "draft" | "active" | "completed" | "archived";
 export type MatchStatus = "scheduled" | "processing" | "completed" | "needs_review" | "invalid";
 
+export type PersonAccount = {
+  platform: "tenhou" | "majsoul" | "other";
+  username: string;
+};
+
+export type Person = {
+  id: string;
+  displayName: string;
+  kind: ParticipantKind;
+  color: string;
+  aliases: string[];
+  accounts: PersonAccount[];
+};
+
 export type Participant = {
   id: string;
+  personId?: string;
   displayName: string;
   kind: ParticipantKind;
   color: string;

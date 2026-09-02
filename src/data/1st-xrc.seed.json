@@ -17,6 +17,7 @@
     "participants": [
       {
         "id": "hmx",
+        "personId": "hmx",
         "displayName": "hmx",
         "kind": "human",
         "color": "#d1495b",
@@ -27,6 +28,7 @@
       },
       {
         "id": "xiaop",
+        "personId": "xiaop",
         "displayName": "xiaop",
         "kind": "human",
         "color": "#168f83",
@@ -40,6 +42,7 @@
       },
       {
         "id": "NAGA",
+        "personId": "naga",
         "displayName": "NAGA",
         "kind": "ai",
         "color": "#6657c7",
@@ -63,6 +66,7 @@
       },
       {
         "id": "Mortal",
+        "personId": "mortal",
         "displayName": "Mortal",
         "kind": "ai",
         "color": "#d58a18",

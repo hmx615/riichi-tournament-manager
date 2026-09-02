@@ -6,13 +6,14 @@ import { z } from "zod";
 import { createCompetition } from "@/server/competition-repository";
 import { isAdmin } from "@/server/auth";
 import type { Competition, Participant } from "@/domain/types";
+import { listPeople } from "@/server/person-repository";
 
 export type CreateCompetitionState = { message: string; fieldErrors?: Record<string, string[]> };
 
 const participantSchema = z.object({
   displayName: z.string().trim().min(1, "请填写显示名称").max(30),
+  personId: z.string().regex(/^[a-z0-9-]+$/, "请选择人物身份"),
   username: z.string().trim().min(1, "请填写确认用户名").max(50),
-  kind: z.enum(["human", "ai"]),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "颜色格式无效"),
 });
 
@@ -40,8 +41,8 @@ export async function createCompetitionAction(
     rankPoints: formData.get("rankPoints"),
     participants: [0, 1, 2, 3].map((index) => ({
       displayName: formData.get(`participantName${index}`),
+      personId: formData.get(`participantPersonId${index}`),
       username: formData.get(`participantUsername${index}`),
-      kind: formData.get(`participantKind${index}`),
       color: formData.get(`participantColor${index}`),
     })),
   };
@@ -51,10 +52,15 @@ export async function createCompetitionAction(
   }
 
   const id = parsed.data.code.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const people = await listPeople();
+  const personById = new Map(people.map((person) => [person.id, person]));
+  if (new Set(parsed.data.participants.map((participant) => participant.personId)).size !== 4) return { message: "四名参赛选手必须关联不同人物。" };
+  if (parsed.data.participants.some((participant) => !personById.has(participant.personId))) return { message: "参赛人物不存在，请刷新后重试。" };
   const participants: Participant[] = parsed.data.participants.map((participant, index) => ({
     id: `player-${index + 1}`,
+    personId: participant.personId,
     displayName: participant.displayName,
-    kind: participant.kind,
+    kind: personById.get(participant.personId)!.kind,
     color: participant.color.toLowerCase(),
     usernames: [participant.username],
   }));

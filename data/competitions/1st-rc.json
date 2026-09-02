@@ -14,6 +14,7 @@
   "participants": [
     {
       "id": "player-1",
+      "personId": "wu-dongjie",
       "displayName": "吴 东杰",
       "kind": "human",
       "color": "#d1495b",
@@ -23,6 +24,7 @@
     },
     {
       "id": "player-2",
+      "personId": "hmx",
       "displayName": "何 明轩",
       "kind": "human",
       "color": "#168f83",
@@ -32,6 +34,7 @@
     },
     {
       "id": "player-3",
+      "personId": "e-ziyi",
       "displayName": "鄂 子懿",
       "kind": "human",
       "color": "#6657c7",
@@ -41,6 +44,7 @@
     },
     {
       "id": "player-4",
+      "personId": "xiaop",
       "displayName": "彭 虹清",
       "kind": "human",
       "color": "#d58a18",

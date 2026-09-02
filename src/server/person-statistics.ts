@@ -1,0 +1,148 @@
+import "server-only";
+
+import type { Competition, NagaRating, Person } from "@/domain/types";
+import type { PlayerSummary } from "@/server/competition-statistics";
+import { listCompetitions } from "@/server/competition-repository";
+import { listPeople } from "@/server/person-repository";
+import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
+// @ts-expect-error The fixed legacy calculator is CommonJS and has no type declarations.
+import legacyStatsModule from "../../reference/1st-xrc-29/mrc_stats.js";
+
+type LegacyStatsModule = {
+  createStats(): Record<string, number | number[]>;
+  addGameStats(stats: Record<string, number | number[]>, log: TenhouLog, seat: number): void;
+  addHandStats(allStats: Record<string, Record<string, number | number[]>>, hand: unknown[], seatIdentities: string[]): void;
+  finalize(stats: Record<string, number | number[]>): PlayerSummary;
+};
+
+export type PersonRatingSummary = {
+  model: string;
+  rating: number;
+  agreementRate: number;
+  badMoveRate: number;
+  gameCount: number;
+};
+
+export type PersonCompetitionSummary = {
+  competitionId: string;
+  competitionName: string;
+  competitionCode: string;
+  matchCount: number;
+  averageRank: number;
+  competitionPoints: number;
+};
+
+export type PersonMatchSummary = {
+  competitionId: string;
+  competitionName: string;
+  matchNumber: number;
+  playedAt: string;
+  rank: number;
+  rawPoints: number;
+  competitionPoints: number;
+  sourceUsername: string;
+  tenhouUrl: string;
+  nagaUrl: string | null;
+};
+
+export type PersonStatistics = {
+  person: Person;
+  summary: PlayerSummary;
+  rankCounts: number[];
+  ratings: PersonRatingSummary[];
+  competitions: PersonCompetitionSummary[];
+  matches: PersonMatchSummary[];
+};
+
+function calculator() {
+  return legacyStatsModule as LegacyStatsModule;
+}
+
+function summarizeRatings(ratings: NagaRating[]): PersonRatingSummary[] {
+  const byModel = new Map<string, NagaRating[]>();
+  for (const rating of ratings) byModel.set(rating.model, [...(byModel.get(rating.model) || []), rating]);
+  const preferred = ["ニシキ", "カガシ"];
+  return [...byModel.entries()].map(([model, values]) => {
+    const valid = values.filter((value) => Number.isFinite(value.rating) && Number.isFinite(value.agreementRate) && Number.isFinite(value.badMoveRate) && value.decisionCount > 0);
+    const decisions = valid.reduce((sum, value) => sum + value.decisionCount, 0);
+    return {
+      model,
+      rating: valid.reduce((sum, value) => sum + value.rating, 0) / valid.length,
+      agreementRate: valid.reduce((sum, value) => sum + value.agreementRate * value.decisionCount, 0) / decisions,
+      badMoveRate: valid.reduce((sum, value) => sum + value.badMoveRate * value.decisionCount, 0) / decisions,
+      gameCount: valid.length,
+    };
+  }).filter((value) => Number.isFinite(value.rating))
+    .sort((left, right) => {
+      const leftIndex = preferred.indexOf(left.model);
+      const rightIndex = preferred.indexOf(right.model);
+      return (leftIndex < 0 ? 99 : leftIndex) - (rightIndex < 0 ? 99 : rightIndex) || left.model.localeCompare(right.model);
+    });
+}
+
+export async function computeAllPersonStatistics(people: Person[], competitions: Competition[]) {
+  const stats = calculator();
+  const rawStats: Record<string, Record<string, number | number[]>> = Object.fromEntries(people.map((person) => [person.id, stats.createStats()]));
+  const histories: Record<string, PersonMatchSummary[]> = Object.fromEntries(people.map((person) => [person.id, []]));
+  const ratings: Record<string, NagaRating[]> = Object.fromEntries(people.map((person) => [person.id, []]));
+  const completed = competitions.flatMap((competition) => competition.matches.filter((match) => match.status === "completed").map((match) => ({ competition, match })));
+  const logs = await readCachedLogs(completed.map(({ match }) => match.tenhouLogId));
+
+  for (const { competition, match } of completed) {
+    const log = logs.get(match.tenhouLogId);
+    if (!log) throw new Error(`缺少牌谱缓存：${match.tenhouLogId}`);
+    const participantById = new Map(competition.participants.map((participant) => [participant.id, participant]));
+    const seats = [...match.seats].sort((left, right) => left.seat - right.seat);
+    const identities = seats.map((seat) => participantById.get(seat.participantId)?.personId || `unlinked:${competition.id}:${seat.participantId}`);
+    for (const identity of identities) if (!rawStats[identity]) rawStats[identity] = stats.createStats();
+    seats.forEach((seat, index) => {
+      const personId = identities[index];
+      stats.addGameStats(rawStats[personId], log, seat.seat);
+      if (!histories[personId]) return;
+      histories[personId].push({
+        competitionId: competition.id,
+        competitionName: competition.name,
+        matchNumber: match.matchNumber,
+        playedAt: match.playedAt,
+        rank: seat.rank,
+        rawPoints: seat.rawPoints,
+        competitionPoints: seat.competitionPoints,
+        sourceUsername: seat.sourceUsername,
+        tenhouUrl: match.tenhouUrl,
+        nagaUrl: match.nagaUrl,
+      });
+    });
+    for (const hand of log.log) stats.addHandStats(rawStats, hand, identities);
+    for (const rating of match.nagaRatings || []) {
+      const personId = participantById.get(rating.participantId)?.personId;
+      if (personId && ratings[personId]) ratings[personId].push(rating);
+    }
+  }
+
+  return Object.fromEntries(people.map((person) => {
+    const matches = histories[person.id].sort((left, right) => right.playedAt.localeCompare(left.playedAt));
+    const competitionGroups = new Map<string, PersonMatchSummary[]>();
+    for (const match of matches) competitionGroups.set(match.competitionId, [...(competitionGroups.get(match.competitionId) || []), match]);
+    const personStats: PersonStatistics = {
+      person,
+      summary: matches.length ? stats.finalize(rawStats[person.id]) : {},
+      rankCounts: [1, 2, 3, 4].map((rank) => matches.filter((match) => match.rank === rank).length),
+      ratings: summarizeRatings(ratings[person.id]),
+      competitions: [...competitionGroups.values()].map((values) => ({
+        competitionId: values[0].competitionId,
+        competitionName: values[0].competitionName,
+        competitionCode: competitions.find((competition) => competition.id === values[0].competitionId)?.code || values[0].competitionId,
+        matchCount: values.length,
+        averageRank: values.reduce((sum, value) => sum + value.rank, 0) / values.length,
+        competitionPoints: Number(values.reduce((sum, value) => sum + value.competitionPoints, 0).toFixed(1)),
+      })).sort((left, right) => left.competitionCode.localeCompare(right.competitionCode)),
+      matches,
+    };
+    return [person.id, personStats];
+  })) as Record<string, PersonStatistics>;
+}
+
+export async function loadAllPersonStatistics() {
+  const [people, competitions] = await Promise.all([listPeople(), listCompetitions()]);
+  return computeAllPersonStatistics(people, competitions);
+}

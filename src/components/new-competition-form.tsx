@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
-import { Check } from "lucide-react";
+import { Check, UserPlus } from "lucide-react";
+import type { Person } from "@/domain/types";
 import { createCompetitionAction, type CreateCompetitionState } from "@/app/competitions/actions";
 
 const initialState: CreateCompetitionState = { message: "" };
 const colors = ["#d1495b", "#168f83", "#6657c7", "#d58a18"];
 
-export function NewCompetitionForm() {
+export function NewCompetitionForm({ people }: { people: Person[] }) {
   const [state, action, pending] = useActionState(createCompetitionAction, initialState);
   return (
     <form className="form-layout" action={action}>
@@ -23,9 +24,9 @@ export function NewCompetitionForm() {
         </div>
       </section>
       <section className="form-section">
-        <div className="form-section-title"><span>2</span><div><h2>参赛选手</h2></div></div>
+        <div className="form-section-title"><span>2</span><div><h2>参赛选手</h2></div><Link className="button form-section-action" href="/players/new"><UserPlus size={15} />新建人物</Link></div>
         <div className="participant-editor">
-          {[0, 1, 2, 3].map((index) => <div className="participant-form" key={index}><b>{index + 1}</b><input name={`participantName${index}`} aria-label={`选手${index + 1}显示名称`} placeholder="显示名称" required /><input name={`participantUsername${index}`} aria-label={`选手${index + 1}天凤用户名`} placeholder="天凤用户名" required /><select name={`participantKind${index}`} aria-label={`选手${index + 1}类型`} defaultValue={index > 1 ? "ai" : "human"}><option value="human">人类</option><option value="ai">AI</option></select><input name={`participantColor${index}`} aria-label={`选手${index + 1}颜色`} className="color-input" type="color" defaultValue={colors[index]} /></div>)}
+          {[0, 1, 2, 3].map((index) => <div className="participant-form with-person" key={index}><b>{index + 1}</b><select name={`participantPersonId${index}`} aria-label={`选手${index + 1}人物身份`} defaultValue="" required><option value="" disabled>选择人物</option>{people.map((person) => <option value={person.id} key={person.id}>{person.displayName}</option>)}</select><input name={`participantName${index}`} aria-label={`选手${index + 1}显示名称`} placeholder="比赛显示名称" required /><input name={`participantUsername${index}`} aria-label={`选手${index + 1}确认用户名`} placeholder="确认用户名" required /><input name={`participantColor${index}`} aria-label={`选手${index + 1}颜色`} className="color-input" type="color" defaultValue={colors[index]} /></div>)}
         </div>
       </section>
       {state.message && <p className="form-message" role="alert">{state.message}</p>}

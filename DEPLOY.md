@@ -54,9 +54,12 @@ curl -fsS https://riichi-tournament-manager.pages.dev/api/health
 ```bash
 npm run typecheck
 npm test
+npm run cf:db:remote
 npm run cf:deploy
 npm run cf:deploy:pages
 ```
+
+存在新迁移时必须先执行 `cf:db:remote`。迁移均使用 `IF NOT EXISTS` 或冲突忽略策略，可重复检查而不会覆盖现有比赛数据。
 
 ## 备份
 
