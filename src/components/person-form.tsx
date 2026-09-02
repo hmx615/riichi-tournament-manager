@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
-import { Save } from "lucide-react";
+import { useActionState, useEffect, useState } from "react";
+import { Save, Upload } from "lucide-react";
 import type { Person } from "@/domain/types";
 import { savePersonAction, type PersonFormState } from "@/app/players/actions";
+import { PersonAvatar } from "@/components/person-avatar";
 
 const initialState: PersonFormState = { status: "idle", message: "" };
 
@@ -14,6 +15,10 @@ function accountText(person: Person | undefined, platform: "tenhou" | "majsoul" 
 
 export function PersonForm({ person }: { person?: Person }) {
   const [state, action, pending] = useActionState(savePersonAction, initialState);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [removeAvatar, setRemoveAvatar] = useState(false);
+  useEffect(() => () => { if (avatarPreview) URL.revokeObjectURL(avatarPreview); }, [avatarPreview]);
+  const displayedPerson = removeAvatar && person ? { ...person, avatarKey: undefined, avatarVersion: undefined, avatarContentType: undefined } : person;
   return <form className="form-layout" action={action}>
     <input name="mode" type="hidden" value={person ? "edit" : "create"} />
     {person && <input name="originalId" type="hidden" value={person.id} />}
@@ -28,6 +33,18 @@ export function PersonForm({ person }: { person?: Person }) {
       <label className="field wide"><span>天凤账号</span><input name="tenhouAccounts" defaultValue={accountText(person, "tenhou")} /></label>
       <label className="field wide"><span>雀魂账号</span><input name="majsoulAccounts" defaultValue={accountText(person, "majsoul")} /></label>
       <label className="field wide"><span>其他账号</span><input name="otherAccounts" defaultValue={accountText(person, "other")} /></label>
+    </div></section>
+    <section className="form-section"><div className="form-section-title"><span>3</span><div><h2>人物头像</h2></div></div><div className="avatar-editor">
+      {avatarPreview ? <div className="person-avatar person-avatar-large" style={{ "--player-color": person?.color || "#168f83" } as React.CSSProperties}><img src={avatarPreview} alt="待上传头像预览" /></div> : <PersonAvatar person={displayedPerson || { id: "preview", displayName: "新人物", kind: "human", color: "#168f83", aliases: [], accounts: [] }} size="large" />}
+      <div className="avatar-editor-actions">
+        <label className="button avatar-upload-button"><Upload size={16} />选择头像<input className="avatar-file-input" name="avatar" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" onChange={(event) => {
+          const file = event.currentTarget.files?.[0];
+          if (!file) return;
+          setAvatarPreview(URL.createObjectURL(file));
+          setRemoveAvatar(false);
+        }} /></label>
+        {person?.avatarKey && <label className="avatar-remove"><input name="removeAvatar" type="checkbox" checked={removeAvatar} onChange={(event) => setRemoveAvatar(event.target.checked)} />删除当前头像</label>}
+      </div>
     </div></section>
     {state.message && <p className="form-message" role="alert">{state.message}</p>}
     <div className="form-actions"><Link className="button" href={person ? `/players/${person.id}` : "/players"}>取消</Link><button className="button primary" type="submit" disabled={pending}><Save size={17} />{pending ? "正在保存" : "保存人物"}</button></div>

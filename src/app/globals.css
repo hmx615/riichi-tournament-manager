@@ -180,7 +180,6 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .person-directory-list { display: grid; gap: 8px; }
 .person-directory-list article { --player-color: #555; min-height: 78px; padding: 13px 14px; border: 1px solid var(--line); border-left: 4px solid var(--player-color); display: grid; grid-template-columns: minmax(230px, 1fr) auto 36px; align-items: center; gap: 24px; }
 .person-directory-name { display: flex; align-items: center; gap: 11px; min-width: 0; }
-.person-directory-name > i { width: 10px; height: 10px; flex: 0 0 auto; background: var(--player-color); }
 .person-directory-name strong, .person-directory-name small { display: block; }
 .person-directory-name strong { color: var(--player-color); font-size: 16px; }
 .person-directory-name small { margin-top: 5px; overflow: hidden; color: var(--muted); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
@@ -216,6 +215,20 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .person-table td a { color: #37648d; font-weight: 700; }
 .person-table td small { margin-top: 3px; display: block; color: var(--muted); font-size: 9px; }
 .match-history-table { min-width: 980px; }
+.person-avatar { --player-color: #555; position: relative; flex: 0 0 auto; overflow: hidden; border: 1px solid color-mix(in srgb, var(--player-color) 55%, white); background: color-mix(in srgb, var(--player-color) 10%, white); display: grid; place-items: center; color: var(--player-color); font-weight: 850; }
+.person-avatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.person-avatar-small { width: 46px; height: 46px; font-size: 13px; }
+.person-avatar-medium { width: 96px; height: 96px; font-size: 23px; }
+.person-avatar-large { width: 220px; height: 220px; font-size: 42px; }
+.person-profile-header { margin-bottom: 26px; display: grid; grid-template-columns: minmax(0, 1fr) 220px; align-items: start; gap: 36px; }
+.person-profile-header .page-heading { min-width: 0; margin: 0; }
+.person-profile-header .person-avatar { justify-self: end; }
+.avatar-editor { display: grid; grid-template-columns: 220px minmax(0, 1fr); align-items: center; gap: 24px; }
+.avatar-editor-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.avatar-upload-button { position: relative; overflow: hidden; cursor: pointer; }
+.avatar-file-input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.avatar-remove { min-height: 38px; display: inline-flex; align-items: center; gap: 7px; color: var(--red); font-size: 11px; font-weight: 700; }
+.avatar-remove input { width: 16px; height: 16px; accent-color: var(--red); }
 
 .form-page { width: min(920px, calc(100% - 56px)); }
 .back-link { margin-bottom: 25px; display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
@@ -305,6 +318,8 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
   .registered-players { grid-template-columns: repeat(2, 1fr); }
   .rank-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .person-metric-groups { grid-template-columns: 1fr; }
+  .person-profile-header { grid-template-columns: minmax(0, 1fr) 180px; }
+  .person-profile-header .person-avatar-large { width: 180px; height: 180px; }
 }
 
 @media (max-width: 700px) {
@@ -376,6 +391,11 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
   .person-directory-list article { padding: 12px; grid-template-columns: 1fr 34px; gap: 12px; }
   .person-directory-list article > div:nth-child(2) { grid-column: 1 / -1; grid-row: 2; grid-template-columns: repeat(3, 1fr); }
   .person-directory-list article > .icon-link { grid-column: 2; grid-row: 1; }
+  .person-profile-header { grid-template-columns: 1fr; gap: 16px; }
+  .person-profile-header .page-heading { grid-row: 1; }
+  .person-profile-header .person-avatar { width: 132px; height: 132px; grid-row: 2; justify-self: start; font-size: 28px; }
+  .avatar-editor { grid-template-columns: 132px minmax(0, 1fr); gap: 16px; }
+  .avatar-editor .person-avatar-large { width: 132px; height: 132px; font-size: 28px; }
   .person-rank-body { grid-template-columns: 1fr; }
   .person-rank-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .person-rank-counts span:nth-child(2) { border-right: 0; }

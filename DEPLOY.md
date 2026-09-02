@@ -67,7 +67,7 @@ npm run cf:deploy:pages
 npx wrangler d1 export riichi-tournament-manager --remote --output backups/riichi-$(date +%F).sql
 ```
 
-D1 免费层还提供 7 天 Time Travel。重要比赛完成或批量修改前，仍应执行一次手动导出。
+D1 免费层还提供 7 天 Time Travel。重要比赛完成或批量修改前，仍应执行一次手动导出。人物头像保存在独立的 `avatars` 表中，会随 D1 一并备份。
 
 ## 本机限制
 

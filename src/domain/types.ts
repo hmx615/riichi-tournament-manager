@@ -14,6 +14,9 @@ export type Person = {
   color: string;
   aliases: string[];
   accounts: PersonAccount[];
+  avatarKey?: string;
+  avatarVersion?: number;
+  avatarContentType?: "image/jpeg" | "image/png" | "image/webp";
 };
 
 export type Participant = {

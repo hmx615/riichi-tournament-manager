@@ -13,3 +13,4 @@ data/*.db
 data/*.db-*
 data/backups/
 data/naga-reports/
+data/avatars/

@@ -3,15 +3,22 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({
   isAdmin: vi.fn(),
   createPerson: vi.fn(),
+  getPerson: vi.fn(),
   updatePerson: vi.fn(),
+  putAvatar: vi.fn(),
+  deleteAvatar: vi.fn(),
+  newAvatarKey: vi.fn(),
+  detectAvatarContentType: vi.fn(),
   revalidatePath: vi.fn(),
   redirect: vi.fn(() => { throw new Error("NEXT_REDIRECT"); }),
 }));
 
 vi.mock("next/cache", () => ({ revalidatePath: mocks.revalidatePath }));
 vi.mock("next/navigation", () => ({ redirect: mocks.redirect }));
+vi.mock("@/domain/avatar", () => ({ maxAvatarBytes: 2 * 1024 * 1024, detectAvatarContentType: mocks.detectAvatarContentType }));
 vi.mock("@/server/auth", () => ({ isAdmin: mocks.isAdmin }));
-vi.mock("@/server/person-repository", () => ({ createPerson: mocks.createPerson, updatePerson: mocks.updatePerson }));
+vi.mock("@/server/person-repository", () => ({ createPerson: mocks.createPerson, getPerson: mocks.getPerson, updatePerson: mocks.updatePerson }));
+vi.mock("@/server/avatar-storage", () => ({ putAvatar: mocks.putAvatar, deleteAvatar: mocks.deleteAvatar, newAvatarKey: mocks.newAvatarKey }));
 
 import { savePersonAction, type PersonFormState } from "./actions";
 
@@ -36,7 +43,12 @@ describe("person actions", () => {
     vi.clearAllMocks();
     mocks.isAdmin.mockResolvedValue(true);
     mocks.createPerson.mockResolvedValue(undefined);
+    mocks.getPerson.mockResolvedValue(null);
     mocks.updatePerson.mockResolvedValue(undefined);
+    mocks.putAvatar.mockResolvedValue(undefined);
+    mocks.deleteAvatar.mockResolvedValue(undefined);
+    mocks.newAvatarKey.mockReturnValue("people/new-player/avatar-key");
+    mocks.detectAvatarContentType.mockReturnValue("image/png");
   });
 
   it("rejects visitors before writing", async () => {
@@ -59,5 +71,42 @@ describe("person actions", () => {
     const state = await savePersonAction(idle, form);
     expect(state.message).toBe("人物 ID 不允许修改");
     expect(mocks.updatePerson).not.toHaveBeenCalled();
+  });
+
+  it("stores a validated avatar with a new person", async () => {
+    const form = validForm();
+    form.set("avatar", new File([Uint8Array.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])], "avatar.png", { type: "image/png" }));
+
+    await expect(savePersonAction(idle, form)).rejects.toThrow("NEXT_REDIRECT");
+
+    expect(mocks.putAvatar).toHaveBeenCalledWith("people/new-player/avatar-key", expect.any(Uint8Array), "image/png");
+    expect(mocks.createPerson).toHaveBeenCalledWith(expect.objectContaining({
+      avatarKey: "people/new-player/avatar-key",
+      avatarContentType: "image/png",
+      avatarVersion: expect.any(Number),
+    }));
+  });
+
+  it("removes an existing avatar after updating the person", async () => {
+    const form = validForm();
+    form.set("mode", "edit");
+    form.set("originalId", "new-player");
+    form.set("removeAvatar", "on");
+    mocks.getPerson.mockResolvedValue({
+      id: "new-player",
+      displayName: "新选手",
+      kind: "human",
+      color: "#168f83",
+      aliases: ["新选手"],
+      accounts: [],
+      avatarKey: "people/new-player/old-avatar",
+      avatarVersion: 1,
+      avatarContentType: "image/png",
+    });
+
+    await expect(savePersonAction(idle, form)).rejects.toThrow("NEXT_REDIRECT");
+
+    expect(mocks.updatePerson).toHaveBeenCalledWith(expect.not.objectContaining({ avatarKey: expect.anything() }));
+    expect(mocks.deleteAvatar).toHaveBeenCalledWith("people/new-player/old-avatar");
   });
 });
