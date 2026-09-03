@@ -1,6 +1,7 @@
 import type { Competition } from "@/domain/types";
 import type { CompetitionSummary } from "@/server/competition-statistics";
 import { PlayerTag } from "@/components/player-tag";
+import { totalsForCompetition } from "@/data/competition";
 
 const rankColors = ["#e3a51a", "#3b91b8", "#8b929a", "#cf5560"];
 
@@ -16,6 +17,7 @@ function pieGradient(counts: number[]) {
 }
 
 export function RankDistribution({ competition, summary }: { competition: Competition; summary: CompetitionSummary }) {
+  const totals = totalsForCompetition(competition);
   return (
     <section className="rank-distribution">
       <div className="rank-section-head">
@@ -33,9 +35,15 @@ export function RankDistribution({ competition, summary }: { competition: Compet
           }
           const total = rankCounts.reduce((sum, count) => sum + count, 0) || 1;
           const averageRank = summary[participant.id]?.["平均顺位"];
+          const competitionPoints = totals[participant.id] ?? 0;
           return (
             <article className="rank-card" key={participant.id} style={{ "--player-color": participant.color } as React.CSSProperties}>
-              <div className="rank-card-name"><PlayerTag participant={participant} /></div>
+              <div className="rank-card-name">
+                <PlayerTag participant={participant} />
+                <strong className={competitionPoints >= 0 ? "positive" : "negative"} style={{ marginLeft: 10, fontSize: 16, lineHeight: "29px" }}>
+                  {competitionPoints >= 0 ? "+" : ""}{competitionPoints.toFixed(1)}
+                </strong>
+              </div>
               <div className="rank-card-body">
                 <div className="rank-donut-wrap">
                   <div className="rank-donut" style={{ background: pieGradient(rankCounts) }} />
