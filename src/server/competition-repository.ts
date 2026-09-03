@@ -129,6 +129,33 @@ export async function updateCompetition(competition: Competition): Promise<void>
   await replaceCompetition(competition, "before-settings-update");
 }
 
+export async function deleteCompetition(id: string): Promise<void> {
+  validateCompetitionId(id);
+  if (usesD1Storage()) {
+    const current = await readD1Competition(id);
+    if (!current) throw new Error("比赛不存在或已经删除");
+    const db = await tournamentDatabase();
+    const now = new Date().toISOString();
+    const results = await db.batch([
+      db.prepare(
+        "INSERT INTO competition_backups (id, competition_id, reason, document, created_at) VALUES (?, ?, ?, ?, ?)",
+      ).bind(crypto.randomUUID(), id, "before-delete-competition", JSON.stringify(current.competition), now),
+      db.prepare("DELETE FROM competitions WHERE id = ? AND version = ?").bind(id, current.version),
+    ]);
+    const deletion = results[results.length - 1];
+    if (!deletion.success || deletion.meta.changes !== 1) throw new Error("比赛数据已被其他操作更新，请刷新后重试");
+    return;
+  }
+
+  const current = await getCompetition(id);
+  if (!current) throw new Error("比赛不存在或已经删除");
+  await fs.mkdir(competitionBackupDirectory, { recursive: true });
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const backupFile = path.join(competitionBackupDirectory, `${id}-${timestamp}-before-delete-competition.json`);
+  await fs.writeFile(backupFile, `${JSON.stringify(current, null, 2)}\n`, { flag: "wx" });
+  await fs.rm(competitionFile(id));
+}
+
 export async function appendMatch(competitionId: string, match: MatchRecord): Promise<void> {
   const competition = await getCompetition(competitionId);
   if (!competition) throw new Error("比赛不存在");

@@ -3,12 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { getCompetition, updateCompetition } from "@/server/competition-repository";
+import { deleteCompetition, getCompetition, updateCompetition } from "@/server/competition-repository";
 import { isAdmin } from "@/server/auth";
 import { listPeople } from "@/server/person-repository";
 import { hasDuplicateHumanParticipants } from "@/domain/participant-validation";
 
 export type CompetitionSettingsState = { status: "idle" | "error"; message: string };
+export type DeleteCompetitionState = { status: "idle" | "error"; message: string };
 
 const schema = z.object({
   competitionId: z.string().regex(/^[a-z0-9-]+$/),
@@ -82,4 +83,26 @@ export async function saveCompetitionSettingsAction(
   revalidatePath(`/competitions/${competition.id}`);
   revalidatePath(`/competitions/${competition.id}/data`);
   redirect(`/competitions/${competition.id}`);
+}
+
+export async function deleteCompetitionAction(
+  competitionId: string,
+  _state: DeleteCompetitionState,
+  formData: FormData,
+): Promise<DeleteCompetitionState> {
+  if (!await isAdmin()) return { status: "error", message: "需要管理员登录" };
+  if (!/^[a-z0-9-]+$/.test(competitionId)) return { status: "error", message: "比赛 ID 格式无效" };
+  const competition = await getCompetition(competitionId);
+  if (!competition) return { status: "error", message: "比赛不存在或已经删除" };
+  if (formData.get("confirmation") !== competition.code) {
+    return { status: "error", message: `请输入比赛代号 ${competition.code} 确认删除` };
+  }
+  try {
+    await deleteCompetition(competitionId);
+  } catch (error) {
+    return { status: "error", message: error instanceof Error ? error.message : "比赛删除失败" };
+  }
+  revalidatePath("/");
+  revalidatePath("/players");
+  redirect("/");
 }
