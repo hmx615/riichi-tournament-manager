@@ -23,41 +23,85 @@
 
 .goldBadge {
   border-color: #c7972e;
-  background: #fff7dc;
+  background: linear-gradient(115deg, #fff9dd 0%, #f5ce64 48%, #fff4be 100%);
   color: #855707;
+  box-shadow: 0 0 0 1px rgba(255, 235, 162, .8), 0 0 14px rgba(201, 151, 46, .38);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .7);
 }
 
 .diamondBadge {
   border-color: #6ea5ba;
-  background: #eaf8fc;
+  background: linear-gradient(115deg, #eefcff 0%, #bce8f5 44%, #f8feff 67%, #c8eaf4 100%);
   color: #23617b;
+  box-shadow: 0 0 0 1px rgba(220, 248, 255, .9), 0 0 15px rgba(73, 155, 187, .34);
+  text-shadow: 0 1px 0 #fff;
 }
 
 .horseBadge {
   border-color: #b86d55;
-  background: #fff0e9;
-  color: #8a402c;
+  background: linear-gradient(115deg, #7d2f28 0%, #b94e35 48%, #e7b85d 100%);
+  color: #fff9df;
+  box-shadow: 0 0 0 1px rgba(232, 184, 93, .55), 0 0 16px rgba(142, 55, 40, .34);
+  text-shadow: 0 1px 2px rgba(78, 23, 18, .5);
+}
+
+.goldBadge,
+.diamondBadge,
+.horseBadge {
+  animation: badgePulse 3.8s ease-in-out infinite;
+}
+
+.goldRow > td,
+.diamondRow > td,
+.horseRow > td {
+  position: relative;
+  background-size: 240% 100%;
+  animation: rowShine 7s ease-in-out infinite;
 }
 
 .goldRow > td {
-  background: #fffbef;
+  border-top-color: #e7c363;
+  border-bottom-color: #ead18d;
+  background-color: #fff8df;
+  background-image: linear-gradient(108deg, #fff8df 0%, #fffdf5 34%, #f7dfa0 50%, #fffaf0 66%, #fce9b6 100%);
   color: #6f500f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .9);
 }
 
 .diamondRow > td {
-  background: #eff9fc;
+  border-top-color: #8bc4d8;
+  border-bottom-color: #a9d6e4;
+  background-color: #effaff;
+  background-image: linear-gradient(108deg, #e9f8fc 0%, #fbfeff 33%, #bfe6f2 49%, #f5fdff 64%, #d5eff7 100%);
   color: #245b70;
+  text-shadow: 0 1px 0 #fff;
 }
 
 .horseRow > td {
-  background: #fff4ef;
-  color: #824331;
+  border-top-color: #c77758;
+  border-bottom-color: #d39a69;
+  background-color: #fff0e9;
+  background-image: linear-gradient(108deg, #fff0e9 0%, #fff9ef 34%, #edc979 50%, #fff4e8 66%, #f4c4ad 100%);
+  color: #8a402c;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .85);
 }
 
 .goldRow > td:first-child,
 .diamondRow > td:first-child,
 .horseRow > td:first-child {
   box-shadow: inset 3px 0 0 currentColor;
+}
+
+.goldRow > td:first-child {
+  box-shadow: inset 4px 0 0 #bd8617, -6px 0 20px rgba(205, 158, 48, .16);
+}
+
+.diamondRow > td:first-child {
+  box-shadow: inset 4px 0 0 #3285a4, -6px 0 20px rgba(50, 133, 164, .16);
+}
+
+.horseRow > td:first-child {
+  box-shadow: inset 4px 0 0 #a44131, -6px 0 20px rgba(164, 65, 49, .16);
 }
 
 .playerDiamond,
@@ -79,22 +123,46 @@
 
 .playerDiamond {
   border-color: #6ea5ba;
-  background: #eaf8fc;
+  background: linear-gradient(115deg, #effcff, #bce7f3 55%, #f9feff);
   color: #23617b;
+  box-shadow: 0 0 7px rgba(73, 155, 187, .25);
 }
 
 .playerGold {
   border-color: #c7972e;
-  background: #fff7dc;
+  background: linear-gradient(115deg, #fff9dd, #f4cf69 58%, #fff6c7);
   color: #855707;
+  box-shadow: 0 0 7px rgba(201, 151, 46, .25);
 }
 
 .playerHorse {
   border-color: #b86d55;
-  background: #fff0e9;
-  color: #8a402c;
+  background: linear-gradient(115deg, #fff1e9, #efb49d 58%, #fff6ec);
+  color: #843c2b;
+  box-shadow: 0 0 7px rgba(184, 109, 85, .22);
 }
 
 .qualityPlayer {
   gap: 5px;
+}
+
+@keyframes rowShine {
+  0%, 18% { background-position: 100% 0; }
+  72%, 100% { background-position: 0 0; }
+}
+
+@keyframes badgePulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .goldBadge,
+  .diamondBadge,
+  .horseBadge,
+  .goldRow > td,
+  .diamondRow > td,
+  .horseRow > td {
+    animation: none;
+  }
 }

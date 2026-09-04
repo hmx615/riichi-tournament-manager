@@ -5,6 +5,7 @@ import type { PlayerSummary } from "@/server/competition-statistics";
 import { listCompetitions } from "@/server/competition-repository";
 import { listPeople } from "@/server/person-repository";
 import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
+import { assessMatchQuality, type PlayerQuality } from "../domain/match-quality";
 import { estimateRankByGame, type EstimatedRank } from "../domain/estimated-rank";
 import { summarizeNagaMetrics } from "../domain/naga-summary";
 // @ts-expect-error The fixed legacy calculator is CommonJS and has no type declarations.
@@ -46,6 +47,15 @@ export type PersonMatchSummary = {
   tenhouUrl: string;
   nagaUrl: string | null;
   nagaRatings: Record<string, number>;
+  nagaQuality: PlayerQuality | null;
+  hasCompleteNagaRating: boolean;
+};
+
+export type PersonQualitySummary = {
+  eligibleCount: number;
+  diamondRate: number | null;
+  goldRate: number | null;
+  horseRate: number | null;
 };
 
 export type PersonStatistics = {
@@ -54,6 +64,7 @@ export type PersonStatistics = {
   summary: PlayerSummary;
   rankCounts: number[];
   ratings: PersonRatingSummary[];
+  quality: PersonQualitySummary;
   competitions: PersonCompetitionSummary[];
   matches: PersonMatchSummary[];
 };
@@ -90,6 +101,7 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
     if (!log) throw new Error(`缺少牌谱缓存：${match.tenhouLogId}`);
     const participantById = new Map(competition.participants.map((participant) => [participant.id, participant]));
     const seats = [...match.seats].sort((left, right) => left.seat - right.seat);
+    const qualityAssessment = assessMatchQuality(match);
     const identities = seats.map((seat) => participantById.get(seat.participantId)?.personId || `unlinked:${competition.id}:${seat.participantId}`);
     for (const identity of identities) if (!rawStats[identity]) rawStats[identity] = stats.createStats();
     seats.forEach((seat, index) => {
@@ -110,6 +122,8 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
         nagaRatings: Object.fromEntries((match.nagaRatings || [])
           .filter((rating) => rating.participantId === seat.participantId)
           .map((rating) => [rating.model, rating.rating])),
+        nagaQuality: qualityAssessment.players[seat.participantId] || null,
+        hasCompleteNagaRating: qualityAssessment.eligiblePlayers.includes(seat.participantId),
       });
     });
     for (const hand of log.log) stats.addHandStats(rawStats, hand, identities);
@@ -121,6 +135,10 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
 
   return Object.fromEntries(people.map((person) => {
     const matches = histories[person.id].sort((left, right) => right.playedAt.localeCompare(left.playedAt));
+    const qualityEligible = matches.filter((match) => match.hasCompleteNagaRating);
+    const qualityRate = (quality: PlayerQuality) => qualityEligible.length
+      ? qualityEligible.filter((match) => match.nagaQuality === quality).length / qualityEligible.length
+      : null;
     const competitionGroups = new Map<string, PersonMatchSummary[]>();
     for (const match of matches) competitionGroups.set(match.competitionId, [...(competitionGroups.get(match.competitionId) || []), match]);
     const personStats: PersonStatistics = {
@@ -131,6 +149,12 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
       summary: matches.length ? stats.finalize(rawStats[person.id]) : {},
       rankCounts: [1, 2, 3, 4].map((rank) => matches.filter((match) => match.rank === rank).length),
       ratings: summarizeRatings(ratings[person.id]),
+      quality: {
+        eligibleCount: qualityEligible.length,
+        diamondRate: qualityRate("diamond"),
+        goldRate: qualityRate("gold"),
+        horseRate: qualityRate("horse"),
+      },
       competitions: [...competitionGroups.values()].map((values) => ({
         competitionId: values[0].competitionId,
         competitionName: values[0].competitionName,

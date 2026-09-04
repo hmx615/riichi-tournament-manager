@@ -6,6 +6,7 @@ export type PlayerQuality = "gold" | "diamond" | "horse";
 export type MatchQualityAssessment = {
   matchQuality: MatchQuality | null;
   fourHorses: boolean;
+  eligiblePlayers: string[];
   players: Record<string, PlayerQuality | null>;
 };
 
@@ -16,9 +17,11 @@ export function assessMatchQuality(match: MatchRecord): MatchQualityAssessment {
   const ratings = new Map(
     (match.nagaRatings || []).map((rating) => [`${rating.participantId}\u0000${rating.model}`, rating.rating]),
   );
+  const eligiblePlayers: string[] = [];
   const players = Object.fromEntries(participantIds.map((participantId) => {
     const values = qualityModels.map((model) => ratings.get(`${participantId}\u0000${model}`));
     if (values.some((value) => value == null || !Number.isFinite(value))) return [participantId, null];
+    eligiblePlayers.push(participantId);
     const complete = values as number[];
     if (complete.every((value) => value > 90)) return [participantId, "diamond"];
     if (Math.max(...complete) > 90) return [participantId, "gold"];
@@ -26,7 +29,7 @@ export function assessMatchQuality(match: MatchRecord): MatchQualityAssessment {
     return [participantId, null];
   })) as Record<string, PlayerQuality | null>;
 
-  if (participantIds.length !== 4) return { matchQuality: null, fourHorses: false, players };
+  if (participantIds.length !== 4) return { matchQuality: null, fourHorses: false, eligiblePlayers, players };
   const playerValues = participantIds.map((participantId) => players[participantId]);
   const matchQuality = playerValues.every((quality) => quality === "diamond")
     ? "diamond"
@@ -34,6 +37,7 @@ export function assessMatchQuality(match: MatchRecord): MatchQualityAssessment {
   return {
     matchQuality,
     fourHorses: playerValues.every((quality) => quality === "horse"),
+    eligiblePlayers,
     players,
   };
 }

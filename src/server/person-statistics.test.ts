@@ -89,8 +89,33 @@ describe("person statistics", () => {
     expect(result.hmx.competitions).toHaveLength(2);
     expect(result.hmx.matches).toHaveLength(2);
     expect(result.hmx.matches[0].nagaRatings).toEqual({ "ニシキ": 92 });
+    expect(result.hmx.quality).toEqual({ eligibleCount: 0, diamondRate: null, goldRate: null, horseRate: null });
     expect(result.hmx.ratings[0]).toMatchObject({ model: "ニシキ", rating: 91.5, gameCount: 2 });
     expect(result.hmx.estimatedRank).toBe(9.3);
+  });
+
+  it("calculates diamond, gold, and horse rates from complete two-model games", async () => {
+    const competitions = [competition("cup-a", 1), competition("cup-b", 2), competition("cup-c", 3)];
+    const kagashiRatings = [85, 93, 84];
+    competitions.forEach((item, index) => item.matches[0].nagaRatings?.push({
+      participantId: "player-1",
+      model: "カガシ",
+      rating: kagashiRatings[index],
+      agreementRate: 0.8,
+      badMoveRate: 0.05,
+      decisionCount: 100,
+    }));
+    competitions[2].matches[0].nagaRatings![0].rating = 85;
+    mocks.readCachedLogs.mockResolvedValue(new Map(competitions.map((item) => [item.matches[0].tenhouLogId, {
+      ref: item.matches[0].tenhouLogId,
+      name: ["hmx", "p2", "p3", "p4"],
+      sc: [36000, 4, 7700, 1, 28200, 3, 28100, 2],
+      log: [terminalHand()],
+    }])));
+
+    const result = await computeAllPersonStatistics(people, competitions);
+
+    expect(result.hmx.quality).toEqual({ eligibleCount: 3, diamondRate: 1 / 3, goldRate: 1 / 3, horseRate: 1 / 3 });
   });
 
   it("aggregates multiple seats linked to the same AI person", async () => {

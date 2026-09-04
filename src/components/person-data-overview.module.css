@@ -12,8 +12,67 @@
   font-variant-numeric: tabular-nums;
 }
 
+.qualitySection {
+  margin-bottom: 22px;
+}
+
+.qualityGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--line);
+}
+
+.qualityGrid > span {
+  min-height: 76px;
+  padding: 13px 16px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.qualityGrid > span:last-child {
+  border-right: 0;
+}
+
+.qualityGrid strong {
+  font-size: 21px;
+  font-variant-numeric: tabular-nums;
+}
+
+.diamondMetric {
+  color: #23617b;
+  background: #f2fbfd;
+}
+
+.goldMetric {
+  color: #855707;
+  background: #fffaf0;
+}
+
+.horseMetric {
+  color: #8a402c;
+  background: #fff5f1;
+}
+
 @media (max-width: 700px) {
   .rankSummary {
     grid-template-columns: 1fr;
+  }
+
+  .qualityGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .qualityGrid > span {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .qualityGrid > span:last-child {
+    border-bottom: 0;
   }
 }

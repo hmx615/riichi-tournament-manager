@@ -34,7 +34,7 @@ function displayValue(value: number | null | undefined, type: MetricType) {
 const dateFormatter = new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" });
 
 export function PersonDataOverview({ statistics }: { statistics: PersonStatistics }) {
-  const { person, estimatedRank, summary, rankCounts, ratings, competitions, matches } = statistics;
+  const { person, estimatedRank, summary, rankCounts, ratings, quality, competitions, matches } = statistics;
   const total = matches.length || 1;
   const averageRank = summary["平均顺位"];
   return (
@@ -55,6 +55,8 @@ export function PersonDataOverview({ statistics }: { statistics: PersonStatistic
       </section>
 
       {ratings.length > 0 && <section className="data-group person-rating-section"><h2>NAGA Rating 与一致率</h2><div className="person-rating-grid">{ratings.map((rating) => <div key={rating.model} style={{ "--player-color": person.color } as React.CSSProperties}><strong>{rating.model}</strong><span>Rating:{rating.rating.toFixed(2)}</span><span>一致率:{(rating.agreementRate * 100).toFixed(2)}%</span><span>恶手率:{(rating.badMoveRate * 100).toFixed(2)}%</span></div>)}</div></section>}
+
+      <section className={`data-group ${styles.qualitySection}`}><h2>对局质量</h2><div className={styles.qualityGrid}><span className={styles.diamondMetric}>钻率<strong>{quality.diamondRate == null ? "-" : `${(quality.diamondRate * 100).toFixed(2)}%`}</strong></span><span className={styles.goldMetric}>金率<strong>{quality.goldRate == null ? "-" : `${(quality.goldRate * 100).toFixed(2)}%`}</strong></span><span className={styles.horseMetric}>马率<strong>{quality.horseRate == null ? "-" : `${(quality.horseRate * 100).toFixed(2)}%`}</strong></span></div></section>
 
       <div className="person-metric-groups">{metricGroups.map((group) => <section className="data-group" key={group.title}><h2>{group.title}</h2><div className="person-metric-list">{group.metrics.map(([field, type]) => <div key={field}><span>{field}</span><strong>{displayValue(summary[field], type)}</strong></div>)}</div></section>)}</div>
 

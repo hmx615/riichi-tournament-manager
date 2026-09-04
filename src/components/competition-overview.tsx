@@ -76,7 +76,7 @@ export function CompetitionOverview({ competition, summary, showBackLink = false
                   <td><StatusPill status={match.status} /></td>
                   <td><div className="seat-result">{[...match.seats].sort((left, right) => left.rank - right.rank).map((seat) => {
                     const participant = participantById[seat.participantId];
-                    const playerQuality = participant.kind === "human" && assessment.matchQuality == null ? assessment.players[seat.participantId] : null;
+                    const playerQuality = participant.kind === "human" ? assessment.players[seat.participantId] : null;
                     return <span key={seat.seat}><b>{seat.rank}</b><i>{wind[seat.seat]}</i><em className={playerQuality ? styles.qualityPlayer : undefined} style={{ "--player-color": participant.color } as React.CSSProperties}>{participant.displayName}{playerQuality && <PlayerQualityBadge quality={playerQuality} />}</em><small className={seat.competitionPoints >= 0 ? "positive" : "negative"}>{seat.competitionPoints >= 0 ? "+" : ""}{seat.competitionPoints.toFixed(1)}</small></span>;
                   })}</div></td>
                   <td><div className="source-links">{match.tenhouUrl ? <a href={match.tenhouUrl} target="_blank" rel="noreferrer">天凤<ExternalLink size={13} /></a> : !match.nagaUrl && match.sourceType === "majsoul" ? <span>雀魂 JSON</span> : !match.nagaUrl ? <span>—</span> : null}{match.nagaUrl && <a href={match.nagaUrl} target="_blank" rel="noreferrer">NAGA<ExternalLink size={13} /></a>}</div></td>
