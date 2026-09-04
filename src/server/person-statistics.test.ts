@@ -94,6 +94,28 @@ describe("person statistics", () => {
     expect(result.hmx.estimatedRank).toBe(9.3);
   });
 
+  it("orders match history by time and then by descending match number", async () => {
+    const item = competition("cup-a", 47);
+    item.matches[0].playedAt = "2026-09-04T17:00:00+08:00";
+    item.matches[0].tenhouLogId = "cup-a-log-47";
+    item.matches.push({
+      ...item.matches[0],
+      id: "cup-a-48",
+      matchNumber: 48,
+      tenhouLogId: "cup-a-log-48",
+    });
+    mocks.readCachedLogs.mockResolvedValue(new Map(item.matches.map((match) => [match.tenhouLogId, {
+      ref: match.tenhouLogId,
+      name: ["hmx", "p2", "p3", "p4"],
+      sc: [36000, 4, 7700, 1, 28200, 3, 28100, 2],
+      log: [terminalHand()],
+    }])));
+
+    const result = await computeAllPersonStatistics(people, [item]);
+
+    expect(result.hmx.matches.map((match) => match.matchNumber)).toEqual([48, 47]);
+  });
+
   it("calculates diamond, gold, and horse rates from complete two-model games", async () => {
     const competitions = [competition("cup-a", 1), competition("cup-b", 2), competition("cup-c", 3)];
     const kagashiRatings = [85, 93, 84];

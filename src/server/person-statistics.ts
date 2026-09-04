@@ -93,6 +93,12 @@ function estimatedRankForPerson(person: Person, ratings: NagaRating[]): Estimate
   return ["mortal", "naga"].includes(person.id) ? "10+" : null;
 }
 
+function compareMatchesNewestFirst(left: PersonMatchSummary, right: PersonMatchSummary) {
+  const timeDifference = Date.parse(right.playedAt) - Date.parse(left.playedAt);
+  if (Number.isFinite(timeDifference) && timeDifference !== 0) return timeDifference;
+  return right.matchNumber - left.matchNumber || left.competitionId.localeCompare(right.competitionId);
+}
+
 export function computePersonEstimatedRanks(people: Person[], competitions: Competition[]) {
   const ratings: Record<string, NagaRating[]> = Object.fromEntries(people.map((person) => [person.id, []]));
   for (const competition of competitions) {
@@ -153,7 +159,7 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
   }
 
   return Object.fromEntries(people.map((person) => {
-    const matches = histories[person.id].sort((left, right) => right.playedAt.localeCompare(left.playedAt));
+    const matches = histories[person.id].sort(compareMatchesNewestFirst);
     const qualityEligible = matches.filter((match) => match.hasCompleteNagaRating);
     const qualityRate = (quality: PlayerQuality) => qualityEligible.length
       ? qualityEligible.filter((match) => match.nagaQuality === quality).length / qualityEligible.length
