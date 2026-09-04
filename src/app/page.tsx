@@ -7,6 +7,7 @@ import type { EstimatedRank } from "@/domain/estimated-rank";
 import { assessMatchLevel } from "@/domain/match-level";
 import { listCompetitions } from "@/server/competition-repository";
 import { isAdmin } from "@/server/auth";
+import { listPeople } from "@/server/person-repository";
 import { loadPersonEstimatedRanks } from "@/server/person-statistics";
 import type { Competition } from "@/domain/types";
 import styles from "./page.module.css";
@@ -42,14 +43,19 @@ function CompetitionStrength({ competition, personRanks }: { competition: Compet
 }
 
 export default async function CompetitionsPage() {
-  const [admin, storedCompetitions, personRanks] = await Promise.all([isAdmin(), listCompetitions(), loadPersonEstimatedRanks()]);
+  const [admin, storedCompetitions, people, personRanks] = await Promise.all([
+    isAdmin(),
+    listCompetitions(),
+    listPeople(),
+    loadPersonEstimatedRanks(),
+  ]);
   const competition = storedCompetitions.find((item) => item.id === "1st-xrc") ?? fallbackCompetition;
   const completed = competition.matches.filter((match) => match.status === "completed").length;
   const otherCompetitions = storedCompetitions.filter((item) => item.id !== competition.id);
   const competitions = [competition, ...otherCompetitions];
   const activeCompetitionCount = competitions.filter((item) => item.status === "active").length;
   const recordedMatchCount = competitions.reduce((sum, item) => sum + completedMatches(item), 0);
-  const registeredPlayerCount = new Set(competitions.flatMap((item) => item.participants.map((participant) => participant.displayName.replace(/\s+/g, "")))).size;
+  const registeredPlayerCount = people.length;
 
   return (
     <div className="page">
