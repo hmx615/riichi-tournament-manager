@@ -1,10 +1,15 @@
 import Link from "next/link";
 import { ArrowRight, CalendarDays, CirclePlus, Database, Users } from "lucide-react";
 import { competition as fallbackCompetition, totalsForCompetition } from "@/data/competition";
+import { MatchLevelBadge } from "@/components/competition-overview";
 import { PlayerTag } from "@/components/player-tag";
+import type { EstimatedRank } from "@/domain/estimated-rank";
+import { assessMatchLevel } from "@/domain/match-level";
 import { listCompetitions } from "@/server/competition-repository";
 import { isAdmin } from "@/server/auth";
+import { loadPersonEstimatedRanks } from "@/server/person-statistics";
 import type { Competition } from "@/domain/types";
+import styles from "./page.module.css";
 
 const competitionStatus = {
   draft: { label: "草稿", className: "status-scheduled" },
@@ -31,9 +36,13 @@ function CompetitionScores({ competition }: { competition: Competition }) {
   );
 }
 
+function CompetitionStrength({ competition, personRanks }: { competition: Competition; personRanks: Record<string, EstimatedRank | null> }) {
+  const assessment = assessMatchLevel(competition.participants.map((participant) => participant.personId ? personRanks[participant.personId] ?? null : null));
+  return assessment ? <MatchLevelBadge assessment={assessment} compact /> : null;
+}
+
 export default async function CompetitionsPage() {
-  const admin = await isAdmin();
-  const storedCompetitions = await listCompetitions();
+  const [admin, storedCompetitions, personRanks] = await Promise.all([isAdmin(), listCompetitions(), loadPersonEstimatedRanks()]);
   const competition = storedCompetitions.find((item) => item.id === "1st-xrc") ?? fallbackCompetition;
   const completed = competition.matches.filter((match) => match.status === "completed").length;
   const otherCompetitions = storedCompetitions.filter((item) => item.id !== competition.id);
@@ -59,7 +68,7 @@ export default async function CompetitionsPage() {
         <div className="section-heading"><div><h2>当前比赛</h2></div></div>
         <article className="competition-row">
           <div className="competition-main">
-            <div className="competition-title">{competition.status === "active" && <span className="live-dot" />}{competition.name}<span className={`status ${competitionStatus[competition.status].className}`}>{competitionStatus[competition.status].label}</span></div>
+            <div className={`competition-title ${styles.competitionTitle}`}>{competition.status === "active" && <span className="live-dot" />}{competition.name}<span className={`status ${competitionStatus[competition.status].className}`}>{competitionStatus[competition.status].label}</span><CompetitionStrength competition={competition} personRanks={personRanks} /></div>
             <div className="competition-meta">{competition.code} · {completed}/{competition.plannedMatchCount}半庄</div>
             <div className="player-list">
               {competition.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}
@@ -71,7 +80,7 @@ export default async function CompetitionsPage() {
         {otherCompetitions.map((item) => (
           <article className="competition-row compact-row" key={item.id}>
             <div className="competition-main">
-              <div className="competition-title">{item.status === "active" && <span className="live-dot" />}{item.name}<span className={`status ${competitionStatus[item.status].className}`}>{competitionStatus[item.status].label}</span></div>
+              <div className={`competition-title ${styles.competitionTitle}`}>{item.status === "active" && <span className="live-dot" />}{item.name}<span className={`status ${competitionStatus[item.status].className}`}>{competitionStatus[item.status].label}</span><CompetitionStrength competition={item} personRanks={personRanks} /></div>
               <div className="competition-meta">{item.code} · {completedMatches(item)}/{item.plannedMatchCount}半庄</div>
               <div className="player-list">{item.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
             </div>

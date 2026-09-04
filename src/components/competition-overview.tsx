@@ -27,7 +27,7 @@ function PlayerQualityBadge({ quality }: { quality: PlayerQuality }) {
   return <mark className={styles.playerHorse} title="最高模型 Rating 低于 86"><ChessKnight size={10} />马</mark>;
 }
 
-function MatchLevelBadge({ assessment, compact = false }: { assessment: MatchLevelAssessment; compact?: boolean }) {
+export function MatchLevelBadge({ assessment, compact = false }: { assessment: MatchLevelAssessment; compact?: boolean }) {
   const title = `四人平均推定段位 ${assessment.averageRank.toFixed(1)}`;
   const className = `${styles.levelBadge} ${compact ? styles.levelBadgeCompact : ""}`;
   if (assessment.level === "top") return <span className={`${className} ${styles.topLevel}`} title={title}><Crown size={compact ? 12 : 16} /><span>赛事强度</span><b>巅峰</b></span>;
