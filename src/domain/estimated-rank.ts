@@ -1,6 +1,6 @@
-import { summarizeNagaMetrics } from "./naga-summary";
+import { summarizeNagaMetrics, summarizeNagaMetricsByUnit } from "./naga-summary";
 
-type RatingMetrics = {
+export type RatingMetrics = {
   model: string;
   rating: number;
   agreementRate: number;
@@ -13,6 +13,9 @@ type Calibration = {
   agreementRate: number[];
   badMoveRate: number[];
 };
+
+export type EstimatedRank = number | "10+";
+export type EstimatedRankPerspective = "game" | "decision" | "hand";
 
 // 2024年1月至3月天凤段位别 NAGA 统计，数组下标分别对应初段至十段。
 const calibrations: Record<string, Calibration> = {
@@ -42,7 +45,7 @@ function interpolateRank(value: number, curve: number[]) {
   return null;
 }
 
-export function estimateRank(ratings: RatingMetrics[]) {
+export function estimateRankByPerspective(ratings: RatingMetrics[], perspective: EstimatedRankPerspective) {
   const ratingsByModel = new Map<string, RatingMetrics[]>();
   for (const rating of ratings) {
     if (!calibrations[rating.model]) continue;
@@ -50,7 +53,8 @@ export function estimateRank(ratings: RatingMetrics[]) {
   }
   const modelRanks = [...ratingsByModel.entries()].flatMap(([model, values]) => {
     const calibration = calibrations[model];
-    const summary = summarizeNagaMetrics(values);
+    // Game and hand perspectives both expect one pre-aggregated observation per selected unit.
+    const summary = perspective === "decision" ? summarizeNagaMetrics(values) : summarizeNagaMetricsByUnit(values);
     if (!summary) return [];
     const estimates = [
       interpolateRank(summary.rating, calibration.rating),
@@ -61,4 +65,25 @@ export function estimateRank(ratings: RatingMetrics[]) {
   });
   if (!modelRanks.length) return null;
   return Number((modelRanks.reduce((sum, rank) => sum + rank, 0) / modelRanks.length).toFixed(1));
+}
+
+export function estimateRankByGame(ratings: RatingMetrics[]) {
+  return estimateRankByPerspective(ratings, "game");
+}
+
+export function estimateRankByDecision(ratings: RatingMetrics[]) {
+  return estimateRankByPerspective(ratings, "decision");
+}
+
+export function estimateRankByHand(handRatings: RatingMetrics[]) {
+  return estimateRankByPerspective(handRatings, "hand");
+}
+
+export function estimateRank(ratings: RatingMetrics[]) {
+  return estimateRankByGame(ratings);
+}
+
+export function formatEstimatedRank(rank: EstimatedRank | null) {
+  if (rank == null) return "-";
+  return rank === "10+" ? "10+段" : `${rank.toFixed(1)}段`;
 }

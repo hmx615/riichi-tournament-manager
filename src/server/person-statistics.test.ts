@@ -156,6 +156,6 @@ describe("person statistics", () => {
     expect(result.mortal.rankCounts).toEqual([0, 1, 1, 1]);
     expect(result.mortal.matches).toHaveLength(3);
     expect(result.mortal.competitions[0].matchCount).toBe(3);
-    expect(result.mortal.estimatedRank).toBeNull();
+    expect(result.mortal.estimatedRank).toBe("10+");
   });
 });

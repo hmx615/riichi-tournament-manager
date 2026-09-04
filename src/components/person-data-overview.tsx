@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import { formatEstimatedRank } from "@/domain/estimated-rank";
 import type { PersonStatistics } from "@/server/person-statistics";
 import styles from "./person-data-overview.module.css";
 
@@ -38,11 +39,11 @@ export function PersonDataOverview({ statistics }: { statistics: PersonStatistic
   const averageRank = summary["平均顺位"];
   return (
     <>
-      <section className={`summary-grid person-summary${person.kind === "human" ? ` ${styles.humanSummary}` : ""}`} aria-label="人物概况">
+      <section className={`summary-grid person-summary ${styles.rankSummary}`} aria-label="人物概况">
         <div className="summary-block"><span>半庄<strong>{matches.length}</strong></span></div>
         <div className="summary-block"><span>小局<strong>{summary["统计局数"] ?? 0}</strong></span></div>
         <div className="summary-block"><span>平均顺位<strong>{averageRank?.toFixed(2) ?? "-"}</strong></span></div>
-        {person.kind === "human" && <div className="summary-block"><span>推定段位<strong>{estimatedRank == null ? "-" : `${estimatedRank.toFixed(1)}段`}</strong></span></div>}
+        <div className="summary-block"><span>推定段位<strong>{formatEstimatedRank(estimatedRank)}</strong></span></div>
       </section>
 
       <section className="rank-distribution person-rank-section">

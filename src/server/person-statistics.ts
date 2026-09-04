@@ -5,7 +5,7 @@ import type { PlayerSummary } from "@/server/competition-statistics";
 import { listCompetitions } from "@/server/competition-repository";
 import { listPeople } from "@/server/person-repository";
 import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
-import { estimateRank } from "../domain/estimated-rank";
+import { estimateRankByGame, type EstimatedRank } from "../domain/estimated-rank";
 import { summarizeNagaMetrics } from "../domain/naga-summary";
 // @ts-expect-error The fixed legacy calculator is CommonJS and has no type declarations.
 import legacyStatsModule from "../../reference/1st-xrc-29/mrc_stats.js";
@@ -49,7 +49,7 @@ export type PersonMatchSummary = {
 
 export type PersonStatistics = {
   person: Person;
-  estimatedRank: number | null;
+  estimatedRank: EstimatedRank | null;
   summary: PlayerSummary;
   rankCounts: number[];
   ratings: PersonRatingSummary[];
@@ -121,7 +121,9 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
     for (const match of matches) competitionGroups.set(match.competitionId, [...(competitionGroups.get(match.competitionId) || []), match]);
     const personStats: PersonStatistics = {
       person,
-      estimatedRank: person.kind === "human" ? estimateRank(ratings[person.id]) : null,
+      estimatedRank: person.kind === "human"
+        ? estimateRankByGame(ratings[person.id])
+        : (["mortal", "naga"].includes(person.id) ? "10+" : null),
       summary: matches.length ? stats.finalize(rawStats[person.id]) : {},
       rankCounts: [1, 2, 3, 4].map((rank) => matches.filter((match) => match.rank === rank).length),
       ratings: summarizeRatings(ratings[person.id]),
