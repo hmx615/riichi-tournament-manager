@@ -88,6 +88,7 @@ describe("person statistics", () => {
     expect(result.hmx.summary["平均顺位"]).toBe(1);
     expect(result.hmx.competitions).toHaveLength(2);
     expect(result.hmx.matches).toHaveLength(2);
+    expect(result.hmx.matches[0].nagaRatings).toEqual({ "ニシキ": 92 });
     expect(result.hmx.ratings[0]).toMatchObject({ model: "ニシキ", rating: 91.5, gameCount: 2 });
     expect(result.hmx.estimatedRank).toBe(9.3);
   });

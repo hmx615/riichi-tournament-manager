@@ -45,6 +45,7 @@ export type PersonMatchSummary = {
   sourceUsername: string;
   tenhouUrl: string;
   nagaUrl: string | null;
+  nagaRatings: Record<string, number>;
 };
 
 export type PersonStatistics = {
@@ -106,6 +107,9 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
         sourceUsername: seat.sourceUsername,
         tenhouUrl: match.tenhouUrl,
         nagaUrl: match.nagaUrl,
+        nagaRatings: Object.fromEntries((match.nagaRatings || [])
+          .filter((rating) => rating.participantId === seat.participantId)
+          .map((rating) => [rating.model, rating.rating])),
       });
     });
     for (const hand of log.log) stats.addHandStats(rawStats, hand, identities);

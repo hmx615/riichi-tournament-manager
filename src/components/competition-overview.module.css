@@ -1,0 +1,33 @@
+.matchNumber {
+  min-width: 70px;
+  display: grid;
+  justify-items: start;
+  gap: 5px;
+}
+
+.goldBadge,
+.diamondBadge {
+  min-height: 22px;
+  padding: 3px 6px;
+  border: 1px solid;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 850;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.goldBadge {
+  border-color: #c7972e;
+  background: #fff7dc;
+  color: #855707;
+}
+
+.diamondBadge {
+  border-color: #6ea5ba;
+  background: #eaf8fc;
+  color: #23617b;
+}
