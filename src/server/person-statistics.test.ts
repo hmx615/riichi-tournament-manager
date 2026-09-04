@@ -89,6 +89,7 @@ describe("person statistics", () => {
     expect(result.hmx.competitions).toHaveLength(2);
     expect(result.hmx.matches).toHaveLength(2);
     expect(result.hmx.ratings[0]).toMatchObject({ model: "ニシキ", rating: 91.5, gameCount: 2 });
+    expect(result.hmx.estimatedRank).toBe(9.3);
   });
 
   it("aggregates multiple seats linked to the same AI person", async () => {
@@ -155,5 +156,6 @@ describe("person statistics", () => {
     expect(result.mortal.rankCounts).toEqual([0, 1, 1, 1]);
     expect(result.mortal.matches).toHaveLength(3);
     expect(result.mortal.competitions[0].matchCount).toBe(3);
+    expect(result.mortal.estimatedRank).toBeNull();
   });
 });

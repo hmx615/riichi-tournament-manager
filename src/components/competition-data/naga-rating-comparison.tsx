@@ -1,17 +1,11 @@
 import type { Competition, NagaRating } from "@/domain/types";
 import { PlayerTag } from "@/components/player-tag";
+import { summarizeNagaMetrics } from "@/domain/naga-summary";
 
 type RatingSummary = { rating: number; agreementRate: number; badMoveRate: number } | null;
 
 function summarize(ratings: NagaRating[]): RatingSummary {
-  const valid = ratings.filter((item) => Number.isFinite(item.rating) && Number.isFinite(item.agreementRate) && Number.isFinite(item.badMoveRate) && item.decisionCount > 0);
-  const decisionCount = valid.reduce((sum, item) => sum + item.decisionCount, 0);
-  if (!decisionCount) return null;
-  return {
-    rating: valid.reduce((sum, item) => sum + item.rating, 0) / valid.length,
-    agreementRate: valid.reduce((sum, item) => sum + item.agreementRate * item.decisionCount, 0) / decisionCount,
-    badMoveRate: valid.reduce((sum, item) => sum + item.badMoveRate * item.decisionCount, 0) / decisionCount,
-  };
+  return summarizeNagaMetrics(ratings);
 }
 
 export function NagaRatingComparison({ competition }: { competition: Competition }) {

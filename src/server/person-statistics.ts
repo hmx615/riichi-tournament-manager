@@ -5,6 +5,8 @@ import type { PlayerSummary } from "@/server/competition-statistics";
 import { listCompetitions } from "@/server/competition-repository";
 import { listPeople } from "@/server/person-repository";
 import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
+import { estimateRank } from "../domain/estimated-rank";
+import { summarizeNagaMetrics } from "../domain/naga-summary";
 // @ts-expect-error The fixed legacy calculator is CommonJS and has no type declarations.
 import legacyStatsModule from "../../reference/1st-xrc-29/mrc_stats.js";
 
@@ -47,6 +49,7 @@ export type PersonMatchSummary = {
 
 export type PersonStatistics = {
   person: Person;
+  estimatedRank: number | null;
   summary: PlayerSummary;
   rankCounts: number[];
   ratings: PersonRatingSummary[];
@@ -62,17 +65,10 @@ function summarizeRatings(ratings: NagaRating[]): PersonRatingSummary[] {
   const byModel = new Map<string, NagaRating[]>();
   for (const rating of ratings) byModel.set(rating.model, [...(byModel.get(rating.model) || []), rating]);
   const preferred = ["ニシキ", "カガシ"];
-  return [...byModel.entries()].map(([model, values]) => {
-    const valid = values.filter((value) => Number.isFinite(value.rating) && Number.isFinite(value.agreementRate) && Number.isFinite(value.badMoveRate) && value.decisionCount > 0);
-    const decisions = valid.reduce((sum, value) => sum + value.decisionCount, 0);
-    return {
-      model,
-      rating: valid.reduce((sum, value) => sum + value.rating, 0) / valid.length,
-      agreementRate: valid.reduce((sum, value) => sum + value.agreementRate * value.decisionCount, 0) / decisions,
-      badMoveRate: valid.reduce((sum, value) => sum + value.badMoveRate * value.decisionCount, 0) / decisions,
-      gameCount: valid.length,
-    };
-  }).filter((value) => Number.isFinite(value.rating))
+  return [...byModel.entries()].flatMap(([model, values]) => {
+    const summary = summarizeNagaMetrics(values);
+    return summary ? [{ model, ...summary }] : [];
+  })
     .sort((left, right) => {
       const leftIndex = preferred.indexOf(left.model);
       const rightIndex = preferred.indexOf(right.model);
@@ -125,6 +121,7 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
     for (const match of matches) competitionGroups.set(match.competitionId, [...(competitionGroups.get(match.competitionId) || []), match]);
     const personStats: PersonStatistics = {
       person,
+      estimatedRank: person.kind === "human" ? estimateRank(ratings[person.id]) : null,
       summary: matches.length ? stats.finalize(rawStats[person.id]) : {},
       rankCounts: [1, 2, 3, 4].map((rank) => matches.filter((match) => match.rank === rank).length),
       ratings: summarizeRatings(ratings[person.id]),
