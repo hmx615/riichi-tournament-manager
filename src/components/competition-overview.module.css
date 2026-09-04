@@ -6,7 +6,8 @@
 }
 
 .goldBadge,
-.diamondBadge {
+.diamondBadge,
+.horseBadge {
   min-height: 22px;
   padding: 3px 6px;
   border: 1px solid;
@@ -30,4 +31,70 @@
   border-color: #6ea5ba;
   background: #eaf8fc;
   color: #23617b;
+}
+
+.horseBadge {
+  border-color: #b86d55;
+  background: #fff0e9;
+  color: #8a402c;
+}
+
+.goldRow > td {
+  background: #fffbef;
+  color: #6f500f;
+}
+
+.diamondRow > td {
+  background: #eff9fc;
+  color: #245b70;
+}
+
+.horseRow > td {
+  background: #fff4ef;
+  color: #824331;
+}
+
+.goldRow > td:first-child,
+.diamondRow > td:first-child,
+.horseRow > td:first-child {
+  box-shadow: inset 3px 0 0 currentColor;
+}
+
+.playerDiamond,
+.playerGold,
+.playerHorse {
+  min-height: 17px;
+  padding: 2px 4px;
+  border: 1px solid;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.playerDiamond {
+  border-color: #6ea5ba;
+  background: #eaf8fc;
+  color: #23617b;
+}
+
+.playerGold {
+  border-color: #c7972e;
+  background: #fff7dc;
+  color: #855707;
+}
+
+.playerHorse {
+  border-color: #b86d55;
+  background: #fff0e9;
+  color: #8a402c;
+}
+
+.qualityPlayer {
+  gap: 5px;
 }

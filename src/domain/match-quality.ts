@@ -1,21 +1,43 @@
 import type { MatchRecord } from "./types";
 
 export type MatchQuality = "gold" | "diamond";
+export type PlayerQuality = "gold" | "diamond" | "horse";
+
+export type MatchQualityAssessment = {
+  matchQuality: MatchQuality | null;
+  fourHorses: boolean;
+  players: Record<string, PlayerQuality | null>;
+};
 
 const qualityModels = ["ニシキ", "カガシ"] as const;
 
-export function matchQuality(match: MatchRecord): MatchQuality | null {
+export function assessMatchQuality(match: MatchRecord): MatchQualityAssessment {
   const participantIds = [...new Set(match.seats.map((seat) => seat.participantId))];
-  if (participantIds.length !== 4) return null;
-
   const ratings = new Map(
     (match.nagaRatings || []).map((rating) => [`${rating.participantId}\u0000${rating.model}`, rating.rating]),
   );
-  const playerRatings = participantIds.map((participantId) => (
-    qualityModels.map((model) => ratings.get(`${participantId}\u0000${model}`))
-  ));
-  if (playerRatings.some((values) => values.some((value) => value == null || !Number.isFinite(value)))) return null;
-  if (playerRatings.every((values) => values.every((value) => value! > 90))) return "diamond";
-  if (playerRatings.every((values) => Math.max(...values as number[]) > 90)) return "gold";
-  return null;
+  const players = Object.fromEntries(participantIds.map((participantId) => {
+    const values = qualityModels.map((model) => ratings.get(`${participantId}\u0000${model}`));
+    if (values.some((value) => value == null || !Number.isFinite(value))) return [participantId, null];
+    const complete = values as number[];
+    if (complete.every((value) => value > 90)) return [participantId, "diamond"];
+    if (Math.max(...complete) > 90) return [participantId, "gold"];
+    if (Math.max(...complete) < 86) return [participantId, "horse"];
+    return [participantId, null];
+  })) as Record<string, PlayerQuality | null>;
+
+  if (participantIds.length !== 4) return { matchQuality: null, fourHorses: false, players };
+  const playerValues = participantIds.map((participantId) => players[participantId]);
+  const matchQuality = playerValues.every((quality) => quality === "diamond")
+    ? "diamond"
+    : playerValues.every((quality) => quality === "diamond" || quality === "gold") ? "gold" : null;
+  return {
+    matchQuality,
+    fourHorses: playerValues.every((quality) => quality === "horse"),
+    players,
+  };
+}
+
+export function matchQuality(match: MatchRecord): MatchQuality | null {
+  return assessMatchQuality(match).matchQuality;
 }

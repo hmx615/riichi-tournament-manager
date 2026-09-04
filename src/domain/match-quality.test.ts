@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { MatchRecord } from "./types";
-import { matchQuality } from "./match-quality";
+import { assessMatchQuality, matchQuality } from "./match-quality";
 
 function matchWithRatings(values: Array<[number, number]>): MatchRecord {
   return {
@@ -42,5 +42,26 @@ describe("match quality", () => {
     const incomplete = matchWithRatings([[91, 92], [93, 94], [95, 96], [97, 98]]);
     incomplete.nagaRatings = incomplete.nagaRatings?.filter((rating) => !(rating.participantId === "player-3" && rating.model === "カガシ"));
     expect(matchQuality(incomplete)).toBeNull();
+  });
+
+  it("classifies individual players outside whole-match awards", () => {
+    const assessment = assessMatchQuality(matchWithRatings([[91, 92], [91, 85], [85, 84], [90, 86]]));
+
+    expect(assessment.matchQuality).toBeNull();
+    expect(assessment.fourHorses).toBe(false);
+    expect(assessment.players).toEqual({
+      "player-0": "diamond",
+      "player-1": "gold",
+      "player-2": "horse",
+      "player-3": null,
+    });
+  });
+
+  it("marks all four player maximums below 86 as four horses", () => {
+    const assessment = assessMatchQuality(matchWithRatings([[85, 84], [83, 82], [81, 80], [79, 78]]));
+
+    expect(assessment.matchQuality).toBeNull();
+    expect(assessment.fourHorses).toBe(true);
+    expect(Object.values(assessment.players)).toEqual(["horse", "horse", "horse", "horse"]);
   });
 });
