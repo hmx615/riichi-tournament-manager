@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { ArrowLeft, BarChart3, ChessKnight, Diamond, ExternalLink, FilePlus2, Medal, Pencil, Settings } from "lucide-react";
+import { ArrowLeft, BarChart3, ChessKnight, Crown, Diamond, ExternalLink, FilePlus2, Flame, Medal, Pencil, Settings, ShieldCheck } from "lucide-react";
 import type { Competition } from "@/domain/types";
+import type { EstimatedRank } from "@/domain/estimated-rank";
 import { assessMatchQuality, type PlayerQuality } from "@/domain/match-quality";
+import { assessMatchLevel, type MatchLevelAssessment } from "@/domain/match-level";
 import type { CompetitionSummary } from "@/server/competition-statistics";
 import { totalsForCompetition } from "@/data/competition";
 import { PlayerTag } from "@/components/player-tag";
@@ -25,9 +27,19 @@ function PlayerQualityBadge({ quality }: { quality: PlayerQuality }) {
   return <mark className={styles.playerHorse} title="最高模型 Rating 低于 86"><ChessKnight size={10} />马</mark>;
 }
 
-export function CompetitionOverview({ competition, summary, showBackLink = false, admin }: {
+function MatchLevelBadge({ assessment, compact = false }: { assessment: MatchLevelAssessment; compact?: boolean }) {
+  const title = `四人平均推定段位 ${assessment.averageRank.toFixed(1)}`;
+  const className = `${styles.levelBadge} ${compact ? styles.levelBadgeCompact : ""}`;
+  if (assessment.level === "top") return <span className={`${className} ${styles.topLevel}`} title={title}><Crown size={compact ? 12 : 16} /><span>赛事强度</span><b>巅峰</b></span>;
+  if (assessment.level === "phoenix") return <span className={`${className} ${styles.phoenixLevel}`} title={title}><Flame size={compact ? 12 : 16} /><span>赛事强度</span><b>凤凰</b></span>;
+  if (assessment.level === "tokujou") return <span className={`${className} ${styles.tokujouLevel}`} title={title}><ShieldCheck size={compact ? 12 : 16} /><span>赛事强度</span><b>特上</b></span>;
+  return <span className={`${className} ${styles.horseLevel}`} title={title}><ChessKnight size={compact ? 12 : 16} /><span>赛事强度</span><b>送马</b></span>;
+}
+
+export function CompetitionOverview({ competition, summary, participantRanks, showBackLink = false, admin }: {
   competition: Competition;
   summary: CompetitionSummary;
+  participantRanks: Record<string, EstimatedRank | null>;
   showBackLink?: boolean;
   admin: boolean;
 }) {
@@ -35,11 +47,13 @@ export function CompetitionOverview({ competition, summary, showBackLink = false
   const completed = competition.matches.filter((match) => match.status === "completed").length;
   const participantById = Object.fromEntries(competition.participants.map((participant) => [participant.id, participant]));
   const sortedPlayers = [...competition.participants].sort((left, right) => totals[right.id] - totals[left.id]);
+  const levelAssessment = assessMatchLevel(competition.participants.map((participant) => participantRanks[participant.id] ?? null));
   return (
     <div className="page competition-page">
       {showBackLink && <Link className="back-link" href="/"><ArrowLeft size={16} />返回比赛列表</Link>}
       <div className="page-heading">
         <div><p className="eyebrow">{competition.code}</p><h1>{competition.name}</h1><p>{competitionStatus[competition.status]} · {completed}/{competition.plannedMatchCount}半庄</p></div>
+        {levelAssessment && <div className={styles.headingLevel}><MatchLevelBadge assessment={levelAssessment} /></div>}
         {admin && <div className="heading-actions">
           <Link className="button" href={`/competitions/${competition.id}/settings`}><Settings size={17} />比赛设置</Link>
           {competition.matches.length > 0 && <Link className="button" href={`/competitions/${competition.id}/data`}><BarChart3 size={17} />查看数据</Link>}
@@ -60,7 +74,7 @@ export function CompetitionOverview({ competition, summary, showBackLink = false
         </div>
       </section>
       <section className="section-block">
-        <div className="section-heading"><div><h2>赛程与牌谱</h2></div><span className="table-count">{competition.matches.length} 场</span></div>
+        <div className="section-heading"><div><h2>赛程与牌谱</h2></div><div className={styles.scheduleHeadingMeta}>{levelAssessment && <MatchLevelBadge assessment={levelAssessment} compact />}<span className="table-count">{competition.matches.length} 场</span></div></div>
         {competition.matches.length === 0 ? (
           <div className="empty-schedule"><FilePlus2 size={24} /><h2>尚未录入对局</h2></div>
         ) : (

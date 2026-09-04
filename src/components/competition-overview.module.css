@@ -1,3 +1,72 @@
+.headingLevel {
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+.scheduleHeadingMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.levelBadge {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+  box-shadow: 0 5px 18px rgba(37, 47, 52, .08);
+}
+
+.levelBadge span {
+  opacity: .72;
+}
+
+.levelBadge b {
+  font-size: 15px;
+}
+
+.levelBadgeCompact {
+  min-height: 28px;
+  padding: 0 8px;
+  gap: 5px;
+  font-size: 9px;
+  box-shadow: none;
+}
+
+.levelBadgeCompact b {
+  font-size: 11px;
+}
+
+.topLevel {
+  border-color: #b28a38;
+  background: #fff9e8;
+  color: #76520c;
+}
+
+.phoenixLevel {
+  border-color: #c47b66;
+  background: #fff3ef;
+  color: #8d402c;
+}
+
+.tokujouLevel {
+  border-color: #78a99a;
+  background: #edf8f4;
+  color: #286957;
+}
+
+.horseLevel {
+  border-color: #9aa5ab;
+  background: #f4f6f7;
+  color: #535e64;
+}
+
 .matchNumber {
   min-width: 70px;
   display: grid;
@@ -184,5 +253,20 @@
   .diamondRow,
   .horseRow {
     animation: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .headingLevel {
+    margin: -8px 0 0;
+    padding: 0;
+  }
+
+  .levelBadge:not(.levelBadgeCompact) {
+    min-height: 38px;
+  }
+
+  .scheduleHeadingMeta {
+    gap: 8px;
   }
 }

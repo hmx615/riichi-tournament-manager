@@ -88,6 +88,25 @@ function summarizeRatings(ratings: NagaRating[]): PersonRatingSummary[] {
     });
 }
 
+function estimatedRankForPerson(person: Person, ratings: NagaRating[]): EstimatedRank | null {
+  if (person.kind === "human") return estimateRankByGame(ratings);
+  return ["mortal", "naga"].includes(person.id) ? "10+" : null;
+}
+
+export function computePersonEstimatedRanks(people: Person[], competitions: Competition[]) {
+  const ratings: Record<string, NagaRating[]> = Object.fromEntries(people.map((person) => [person.id, []]));
+  for (const competition of competitions) {
+    const participantById = new Map(competition.participants.map((participant) => [participant.id, participant]));
+    for (const match of competition.matches.filter((item) => item.status === "completed")) {
+      for (const rating of match.nagaRatings || []) {
+        const personId = participantById.get(rating.participantId)?.personId;
+        if (personId && ratings[personId]) ratings[personId].push(rating);
+      }
+    }
+  }
+  return Object.fromEntries(people.map((person) => [person.id, estimatedRankForPerson(person, ratings[person.id])])) as Record<string, EstimatedRank | null>;
+}
+
 export async function computeAllPersonStatistics(people: Person[], competitions: Competition[]) {
   const stats = calculator();
   const rawStats: Record<string, Record<string, number | number[]>> = Object.fromEntries(people.map((person) => [person.id, stats.createStats()]));
@@ -143,9 +162,7 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
     for (const match of matches) competitionGroups.set(match.competitionId, [...(competitionGroups.get(match.competitionId) || []), match]);
     const personStats: PersonStatistics = {
       person,
-      estimatedRank: person.kind === "human"
-        ? estimateRankByGame(ratings[person.id])
-        : (["mortal", "naga"].includes(person.id) ? "10+" : null),
+      estimatedRank: estimatedRankForPerson(person, ratings[person.id]),
       summary: matches.length ? stats.finalize(rawStats[person.id]) : {},
       rankCounts: [1, 2, 3, 4].map((rank) => matches.filter((match) => match.rank === rank).length),
       ratings: summarizeRatings(ratings[person.id]),
@@ -172,4 +189,9 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
 export async function loadAllPersonStatistics() {
   const [people, competitions] = await Promise.all([listPeople(), listCompetitions()]);
   return computeAllPersonStatistics(people, competitions);
+}
+
+export async function loadPersonEstimatedRanks() {
+  const [people, competitions] = await Promise.all([listPeople(), listCompetitions()]);
+  return computePersonEstimatedRanks(people, competitions);
 }
