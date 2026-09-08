@@ -1,6 +1,19 @@
 export type ParticipantKind = "human" | "ai";
 export type CompetitionStatus = "draft" | "active" | "completed" | "archived";
 export type MatchStatus = "scheduled" | "processing" | "completed" | "needs_review" | "invalid";
+export type CompetitionFormat = "four_player" | "individual";
+
+export type IndividualStage = "preliminary" | "semifinal" | "final";
+
+export type IndividualStageSettings = {
+  matchCountPerPlayer: number;
+  advancingPlayerCount?: number;
+};
+
+export type IndividualCompetitionSettings = {
+  stages: Record<IndividualStage, IndividualStageSettings>;
+  pairingMode: "balanced_opponents";
+};
 
 export type PersonAccount = {
   platform: "tenhou" | "majsoul" | "other";
@@ -50,6 +63,10 @@ export type NagaRating = {
 export type MatchRecord = {
   id: string;
   matchNumber: number;
+  /** Optional scheduling metadata used by multi-stage individual competitions. */
+  stage?: IndividualStage;
+  round?: number;
+  tableNumber?: number;
   status: MatchStatus;
   playedAt: string;
   tenhouLogId: string;
@@ -67,12 +84,15 @@ export type Competition = {
   id: string;
   name: string;
   code: string;
+  /** Legacy competition documents omit this and are treated as four-player competitions. */
+  format?: CompetitionFormat;
   status: CompetitionStatus;
   plannedMatchCount: number;
   initialPoints: number;
   rankPoints: [number, number, number, number];
   participants: Participant[];
   matches: MatchRecord[];
+  individualSettings?: IndividualCompetitionSettings;
 };
 
 export type LegacySummary = {

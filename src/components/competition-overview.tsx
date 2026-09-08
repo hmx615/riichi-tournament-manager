@@ -4,6 +4,7 @@ import type { Competition } from "@/domain/types";
 import type { EstimatedRank } from "@/domain/estimated-rank";
 import { assessMatchQuality, type PlayerQuality } from "@/domain/match-quality";
 import { assessMatchLevel, type MatchLevelAssessment } from "@/domain/match-level";
+import { isIndividualCompetition } from "@/domain/competition-format";
 import type { CompetitionSummary } from "@/server/competition-statistics";
 import { totalsForCompetition } from "@/data/competition";
 import { PlayerTag } from "@/components/player-tag";
@@ -47,7 +48,7 @@ export function CompetitionOverview({ competition, summary, participantRanks, sh
   const completed = competition.matches.filter((match) => match.status === "completed").length;
   const participantById = Object.fromEntries(competition.participants.map((participant) => [participant.id, participant]));
   const sortedPlayers = [...competition.participants].sort((left, right) => totals[right.id] - totals[left.id]);
-  const levelAssessment = assessMatchLevel(competition.participants.map((participant) => participantRanks[participant.id] ?? null));
+  const levelAssessment = isIndividualCompetition(competition) ? null : assessMatchLevel(competition.participants.map((participant) => participantRanks[participant.id] ?? null));
   return (
     <div className="page competition-page">
       {showBackLink && <Link className="back-link" href="/"><ArrowLeft size={16} />返回比赛列表</Link>}

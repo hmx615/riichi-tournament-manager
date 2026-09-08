@@ -5,6 +5,7 @@ import { MatchLevelBadge } from "@/components/competition-overview";
 import { PlayerTag } from "@/components/player-tag";
 import type { EstimatedRank } from "@/domain/estimated-rank";
 import { assessMatchLevel } from "@/domain/match-level";
+import { isIndividualCompetition } from "@/domain/competition-format";
 import { listCompetitions } from "@/server/competition-repository";
 import { isAdmin } from "@/server/auth";
 import { listPeople } from "@/server/person-repository";
@@ -38,6 +39,7 @@ function CompetitionScores({ competition }: { competition: Competition }) {
 }
 
 function CompetitionStrength({ competition, personRanks }: { competition: Competition; personRanks: Record<string, EstimatedRank | null> }) {
+  if (isIndividualCompetition(competition)) return null;
   const assessment = assessMatchLevel(competition.participants.map((participant) => participant.personId ? personRanks[participant.personId] ?? null : null));
   return assessment ? <MatchLevelBadge assessment={assessment} compact /> : null;
 }
