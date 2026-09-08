@@ -239,6 +239,28 @@ describe("saveMatchAction", () => {
     expect(mocks.appendMatch).not.toHaveBeenCalled();
   });
 
+  it("allows an AI participant to occupy multiple seats in one match", async () => {
+    const newPreview = {
+      ...preview,
+      logId: "2026083002gm-0009-1940-70cdb106",
+      contentFingerprint: "new-match-fingerprint",
+    };
+    mocks.parseMatchSource.mockResolvedValue(newPreview);
+    const formData = new FormData();
+    formData.set("competitionId", competition.id);
+    formData.set("sourceUrl", newPreview.sourceUrl);
+    formData.set("participant0", "hmx");
+    formData.set("participant1", "NAGA");
+    formData.set("participant2", "NAGA");
+    formData.set("participant3", "Mortal");
+
+    await expect(saveMatchAction(idleState, formData)).rejects.toThrow("NEXT_REDIRECT");
+
+    expect(mocks.appendMatch).toHaveBeenCalledOnce();
+    const savedMatch = mocks.appendMatch.mock.calls[0][1];
+    expect(savedMatch.seats.map((seat: { participantId: string }) => seat.participantId)).toEqual(["hmx", "NAGA", "NAGA", "Mortal"]);
+  });
+
   it("rejects a Majsoul JSON when the semantic match already has NAGA analysis", async () => {
     const existingMatch = {
       ...competition.matches[0],

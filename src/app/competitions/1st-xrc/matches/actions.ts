@@ -166,8 +166,13 @@ export async function saveMatchAction(_state: MatchEntryState, formData: FormDat
       );
     } else {
       const participantIds = [0, 1, 2, 3].map((seat) => String(formData.get(`participant${seat}`) || ""));
-      const validIds = new Set(competition.participants.map((participant) => participant.id));
-      if (participantIds.some((id) => !validIds.has(id)) || new Set(participantIds).size !== 4) return initialError("四个座次必须分别选择四名不同选手");
+      const participantById = new Map(competition.participants.map((participant) => [participant.id, participant]));
+      const invalidIds = participantIds.some((id) => !participantById.has(id));
+      const humanIds = participantIds.flatMap((id) => {
+        const participant = participantById.get(id);
+        return participant?.kind === "human" ? [participant.personId || id] : [];
+      });
+      if (invalidIds || new Set(humanIds).size !== humanIds.length) return initialError("同一人类选手不能占据多个座次；AI 选手可以重复");
       const matchNumber = Math.max(0, ...competition.matches.map((match) => match.matchNumber)) + 1;
       const match: MatchRecord = {
         id: `${competition.id}-${String(matchNumber).padStart(3, "0")}`,
