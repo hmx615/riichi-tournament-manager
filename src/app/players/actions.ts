@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { detectAvatarContentType, maxAvatarBytes } from "@/domain/avatar";
 import type { Person, PersonAccount } from "@/domain/types";
+import { isValidPersonId } from "../../domain/person-id";
 import { isAdmin } from "@/server/auth";
 import { deleteAvatar, newAvatarKey, putAvatar } from "@/server/avatar-storage";
 import { createPerson, getPerson, updatePerson } from "@/server/person-repository";
@@ -14,7 +15,7 @@ export type PersonFormState = { status: "idle" | "error"; message: string };
 const schema = z.object({
   mode: z.enum(["create", "edit"]),
   originalId: z.string().optional(),
-  id: z.string().trim().min(2).max(40).regex(/^[a-z0-9-]+$/, "人物 ID 仅允许小写英文、数字和连字符"),
+  id: z.string().trim().min(1).max(40).refine(isValidPersonId, { message: "人物 ID 格式无效" }),
   displayName: z.string().trim().min(1).max(40),
   kind: z.enum(["human", "ai"]),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
@@ -100,7 +101,8 @@ export async function savePersonAction(_state: PersonFormState, formData: FormDa
   }
   if (previousAvatarKey && previousAvatarKey !== person.avatarKey) await deleteAvatar(previousAvatarKey).catch(() => {});
   revalidatePath("/players");
-  revalidatePath(`/players/${person.id}`);
-  revalidatePath(`/api/avatars/${person.id}`);
-  redirect(`/players/${person.id}`);
+  const encodedPersonId = encodeURIComponent(person.id);
+  revalidatePath(`/players/${encodedPersonId}`);
+  revalidatePath(`/api/avatars/${encodedPersonId}`);
+  redirect(`/players/${encodedPersonId}`);
 }

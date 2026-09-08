@@ -14,7 +14,7 @@ export default async function PersonPage({ params }: { params: Promise<{ personI
   const { person } = statistics;
   return <div className="page person-page">
     <Link className="back-link" href="/players"><ArrowLeft size={16} />返回人物目录</Link>
-    <div className="person-profile-header"><div className="page-heading"><div><p className="eyebrow">{person.kind === "human" ? "人类选手" : "AI 选手"}</p><h1>{person.displayName}</h1><p>{person.aliases.join(" · ")}</p></div>{admin && <div className="heading-actions"><Link className="button" href={`/players/${person.id}/settings`}><Settings size={17} />人物设置</Link></div>}</div><PersonAvatar person={person} size="large" /></div>
+    <div className="person-profile-header"><div className="page-heading"><div><p className="eyebrow">{person.kind === "human" ? "人类选手" : "AI 选手"}</p><h1>{person.displayName}</h1><p>{person.aliases.join(" · ")}</p></div>{admin && <div className="heading-actions"><Link className="button" href={`/players/${encodeURIComponent(person.id)}/settings`}><Settings size={17} />人物设置</Link></div>}</div><PersonAvatar person={person} size="large" /></div>
     <PersonDataOverview statistics={statistics} />
   </div>;
 }

@@ -271,6 +271,11 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .match-edit-actions { padding-top: 5px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .match-edit-actions > div { display: flex; gap: 9px; }
 .form-message { margin: 0; padding: 11px 13px; border: 1px solid #dfb8ba; background: #fff1f1; color: var(--red); font-size: 11px; }
+.form-message[role="alert"] { position: fixed; z-index: 40; top: 50%; left: 50%; width: min(420px, calc(100vw - 32px)); transform: translate(-50%, -50%); box-shadow: 0 16px 42px rgba(25, 38, 43, .2); }
+.field-control-with-hint { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: center; gap: 9px; }
+.field-validation { font-size: 10px; font-weight: 750; white-space: nowrap; }
+.field-validation.valid { color: var(--green); }
+.field-validation.error { color: var(--red); }
 .input-with-icon { position: relative; }
 .input-with-icon svg { position: absolute; left: 12px; top: 11px; color: var(--muted); }
 .input-with-icon input { padding-left: 39px; }

@@ -6,7 +6,7 @@ export function PersonAvatar({ person, size = "medium" }: { person: Person; size
   const style = { "--player-color": person.color } as React.CSSProperties;
   return <div className={className} style={style}>
     {person.avatarKey
-      ? <img src={`/api/avatars/${person.id}?v=${person.avatarVersion || 1}`} alt={`${person.displayName}头像`} />
+      ? <img src={`/api/avatars/${encodeURIComponent(person.id)}?v=${person.avatarVersion || 1}`} alt={`${person.displayName}头像`} />
       : <span aria-label={`${person.displayName}默认头像`}>{initials}</span>}
   </div>;
 }

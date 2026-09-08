@@ -3,13 +3,15 @@ import "server-only";
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { Person } from "@/domain/types";
+import { personIdError } from "../domain/person-id";
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
 
 const peopleFile = path.join(dataDirectory, "people.json");
 
 function validatePersonId(id: string) {
-  if (!/^[a-z0-9-]+$/.test(id)) throw new Error("人物 ID 格式无效");
+  const error = personIdError(id);
+  if (error) throw new Error(error);
 }
 
 function parsePerson(document: string) {

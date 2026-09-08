@@ -5,11 +5,12 @@ import path from "node:path";
 import type { AvatarContentType } from "@/domain/avatar";
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
+import { isValidPersonId } from "../domain/person-id";
 
 const localAvatarDirectory = path.join(dataDirectory, "avatars");
 
 function validateAvatarKey(key: string) {
-  if (!/^people\/[a-z0-9-]+\/[a-f0-9-]+$/.test(key)) throw new Error("头像存储键格式无效");
+  if (!/^people\/[^/\\\0]+\/[a-f0-9-]+$/.test(key)) throw new Error("头像存储键格式无效");
 }
 
 function localAvatarFile(key: string) {
@@ -18,8 +19,8 @@ function localAvatarFile(key: string) {
 }
 
 export function newAvatarKey(personId: string) {
-  if (!/^[a-z0-9-]+$/.test(personId)) throw new Error("人物 ID 格式无效");
-  return `people/${personId}/${crypto.randomUUID()}`;
+  if (!isValidPersonId(personId)) throw new Error("人物 ID 格式无效");
+  return `people/${encodeURIComponent(personId)}/${crypto.randomUUID()}`;
 }
 
 export async function putAvatar(key: string, bytes: Uint8Array, contentType: AvatarContentType) {

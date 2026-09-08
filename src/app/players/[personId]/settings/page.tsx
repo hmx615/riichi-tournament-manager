@@ -10,5 +10,5 @@ export default async function PersonSettingsPage({ params }: { params: Promise<{
   await requireAdminPage(`/players/${personId}/settings`);
   const person = await getPerson(personId);
   if (!person) notFound();
-  return <div className="page form-page"><Link className="back-link" href={`/players/${person.id}`}><ArrowLeft size={16} />返回人物数据</Link><div className="page-heading"><div><p className="eyebrow">人物库</p><h1>人物设置</h1></div></div><PersonForm person={person} /></div>;
+  return <div className="page form-page"><Link className="back-link" href={`/players/${encodeURIComponent(person.id)}`}><ArrowLeft size={16} />返回人物数据</Link><div className="page-heading"><div><p className="eyebrow">人物库</p><h1>人物设置</h1></div></div><PersonForm person={person} /></div>;
 }

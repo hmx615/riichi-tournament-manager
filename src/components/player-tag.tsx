@@ -6,6 +6,6 @@ export function PlayerTag({ participant, compact = false }: { participant: Parti
   const style = { "--player-color": participant.color } as React.CSSProperties;
   const content = <><i />{participant.displayName}</>;
   return participant.personId
-    ? <Link className={className} href={`/players/${participant.personId}`} style={style}>{content}</Link>
+    ? <Link className={className} href={`/players/${encodeURIComponent(participant.personId)}`} style={style}>{content}</Link>
     : <span className={className} style={style}>{content}</span>;
 }
