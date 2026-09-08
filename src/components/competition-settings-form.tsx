@@ -11,18 +11,26 @@ const initialState: CompetitionSettingsState = { status: "idle", message: "" };
 export function CompetitionSettingsForm({ competition, people }: { competition: Competition; people: Person[] }) {
   const [state, action, pending] = useActionState(saveCompetitionSettingsAction, initialState);
   const scoringLocked = competition.matches.length > 0;
+  const individual = competition.format === "individual";
   return (
     <form className="form-layout" action={action}>
       <input name="competitionId" type="hidden" value={competition.id} />
+      <input name="format" type="hidden" value={individual ? "individual" : "four_player"} />
+      <input name="participantCount" type="hidden" value={competition.participants.length} />
       <section className="form-section">
         <div className="form-section-title"><span>1</span><div><h2>比赛设置</h2></div></div>
         <div className="field-grid">
           <label className="field wide"><span>比赛名称</span><input name="name" defaultValue={competition.name} required /></label>
           <label className="field"><span>比赛代号</span><input value={competition.code} disabled /></label>
           <label className="field"><span>比赛状态</span><select name="status" defaultValue={competition.status}><option value="draft">草稿</option><option value="active">进行中</option><option value="completed">已完成</option><option value="archived">已归档</option></select></label>
-          <label className="field"><span>比赛半庄数</span><input name="plannedMatchCount" type="number" min="1" defaultValue={competition.plannedMatchCount} required /></label>
+          <label className="field"><span>{individual ? "总计划半庄数（显示用）" : "比赛半庄数"}</span><input name="plannedMatchCount" type="number" min="1" defaultValue={competition.plannedMatchCount} required /></label>
           <label className="field"><span>原点</span><input name="initialPoints" type="number" step="100" defaultValue={competition.initialPoints} readOnly={scoringLocked} required /></label>
           <label className="field wide"><span>顺位马点</span><input name="rankPoints" defaultValue={competition.rankPoints.join(", ")} readOnly={scoringLocked} required /></label>
+          {individual && <>
+            <label className="field"><span>初赛每人半庄数</span><input name="preliminaryMatches" type="number" min="0" defaultValue={competition.individualSettings?.stages.preliminary.matchCountPerPlayer ?? 0} required /></label>
+            <label className="field"><span>半决赛每人半庄数</span><input name="semifinalMatches" type="number" min="0" defaultValue={competition.individualSettings?.stages.semifinal.matchCountPerPlayer ?? 0} required /></label>
+            <label className="field"><span>决赛每人半庄数</span><input name="finalMatches" type="number" min="0" defaultValue={competition.individualSettings?.stages.final.matchCountPerPlayer ?? 0} required /></label>
+          </>}
         </div>
       </section>
       <section className="form-section">
