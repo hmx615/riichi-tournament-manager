@@ -3,7 +3,6 @@ import { ExternalLink } from "lucide-react";
 import { formatEstimatedRank } from "@/domain/estimated-rank";
 import type { PersonStatistics } from "@/server/person-statistics";
 import styles from "./person-data-overview.module.css";
-import { RatingLineChart } from "./rating-line-chart";
 
 type MetricType = "rate" | "decimal" | "point" | "signed";
 type Metric = readonly [field: string, type: MetricType];
@@ -56,7 +55,6 @@ export function PersonDataOverview({ statistics }: { statistics: PersonStatistic
       </section>
 
       {ratings.length > 0 && <section className="data-group person-rating-section"><h2>NAGA Rating 与一致率</h2><div className="person-rating-grid">{ratings.map((rating) => <div key={rating.model} style={{ "--player-color": person.color } as React.CSSProperties}><strong>{rating.model}</strong><span>Rating:{rating.rating.toFixed(2)}</span><span>一致率:{(rating.agreementRate * 100).toFixed(2)}%</span><span>恶手率:{(rating.badMoveRate * 100).toFixed(2)}%</span></div>)}</div></section>}
-      {ratings.length > 0 && <RatingLineChart title={`${person.displayName} Rating 走势`} series={ratings.map((rating) => ({ id: rating.model, label: rating.model, color: person.color, values: matches.map((match) => match.nagaRatings[rating.model] ?? null) }))} />}
 
       <section className={`data-group ${styles.qualitySection}`}><h2>对局质量</h2><div className={styles.qualityGrid}><span className={styles.diamondMetric}>钻率<strong>{quality.diamondRate == null ? "-" : `${(quality.diamondRate * 100).toFixed(2)}%`}</strong></span><span className={styles.goldMetric}>金率<strong>{quality.goldRate == null ? "-" : `${(quality.goldRate * 100).toFixed(2)}%`}</strong></span><span className={styles.horseMetric}>马率<strong>{quality.horseRate == null ? "-" : `${(quality.horseRate * 100).toFixed(2)}%`}</strong></span></div></section>
 

@@ -8,7 +8,6 @@ import { getCompetition } from "@/server/competition-repository";
 import { computeCompetitionSummary } from "@/server/competition-statistics";
 import { isIndividualCompetition } from "@/domain/competition-format";
 import { IndividualCompetitionData } from "@/components/individual-competition-overview";
-import { RatingLineChart } from "@/components/rating-line-chart";
 
 export default async function CompetitionDataPage({ params }: { params: Promise<{ competitionId: string }> }) {
   const { competitionId } = await params;
@@ -22,8 +21,6 @@ export default async function CompetitionDataPage({ params }: { params: Promise<
     </div>
   );
   const summary = await computeCompetitionSummary(competition);
-  const models = ["ニシキ", "カガシ"];
-  const chartSeries = competition.participants.map((participant, index) => ({ id: participant.id, label: participant.displayName, color: participant.color, values: competition.matches.map((match) => match.nagaRatings?.find((rating) => rating.participantId === participant.id && rating.model === models[0])?.rating ?? null) }))
   if (isIndividualCompetition(competition)) return (
     <div className="page data-page">
       <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回比赛</Link>
@@ -37,7 +34,6 @@ export default async function CompetitionDataPage({ params }: { params: Promise<
       <div className="page-heading"><div><p className="eyebrow">{competition.code}</p><h1>数据对比</h1></div></div>
       <RankDistribution competition={competition} summary={summary} />
       <NagaRatingComparison competition={competition} />
-      <RatingLineChart title="当前比赛四人 Rating 走势" series={chartSeries} />
       <MetricComparison competition={competition} summary={summary} />
     </div>
   );
