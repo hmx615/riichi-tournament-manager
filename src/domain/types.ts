@@ -12,6 +12,10 @@ export type IndividualStageSettings = {
 
 export type IndividualCompetitionSettings = {
   stages: Record<IndividualStage, IndividualStageSettings>;
+  /** Players who skip the semifinal and advance directly from preliminary to final. */
+  preliminaryDirectFinalPlayerCount?: number;
+  /** Players advancing from semifinal to final. */
+  semifinalAdvancingPlayerCount?: number;
   pairingMode: "balanced_opponents";
 };
 

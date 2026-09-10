@@ -32,6 +32,9 @@ const competitionSchema = z.object({
   preliminaryMatches: z.coerce.number().int().min(0).max(1000),
   semifinalMatches: z.coerce.number().int().min(0).max(1000),
   finalMatches: z.coerce.number().int().min(0).max(1000),
+  preliminaryAdvancing: z.coerce.number().int().min(0).max(200),
+  preliminaryDirectFinal: z.coerce.number().int().min(0).max(200),
+  semifinalAdvancing: z.coerce.number().int().min(0).max(200),
 });
 
 export async function createCompetitionAction(
@@ -59,6 +62,9 @@ export async function createCompetitionAction(
     preliminaryMatches: formData.get("preliminaryMatches") || 0,
     semifinalMatches: formData.get("semifinalMatches") || 0,
     finalMatches: formData.get("finalMatches") || 0,
+    preliminaryAdvancing: formData.get("preliminaryAdvancing") || 0,
+    preliminaryDirectFinal: formData.get("preliminaryDirectFinal") || 0,
+    semifinalAdvancing: formData.get("semifinalAdvancing") || 0,
   };
   const parsed = competitionSchema.safeParse(raw);
   if (!parsed.success) {
@@ -72,6 +78,10 @@ export async function createCompetitionAction(
   if (parsed.data.participants.length !== parsed.data.participantCount) {
     return { message: "参赛选手数量与报名人数不一致。" };
   }
+  if (parsed.data.format === "individual" && (
+    parsed.data.preliminaryAdvancing + parsed.data.preliminaryDirectFinal > parsed.data.participantCount
+    || parsed.data.semifinalAdvancing > parsed.data.participantCount
+  )) return { message: "晋级人数不能超过报名人数。" };
 
   const id = parsed.data.code.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const people = await listPeople();
@@ -94,10 +104,11 @@ export async function createCompetitionAction(
   const rankPoints = parsed.data.rankPoints as [number, number, number, number];
   const individualSettings: IndividualCompetitionSettings | undefined = parsed.data.format === "individual" ? {
     stages: {
-      preliminary: { matchCountPerPlayer: parsed.data.preliminaryMatches },
-      semifinal: { matchCountPerPlayer: parsed.data.semifinalMatches },
+      preliminary: { matchCountPerPlayer: parsed.data.preliminaryMatches, advancingPlayerCount: parsed.data.preliminaryAdvancing },
+      semifinal: { matchCountPerPlayer: parsed.data.semifinalMatches, advancingPlayerCount: parsed.data.semifinalAdvancing },
       final: { matchCountPerPlayer: parsed.data.finalMatches },
     },
+    preliminaryDirectFinalPlayerCount: parsed.data.preliminaryDirectFinal,
     pairingMode: "balanced_opponents",
   } : undefined;
   const competition: Competition = {

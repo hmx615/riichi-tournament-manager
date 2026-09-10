@@ -33,6 +33,9 @@ const schema = z.object({
   preliminaryMatches: z.coerce.number().int().min(0).max(1000),
   semifinalMatches: z.coerce.number().int().min(0).max(1000),
   finalMatches: z.coerce.number().int().min(0).max(1000),
+  preliminaryAdvancing: z.coerce.number().int().min(0).max(200),
+  preliminaryDirectFinal: z.coerce.number().int().min(0).max(200),
+  semifinalAdvancing: z.coerce.number().int().min(0).max(200),
 });
 
 async function saveCompetitionSettings(
@@ -60,6 +63,9 @@ async function saveCompetitionSettings(
     preliminaryMatches: formData.get("preliminaryMatches") || 0,
     semifinalMatches: formData.get("semifinalMatches") || 0,
     finalMatches: formData.get("finalMatches") || 0,
+    preliminaryAdvancing: formData.get("preliminaryAdvancing") || 0,
+    preliminaryDirectFinal: formData.get("preliminaryDirectFinal") || 0,
+    semifinalAdvancing: formData.get("semifinalAdvancing") || 0,
   });
   if (!parsed.success) return { status: "error", message: "请修正标红字段后再保存", fieldErrors: z.flattenError(parsed.error).fieldErrors, values: formValues(formData) };
   const competition = await getCompetition(parsed.data.competitionId);
@@ -69,6 +75,10 @@ async function saveCompetitionSettings(
   if (parsed.data.participantCount !== competition.participants.length || parsed.data.participants.length !== competition.participants.length) {
     return { status: "error", message: "报名人数创建后不能修改" };
   }
+  if (currentFormat === "individual" && (
+    parsed.data.preliminaryAdvancing + parsed.data.preliminaryDirectFinal > parsed.data.participantCount
+    || parsed.data.semifinalAdvancing > parsed.data.participantCount
+  )) return { status: "error", message: "晋级人数不能超过报名人数" };
   if (competition.matches.length && (
     competition.initialPoints !== parsed.data.initialPoints
     || competition.rankPoints.some((value, index) => value !== parsed.data.rankPoints[index])
@@ -91,10 +101,11 @@ async function saveCompetitionSettings(
   if (currentFormat === "individual") {
     competition.individualSettings = {
       stages: {
-        preliminary: { matchCountPerPlayer: parsed.data.preliminaryMatches },
-        semifinal: { matchCountPerPlayer: parsed.data.semifinalMatches },
+        preliminary: { matchCountPerPlayer: parsed.data.preliminaryMatches, advancingPlayerCount: parsed.data.preliminaryAdvancing },
+        semifinal: { matchCountPerPlayer: parsed.data.semifinalMatches, advancingPlayerCount: parsed.data.semifinalAdvancing },
         final: { matchCountPerPlayer: parsed.data.finalMatches },
       },
+      preliminaryDirectFinalPlayerCount: parsed.data.preliminaryDirectFinal,
       pairingMode: "balanced_opponents",
     };
   }

@@ -34,6 +34,9 @@ export function NewCompetitionForm({ people }: { people: Person[] }) {
             <label className="field"><span>初赛每人半庄数</span><input name="preliminaryMatches" type="number" min="0" defaultValue="4" required /></label>
             <label className="field"><span>半决赛每人半庄数</span><input name="semifinalMatches" type="number" min="0" defaultValue="0" required /></label>
             <label className="field"><span>决赛每人半庄数</span><input name="finalMatches" type="number" min="0" defaultValue="3" required /></label>
+            <label className="field"><span>初赛晋级半决赛人数</span><input name="preliminaryAdvancing" type="number" min="0" defaultValue="0" required /></label>
+            <label className="field"><span>初赛直通决赛人数</span><input name="preliminaryDirectFinal" type="number" min="0" defaultValue="0" required /></label>
+            <label className="field"><span>半决赛晋级决赛人数</span><input name="semifinalAdvancing" type="number" min="0" defaultValue="0" required /></label>
           </>}
         </div>
       </section>
