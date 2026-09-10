@@ -21,7 +21,7 @@ vi.mock("@/server/competition-repository", () => ({
 }));
 vi.mock("@/server/person-repository", () => ({ listPeople: mocks.listPeople }));
 
-import { deleteCompetitionAction, type DeleteCompetitionState } from "./actions";
+import { deleteCompetitionAction, saveCompetitionSettingsAction, type DeleteCompetitionState } from "./actions";
 
 const idle: DeleteCompetitionState = { status: "idle", message: "" };
 
@@ -30,6 +30,53 @@ function confirmation(value: string) {
   form.set("confirmation", value);
   return form;
 }
+
+function settingsForm() {
+  const form = new FormData();
+  form.set("competitionId", "test-cup");
+  form.set("name", "测试比赛");
+  form.set("format", "four_player");
+  form.set("participantCount", "4");
+  form.set("status", "active");
+  form.set("plannedMatchCount", "10");
+  form.set("initialPoints", "25000");
+  form.set("rankPoints", "30, 10, -10, -30");
+  for (let index = 0; index < 4; index += 1) {
+    form.set(`participantName${index}`, `选手${index + 1}`);
+    form.set(`participantPersonId${index}`, `person-${index + 1}`);
+    form.set(`participantUsernames${index}`, `user-${index + 1}`);
+    form.set(`participantColor${index}`, "#123456");
+  }
+  form.set("preliminaryMatches", "0");
+  form.set("semifinalMatches", "0");
+  form.set("finalMatches", "0");
+  return form;
+}
+
+it("saves settings without throwing a redirect sentinel", async () => {
+  vi.clearAllMocks();
+  mocks.isAdmin.mockResolvedValue(true);
+  mocks.getCompetition.mockResolvedValue({
+    id: "test-cup",
+    format: "four_player",
+    name: "旧名称",
+    status: "draft",
+    plannedMatchCount: 10,
+    initialPoints: 25000,
+    rankPoints: [30, 10, -10, -30],
+    participants: [1, 2, 3, 4].map((id) => ({ id: `seat-${id}`, personId: `person-${id}`, displayName: `选手${id}`, usernames: [`user-${id}`], color: "#123456", kind: "human" })),
+    matches: [],
+  });
+  mocks.listPeople.mockResolvedValue([1, 2, 3, 4].map((id) => ({ id: `person-${id}`, displayName: `选手${id}`, kind: "human" })));
+  mocks.updateCompetition.mockResolvedValue(undefined);
+
+  await expect(saveCompetitionSettingsAction({ status: "idle", message: "" }, settingsForm())).resolves.toMatchObject({
+    status: "success",
+    redirectTo: "/competitions/test-cup",
+  });
+  expect(mocks.redirect).not.toHaveBeenCalled();
+  expect(mocks.updateCompetition).toHaveBeenCalledTimes(1);
+});
 
 describe("delete competition action", () => {
   beforeEach(() => {
