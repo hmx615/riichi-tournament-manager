@@ -8,9 +8,10 @@ import type { Person, PersonAccount } from "@/domain/types";
 import { isValidPersonId } from "../../domain/person-id";
 import { isAdmin } from "@/server/auth";
 import { deleteAvatar, newAvatarKey, putAvatar } from "@/server/avatar-storage";
-import { createPerson, getPerson, updatePerson } from "@/server/person-repository";
+import { createPerson, deletePerson, getPerson, updatePerson } from "@/server/person-repository";
 
 export type PersonFormState = { status: "idle" | "error"; message: string; values?: Record<string, string> };
+export type DeletePersonState = { status: "idle" | "error"; message: string };
 function returnedValues(formData: FormData) { return Object.fromEntries([...formData.entries()].filter(([, value]) => typeof value === "string").map(([key, value]) => [key, value as string])); }
 
 const schema = z.object({
@@ -106,4 +107,27 @@ export async function savePersonAction(_state: PersonFormState, formData: FormDa
   revalidatePath(`/players/${encodedPersonId}`);
   revalidatePath(`/api/avatars/${encodedPersonId}`);
   redirect(`/players/${encodedPersonId}`);
+}
+
+export async function deletePersonAction(
+  personId: string,
+  _state: DeletePersonState,
+  formData: FormData,
+): Promise<DeletePersonState> {
+  if (!await isAdmin()) return { status: "error", message: "需要管理员登录" };
+  if (!isValidPersonId(personId)) return { status: "error", message: "人物 ID 格式无效" };
+  if (formData.get("confirmation") !== personId) return { status: "error", message: `请输入人物 ID ${personId} 确认删除` };
+  let person: Person;
+  try {
+    person = await deletePerson(personId);
+  } catch (error) {
+    return { status: "error", message: error instanceof Error ? error.message : "人物删除失败" };
+  }
+  if (person.avatarKey) await deleteAvatar(person.avatarKey).catch(() => {});
+  revalidatePath("/");
+  revalidatePath("/players");
+  const encodedPersonId = encodeURIComponent(personId);
+  revalidatePath(`/players/${encodedPersonId}`);
+  revalidatePath(`/api/avatars/${encodedPersonId}`);
+  redirect("/players");
 }

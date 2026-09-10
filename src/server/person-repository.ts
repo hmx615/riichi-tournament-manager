@@ -6,6 +6,7 @@ import type { Person } from "@/domain/types";
 import { personIdError } from "../domain/person-id";
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
+import { listCompetitions } from "@/server/competition-repository";
 
 const peopleFile = path.join(dataDirectory, "people.json");
 
@@ -91,4 +92,44 @@ export async function updatePerson(person: Person) {
   if (index < 0) throw new Error("人物不存在");
   people[index] = person;
   await writePeople(people);
+}
+
+export async function personCompetitions(id: string) {
+  validatePersonId(id);
+  return (await listCompetitions())
+    .filter((competition) => competition.participants.some((participant) => participant.personId === id))
+    .map(({ id, name }) => ({ id, name }));
+}
+
+export async function deletePerson(id: string): Promise<Person> {
+  validatePersonId(id);
+  const competitions = await personCompetitions(id);
+  if (competitions.length) {
+    throw new Error(`人物仍关联以下比赛，不能删除：${competitions.map((competition) => competition.name).join("、")}`);
+  }
+  if (usesD1Storage()) {
+    const db = await tournamentDatabase();
+    const current = await db.prepare("SELECT document, version FROM people WHERE id = ?")
+      .bind(id).first<{ document: string; version: number }>();
+    if (!current) throw new Error("人物不存在或已经删除");
+    // Recheck references in the DELETE statement in case a competition was updated after the initial check.
+    const result = await db.prepare(`
+      DELETE FROM people WHERE id = ? AND version = ? AND NOT EXISTS (
+        SELECT 1 FROM competitions, json_each(competitions.document, '$.participants') AS participant
+        WHERE json_extract(participant.value, '$.personId') = ?
+      )
+    `).bind(id, current.version, id).run();
+    if (!result.success || result.meta.changes !== 1) {
+      throw new Error("人物或关联比赛已被其他操作更新，请刷新后重试");
+    }
+    return parsePerson(current.document);
+  }
+  const people = await listPeople();
+  const person = people.find((item) => item.id === id);
+  if (!person) throw new Error("人物不存在或已经删除");
+  const backupDirectory = path.join(dataDirectory, "backups", "people");
+  await fs.mkdir(backupDirectory, { recursive: true });
+  await fs.writeFile(path.join(backupDirectory, `${crypto.randomUUID()}.json`), `${JSON.stringify(person, null, 2)}\n`, { flag: "wx" });
+  await writePeople(people.filter((item) => item.id !== id));
+  return person;
 }

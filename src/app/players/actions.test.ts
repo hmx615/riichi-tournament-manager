@@ -5,6 +5,7 @@ const mocks = vi.hoisted(() => ({
   createPerson: vi.fn(),
   getPerson: vi.fn(),
   updatePerson: vi.fn(),
+  deletePerson: vi.fn(),
   putAvatar: vi.fn(),
   deleteAvatar: vi.fn(),
   newAvatarKey: vi.fn(),
@@ -17,10 +18,10 @@ vi.mock("next/cache", () => ({ revalidatePath: mocks.revalidatePath }));
 vi.mock("next/navigation", () => ({ redirect: mocks.redirect }));
 vi.mock("@/domain/avatar", () => ({ maxAvatarBytes: 2 * 1024 * 1024, detectAvatarContentType: mocks.detectAvatarContentType }));
 vi.mock("@/server/auth", () => ({ isAdmin: mocks.isAdmin }));
-vi.mock("@/server/person-repository", () => ({ createPerson: mocks.createPerson, getPerson: mocks.getPerson, updatePerson: mocks.updatePerson }));
+vi.mock("@/server/person-repository", () => ({ createPerson: mocks.createPerson, getPerson: mocks.getPerson, updatePerson: mocks.updatePerson, deletePerson: mocks.deletePerson }));
 vi.mock("@/server/avatar-storage", () => ({ putAvatar: mocks.putAvatar, deleteAvatar: mocks.deleteAvatar, newAvatarKey: mocks.newAvatarKey }));
 
-import { savePersonAction, type PersonFormState } from "./actions";
+import { deletePersonAction, savePersonAction, type PersonFormState } from "./actions";
 
 const idle: PersonFormState = { status: "idle", message: "" };
 
@@ -108,5 +109,55 @@ describe("person actions", () => {
 
     expect(mocks.updatePerson).toHaveBeenCalledWith(expect.not.objectContaining({ avatarKey: expect.anything() }));
     expect(mocks.deleteAvatar).toHaveBeenCalledWith("people/new-player/old-avatar");
+  });
+});
+
+describe("delete person action", () => {
+  function confirmation(value: string) {
+    const form = new FormData();
+    form.set("confirmation", value);
+    return form;
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mocks.isAdmin.mockResolvedValue(true);
+    mocks.deletePerson.mockResolvedValue({ id: "明轩", avatarKey: "people/test/old-avatar" });
+    mocks.deleteAvatar.mockResolvedValue(undefined);
+  });
+
+  it("rejects visitors before deleting any data", async () => {
+    mocks.isAdmin.mockResolvedValue(false);
+    expect(await deletePersonAction("明轩", idle, confirmation("明轩"))).toMatchObject({ status: "error" });
+    expect(mocks.deletePerson).not.toHaveBeenCalled();
+    expect(mocks.deleteAvatar).not.toHaveBeenCalled();
+  });
+
+  it("requires a valid ID and exact confirmation", async () => {
+    expect(await deletePersonAction("../invalid", idle, confirmation("../invalid"))).toMatchObject({ status: "error" });
+    expect(await deletePersonAction("明轩", idle, confirmation("明轩 "))).toMatchObject({ status: "error" });
+    expect(mocks.deletePerson).not.toHaveBeenCalled();
+  });
+
+  it("deletes the person and avatar before redirecting outside error handling", async () => {
+    await expect(deletePersonAction("明轩", idle, confirmation("明轩"))).rejects.toThrow("NEXT_REDIRECT");
+    expect(mocks.deletePerson).toHaveBeenCalledWith("明轩");
+    expect(mocks.deleteAvatar).toHaveBeenCalledWith("people/test/old-avatar");
+    expect(mocks.revalidatePath).toHaveBeenCalledWith("/players");
+    expect(mocks.revalidatePath).toHaveBeenCalledWith(`/players/${encodeURIComponent("明轩")}`);
+    expect(mocks.redirect).toHaveBeenCalledWith("/players");
+  });
+
+  it("preserves the avatar when deletion is blocked or the person is missing", async () => {
+    mocks.deletePerson.mockRejectedValue(new Error("人物仍关联比赛"));
+    expect(await deletePersonAction("明轩", idle, confirmation("明轩"))).toEqual({ status: "error", message: "人物仍关联比赛" });
+    expect(mocks.deleteAvatar).not.toHaveBeenCalled();
+    expect(mocks.revalidatePath).not.toHaveBeenCalled();
+  });
+
+  it("does not report deletion failure when subsequent avatar cleanup fails", async () => {
+    mocks.deleteAvatar.mockRejectedValue(new Error("Storage unavailable"));
+    await expect(deletePersonAction("明轩", idle, confirmation("明轩"))).rejects.toThrow("NEXT_REDIRECT");
+    expect(mocks.redirect).toHaveBeenCalledWith("/players");
   });
 });
