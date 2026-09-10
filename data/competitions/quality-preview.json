@@ -1,0 +1,44 @@
+{
+  "id": "quality-preview",
+  "name": "四马献福视觉预览",
+  "code": "LOCAL-PREVIEW",
+  "status": "active",
+  "plannedMatchCount": 1,
+  "initialPoints": 25000,
+  "rankPoints": [30, 10, -10, -30],
+  "participants": [
+    { "id": "human-1", "displayName": "人类选手甲", "kind": "human", "color": "#168f83", "usernames": ["human-1"] },
+    { "id": "human-2", "displayName": "人类选手乙", "kind": "human", "color": "#d1495b", "usernames": ["human-2"] },
+    { "id": "ai-1", "displayName": "AI 选手甲", "kind": "ai", "color": "#6657c7", "usernames": ["ai-1"] },
+    { "id": "ai-2", "displayName": "AI 选手乙", "kind": "ai", "color": "#d58a18", "usernames": ["ai-2"] }
+  ],
+  "matches": [
+    {
+      "id": "quality-preview-1",
+      "matchNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-04T14:30:00+08:00",
+      "tenhouLogId": "quality-preview-log",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaRatings": [
+        { "participantId": "human-1", "model": "ニシキ", "rating": 85, "agreementRate": 0.7, "badMoveRate": 0.1, "decisionCount": 100 },
+        { "participantId": "human-1", "model": "カガシ", "rating": 84, "agreementRate": 0.7, "badMoveRate": 0.1, "decisionCount": 100 },
+        { "participantId": "human-2", "model": "ニシキ", "rating": 83, "agreementRate": 0.7, "badMoveRate": 0.1, "decisionCount": 100 },
+        { "participantId": "human-2", "model": "カガシ", "rating": 82, "agreementRate": 0.7, "badMoveRate": 0.1, "decisionCount": 100 },
+        { "participantId": "ai-1", "model": "ニシキ", "rating": 81, "agreementRate": 0.7, "badMoveRate": 0.1, "decisionCount": 100 },
+        { "participantId": "ai-1", "model": "カガシ", "rating": 80, "agreementRate": 0.7, "badMoveRate": 0.1, "decisionCount": 100 },
+        { "participantId": "ai-2", "model": "ニシキ", "rating": 79, "agreementRate": 0.7, "badMoveRate": 0.1, "decisionCount": 100 },
+        { "participantId": "ai-2", "model": "カガシ", "rating": 78, "agreementRate": 0.7, "badMoveRate": 0.1, "decisionCount": 100 }
+      ],
+      "seats": [
+        { "seat": 0, "participantId": "human-1", "sourceUsername": "human-1", "rawPoints": 40000, "rank": 1, "competitionPoints": 45, "assignmentSource": "manual" },
+        { "seat": 1, "participantId": "human-2", "sourceUsername": "human-2", "rawPoints": 30000, "rank": 2, "competitionPoints": 15, "assignmentSource": "manual" },
+        { "seat": 2, "participantId": "ai-1", "sourceUsername": "ai-1", "rawPoints": 20000, "rank": 3, "competitionPoints": -15, "assignmentSource": "manual" },
+        { "seat": 3, "participantId": "ai-2", "sourceUsername": "ai-2", "rawPoints": 10000, "rank": 4, "competitionPoints": -45, "assignmentSource": "manual" }
+      ],
+      "reviewNote": "仅用于本地四马献福视觉预览"
+    }
+  ]
+}

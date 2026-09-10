@@ -51,10 +51,12 @@ export default async function CompetitionsPage() {
     listPeople(),
     loadPersonEstimatedRanks(),
   ]);
-  const competition = storedCompetitions.find((item) => item.id === "1st-xrc") ?? fallbackCompetition;
+  const allCompetitions = storedCompetitions.length ? storedCompetitions : [fallbackCompetition];
+  const competitions = [...allCompetitions]
+    .sort((a, b) => (a.status === "completed" ? 1 : 0) - (b.status === "completed" ? 1 : 0) || completedMatches(b) - completedMatches(a));
+  const competition = competitions[0];
   const completed = competition.matches.filter((match) => match.status === "completed").length;
-  const otherCompetitions = storedCompetitions.filter((item) => item.id !== competition.id);
-  const competitions = [competition, ...otherCompetitions];
+  const otherCompetitions = competitions.filter((item) => item.id !== competition.id);
   const activeCompetitionCount = competitions.filter((item) => item.status === "active").length;
   const recordedMatchCount = competitions.reduce((sum, item) => sum + completedMatches(item), 0);
   const registeredPlayerCount = people.length;

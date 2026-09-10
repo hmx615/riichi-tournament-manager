@@ -14,3 +14,12 @@ export function personIdError(value: string) {
 export function isValidPersonId(value: string) {
   return personIdError(value) === null;
 }
+
+/** Dynamic route params are decoded by some Next.js runtimes and encoded by others. */
+export function decodePersonId(value: string) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}

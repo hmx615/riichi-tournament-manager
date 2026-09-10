@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { createAdminSessionToken, hashAdminPassword, verifyAdminPassword, verifyAdminSessionToken } from "./admin-auth";
+import {
+  createAdminSessionToken,
+  createTutorialSessionToken,
+  hashAdminPassword,
+  verifyAdminPassword,
+  verifyAdminSessionToken,
+  verifyTutorialSessionToken,
+} from "./admin-auth";
 
 describe("admin authentication", () => {
   it("hashes and verifies passwords without storing plaintext", async () => {
@@ -18,5 +25,13 @@ describe("admin authentication", () => {
     await expect(verifyAdminSessionToken(token, "a-secure-test-secret", now + 60_001)).resolves.toBe(false);
     await expect(verifyAdminSessionToken(`${token}x`, "a-secure-test-secret", now)).resolves.toBe(false);
     await expect(verifyAdminSessionToken(token, "another-secret", now)).resolves.toBe(false);
+  });
+
+  it("keeps tutorial reviewer identity in a signed session", async () => {
+    const now = 1_800_000_000_000;
+    const token = await createTutorialSessionToken("a-secure-test-secret", "hmx", now + 60_000);
+    await expect(verifyTutorialSessionToken(token, "a-secure-test-secret", now)).resolves.toBe("hmx");
+    await expect(verifyTutorialSessionToken(token, "a-secure-test-secret", now + 60_001)).resolves.toBeNull();
+    await expect(verifyTutorialSessionToken(`${token}x`, "a-secure-test-secret", now)).resolves.toBeNull();
   });
 });

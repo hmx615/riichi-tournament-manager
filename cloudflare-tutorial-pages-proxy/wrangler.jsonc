@@ -1,0 +1,13 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "xuanxuan-mahjong-cases",
+  "pages_build_output_dir": ".",
+  "compatibility_date": "2026-09-01",
+  "d1_databases": [
+    {
+      "binding": "TOURNAMENT_DB",
+      "database_name": "riichi-tournament-manager",
+      "database_id": "6e29a89a-e2cc-44b0-bf26-4bc293040278"
+    }
+  ]
+}

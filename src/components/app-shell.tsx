@@ -8,6 +8,7 @@ import type { ReactNode } from "react";
 import { logoutAction } from "@/app/login/actions";
 
 const selectedCompetitionKey = "xrc-selected-competition";
+const qualityVisualsKey = "xrc-quality-visuals";
 
 function competitionIdFromPath(pathname: string) {
   const competitionId = pathname.match(/^\/competitions\/([^/]+)/)?.[1];
@@ -17,7 +18,9 @@ function competitionIdFromPath(pathname: string) {
 export function AppShell({ children, admin }: { children: ReactNode; admin: boolean }) {
   const pathname = usePathname();
   const [competitionId, setCompetitionId] = useState("1st-xrc");
+  const [qualityVisuals, setQualityVisuals] = useState(true);
   useEffect(() => {
+    setQualityVisuals(window.localStorage.getItem(qualityVisualsKey) !== "off");
     const fromPath = competitionIdFromPath(pathname);
     if (fromPath) {
       setCompetitionId(fromPath);
@@ -35,8 +38,9 @@ export function AppShell({ children, admin }: { children: ReactNode; admin: bool
     { href: dataHref, label: "数据", icon: BarChart3, active: pathname.startsWith(dataHref) },
     { href: "/players", label: "人物", icon: Users, active: pathname.startsWith("/players") },
   ];
+  if (pathname.startsWith("/tutorials/")) return <>{children}</>;
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${qualityVisuals ? "" : "quality-visuals-off"}`}>
       <aside className="sidebar">
         <Link className="brand" href="/" aria-label="赛事管理首页">
           <span className="brand-mark">X</span>
@@ -55,7 +59,7 @@ export function AppShell({ children, admin }: { children: ReactNode; admin: bool
         <header className="topbar">
           <div><strong>立直麻将赛事控制台</strong></div>
           <div className="auth-controls">
-            <span className={`environment ${admin ? "admin-mode" : "viewer-mode"}`}>{admin ? "管理员模式" : "浏览模式"}</span>
+            <label className="quality-toggle"><input type="checkbox" checked={qualityVisuals} onChange={(event) => { const enabled = event.target.checked; setQualityVisuals(enabled); window.localStorage.setItem(qualityVisualsKey, enabled ? "on" : "off"); }} />显示金钻马</label><span className={`environment ${admin ? "admin-mode" : "viewer-mode"}`}>{admin ? "管理员模式" : "浏览模式"}</span>
             {admin ? <form action={logoutAction}><button className="topbar-action" type="submit"><LogOut size={15} />退出</button></form> : <Link className="topbar-action" href="/login"><LogIn size={15} />管理员登录</Link>}
           </div>
         </header>

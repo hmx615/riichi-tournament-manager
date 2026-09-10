@@ -1,0 +1,5 @@
+:global(.quality-visuals-off) .goldBadge,
+:global(.quality-visuals-off) .diamondBadge,
+:global(.quality-visuals-off) .horseBadge {
+  display: none !important;
+}

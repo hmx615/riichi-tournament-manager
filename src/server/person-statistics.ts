@@ -69,6 +69,10 @@ export type PersonStatistics = {
   matches: PersonMatchSummary[];
 };
 
+export function personRatingSeries(statistics: PersonStatistics, model = "ニシキ") {
+  return statistics.matches.map((match) => match.nagaRatings[model] ?? null);
+}
+
 function calculator() {
   return legacyStatsModule as LegacyStatsModule;
 }
@@ -89,8 +93,8 @@ function summarizeRatings(ratings: NagaRating[]): PersonRatingSummary[] {
 }
 
 function estimatedRankForPerson(person: Person, ratings: NagaRating[]): EstimatedRank | null {
-  if (person.kind === "human") return estimateRankByGame(ratings);
-  return ["mortal", "naga"].includes(person.id) ? "10+" : null;
+  if (["mortal", "naga"].includes(person.id)) return "10+";
+  return estimateRankByGame(ratings);
 }
 
 function compareMatchesNewestFirst(left: PersonMatchSummary, right: PersonMatchSummary) {

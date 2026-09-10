@@ -7,8 +7,10 @@ import { deleteCompetition, getCompetition, updateCompetition } from "@/server/c
 import { isAdmin } from "@/server/auth";
 import { listPeople } from "@/server/person-repository";
 import { hasDuplicateHumanParticipants } from "@/domain/participant-validation";
+import { isValidPersonId } from "../../../../domain/person-id";
 
-export type CompetitionSettingsState = { status: "idle" | "error"; message: string };
+export type CompetitionSettingsState = { status: "idle" | "error" | "success"; message: string; redirectTo?: string; fieldErrors?: Record<string, string[]>; values?: Record<string, string> };
+function formValues(formData: FormData) { return Object.fromEntries([...formData.entries()].filter(([, v]) => typeof v === "string").map(([k, v]) => [k, v as string])); }
 export type DeleteCompetitionState = { status: "idle" | "error"; message: string };
 
 const schema = z.object({
@@ -23,7 +25,7 @@ const schema = z.object({
     .refine((value) => value.length === 4 && value.every(Number.isFinite), "请填写四个顺位马点"),
   participants: z.array(z.object({
     displayName: z.string().trim().min(1).max(30),
-    personId: z.string().regex(/^[a-z0-9-]+$/),
+    personId: z.string().trim().min(1, "请选择人物身份").refine(isValidPersonId, "请选择人物身份"),
     usernames: z.string().transform((value) => value.split(/[,，\n]+/).map((item) => item.trim()).filter(Boolean))
       .refine((value) => value.length > 0, "每个参赛席位至少需要一个牌谱用户名"),
     color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
@@ -33,7 +35,7 @@ const schema = z.object({
   finalMatches: z.coerce.number().int().min(0).max(1000),
 });
 
-export async function saveCompetitionSettingsAction(
+async function saveCompetitionSettings(
   _state: CompetitionSettingsState,
   formData: FormData,
 ): Promise<CompetitionSettingsState> {
@@ -59,7 +61,7 @@ export async function saveCompetitionSettingsAction(
     semifinalMatches: formData.get("semifinalMatches") || 0,
     finalMatches: formData.get("finalMatches") || 0,
   });
-  if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message || "比赛设置格式无效" };
+  if (!parsed.success) return { status: "error", message: "请修正标红字段后再保存", fieldErrors: z.flattenError(parsed.error).fieldErrors, values: formValues(formData) };
   const competition = await getCompetition(parsed.data.competitionId);
   if (!competition) return { status: "error", message: "比赛不存在" };
   const currentFormat = competition.format || "four_player";
@@ -112,8 +114,9 @@ export async function saveCompetitionSettingsAction(
   revalidatePath("/");
   revalidatePath(`/competitions/${competition.id}`);
   revalidatePath(`/competitions/${competition.id}/data`);
-  redirect(`/competitions/${competition.id}`);
+  return { status: "success", message: "保存成功", redirectTo: `/competitions/${competition.id}` };
 }
+export const saveCompetitionSettingsAction = saveCompetitionSettings;
 
 export async function deleteCompetitionAction(
   competitionId: string,

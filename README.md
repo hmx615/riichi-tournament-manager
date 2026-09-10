@@ -18,6 +18,15 @@ npm run import:legacy
 npm run dev
 ```
 
+一向听教程牌例筛选入口为 `/tutorials/one-shanten`。候选牌例从相邻的教程目录导入，筛选账号密码以哈希形式保存在环境配置中：
+
+```bash
+npm run tutorial:import
+TUTORIAL_HMX_PASSWORD='<password>' TUTORIAL_PHQ_PASSWORD='<password>' TUTORIAL_EZY_PASSWORD='<password>' TUTORIAL_WDJ_PASSWORD='<password>' npm run tutorial:credentials
+```
+
+本地筛选状态保存在 `data/tutorial-case-states.json`，正式环境保存在 D1。若确实需要本地 Cloudflare 模拟器，可设置 `CLOUDFLARE_DEV=true`；当前机器因 glibc 版本限制默认不启动 Workerd。
+
 首次启用管理员模式时运行：
 
 ```bash

@@ -5,11 +5,12 @@ import { PersonDataOverview } from "@/components/person-data-overview";
 import { PersonAvatar } from "@/components/person-avatar";
 import { isAdmin } from "@/server/auth";
 import { loadAllPersonStatistics } from "@/server/person-statistics";
+import { decodePersonId } from "@/domain/person-id";
 
 export default async function PersonPage({ params }: { params: Promise<{ personId: string }> }) {
   const { personId } = await params;
   const [admin, allStatistics] = await Promise.all([isAdmin(), loadAllPersonStatistics()]);
-  const statistics = allStatistics[personId];
+  const statistics = allStatistics[decodePersonId(personId)];
   if (!statistics) notFound();
   const { person } = statistics;
   return <div className="page person-page">

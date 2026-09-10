@@ -63,3 +63,33 @@ export async function verifyAdminSessionToken(token: string, secret: string, now
     return false;
   }
 }
+
+export async function createTutorialSessionToken(secret: string, reviewerId: string, expiresAt: number) {
+  const payload = encodeBase64Url(new TextEncoder().encode(JSON.stringify({
+    version: 1,
+    role: "tutorial-reviewer",
+    reviewerId,
+    expiresAt,
+  })));
+  const signature = encodeBase64Url(await hmac(secret, payload));
+  return `${payload}.${signature}`;
+}
+
+export async function verifyTutorialSessionToken(token: string, secret: string, now = Date.now()) {
+  const [payload, signature, extra] = token.split(".");
+  if (!payload || !signature || extra) return null;
+  try {
+    if (!safeEqual(decodeBase64Url(signature), await hmac(secret, payload))) return null;
+    const data = JSON.parse(new TextDecoder().decode(decodeBase64Url(payload))) as Record<string, unknown>;
+    if (
+      data.version !== 1
+      || data.role !== "tutorial-reviewer"
+      || typeof data.reviewerId !== "string"
+      || typeof data.expiresAt !== "number"
+      || data.expiresAt <= now
+    ) return null;
+    return data.reviewerId;
+  } catch {
+    return null;
+  }
+}

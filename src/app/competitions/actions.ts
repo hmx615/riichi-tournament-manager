@@ -8,12 +8,13 @@ import { isAdmin } from "@/server/auth";
 import type { Competition, IndividualCompetitionSettings, Participant } from "@/domain/types";
 import { listPeople } from "@/server/person-repository";
 import { hasDuplicateHumanParticipants } from "@/domain/participant-validation";
+import { isValidPersonId } from "@/domain/person-id";
 
-export type CreateCompetitionState = { message: string; fieldErrors?: Record<string, string[]> };
+export type CreateCompetitionState = { message: string; fieldErrors?: Record<string, string[]>; values?: Record<string, string> };
 
 const participantSchema = z.object({
   displayName: z.string().trim().min(1, "请填写显示名称").max(30),
-  personId: z.string().regex(/^[a-z0-9-]+$/, "请选择人物身份"),
+  personId: z.string().trim().min(1, "请选择人物身份").refine(isValidPersonId, "请选择人物身份"),
   username: z.string().trim().min(1, "请填写牌谱用户名").max(50),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "颜色格式无效"),
 });
@@ -61,7 +62,8 @@ export async function createCompetitionAction(
   };
   const parsed = competitionSchema.safeParse(raw);
   if (!parsed.success) {
-    return { message: "请检查表单中的必填项。", fieldErrors: z.flattenError(parsed.error).fieldErrors };
+    const values = Object.fromEntries([...formData.entries()].filter(([, value]) => typeof value === "string").map(([key, value]) => [key, value as string]));
+    return { message: "请检查表单中的必填项。", fieldErrors: z.flattenError(parsed.error).fieldErrors, values };
   }
 
   if (parsed.data.format === "four_player" && parsed.data.participantCount !== 4) {

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const admin = await isAdmin();
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" data-scroll-behavior="smooth">
       <body><AppShell admin={admin}>{children}</AppShell></body>
     </html>
   );

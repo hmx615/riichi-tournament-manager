@@ -1,9 +1,14 @@
 const upstreamOrigin = "https://riichi-tournament-manager.hmx-mahjong.workers.dev";
 const upstreamHost = new URL(upstreamOrigin).host;
+const tutorialOrigin = "https://xuanxuan-mahjong-cases.pages.dev";
 
 export default {
   async fetch(request) {
     const publicUrl = new URL(request.url);
+    if ((request.method === "GET" || request.method === "HEAD")
+        && (publicUrl.pathname === "/tutorials" || publicUrl.pathname.startsWith("/tutorials/"))) {
+      return Response.redirect(new URL(`${publicUrl.pathname}${publicUrl.search}`, tutorialOrigin), 302);
+    }
     const upstreamUrl = new URL(`${publicUrl.pathname}${publicUrl.search}`, upstreamOrigin);
     const headers = new Headers(request.headers);
     const origin = headers.get("origin");

@@ -270,3 +270,20 @@
     gap: 8px;
   }
 }
+:global(.quality-visuals-off) .goldBadge,
+:global(.quality-visuals-off) .diamondBadge,
+:global(.quality-visuals-off) .horseBadge,
+:global(.quality-visuals-off) .playerDiamond,
+:global(.quality-visuals-off) .playerGold,
+:global(.quality-visuals-off) .playerHorse {
+  display: none !important;
+}
+:global(.quality-visuals-off) .goldRow,
+:global(.quality-visuals-off) .diamondRow,
+:global(.quality-visuals-off) .horseRow {
+  background: transparent !important;
+  background-image: none !important;
+  color: inherit !important;
+  border-color: inherit !important;
+  text-shadow: none !important;
+}

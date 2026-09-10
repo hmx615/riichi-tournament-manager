@@ -9,6 +9,9 @@
     "cf:preview": "npm run cf:build && opennextjs-cloudflare preview",
     "cf:deploy": "npm run cf:build && wrangler deploy --autoconfig=false",
     "cf:deploy:pages": "wrangler pages deploy cloudflare-pages-proxy --project-name riichi-tournament-manager --branch main --commit-dirty=true",
+    "cf:deploy:tutorial-worker": "wrangler deploy --config wrangler.tutorial.jsonc --autoconfig=false",
+    "tutorial-spa:build": "vite build --config vite.tutorial.config.ts",
+    "cf:deploy:tutorial-pages": "npm run tutorial-spa:build && wrangler pages deploy --cwd cloudflare-tutorial-pages-proxy --branch main --commit-dirty=true",
     "cf:types": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "cf:seed:build": "node scripts/build-d1-seed.mjs",
     "cf:db:local": "wrangler d1 migrations apply riichi-tournament-manager --local",
@@ -19,7 +22,9 @@
     "import:legacy": "node scripts/import-legacy-xrc.mjs",
     "backfill:naga-ratings": "vite-node scripts/backfill-naga-ratings.ts",
     "audit:excel": "node scripts/audit-xrc-excel.mjs",
-    "admin:credentials": "vite-node scripts/generate-admin-credentials.ts"
+    "admin:credentials": "vite-node scripts/generate-admin-credentials.ts",
+    "tutorial:import": "node scripts/import-tutorial-cases.mjs",
+    "tutorial:credentials": "vite-node scripts/configure-tutorial-credentials.ts"
   },
   "dependencies": {
     "lucide-react": "1.34.0",
@@ -34,7 +39,9 @@
     "@types/node": "^22.15.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.1.4",
     "typescript": "^5.9.3",
+    "vite": "^7.3.6",
     "vitest": "3.2.4",
     "wrangler": "^4.127.1"
   }

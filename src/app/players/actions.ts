@@ -10,7 +10,8 @@ import { isAdmin } from "@/server/auth";
 import { deleteAvatar, newAvatarKey, putAvatar } from "@/server/avatar-storage";
 import { createPerson, getPerson, updatePerson } from "@/server/person-repository";
 
-export type PersonFormState = { status: "idle" | "error"; message: string };
+export type PersonFormState = { status: "idle" | "error"; message: string; values?: Record<string, string> };
+function returnedValues(formData: FormData) { return Object.fromEntries([...formData.entries()].filter(([, value]) => typeof value === "string").map(([key, value]) => [key, value as string])); }
 
 const schema = z.object({
   mode: z.enum(["create", "edit"]),
@@ -55,7 +56,7 @@ export async function savePersonAction(_state: PersonFormState, formData: FormDa
     majsoulAccounts: formData.get("majsoulAccounts"),
     otherAccounts: formData.get("otherAccounts"),
   });
-  if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message || "人物数据格式无效" };
+  if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message || "人物数据格式无效", values: returnedValues(formData) };
   if (parsed.data.mode === "edit" && parsed.data.originalId !== parsed.data.id) return { status: "error", message: "人物 ID 不允许修改" };
   const current = parsed.data.mode === "edit" ? await getPerson(parsed.data.id) : null;
   if (parsed.data.mode === "edit" && !current) return { status: "error", message: "人物不存在" };
