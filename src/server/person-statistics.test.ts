@@ -12,7 +12,9 @@ vi.mock("@/server/competition-repository", () => ({ listCompetitions: mocks.list
 vi.mock("@/server/person-repository", () => ({ listPeople: mocks.listPeople }));
 vi.mock("@/server/tenhou", () => ({ readCachedLogs: mocks.readCachedLogs }));
 
-import { computeAllPersonStatistics } from "./person-statistics";
+import { computeAllPersonStatistics, computePersonEstimatedRanks } from "./person-statistics";
+import { formatEstimatedRank } from "../domain/estimated-rank";
+import { assessMatchLevel } from "../domain/match-level";
 
 const people: Person[] = ["hmx", "p2", "p3", "p4"].map((id) => ({
   id,
@@ -73,6 +75,19 @@ function competition(id: string, matchNumber: number): Competition {
 }
 
 describe("person statistics", () => {
+  it.each(["NAGA守备型", "naga-守备型", "NAGA副露型", "版本 NaGa 2"])("fixes %s at displayed 10+ and calculated 10 without games", async (displayName) => {
+    const person: Person = { ...people[0], id: "new-version", displayName, kind: "ai" };
+    mocks.readCachedLogs.mockResolvedValue(new Map());
+    const result = await computeAllPersonStatistics([person], []);
+    expect(formatEstimatedRank(result[person.id].estimatedRank)).toBe("10+段");
+    const ranks = computePersonEstimatedRanks([person], []);
+    expect(assessMatchLevel([ranks[person.id], 6, 6, 6])?.averageRank).toBe(7);
+  });
+
+  it("keeps ordinary people on measured ratings even if an alias contains NAGA", () => {
+    expect(computePersonEstimatedRanks([{ ...people[0], aliases: ["NAGA fan"] }], []).hmx).toBeNull();
+  });
+
   it("merges the same person across competitions", async () => {
     const competitions = [competition("cup-a", 1), competition("cup-b", 2)];
     mocks.readCachedLogs.mockResolvedValue(new Map(competitions.map((item) => [item.matches[0].tenhouLogId, {

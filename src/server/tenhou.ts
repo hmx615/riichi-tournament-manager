@@ -2,7 +2,9 @@ import "server-only";
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Competition } from "@/domain/types";
+import type { Competition, PersonAccount } from "@/domain/types";
+import { inferParticipantId } from "@/domain/participant-matching";
+import { listPeople } from "@/server/person-repository";
 import { normalizeMajsoulJson } from "@/domain/majsoul-json";
 import { calculateNagaRatings, type SeatNagaRating } from "@/domain/naga-rating";
 import { normalizeNagaCustomLog } from "@/domain/naga-custom-log";
@@ -25,6 +27,7 @@ export type TenhouLog = {
 export type MatchPreview = {
   sourceUrl: string;
   sourceType: "tenhou" | "naga" | "majsoul";
+  accountPlatform: PersonAccount["platform"] | null;
   logId: string;
   contentFingerprint: string;
   tenhouUrl: string;
@@ -210,16 +213,6 @@ function playedAtFromLogId(logId: string) {
   return `${match[1]}-${match[2]}-${match[3]}T${match[4]}:00:00+08:00`;
 }
 
-function inferParticipantId(competition: Competition, username: string) {
-  const exact = competition.participants.filter((participant) => participant.usernames.includes(username));
-  if (exact.length === 1) return exact[0].id;
-  if (exact.length > 1) return null;
-  const naga = competition.participants.filter((participant) => participant.id.toLowerCase() === "naga" && /naga/i.test(username));
-  if (naga.length === 1) return naga[0].id;
-  const mortal = competition.participants.filter((participant) => participant.id.toLowerCase() === "mortal" && username === "NoName");
-  return mortal.length === 1 ? mortal[0].id : null;
-}
-
 async function previewFromLog({
   sourceUrl,
   sourceType,
@@ -236,12 +229,15 @@ async function previewFromLog({
   nagaRatings?: SeatNagaRating[];
 }): Promise<MatchPreview> {
   const isTenhouLog = /^\d{10}gm-[0-9a-f]+-\d+-[0-9a-f]+$/i.test(log.ref);
+  const accountPlatform = log.sourcePlatform === "majsoul" ? "majsoul" : isTenhouLog ? "tenhou" : null;
+  const people = await listPeople();
   const rawPoints = [log.sc[0], log.sc[2], log.sc[4], log.sc[6]].map(Number);
   const ranks = ranksFromRawPoints(rawPoints);
   const points = calculateCompetitionPoints(rawPoints, competition.initialPoints, competition.rankPoints);
   return {
     sourceUrl,
     sourceType,
+    accountPlatform,
     logId: log.ref,
     contentFingerprint: await matchContentFingerprint(log.log),
     tenhouUrl: isTenhouLog ? `https://tenhou.net/3/?log=${log.ref}` : "",
@@ -255,7 +251,7 @@ async function previewFromLog({
       rawPoints: rawPoints[seat],
       rank: ranks[seat],
       competitionPoints: points[seat],
-      participantId: inferParticipantId(competition, sourceUsername),
+      participantId: inferParticipantId(competition, sourceUsername, people, accountPlatform),
     })),
   };
 }

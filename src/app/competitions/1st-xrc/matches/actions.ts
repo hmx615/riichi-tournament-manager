@@ -8,6 +8,7 @@ import { matchContentFingerprint } from "@/domain/tenhou-log-normalizer";
 import { appendMatch, getCompetition, listCompetitions, supplementMatchNagaAnalysis } from "@/server/competition-repository";
 import { parseCachedMajsoulSource, parseMajsoulJsonSource, parseMatchSource, readCachedLogs, type MatchPreview } from "@/server/tenhou";
 import { isAdmin } from "@/server/auth";
+import { rememberPersonAccounts, type ConfirmedPersonAccount } from "@/server/person-repository";
 
 export type MatchEntryState = {
   status: "idle" | "success" | "error";
@@ -144,6 +145,7 @@ export async function saveMatchAction(_state: MatchEntryState, formData: FormDat
   if (!competitionId.success) return initialError(competitionId.error.issues[0]?.message || "比赛 ID 格式无效");
   const competition = await getCompetition(competitionId.data);
   if (!competition) return initialError("比赛数据不存在");
+  let confirmedAccounts: ConfirmedPersonAccount[] = [];
   try {
     const preview = await previewFromForm(formData, competition);
     const recorded = await findRecordedMatch(preview);
@@ -198,12 +200,26 @@ export async function saveMatchAction(_state: MatchEntryState, formData: FormDat
         reviewNote: null,
       };
       await appendMatch(competition.id, match);
+      if (preview.accountPlatform) {
+        confirmedAccounts = match.seats.flatMap((seat) => {
+          const personId = participantById.get(seat.participantId)?.personId;
+          return personId ? [{ personId, account: { platform: preview.accountPlatform!, username: seat.sourceUsername } }] : [];
+        });
+      }
     }
   } catch (error) {
     return initialError(error instanceof Error ? error.message : "牌谱保存失败");
   }
+  let accountWarning = "";
+  try {
+    if (confirmedAccounts.length) await rememberPersonAccounts(confirmedAccounts);
+  } catch {
+    accountWarning = "牌谱已录入，但平台账号保存失败，请到人物设置补充账号。";
+  }
   revalidatePath("/");
   revalidatePath(`/competitions/${competition.id}`);
   revalidatePath(`/competitions/${competition.id}/data`);
+  if (confirmedAccounts.length) revalidatePath("/players", "layout");
+  if (accountWarning) return { status: "success", message: accountWarning, preview: null, operation: null, targetMatchNumber: null };
   redirect(`/competitions/${competition.id}`);
 }

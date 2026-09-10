@@ -13,6 +13,7 @@ const mocks = vi.hoisted(() => ({
   readCachedLogs: vi.fn(),
   matchContentFingerprint: vi.fn(),
   isAdmin: vi.fn(),
+  rememberPersonAccounts: vi.fn(),
   revalidatePath: vi.fn(),
   redirect: vi.fn(() => { throw new Error("NEXT_REDIRECT"); }),
 }));
@@ -34,6 +35,7 @@ vi.mock("@/server/tenhou", () => ({
   readCachedLogs: mocks.readCachedLogs,
 }));
 vi.mock("@/server/auth", () => ({ isAdmin: mocks.isAdmin }));
+vi.mock("@/server/person-repository", () => ({ rememberPersonAccounts: mocks.rememberPersonAccounts }));
 
 import { parseMatchAction, saveMatchAction, type MatchEntryState } from "./actions";
 
@@ -78,6 +80,7 @@ const competition: Competition = {
 const preview: MatchPreview = {
   sourceUrl: "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=reportv2_2",
   sourceType: "naga",
+  accountPlatform: "tenhou",
   logId: competition.matches[0].tenhouLogId,
   contentFingerprint: "match-fingerprint",
   tenhouUrl: competition.matches[0].tenhouUrl,
@@ -113,6 +116,8 @@ describe("saveMatchAction", () => {
     mocks.matchContentFingerprint.mockResolvedValue("different-fingerprint");
     mocks.isAdmin.mockResolvedValue(true);
     mocks.supplementMatchNagaAnalysis.mockResolvedValue(undefined);
+    mocks.appendMatch.mockResolvedValue(undefined);
+    mocks.rememberPersonAccounts.mockResolvedValue(undefined);
   });
 
   it("lets Next.js handle the redirect after a successful NAGA supplement", async () => {
@@ -159,6 +164,7 @@ describe("saveMatchAction", () => {
     expect(mocks.parseMatchSource).not.toHaveBeenCalled();
     expect(mocks.appendMatch).not.toHaveBeenCalled();
     expect(mocks.supplementMatchNagaAnalysis).not.toHaveBeenCalled();
+    expect(mocks.rememberPersonAccounts).not.toHaveBeenCalled();
   });
 
   it("parses an uploaded Majsoul JSON file", async () => {
@@ -293,5 +299,59 @@ describe("saveMatchAction", () => {
     expect(state.status).toBe("error");
     expect(state.message).toBe("该牌谱已录入第 1 场且已有 NAGA 分析，无需补充 JSON");
     expect(mocks.appendMatch).not.toHaveBeenCalled();
+  });
+
+  it("remembers confirmed Majsoul usernames only after the match has been saved", async () => {
+    const registered = { ...competition, participants: participants.map((participant) => ({ ...participant, personId: `person-${participant.id}` })), matches: [] };
+    const majsoul = { ...preview, accountPlatform: "majsoul" as const, sourceType: "majsoul" as const,
+      seats: preview.seats.map((seat) => ({ ...seat, participantId: null, sourceUsername: `雀魂${seat.seat}` })) };
+    mocks.getCompetition.mockResolvedValue(registered);
+    mocks.listCompetitions.mockResolvedValue([]);
+    mocks.parseMajsoulJsonSource.mockResolvedValue(majsoul);
+    const form = new FormData();
+    form.set("competitionId", competition.id);
+    form.set("sourceKind", "majsoul_json");
+    form.set("majsoulJsonText", "{}");
+    participants.forEach((participant, seat) => form.set(`participant${seat}`, participant.id));
+    await parseMatchAction(idleState, form);
+    expect(mocks.rememberPersonAccounts).not.toHaveBeenCalled();
+    await expect(saveMatchAction(idleState, form)).rejects.toThrow("NEXT_REDIRECT");
+    expect(mocks.rememberPersonAccounts).toHaveBeenCalledWith(participants.map((participant, seat) => ({
+      personId: `person-${participant.id}`, account: { platform: "majsoul", username: `雀魂${seat}` },
+    })));
+    expect(mocks.appendMatch.mock.invocationCallOrder[0]).toBeLessThan(mocks.rememberPersonAccounts.mock.invocationCallOrder[0]);
+
+    mocks.appendMatch.mockRejectedValue(new Error("保存失败"));
+    mocks.rememberPersonAccounts.mockClear();
+    expect((await saveMatchAction(idleState, form)).status).toBe("error");
+    expect(mocks.rememberPersonAccounts).not.toHaveBeenCalled();
+  });
+
+  it("reports an account write failure as a saved match, preventing duplicate resubmission", async () => {
+    mocks.listCompetitions.mockResolvedValue([]);
+    mocks.getCompetition.mockResolvedValue({ ...competition, participants: participants.map((participant) => ({ ...participant, personId: `person-${participant.id}` })) });
+    mocks.rememberPersonAccounts.mockRejectedValue(new Error("Database unavailable"));
+    const form = new FormData();
+    form.set("competitionId", competition.id);
+    form.set("sourceUrl", preview.sourceUrl);
+    participants.forEach((participant, seat) => form.set(`participant${seat}`, participant.id));
+    const state = await saveMatchAction(idleState, form);
+    expect(state.status).toBe("success");
+    expect(state.message).toContain("牌谱已录入");
+    expect(mocks.appendMatch).toHaveBeenCalledOnce();
+    expect(mocks.redirect).not.toHaveBeenCalled();
+  });
+
+  it("does not remember an unknown-platform NAGA custom report as a Tenhou account", async () => {
+    mocks.listCompetitions.mockResolvedValue([]);
+    mocks.getCompetition.mockResolvedValue({ ...competition, participants: participants.map((participant) => ({ ...participant, personId: `person-${participant.id}` })) });
+    mocks.parseMatchSource.mockResolvedValue({ ...preview, accountPlatform: null, logId: "naga-custom-0123456789abcdef0123456789abcdef" });
+    const form = new FormData();
+    form.set("competitionId", competition.id);
+    form.set("sourceUrl", preview.sourceUrl);
+    participants.forEach((participant, seat) => form.set(`participant${seat}`, participant.id));
+    await expect(saveMatchAction(idleState, form)).rejects.toThrow("NEXT_REDIRECT");
+    expect(mocks.appendMatch).toHaveBeenCalledOnce();
+    expect(mocks.rememberPersonAccounts).not.toHaveBeenCalled();
   });
 });

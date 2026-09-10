@@ -8,6 +8,7 @@ import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
 import { assessMatchQuality, type PlayerQuality } from "../domain/match-quality";
 import { estimateRankByGame, type EstimatedRank } from "../domain/estimated-rank";
 import { summarizeNagaMetrics } from "../domain/naga-summary";
+import { isNagaName } from "../domain/participant-matching";
 // @ts-expect-error The fixed legacy calculator is CommonJS and has no type declarations.
 import legacyStatsModule from "../../reference/1st-xrc-29/mrc_stats.js";
 
@@ -93,7 +94,7 @@ function summarizeRatings(ratings: NagaRating[]): PersonRatingSummary[] {
 }
 
 function estimatedRankForPerson(person: Person, ratings: NagaRating[]): EstimatedRank | null {
-  if (["mortal", "naga"].includes(person.id)) return "10+";
+  if (["mortal", "naga"].includes(person.id) || isNagaName(person.displayName)) return "10+";
   return estimateRankByGame(ratings);
 }
 

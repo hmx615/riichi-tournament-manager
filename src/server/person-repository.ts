@@ -2,7 +2,7 @@ import "server-only";
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Person } from "@/domain/types";
+import type { Person, PersonAccount } from "@/domain/types";
 import { personIdError } from "../domain/person-id";
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
@@ -92,6 +92,45 @@ export async function updatePerson(person: Person) {
   if (index < 0) throw new Error("人物不存在");
   people[index] = person;
   await writePeople(people);
+}
+
+export type ConfirmedPersonAccount = { personId: string; account: PersonAccount };
+
+export async function rememberPersonAccounts(mappings: ConfirmedPersonAccount[]) {
+  const unique = [...new Map(mappings.map((mapping) => [JSON.stringify([mapping.personId, mapping.account]), mapping])).values()];
+  if (!unique.length) return;
+  for (const { personId, account } of unique) {
+    validatePersonId(personId);
+    if (!account.username || !["tenhou", "majsoul", "other"].includes(account.platform)) throw new Error("平台账号无效");
+  }
+  if (usesD1Storage()) {
+    const db = await tournamentDatabase();
+    // Append to the current JSON document so concurrent profile edits are not overwritten.
+    const results = await db.batch(unique.map(({ personId, account }) => db.prepare(`
+      UPDATE people SET document = json_insert(document, '$.accounts[#]', json(?)),
+        version = version + 1, updated_at = ?
+      WHERE id = ? AND NOT EXISTS (
+        SELECT 1 FROM json_each(people.document, '$.accounts') AS account
+        WHERE json_extract(account.value, '$.platform') = ? AND json_extract(account.value, '$.username') = ?
+      )
+    `).bind(JSON.stringify(account), new Date().toISOString(), personId, account.platform, account.username)));
+    if (results.some((result) => !result.success)) throw new Error("平台账号保存失败");
+    for (const { personId } of unique) {
+      if (!await getPerson(personId)) throw new Error("参赛人物不存在，请检查人物档案");
+    }
+    return;
+  }
+  const people = await listPeople();
+  let changed = false;
+  for (const { personId, account } of unique) {
+    const person = people.find((item) => item.id === personId);
+    if (!person) throw new Error("参赛人物不存在，请检查人物档案");
+    if (!person.accounts.some((item) => item.platform === account.platform && item.username === account.username)) {
+      person.accounts.push(account);
+      changed = true;
+    }
+  }
+  if (changed) await writePeople(people);
 }
 
 export async function personCompetitions(id: string) {

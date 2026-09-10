@@ -23,7 +23,7 @@ export function MatchEntryForm({ competition }: { competition: Competition }) {
   const preview = previewMatchesSource ? parsedPreview : null;
   const supplementing = parseState.operation === "supplement_naga";
   const targetMatch = supplementing ? competition.matches.find((match) => match.matchNumber === parseState.targetMatchNumber) : null;
-  const message = saveState.status === "error" ? saveState : parseState;
+  const message = saveState.status !== "idle" ? saveState : parseState;
 
   return (
     <form className="form-layout" action={parseAction}>
@@ -77,7 +77,7 @@ export function MatchEntryForm({ competition }: { competition: Competition }) {
           })}
         </div>
       </section>
-      <div className="form-actions"><Link className="button" href={`/competitions/${competition.id}`}>取消</Link><button className="button primary" type="submit" formAction={saveAction} disabled={!preview || parsing || saving}><CheckCircle2 size={17} />{saving ? "正在保存" : supplementing ? "确认补充 NAGA" : "确认录入并计算"}</button></div>
+      <div className="form-actions"><Link className="button" href={`/competitions/${competition.id}`}>{saveState.status === "success" ? "返回比赛" : "取消"}</Link><button className="button primary" type="submit" formAction={saveAction} disabled={!preview || parsing || saving || saveState.status === "success"}><CheckCircle2 size={17} />{saving ? "正在保存" : supplementing ? "确认补充 NAGA" : "确认录入并计算"}</button></div>
     </form>
   );
 }

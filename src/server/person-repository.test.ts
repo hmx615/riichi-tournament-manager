@@ -55,6 +55,25 @@ describe("person deletion storage", () => {
     expect(await repository.listPeople()).toEqual([person, otherPerson]);
   });
 
+  it("merges confirmed accounts by platform without duplication or removing profile data", async () => {
+    const repository = await import("./person-repository");
+    const majsoul = { personId: person.id, account: { platform: "majsoul" as const, username: "新昵称" } };
+    const tenhou = { personId: person.id, account: { platform: "tenhou" as const, username: "新昵称" } };
+    await repository.rememberPersonAccounts([majsoul, majsoul]);
+    await repository.rememberPersonAccounts([majsoul, tenhou]);
+    expect(await repository.getPerson(person.id)).toEqual({ ...person, accounts: [majsoul.account, tenhou.account] });
+    expect(await repository.getPerson(otherPerson.id)).toEqual(otherPerson);
+  });
+
+  it("does not modify the local people file when a confirmed person is missing", async () => {
+    const repository = await import("./person-repository");
+    await expect(repository.rememberPersonAccounts([
+      { personId: person.id, account: { platform: "majsoul", username: "valid" } },
+      { personId: "missing", account: { platform: "majsoul", username: "invalid" } },
+    ])).rejects.toThrow("参赛人物不存在");
+    expect(await repository.listPeople()).toEqual([person, otherPerson]);
+  });
+
   it.each([0, 1])("checks the D1 conditional deletion result (%i changed rows)", async (changes) => {
     mocks.usesD1Storage.mockReturnValue(true);
     const statement = {
