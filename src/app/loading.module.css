@@ -1,0 +1,29 @@
+.bar {
+  background: linear-gradient(90deg, #eef1f2 0%, #e3e7e9 50%, #eef1f2 100%);
+  background-size: 200% 100%;
+  border-radius: 3px;
+  display: block;
+  animation: loading-shimmer 1.4s ease-in-out infinite;
+}
+
+.eyebrow { width: 92px; height: 11px; margin-bottom: 11px; }
+.title { width: 216px; height: 26px; }
+.action { width: 124px; height: 32px; }
+.label { width: 62px; height: 11px; }
+.value { width: 98px; height: 22px; margin-top: 9px; }
+.heading { width: 138px; height: 16px; margin-bottom: 18px; }
+
+.stack { display: grid; }
+.rows { display: grid; gap: 10px; }
+.row { height: 34px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.cell { height: 78px; }
+
+@keyframes loading-shimmer {
+  0% { background-position: 0 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { animation: none; }
+}
