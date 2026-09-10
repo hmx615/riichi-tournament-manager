@@ -5,6 +5,7 @@ import type { PlayerSummary } from "@/server/competition-statistics";
 import { listCompetitions } from "@/server/competition-repository";
 import { listPeople } from "@/server/person-repository";
 import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
+import { riichiWaitSamples, summarizeRiichiWaitSamples, type RiichiWaitSample } from "../domain/riichi-wait";
 import { assessMatchQuality, type PlayerQuality } from "../domain/match-quality";
 import { estimateRankByGame, type EstimatedRank } from "../domain/estimated-rank";
 import { summarizeNagaMetrics } from "../domain/naga-summary";
@@ -123,6 +124,7 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
   const rawStats: Record<string, Record<string, number | number[]>> = Object.fromEntries(people.map((person) => [person.id, stats.createStats()]));
   const histories: Record<string, PersonMatchSummary[]> = Object.fromEntries(people.map((person) => [person.id, []]));
   const ratings: Record<string, NagaRating[]> = Object.fromEntries(people.map((person) => [person.id, []]));
+  const waitSamples: Record<string, RiichiWaitSample[]> = Object.fromEntries(people.map((person) => [person.id, []]));
   const completed = competitions.flatMap((competition) => competition.matches.filter((match) => match.status === "completed").map((match) => ({ competition, match })));
   const logs = await readCachedLogs(completed.map(({ match }) => match.tenhouLogId));
 
@@ -157,6 +159,9 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
       });
     });
     for (const hand of log.log) stats.addHandStats(rawStats, hand, identities);
+    for (const sample of riichiWaitSamples(log.log)) {
+      if (waitSamples[identities[sample.seat]]) waitSamples[identities[sample.seat]].push(sample);
+    }
     for (const rating of match.nagaRatings || []) {
       const personId = participantById.get(rating.participantId)?.personId;
       if (personId && ratings[personId]) ratings[personId].push(rating);
@@ -171,10 +176,15 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
       : null;
     const competitionGroups = new Map<string, PersonMatchSummary[]>();
     for (const match of matches) competitionGroups.set(match.competitionId, [...(competitionGroups.get(match.competitionId) || []), match]);
+    const wait = summarizeRiichiWaitSamples(waitSamples[person.id] || []);
     const personStats: PersonStatistics = {
       person,
       estimatedRank: estimatedRankForPerson(person, ratings[person.id]),
-      summary: matches.length ? stats.finalize(rawStats[person.id]) : {},
+      summary: {
+        ...(matches.length ? stats.finalize(rawStats[person.id]) : {}),
+        立直多面率: wait.multiSideRate,
+        立直好型率: wait.goodShapeRate,
+      },
       rankCounts: [1, 2, 3, 4].map((rank) => matches.filter((match) => match.rank === rank).length),
       ratings: summarizeRatings(ratings[person.id]),
       quality: {

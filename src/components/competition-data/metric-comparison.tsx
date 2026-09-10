@@ -25,6 +25,7 @@ const groups: Array<{ title: string; metrics: Metric[] }> = [
     metrics: [
       ["立直后和牌率", "rate"], ["副露后和牌率", "rate"], ["立直后放铳率", "rate"], ["副露后放铳率", "rate"],
       ["立直后流局率", "rate"], ["副露后流局率", "rate"], ["先制率", "rate"], ["追立率", "rate"],
+      ["立直多面率", "rate"], ["立直好型率", "rate"],
     ],
   },
 ];

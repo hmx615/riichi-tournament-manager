@@ -11,7 +11,7 @@ const rankColors = ["#e3a51a", "#3b91b8", "#8b929a", "#cf5560"];
 const metricGroups: Array<{ title: string; metrics: Metric[] }> = [
   { title: "攻守与选择", metrics: [["和牌率", "rate"], ["放铳率", "rate"], ["副露率", "rate"], ["立直率", "rate"], ["自摸率", "rate"], ["默听率", "rate"], ["流听率", "rate"], ["平均起手向听", "decimal"]] },
   { title: "打点与效率", metrics: [["平均打点", "point"], ["平均铳点", "point"], ["打点效率", "point"], ["铳点损失", "point"], ["净打点效率", "signed"], ["和了巡数", "decimal"], ["平均被炸点数", "point"]] },
-  { title: "立直与副露结果", metrics: [["立直后和牌率", "rate"], ["副露后和牌率", "rate"], ["立直后放铳率", "rate"], ["副露后放铳率", "rate"], ["立直后流局率", "rate"], ["副露后流局率", "rate"], ["先制率", "rate"], ["追立率", "rate"]] },
+  { title: "立直与副露结果", metrics: [["立直后和牌率", "rate"], ["副露后和牌率", "rate"], ["立直后放铳率", "rate"], ["副露后放铳率", "rate"], ["立直后流局率", "rate"], ["副露后流局率", "rate"], ["先制率", "rate"], ["追立率", "rate"], ["立直多面率", "rate"], ["立直好型率", "rate"]] },
 ];
 
 function pieGradient(counts: number[]) {
