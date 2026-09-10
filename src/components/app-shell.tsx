@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link, { useLinkStatus } from "next/link";
 import { BarChart3, CirclePlus, ClipboardList, LogIn, LogOut, Trophy, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -9,6 +9,12 @@ import { logoutAction } from "@/app/login/actions";
 
 const selectedCompetitionKey = "xrc-selected-competition";
 const qualityVisualsKey = "xrc-quality-visuals";
+
+/** `<Link>` 内部的导航状态提示：页面读取 D1，切换时需要一次往返，这里给出即时反馈。 */
+function LinkPendingHint() {
+  const { pending } = useLinkStatus();
+  return <span className={pending ? "link-pending is-pending" : "link-pending"} aria-hidden />;
+}
 
 function competitionIdFromPath(pathname: string) {
   const competitionId = pathname.match(/^\/competitions\/([^/]+)/)?.[1];
@@ -48,7 +54,7 @@ export function AppShell({ children, admin }: { children: ReactNode; admin: bool
         </Link>
         <nav aria-label="主导航">
           {nav.map(({ href, label, icon: Icon, active }) => (
-            <Link className={active ? "active" : ""} href={href} key={label} aria-current={active ? "page" : undefined}><Icon size={18} />{label}</Link>
+            <Link className={active ? "active" : ""} href={href} key={label} aria-current={active ? "page" : undefined}><Icon size={18} />{label}<LinkPendingHint /></Link>
           ))}
         </nav>
         {admin && <Link className="new-competition" href="/competitions/new">

@@ -392,6 +392,10 @@ button, select { cursor: pointer; }
 .sidebar nav a, .new-competition { min-height: 42px; padding: 0 12px; display: flex; align-items: center; gap: 11px; border-radius: 5px; font-size: 13px; font-weight: 650; }
 .sidebar nav a:hover { background: #323a40; color: #fff; }
 .sidebar nav a.active { background: #35413f; color: #d9f0e8; }
+.link-pending { margin-left: auto; width: 5px; height: 5px; border-radius: 50%; background: #6ec2a8; opacity: 0; transition: opacity .15s ease; }
+.link-pending.is-pending { opacity: 1; animation: link-pending-pulse .9s ease-in-out infinite; }
+@keyframes link-pending-pulse { 0%, 100% { opacity: .35; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
+@media (prefers-reduced-motion: reduce) { .link-pending.is-pending { animation: none; opacity: 1; } }
 .new-competition { margin-top: auto; border: 1px solid #51615e; background: #2d3738; color: #d6eee7; justify-content: center; }
 .new-competition:hover { background: #354243; }
 .workspace { min-width: 0; margin-left: 220px; }
