@@ -3,6 +3,7 @@
   "name": "个人赛 16人测试杯",
   "code": "IND-16-DEMO",
   "status": "active",
+  "format": "individual",
   "plannedMatchCount": 144,
   "initialPoints": 25000,
   "rankPoints": [
