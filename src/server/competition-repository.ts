@@ -8,7 +8,7 @@ import { dataDirectory } from "@/server/data-directory";
 import { completeScheduledMatch } from "@/domain/scheduled-match";
 
 export const MATCH_POOL_ID = "match-pool";
-export const MERGED_COMPETITION_IDS = new Set(["1st-cccp", "1st-wdc", "1st-fyc", "1st-lmc", "individual-demo", "1st-cccp213e"]);
+export const MERGED_COMPETITION_IDS = new Set(["1st-cccp", "1st-wdc", "1st-fyc", "1st-lmc", "1st-cccp213e"]);
 
 /** Returns the permanent all-player pool and synchronizes newly-created people into it. */
 export async function getOrCreateMatchPool(): Promise<Competition> {
