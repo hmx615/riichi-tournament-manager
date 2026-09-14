@@ -6,13 +6,18 @@ import { isAdmin } from "@/server/auth";
 import { individualStageStandings } from "@/domain/individual-standings";
 import { updateScheduleAction, confirmStageAction } from "./actions";
 
-export default async function CompetitionSchedulePage({ params, searchParams }: { params: Promise<{ competitionId: string }>; searchParams?: Promise<{ error?: string }> }) {
+export default async function CompetitionSchedulePage({ params, searchParams }: { params: Promise<{ competitionId: string }>; searchParams?: Promise<{ error?: string; stage?: string; round?: string; table?: string; status?: string }> }) {
   const { competitionId } = await params;
-  const error = (await searchParams)?.error;
+  const query = await searchParams;
+  const error = query?.error;
   const competition = await getCompetition(competitionId);
   if (!competition) notFound();
   // Keep the newest scheduled items at the top, matching the牌谱列表 ordering.
-  const schedule = [...(competition.individualSchedule ?? [])].sort((a, b) => Date.parse(b.scheduledAt) - Date.parse(a.scheduledAt) || b.stage.localeCompare(a.stage) || b.round - a.round || b.tableNumber - a.tableNumber);
+  const stageFilter = ["preliminary", "semifinal", "final"].includes(query?.stage ?? "") ? query!.stage! as "preliminary" | "semifinal" | "final" : "";
+  const statusFilter = ["scheduled", "completed", "cancelled"].includes(query?.status ?? "") ? query!.status! as "scheduled" | "completed" | "cancelled" : "";
+  const roundFilter = query?.round && /^\d+$/.test(query.round) ? Number(query.round) : 0;
+  const tableFilter = query?.table && /^\d+$/.test(query.table) ? Number(query.table) : 0;
+  const schedule = [...(competition.individualSchedule ?? [])].filter((table) => (!stageFilter || table.stage === stageFilter) && (!statusFilter || table.status === statusFilter) && (!roundFilter || table.round === roundFilter) && (!tableFilter || table.tableNumber === tableFilter)).sort((a, b) => Date.parse(b.scheduledAt) - Date.parse(a.scheduledAt) || b.stage.localeCompare(a.stage) || b.round - a.round || b.tableNumber - a.tableNumber);
   const admin = await isAdmin();
   const settings = competition.individualSettings;
   const confirmation = (["preliminary", "semifinal"] as const).map((stage) => {
