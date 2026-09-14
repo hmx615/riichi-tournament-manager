@@ -17,7 +17,7 @@ export function CompetitionSettingsForm({ competition, people }: { competition: 
   const individual = competition.format === "individual";
   const error = (name: string) => state.fieldErrors?.[name]?.[0];
   return (
-    <form className="form-layout" action={action}>
+    <form className="form-layout" action={action} onSubmit={(event) => { const form = event.currentTarget; const rank = (form.elements.namedItem("rankPoints") as HTMLInputElement).value.split(/[,，\s]+/).filter(Boolean); if (rank.length !== 4 || rank.some((value) => !Number.isFinite(Number(value)))) { event.preventDefault(); const input = form.elements.namedItem("rankPoints") as HTMLInputElement; input.setCustomValidity("请填写四个有效的顺位马点"); input.reportValidity(); input.addEventListener("input", () => input.setCustomValidity(""), { once: true }); } }}>
       <input name="competitionId" type="hidden" value={competition.id} />
       <input name="format" type="hidden" value={individual ? "individual" : "four_player"} />
       <input name="participantCount" type="hidden" value={competition.participants.length} />

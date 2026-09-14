@@ -53,7 +53,7 @@ export function CompetitionOverview({ competition, summary, participantRanks, sh
     <div className="page competition-page">
       {showBackLink && <Link className="back-link" href="/"><ArrowLeft size={16} />返回比赛列表</Link>}
       <div className="page-heading">
-        <div><p className="eyebrow">{competition.code}</p><h1>{competition.name}</h1><p>{competitionStatus[competition.status]} · {completed}/{competition.plannedMatchCount}半庄</p></div>
+        <div><p className="eyebrow">{competition.code}</p><h1>{competition.name}</h1><p>{competitionStatus[competition.status]} · {competition.id === "match-pool" ? `${completed} 半庄 / 无限` : `${completed}/${competition.plannedMatchCount}半庄`}</p></div>
         {levelAssessment && <div className={styles.headingLevel}><MatchLevelBadge assessment={levelAssessment} /></div>}
         {admin && <div className="heading-actions">
           <Link className="button" href={`/competitions/${competition.id}/settings`}><Settings size={17} />比赛设置</Link>
@@ -82,7 +82,7 @@ export function CompetitionOverview({ competition, summary, participantRanks, sh
           <div className="table-wrap">
             <table className="match-table">
               <thead><tr><th>场次</th><th>时间</th><th>状态</th><th>座次与结果</th><th>数据源</th>{admin && <th><span className="sr-only">操作</span></th>}</tr></thead>
-              <tbody>{[...competition.matches].reverse().map((match) => {
+              <tbody>{[...competition.matches].sort((a, b) => Date.parse(b.playedAt) - Date.parse(a.playedAt) || b.matchNumber - a.matchNumber).map((match) => {
                 const assessment = assessMatchQuality(match);
                 const rowClass = assessment.matchQuality === "diamond" ? styles.diamondRow : assessment.matchQuality === "gold" ? styles.goldRow : assessment.fourHorses ? styles.horseRow : undefined;
                 return <tr className={rowClass} key={match.id}>

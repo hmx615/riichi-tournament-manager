@@ -55,4 +55,23 @@ describe("competition deletion", () => {
     expect(backups).toHaveLength(1);
     expect(JSON.parse(await fs.readFile(path.join(backupDirectory, backups[0]), "utf8"))).toEqual(competition);
   });
+
+  it("persists completion together with the match and reopens the table after deletion", async () => {
+    const repository = await import("./competition-repository");
+    const registered: Competition = { ...competition, format: "individual", individualSchedule: [{ id: "s1", stage: "preliminary", round: 1, tableNumber: 1, scheduledAt: "2026-09-12T12:00:00Z", timezone: "Asia/Shanghai", participantIds: ["a", "b", "c", "d"], status: "scheduled" }] };
+    await repository.createCompetition(registered);
+    const match: import("@/domain/types").MatchRecord = { id: "m1", matchNumber: 1, scheduleId: "s1", status: "completed", playedAt: "2026-09-12T12:00:00Z", tenhouLogId: "log1", tenhouUrl: "", nagaUrl: null, reviewNote: null,
+      seats: ["a", "b", "c", "d"].map((id, seat) => ({ seat: seat as 0 | 1 | 2 | 3, participantId: id, sourceUsername: id, rank: (seat + 1) as 1 | 2 | 3 | 4, rawPoints: 25000, competitionPoints: 0, assignmentSource: "manual" })),
+    };
+    await repository.appendMatch(registered.id, match);
+    const stored = await repository.getCompetition(registered.id);
+    expect(stored?.matches[0]).toMatchObject({ scheduleId: "s1", stage: "preliminary", round: 1, tableNumber: 1 });
+    expect(stored?.individualSchedule?.[0]).toMatchObject({ status: "completed", matchNumber: 1 });
+    await expect(repository.appendMatch(registered.id, { ...match, id: "m2", matchNumber: 2, tenhouLogId: "log2" })).rejects.toThrow("已经录入");
+    expect((await repository.getCompetition(registered.id))?.matches).toHaveLength(1);
+    await repository.deleteMatch(registered.id, 1);
+    const reopened = await repository.getCompetition(registered.id);
+    expect(reopened?.individualSchedule?.[0]).toMatchObject({ status: "scheduled" });
+    expect(reopened?.individualSchedule?.[0].matchNumber).toBeUndefined();
+  });
 });

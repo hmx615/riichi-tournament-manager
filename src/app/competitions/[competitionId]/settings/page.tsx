@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CalendarClock } from "lucide-react";
 import { notFound } from "next/navigation";
 import { CompetitionSettingsForm } from "@/components/competition-settings-form";
 import { DeleteCompetitionForm } from "@/components/delete-competition-form";
@@ -16,6 +16,7 @@ export default async function CompetitionSettingsPage({ params }: { params: Prom
     <div className="page form-page">
       <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回比赛</Link>
       <div className="page-heading"><div><p className="eyebrow">{competition.code}</p><h1>比赛设置</h1></div></div>
+      {competition.format === "individual" && <Link className="button schedule-settings-link" href={`/competitions/${competition.id}/schedule`}><CalendarClock size={17} />修改赛程</Link>}
       <CompetitionSettingsForm competition={competition} people={people} />
       <DeleteCompetitionForm competitionId={competition.id} competitionCode={competition.code} matchCount={competition.matches.length} />
     </div>

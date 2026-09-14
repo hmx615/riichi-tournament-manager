@@ -42,7 +42,7 @@ export function AppShell({ children, admin }: { children: ReactNode; admin: bool
     { href: "/", label: "比赛", icon: Trophy, active: pathname === "/" },
     { href: scheduleHref, label: "赛程", icon: ClipboardList, active: pathname.startsWith(scheduleHref) && !pathname.startsWith(dataHref) },
     { href: dataHref, label: "数据", icon: BarChart3, active: pathname.startsWith(dataHref) },
-    { href: "/players", label: "人物", icon: Users, active: pathname.startsWith("/players") },
+    { href: "/players", label: "排行榜", icon: Users, active: pathname.startsWith("/players") },
   ];
   if (pathname.startsWith("/tutorials/")) return <>{children}</>;
   return (

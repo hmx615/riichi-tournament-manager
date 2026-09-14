@@ -2,9 +2,54 @@ import "server-only";
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Competition, MatchRecord, NagaRating } from "@/domain/types";
+import type { Competition, MatchRecord, NagaRating, Participant } from "@/domain/types";
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
+import { completeScheduledMatch } from "@/domain/scheduled-match";
+
+export const MATCH_POOL_ID = "match-pool";
+export const MERGED_COMPETITION_IDS = new Set(["1st-cccp", "1st-wdc", "1st-fyc", "1st-lmc", "individual-demo", "1st-cccp213e"]);
+
+/** Returns the permanent all-player pool and synchronizes newly-created people into it. */
+export async function getOrCreateMatchPool(): Promise<Competition> {
+  const { listPeople } = await import("@/server/person-repository");
+  const people = await listPeople();
+  let competition = await getCompetition(MATCH_POOL_ID);
+  const participants: Participant[] = people.map((person) => ({
+    id: `person-${person.id}`,
+    personId: person.id,
+    displayName: person.displayName,
+    kind: person.kind,
+    color: person.color,
+    usernames: [person.displayName, ...person.aliases, ...person.accounts.map((account) => account.username)],
+  }));
+  if (!competition) {
+    competition = {
+      id: MATCH_POOL_ID,
+      name: "国企天梯赛·家妈杯",
+      code: "MATCH-POOL",
+      format: "four_player",
+      status: "active",
+      plannedMatchCount: 100000,
+      initialPoints: 25000,
+      rankPoints: [30, 10, -10, -30],
+      participants,
+      matches: [],
+    };
+    await createCompetition(competition);
+    return competition;
+  }
+  const existing = new Map(competition.participants.map((participant) => [participant.personId, participant]));
+  const changed = participants.some((participant) => {
+    const previous = existing.get(participant.personId);
+    return !previous || previous.displayName !== participant.displayName || previous.color !== participant.color || previous.usernames.join("\u0000") !== participant.usernames.join("\u0000");
+  }) || competition.participants.length !== participants.length;
+  if (changed) {
+    competition.participants = participants;
+    await replaceCompetition(competition);
+  }
+  return competition;
+}
 
 const competitionDirectory = path.join(dataDirectory, "competitions");
 const competitionBackupDirectory = path.join(dataDirectory, "backups", "competitions");
@@ -79,11 +124,11 @@ export async function listCompetitions(): Promise<Competition[]> {
     const db = await tournamentDatabase();
     const result = await db.prepare("SELECT document FROM competitions ORDER BY created_at, id")
       .all<{ document: string }>();
-    return result.results.map((row) => parseCompetition(row.document));
+    return result.results.map((row) => parseCompetition(row.document)).filter((competition) => !MERGED_COMPETITION_IDS.has(competition.id));
   }
   await fs.mkdir(competitionDirectory, { recursive: true });
   const files = (await fs.readdir(competitionDirectory)).filter((file) => file.endsWith(".json"));
-  return Promise.all(files.map(async (file) => parseCompetition(await fs.readFile(path.join(competitionDirectory, file), "utf8"))));
+  return (await Promise.all(files.map(async (file) => parseCompetition(await fs.readFile(path.join(competitionDirectory, file), "utf8"))))).filter((competition) => !MERGED_COMPETITION_IDS.has(competition.id));
 }
 
 export async function getCompetition(id: string): Promise<Competition | null> {
@@ -161,6 +206,7 @@ export async function appendMatch(competitionId: string, match: MatchRecord): Pr
   if (!competition) throw new Error("比赛不存在");
   if (competition.matches.some((item) => item.tenhouLogId === match.tenhouLogId)) throw new Error("该牌谱已经录入本比赛");
   if (competition.matches.some((item) => item.matchNumber === match.matchNumber)) throw new Error("场次编号已经存在");
+  completeScheduledMatch(competition, match);
   competition.matches.push(match);
   competition.matches.sort((a, b) => a.matchNumber - b.matchNumber);
   if (competition.status === "draft") competition.status = "active";
@@ -192,6 +238,11 @@ export async function deleteMatch(competitionId: string, matchNumber: number): P
   const competition = await getCompetition(competitionId);
   if (!competition) throw new Error("比赛不存在");
   if (!competition.matches.some((item) => item.matchNumber === matchNumber)) throw new Error("对局不存在或已经删除");
+  const removed = competition.matches.find((item) => item.matchNumber === matchNumber)!;
+  const table = competition.individualSchedule?.find((item) => item.id === removed.scheduleId || (
+    item.stage === removed.stage && item.round === removed.round && item.tableNumber === removed.tableNumber
+  ));
+  if (table) { table.status = "scheduled"; delete table.matchNumber; }
   competition.matches = competition.matches.filter((item) => item.matchNumber !== matchNumber);
   await replaceCompetition(competition, `before-delete-match-${matchNumber}`);
 }

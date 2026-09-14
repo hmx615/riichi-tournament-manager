@@ -19,6 +19,19 @@ export type IndividualCompetitionSettings = {
   pairingMode: "balanced_opponents";
 };
 
+export type IndividualScheduleStatus = "scheduled" | "completed" | "cancelled";
+export type IndividualScheduleTable = {
+  id: string;
+  stage: IndividualStage;
+  round: number;
+  tableNumber: number;
+  scheduledAt: string;
+  timezone: string;
+  participantIds: string[];
+  status: IndividualScheduleStatus;
+  matchNumber?: number;
+};
+
 export type PersonAccount = {
   platform: "tenhou" | "majsoul" | "other";
   username: string;
@@ -67,6 +80,7 @@ export type NagaRating = {
 export type MatchRecord = {
   id: string;
   matchNumber: number;
+  scheduleId?: string;
   /** Optional scheduling metadata used by multi-stage individual competitions. */
   stage?: IndividualStage;
   round?: number;
@@ -97,6 +111,7 @@ export type Competition = {
   participants: Participant[];
   matches: MatchRecord[];
   individualSettings?: IndividualCompetitionSettings;
+  individualSchedule?: IndividualScheduleTable[];
 };
 
 export type LegacySummary = {

@@ -354,4 +354,43 @@ describe("saveMatchAction", () => {
     expect(mocks.appendMatch).toHaveBeenCalledOnce();
     expect(mocks.rememberPersonAccounts).not.toHaveBeenCalled();
   });
+
+  it("requires an individual table and passes its identity through save", async () => {
+    const registered: Competition = { ...competition, format: "individual", matches: [], individualSchedule: [{
+      id: "table-1", stage: "preliminary", round: 2, tableNumber: 1, scheduledAt: "2026-09-12T12:00:00Z", timezone: "Asia/Shanghai", participantIds: participants.map((p) => p.id), status: "scheduled",
+    }] };
+    mocks.getCompetition.mockResolvedValue(registered);
+    mocks.listCompetitions.mockResolvedValue([]);
+    const form = new FormData();
+    form.set("competitionId", registered.id);
+    form.set("sourceUrl", preview.sourceUrl);
+    participants.forEach((p, seat) => form.set(`participant${seat}`, p.id));
+    expect((await parseMatchAction(idleState, form)).message).toContain("具体赛程");
+    expect((await saveMatchAction(idleState, form)).status).toBe("error");
+    expect(mocks.appendMatch).not.toHaveBeenCalled();
+    form.set("scheduleId", "table-1");
+    expect((await parseMatchAction(idleState, form)).status).toBe("success");
+    await expect(saveMatchAction(idleState, form)).rejects.toThrow("NEXT_REDIRECT");
+    expect(mocks.appendMatch.mock.calls[0][1]).toMatchObject({ scheduleId: "table-1", stage: "preliminary", round: 2, tableNumber: 1 });
+    mocks.appendMatch.mockClear();
+    registered.individualSchedule![0].status = "completed";
+    expect((await saveMatchAction(idleState, form)).message).toContain("已经录入");
+    expect(mocks.appendMatch).not.toHaveBeenCalled();
+  });
+
+  it("rejects a cross-table assignment and scopes automatic matching to the selected table", async () => {
+    const registered: Competition = { ...competition, format: "individual", matches: [], participants: [...participants, { ...participants[0], id: "other" }], individualSchedule: [{
+      id: "table-1", stage: "preliminary", round: 1, tableNumber: 1, scheduledAt: "2026-09-12T12:00:00Z", timezone: "Asia/Shanghai", participantIds: participants.map((p) => p.id), status: "scheduled",
+    }] };
+    mocks.getCompetition.mockResolvedValue(registered);
+    mocks.listCompetitions.mockResolvedValue([]);
+    const form = new FormData();
+    form.set("competitionId", registered.id); form.set("scheduleId", "table-1"); form.set("sourceUrl", preview.sourceUrl);
+    participants.forEach((p, seat) => form.set(`participant${seat}`, p.id));
+    await parseMatchAction(idleState, form);
+    expect(mocks.parseMatchSource.mock.calls[0][1].participants).toEqual(participants);
+    form.set("participant0", "other");
+    expect((await saveMatchAction(idleState, form)).message).toContain("本桌赛程一致");
+    expect(mocks.appendMatch).not.toHaveBeenCalled();
+  });
 });

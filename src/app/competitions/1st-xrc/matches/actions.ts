@@ -9,6 +9,7 @@ import { appendMatch, getCompetition, listCompetitions, supplementMatchNagaAnaly
 import { parseCachedMajsoulSource, parseMajsoulJsonSource, parseMatchSource, readCachedLogs, type MatchPreview } from "@/server/tenhou";
 import { isAdmin } from "@/server/auth";
 import { rememberPersonAccounts, type ConfirmedPersonAccount } from "@/server/person-repository";
+import { entrySchedule, requireOpenTable, scheduledMatch } from "@/domain/scheduled-match";
 
 export type MatchEntryState = {
   status: "idle" | "success" | "error";
@@ -108,9 +109,11 @@ export async function parseMatchAction(_state: MatchEntryState, formData: FormDa
   const competition = await getCompetition(competitionId.data);
   if (!competition) return initialError("比赛数据不存在");
   try {
-    const preview = await previewFromForm(formData, competition);
+    const table = entrySchedule(competition, String(formData.get("scheduleId") || ""));
+    const preview = await previewFromForm(formData, table ? { ...competition, participants: competition.participants.filter((p) => table.participantIds.includes(p.id)) } : competition);
     const recorded = await findRecordedMatch(preview);
     if (recorded) {
+      if (table && (recorded.competition.id !== competition.id || scheduledMatch(competition, table)?.id !== recorded.match.id)) return initialError("该牌谱属于其他已录入对局，不能录入当前桌次");
       const participantIds = [...recorded.match.seats].sort((left, right) => left.seat - right.seat).map((seat) => seat.participantId);
       const ratings = ratingsForParticipants(preview, participantIds, competition);
       if (preview.sourceType === "naga" && recorded.competition.id === competition.id && needsNagaSupplement(recorded.match, ratings)) {
@@ -126,6 +129,7 @@ export async function parseMatchAction(_state: MatchEntryState, formData: FormDa
       if (preview.sourceType === "majsoul" && recorded.match.nagaUrl) return initialError(`该牌谱已录入第 ${recorded.match.matchNumber} 场且已有 NAGA 分析，无需补充 JSON`);
       return initialError(`该牌谱已经录入 ${recorded.competition.name}`);
     }
+    if (table) requireOpenTable(competition, table);
     const unresolved = preview.seats.filter((seat) => !seat.participantId).length;
     return {
       status: "success",
@@ -147,9 +151,11 @@ export async function saveMatchAction(_state: MatchEntryState, formData: FormDat
   if (!competition) return initialError("比赛数据不存在");
   let confirmedAccounts: ConfirmedPersonAccount[] = [];
   try {
-    const preview = await previewFromForm(formData, competition);
+    const table = entrySchedule(competition, String(formData.get("scheduleId") || ""));
+    const preview = await previewFromForm(formData, table ? { ...competition, participants: competition.participants.filter((p) => table.participantIds.includes(p.id)) } : competition);
     const recorded = await findRecordedMatch(preview);
     if (recorded) {
+      if (table && (recorded.competition.id !== competition.id || scheduledMatch(competition, table)?.id !== recorded.match.id)) return initialError("该牌谱属于其他已录入对局，不能录入当前桌次");
       if (preview.sourceType !== "naga") {
         if (preview.sourceType === "majsoul" && recorded.match.nagaUrl) return initialError(`该牌谱已录入第 ${recorded.match.matchNumber} 场且已有 NAGA 分析，无需补充 JSON`);
         return initialError(`该牌谱已经录入 ${recorded.competition.name}`);
@@ -167,7 +173,9 @@ export async function saveMatchAction(_state: MatchEntryState, formData: FormDat
         ratings,
       );
     } else {
+      if (table) requireOpenTable(competition, table);
       const participantIds = [0, 1, 2, 3].map((seat) => String(formData.get(`participant${seat}`) || ""));
+      if (table && (new Set(participantIds).size !== 4 || participantIds.some((id) => !table.participantIds.includes(id)))) return initialError("牌谱四名选手必须与本桌赛程一致");
       const participantById = new Map(competition.participants.map((participant) => [participant.id, participant]));
       const invalidIds = participantIds.some((id) => !participantById.has(id));
       const humanIds = participantIds.flatMap((id) => {
@@ -179,6 +187,7 @@ export async function saveMatchAction(_state: MatchEntryState, formData: FormDat
       const match: MatchRecord = {
         id: `${competition.id}-${String(matchNumber).padStart(3, "0")}`,
         matchNumber,
+        ...(table ? { scheduleId: table.id, stage: table.stage, round: table.round, tableNumber: table.tableNumber } : {}),
         status: "completed",
         playedAt: preview.playedAt,
         tenhouLogId: preview.logId,
@@ -219,6 +228,10 @@ export async function saveMatchAction(_state: MatchEntryState, formData: FormDat
   revalidatePath("/");
   revalidatePath(`/competitions/${competition.id}`);
   revalidatePath(`/competitions/${competition.id}/data`);
+  if (competition.format === "individual") {
+    revalidatePath(`/competitions/${competition.id}/schedule`);
+    revalidatePath(`/competitions/${competition.id}/matches`);
+  }
   if (confirmedAccounts.length) revalidatePath("/players", "layout");
   if (accountWarning) return { status: "success", message: accountWarning, preview: null, operation: null, targetMatchNumber: null };
   redirect(`/competitions/${competition.id}`);

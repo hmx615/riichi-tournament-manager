@@ -34,14 +34,14 @@ function displayValue(value: number | null | undefined, type: MetricType) {
 const dateFormatter = new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" });
 
 export function PersonDataOverview({ statistics }: { statistics: PersonStatistics }) {
-  const { person, estimatedRank, summary, rankCounts, ratings, quality, competitions, matches } = statistics;
+  const { person, estimatedRank, summary, rankCounts, ratings, quality, competitions, matches, totalCompetitionPoints } = statistics;
   const total = matches.length || 1;
   const averageRank = summary["平均顺位"];
   return (
     <>
       <section className={`summary-grid person-summary ${styles.rankSummary}`} aria-label="人物概况">
+        <div className="summary-block"><span>总 PT<strong className={totalCompetitionPoints >= 0 ? "positive" : "negative"}>{totalCompetitionPoints >= 0 ? "+" : ""}{totalCompetitionPoints.toFixed(1)}</strong></span></div>
         <div className="summary-block"><span>半庄<strong>{matches.length}</strong></span></div>
-        <div className="summary-block"><span>小局<strong>{summary["统计局数"] ?? 0}</strong></span></div>
         <div className="summary-block"><span>平均顺位<strong>{averageRank?.toFixed(2) ?? "-"}</strong></span></div>
         <div className="summary-block"><span>推定段位<strong>{formatEstimatedRank(estimatedRank)}</strong></span></div>
       </section>

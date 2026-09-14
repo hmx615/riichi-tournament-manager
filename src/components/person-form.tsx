@@ -22,7 +22,7 @@ export function PersonForm({ person }: { person?: Person }) {
   useEffect(() => () => { if (avatarPreview) URL.revokeObjectURL(avatarPreview); }, [avatarPreview]);
   const value = (name: string, fallback = "") => state.values?.[name] ?? fallback;
   const displayedPerson = removeAvatar && person ? { ...person, avatarKey: undefined, avatarVersion: undefined, avatarContentType: undefined } : person;
-  return <form className="form-layout" action={action}>
+  return <form className="form-layout" action={action} onSubmit={(event) => { const form = event.currentTarget; const id = (form.elements.namedItem("id") as HTMLInputElement).value; const displayName = (form.elements.namedItem("displayName") as HTMLInputElement).value.trim(); if ((!person && personIdError(id)) || !displayName) { event.preventDefault(); if (!displayName) { const input = form.elements.namedItem("displayName") as HTMLInputElement; input.setCustomValidity("请填写显示名称"); input.reportValidity(); input.addEventListener("input", () => input.setCustomValidity(""), { once: true }); } } }}>
     <input name="mode" type="hidden" value={person ? "edit" : "create"} />
     {person && <input name="originalId" type="hidden" value={person.id} />}
     <section className="form-section"><div className="form-section-title"><span>1</span><div><h2>人物身份</h2></div></div><div className="field-grid">

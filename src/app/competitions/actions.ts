@@ -9,6 +9,7 @@ import type { Competition, IndividualCompetitionSettings, Participant } from "@/
 import { listPeople } from "@/server/person-repository";
 import { hasDuplicateHumanParticipants } from "@/domain/participant-validation";
 import { isValidPersonId } from "@/domain/person-id";
+import { generateIndividualSchedule } from "@/domain/individual-schedule";
 
 export type CreateCompetitionState = { message: string; fieldErrors?: Record<string, string[]>; values?: Record<string, string> };
 
@@ -123,6 +124,7 @@ export async function createCompetitionAction(
     participants,
     matches: [],
     individualSettings,
+    individualSchedule: parsed.data.format === "individual" ? generateIndividualSchedule(participants.map((participant) => participant.id), "preliminary", individualSettings!.stages.preliminary.matchCountPerPlayer).map((table, index) => ({ ...table, id: `${id}-preliminary-${table.round}-${table.tableNumber}`, scheduledAt: new Date(Date.UTC(2026, 8, 12, 12 + index * 2)).toISOString(), timezone: "Asia/Shanghai", status: "scheduled" as const })) : undefined,
   };
 
   try {

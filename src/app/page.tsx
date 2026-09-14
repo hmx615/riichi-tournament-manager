@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, CalendarDays, CirclePlus, Database, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, CirclePlus, Database, FilePlus2, Settings, Users } from "lucide-react";
 import { competition as fallbackCompetition, totalsForCompetition } from "@/data/competition";
 import { MatchLevelBadge } from "@/components/competition-overview";
 import { PlayerTag } from "@/components/player-tag";
 import type { EstimatedRank } from "@/domain/estimated-rank";
 import { assessMatchLevel } from "@/domain/match-level";
 import { isIndividualCompetition } from "@/domain/competition-format";
-import { listCompetitions } from "@/server/competition-repository";
+import { listCompetitions, MATCH_POOL_ID } from "@/server/competition-repository";
 import { isAdmin } from "@/server/auth";
 import { listPeople } from "@/server/person-repository";
 import { loadPersonEstimatedRanks } from "@/server/person-statistics";
@@ -51,7 +51,12 @@ export default async function CompetitionsPage() {
     listPeople(),
     loadPersonEstimatedRanks(),
   ]);
-  const allCompetitions = storedCompetitions.length ? storedCompetitions : [fallbackCompetition];
+  const hiddenMergedCompetitionIds = new Set(["1st-cccp", "1st-wdc", "1st-fyc", "1st-lmc", "individual-demo", "1st-cccp213e"]);
+  const matchPool = storedCompetitions.find((item) => item.id === MATCH_POOL_ID);
+  const visibleCompetitions = storedCompetitions.filter((item) => item.id !== MATCH_POOL_ID && !hiddenMergedCompetitionIds.has(item.id));
+  const allCompetitions = (visibleCompetitions.length
+    ? visibleCompetitions
+    : [fallbackCompetition]);
   const competitions = [...allCompetitions]
     .sort((a, b) => (a.status === "completed" ? 1 : 0) - (b.status === "completed" ? 1 : 0) || completedMatches(b) - completedMatches(a));
   const competition = competitions[0];
@@ -76,6 +81,17 @@ export default async function CompetitionsPage() {
 
       <section className="section-block">
         <div className="section-heading"><div><h2>当前比赛</h2></div></div>
+        {matchPool && <article className="competition-row match-pool-row">
+          <div className="competition-main">
+            <div className={`competition-title ${styles.competitionTitle}`}><span className="match-pool-mark">♛ 天梯</span>{matchPool.name}<span className="status match-pool-status">长期开放</span></div>
+            <div className="competition-meta">所有人物可参加 · {completedMatches(matchPool)} 半庄 / 无限</div>
+            <div className="player-list">{matchPool.participants.slice(0, 12).map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}{matchPool.participants.length > 12 && <span className="player-overflow">+{matchPool.participants.length - 12}</span>}</div>
+          </div>
+          <div className="competition-row-actions">
+            {admin && <><Link className="icon-link" href={`/competitions/${matchPool.id}/settings`} title="家妈杯设置" aria-label="家妈杯设置"><Settings size={17} /></Link><Link className="icon-link" href={`/competitions/${matchPool.id}/matches/new`} title="录入家妈杯牌谱" aria-label="录入家妈杯牌谱"><FilePlus2 size={17} /></Link></>}
+            <Link className="icon-link" href={`/competitions/${matchPool.id}`} title="打开国企天梯赛·家妈杯" aria-label="打开国企天梯赛·家妈杯"><ArrowRight /></Link>
+          </div>
+        </article>}
         <article className="competition-row">
           <div className="competition-main">
             <div className={`competition-title ${styles.competitionTitle}`}>{competition.status === "active" && <span className="live-dot" />}{competition.name}<span className={`status ${competitionStatus[competition.status].className}`}>{competitionStatus[competition.status].label}</span><CompetitionStrength competition={competition} personRanks={personRanks} /></div>

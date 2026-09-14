@@ -21,6 +21,13 @@ export default async function CompetitionDataPage({ params }: { params: Promise<
     </div>
   );
   const summary = await computeCompetitionSummary(competition);
+  if (competition.id === "match-pool") return (
+    <div className="page data-page">
+      <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回家妈杯</Link>
+      <div className="page-heading"><div><p className="eyebrow">{competition.code}</p><h1>顺位分布</h1></div></div>
+      <RankDistribution competition={competition} summary={summary} />
+    </div>
+  );
   if (isIndividualCompetition(competition)) return (
     <div className="page data-page">
       <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回比赛</Link>

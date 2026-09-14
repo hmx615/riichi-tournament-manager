@@ -8,6 +8,11 @@ import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
 import { listCompetitions } from "@/server/competition-repository";
 
+async function syncMatchPool() {
+  const repository = await import("@/server/competition-repository");
+  if (typeof repository.getOrCreateMatchPool === "function") await repository.getOrCreateMatchPool();
+}
+
 const peopleFile = path.join(dataDirectory, "people.json");
 
 function validatePersonId(id: string) {
@@ -61,6 +66,7 @@ export async function createPerson(person: Person) {
       await db.prepare("INSERT INTO people (id, document, version, created_at, updated_at) VALUES (?, ?, 1, ?, ?)")
         .bind(person.id, JSON.stringify(person), now, now)
         .run();
+      await syncMatchPool();
       return;
     } catch (error) {
       if (String(error).toLowerCase().includes("unique")) throw new Error("人物 ID 已存在");
@@ -71,6 +77,7 @@ export async function createPerson(person: Person) {
   if (people.some((item) => item.id === person.id)) throw new Error("人物 ID 已存在");
   people.push(person);
   await writePeople(people);
+  await syncMatchPool();
 }
 
 export async function updatePerson(person: Person) {
@@ -85,6 +92,7 @@ export async function updatePerson(person: Person) {
       .bind(JSON.stringify(person), new Date().toISOString(), person.id, current.version)
       .run();
     if (!result.success || result.meta.changes !== 1) throw new Error("人物数据已被其他操作更新，请刷新后重试");
+    await syncMatchPool();
     return;
   }
   const people = await listPeople();
@@ -92,6 +100,7 @@ export async function updatePerson(person: Person) {
   if (index < 0) throw new Error("人物不存在");
   people[index] = person;
   await writePeople(people);
+  await syncMatchPool();
 }
 
 export type ConfirmedPersonAccount = { personId: string; account: PersonAccount };

@@ -62,6 +62,7 @@ export type PersonQualitySummary = {
 
 export type PersonStatistics = {
   person: Person;
+  totalCompetitionPoints: number;
   estimatedRank: EstimatedRank | null;
   summary: PlayerSummary;
   rankCounts: number[];
@@ -179,6 +180,7 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
     const wait = summarizeRiichiWaitSamples(waitSamples[person.id] || []);
     const personStats: PersonStatistics = {
       person,
+      totalCompetitionPoints: Number(matches.reduce((sum, match) => sum + match.competitionPoints, 0).toFixed(1)),
       estimatedRank: estimatedRankForPerson(person, ratings[person.id]),
       summary: {
         ...(matches.length ? stats.finalize(rawStats[person.id]) : {}),

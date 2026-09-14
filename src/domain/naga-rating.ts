@@ -9,6 +9,13 @@ export type SeatNagaRating = {
 
 const honorIndexes: Record<string, number> = { E: 27, S: 28, W: 29, N: 30, P: 31, F: 32, C: 33 };
 
+function canonicalModelName(name: string) {
+  const normalized = name.trim().toLowerCase();
+  if (name === "ニシキ" || normalized === "nishiki") return "ニシキ";
+  if (name === "カガシ" || name === "卡卡西" || normalized === "kakashi") return "カガシ";
+  return null;
+}
+
 function tileIndex(tile: string) {
   if (tile in honorIndexes) return honorIndexes[tile];
   const match = tile.match(/^([1-9])([mps])r?$/);
@@ -30,10 +37,14 @@ export function calculateNagaRatings(report: unknown): SeatNagaRating[] {
     throw new Error("NAGA 报告缺少 Rating 数据");
   }
 
-  const models = Object.entries(value.naga_types as Record<string, unknown>)
+  const detectedModels = Object.entries(value.naga_types as Record<string, unknown>)
     .filter(([key, name]) => /^\d+$/.test(key) && typeof name === "string")
     .sort(([left], [right]) => Number(left) - Number(right))
-    .map(([key, name]) => ({ index: Number(key), name: name as string }));
+    .map(([key, name]) => ({ index: Number(key), name: name as string, canonical: canonicalModelName(name as string) }));
+  const hasSupportedModels = detectedModels.some((model) => model.canonical);
+  const models = detectedModels
+    .filter((model) => !hasSupportedModels || model.canonical)
+    .map((model) => ({ index: model.index, name: model.canonical || model.name }));
   if (!models.length) throw new Error("NAGA 报告缺少分析模型");
 
   const stats = Array.from({ length: 4 }, () => models.map(() => ({ decisions: 0, same: 0, badMoves: 0, difference: 0 })));

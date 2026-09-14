@@ -19,7 +19,7 @@ export function NewCompetitionForm({ people }: { people: Person[] }) {
   const value = (name: string, fallback = "") => state.values?.[name] ?? fallback;
   const error = (name: string) => state.fieldErrors?.[name]?.[0];
   return (
-    <form className="form-layout" action={action}>
+    <form className="form-layout" action={action} onSubmit={(event) => { const form = event.currentTarget; const code = (form.elements.namedItem("code") as HTMLInputElement).value.trim(); if (!/^[A-Za-z0-9-]+$/.test(code)) { event.preventDefault(); const input = form.elements.namedItem("code") as HTMLInputElement; input.setCustomValidity("比赛代号仅允许英文、数字和连字符"); input.reportValidity(); input.addEventListener("input", () => input.setCustomValidity(""), { once: true }); } }}>
       <section className="form-section">
         <div className="form-section-title"><span>1</span><div><h2>比赛设置</h2></div></div>
         <div className="field-grid">
