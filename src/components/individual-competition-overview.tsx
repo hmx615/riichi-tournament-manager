@@ -43,16 +43,28 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
   const settings = individualSettingsFor(competition);
   const plannedTables = competition.individualSchedule ?? [];
   const stageOrder = ["final", "semifinal", "preliminary"] as const;
+  const stageComplete = (stage: "preliminary" | "semifinal" | "final") => {
+    const tables = plannedTables.filter((table) => table.stage === stage && table.status !== "cancelled");
+    return tables.length > 0 && tables.every((table) => table.status === "completed" || Boolean(scheduledMatch(competition, table)));
+  };
   const eliminated = new Set<string>();
   for (const stage of ["preliminary", "semifinal"] as const) {
-    if (!competition.matches.some((match) => match.status === "completed" && match.stage === stage)) continue;
+    if (!stageComplete(stage)) continue;
     const stageMatches = competition.matches.filter((match) => match.status === "completed" && match.stage === stage);
     const advancing = individualStageStandings(competition, stage).filter((row) => row.advancing).map((row) => row.participant.id);
     const stagePlayers = new Set(stageMatches.flatMap((match) => match.seats.map((seat) => seat.participantId)));
     if (advancing.length > 0) stagePlayers.forEach((participantId) => { if (!advancing.includes(participantId)) eliminated.add(participantId); });
   }
+  const finalComplete = stageComplete("final");
+  const finalRanks = finalComplete ? individualStageStandings(competition, "final") : [];
   const currentStage = (participantId: string) => {
     if (eliminated.has(participantId)) return "已淘汰";
+    if (finalComplete) {
+      const rank = finalRanks.find((row) => row.participant.id === participantId)?.rank;
+      if (rank === 1) return "冠军";
+      if (rank === 2) return "亚军";
+      if (rank === 3) return "季军";
+    }
     if (competition.matches.some((match) => match.stage === "final" && match.seats.some((seat) => seat.participantId === participantId))) return "决赛";
     if (competition.matches.some((match) => match.stage === "semifinal" && match.seats.some((seat) => seat.participantId === participantId))) return "半决赛";
     return "初赛";
@@ -66,7 +78,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
     </div>
     <section className="standings">
       <div className="section-heading"><div><h2>个人积分榜</h2></div></div>
-      <div className="table-wrap"><table className="match-table individual-standings-table"><thead><tr><th>排名</th><th>选手</th><th>积分</th><th>已打半庄</th><th>平均顺位</th><th>状态</th></tr></thead><tbody>{sortedPlayers.map((participant, index) => { const status = currentStage(participant.id); const statusClass = status === "决赛" ? "stage-final" : status === "半决赛" ? "stage-semifinal" : status === "初赛" ? "stage-preliminary" : "stage-eliminated"; return <tr className={status === "已淘汰" ? "eliminated-standing-row" : ""} key={participant.id}><td><strong>{index + 1}</strong></td><td><PlayerTag participant={participant} /></td><td className={(totals[participant.id] ?? 0) >= 0 ? "positive" : "negative"}>{(totals[participant.id] ?? 0) >= 0 ? "+" : ""}{(totals[participant.id] ?? 0).toFixed(1)}</td><td>{summary[participant.id]?.["对局数"] ?? 0}</td><td>{summary[participant.id]?.["平均顺位"]?.toFixed(2) ?? "-"}</td><td><span className={`stage-status ${statusClass}`}>{status}</span></td></tr>; })}</tbody></table></div>
+      <div className="table-wrap"><table className="match-table individual-standings-table"><thead><tr><th>排名</th><th>选手</th><th>积分</th><th>已打半庄</th><th>平均顺位</th><th>状态</th></tr></thead><tbody>{sortedPlayers.map((participant, index) => { const status = currentStage(participant.id); const statusClass = status === "冠军" ? "stage-final champion" : status === "亚军" ? "stage-final runner-up" : status === "季军" ? "stage-final third-place" : status === "决赛" ? "stage-final" : status === "半决赛" ? "stage-semifinal" : status === "初赛" ? "stage-preliminary" : "stage-eliminated"; return <tr className={status === "已淘汰" ? "eliminated-standing-row" : ""} key={participant.id}><td><strong>{index + 1}</strong></td><td><PlayerTag participant={participant} /></td><td className={(totals[participant.id] ?? 0) >= 0 ? "positive" : "negative"}>{(totals[participant.id] ?? 0) >= 0 ? "+" : ""}{(totals[participant.id] ?? 0).toFixed(1)}</td><td>{summary[participant.id]?.["对局数"] ?? 0}</td><td>{summary[participant.id]?.["平均顺位"]?.toFixed(2) ?? "-"}</td><td><span className={`stage-status ${statusClass}`}>{status}</span></td></tr>; })}</tbody></table></div>
     </section>
     <section className="section-block">
       <div className="section-heading"><div><h2>赛程</h2></div><span className="table-count">{completed} 场已完成</span></div>
