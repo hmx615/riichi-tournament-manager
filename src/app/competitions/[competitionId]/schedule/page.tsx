@@ -11,7 +11,8 @@ export default async function CompetitionSchedulePage({ params, searchParams }: 
   const error = (await searchParams)?.error;
   const competition = await getCompetition(competitionId);
   if (!competition) notFound();
-  const schedule = [...(competition.individualSchedule ?? [])].sort((a, b) => Date.parse(a.scheduledAt) - Date.parse(b.scheduledAt) || a.stage.localeCompare(b.stage) || a.round - b.round || a.tableNumber - b.tableNumber);
+  // Keep the newest scheduled items at the top, matching the牌谱列表 ordering.
+  const schedule = [...(competition.individualSchedule ?? [])].sort((a, b) => Date.parse(b.scheduledAt) - Date.parse(a.scheduledAt) || b.stage.localeCompare(a.stage) || b.round - a.round || b.tableNumber - a.tableNumber);
   const admin = await isAdmin();
   const settings = competition.individualSettings;
   const confirmation = (["preliminary", "semifinal"] as const).map((stage) => {
