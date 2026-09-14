@@ -51,9 +51,10 @@ export default async function CompetitionsPage() {
     listPeople(),
     loadPersonEstimatedRanks(),
   ]);
-  const hiddenMergedCompetitionIds = new Set(["1st-cccp", "1st-wdc", "1st-fyc", "1st-lmc", "individual-demo", "1st-cccp213e"]);
   const matchPool = storedCompetitions.find((item) => item.id === MATCH_POOL_ID);
-  const visibleCompetitions = storedCompetitions.filter((item) => item.id !== MATCH_POOL_ID && !hiddenMergedCompetitionIds.has(item.id));
+  // The home page only exposes the active public competitions: the match pool,
+  // the two retained cups, and every multi-stage individual competition.
+  const visibleCompetitions = storedCompetitions.filter((item) => item.id !== MATCH_POOL_ID && (item.id === "1st-rc" || item.id === "1st-xrc" || isIndividualCompetition(item)));
   const allCompetitions = (visibleCompetitions.length
     ? visibleCompetitions
     : [fallbackCompetition]);
