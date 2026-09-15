@@ -66,11 +66,11 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
       if (rank === 2) return "亚军";
       if (rank === 3) return "季军";
     }
-    if (competition.matches.some((match) => match.stage === "final" && match.seats.some((seat) => seat.participantId === participantId))) return "决赛";
-    if (competition.matches.some((match) => match.stage === "semifinal" && match.seats.some((seat) => seat.participantId === participantId))) return "半决赛";
+    if (competition.matches.some((match) => match.stage === "final" && match.seats.some((seat) => seat.participantId === participantId)) || plannedTables.some((table) => table.stage === "final" && table.participantIds.includes(participantId))) return "决赛";
+    if (competition.matches.some((match) => match.stage === "semifinal" && match.seats.some((seat) => seat.participantId === participantId)) || plannedTables.some((table) => table.stage === "semifinal" && table.participantIds.includes(participantId))) return "半决赛";
     return "初赛";
   };
-  const activeStage = finalComplete ? "final" : competition.matches.some((match) => match.stage === "semifinal") ? "semifinal" : "preliminary";
+  const activeStage = finalComplete ? "final" : plannedTables.some((table) => table.stage === "final") ? "final" : plannedTables.some((table) => table.stage === "semifinal") ? "semifinal" : "preliminary";
   const stageAdvancingCount = activeStage === "preliminary" ? settings?.stages.preliminary.advancingPlayerCount ?? 0 : activeStage === "semifinal" ? settings?.semifinalAdvancingPlayerCount ?? settings?.stages.semifinal.advancingPlayerCount ?? 0 : 0;
   const activeStageComplete = stageComplete(activeStage);
   const stageStatus = (stage: "preliminary" | "semifinal" | "final") => stageComplete(stage) ? "已完成" : competition.matches.some((match) => match.status === "completed" && match.stage === stage) || stage === activeStage ? "进行中" : "待进行";
