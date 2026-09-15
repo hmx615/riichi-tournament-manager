@@ -167,6 +167,7 @@
 .stage-eliminated { background: #596467; color: #fff; }
 .eliminated-standing-row { background: #d8ddde !important; color: #4b5558; }
 .eliminated-standing-row td { border-color: #c2cacc; }
+.individual-standings-table .eliminated-standing-row:first-of-type td { border-top: 3px solid #94a3b8; }
 .mahjong-hand.compact { gap: 0; }
 .mahjong-drawn-tile { margin-left: 18px; display: flex; align-items: flex-end; }
 .mahjong-drawn-tile.compact { margin-left: 13.5px; }

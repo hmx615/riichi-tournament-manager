@@ -76,7 +76,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
   const stageStatus = (stage: "preliminary" | "semifinal" | "final") => stageComplete(stage) ? "已完成" : competition.matches.some((match) => match.status === "completed" && match.stage === stage) || stage === activeStage ? "进行中" : "待进行";
   const stageRawPoints = (id: string, stage: "preliminary" | "semifinal" | "final") => competition.matches.filter((m) => m.status === "completed" && m.stage === stage).flatMap((m) => m.seats.filter((s) => s.participantId === id)).reduce((sum, s) => sum + s.competitionPoints, 0);
   const displayPoints = (id: string) => { const p = stageRawPoints(id, "preliminary"); const s = stageRawPoints(id, "semifinal"); const f = stageRawPoints(id, "final"); return finalComplete ? f + (s + p / 2) / 2 : activeStage === "semifinal" ? s + p / 2 : p; };
-  const sortedPlayers = [...competition.participants].sort((left, right) => displayPoints(right.id) - displayPoints(left.id));
+  const sortedPlayers = [...competition.participants].sort((left, right) => Number(eliminated.has(left.id)) - Number(eliminated.has(right.id)) || displayPoints(right.id) - displayPoints(left.id));
   return <div className="page competition-page">
     {showBackLink && <Link className="back-link" href="/"><ArrowLeft size={16} />返回比赛列表</Link>}
     <div className="page-heading">
