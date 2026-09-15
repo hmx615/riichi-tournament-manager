@@ -158,6 +158,9 @@
 .stage-seal-done { color: #15803d; background: #ecfdf3; }
 .stage-seal-pending { color: #64748b; background: #f8fafc; }
 .workflow .stage-seal { margin-left: 6px; }
+.workflow li.workflow-done { opacity: .58; filter: saturate(.45); background: #f1f3f3; border-top-color: #9aa5a5; }
+.workflow li.workflow-active { background: #fffaf0; border: 2px solid #d97706; box-shadow: 0 8px 24px rgba(217,119,6,.18); transform: translateY(-2px); }
+.workflow li.workflow-pending { background: #fafbfc; border-top-color: #b8c1c7; opacity: .82; }
 .stage-final { background: #f5e7c5; color: #7c5714; }
 .stage-semifinal { background: #e4edf5; color: #315f7e; }
 .stage-preliminary { background: #e3f1eb; color: #28715e; }
