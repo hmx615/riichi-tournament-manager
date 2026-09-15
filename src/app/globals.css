@@ -172,7 +172,8 @@
 .individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(6) td,
 .individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) td { border-top: 3px solid #d97706; }
 .individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(6) td:first-child::before,
-.individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) td:first-child::before { content: "淘汰区"; display: block; margin: -12px 0 8px; color: #b45309; font-size: 12px; font-weight: 800; }
+.individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) { position: relative; }
+.individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) td:first-child::before { content: "淘汰区"; position: absolute; top: -47px; left: 0; width: 100%; height: 44px; box-sizing: border-box; padding: 12px; background: #fff7df; border-top: 3px solid #d97706; color: #b45309; font-size: 12px; font-weight: 800; }
 .mahjong-hand.compact { gap: 0; }
 .mahjong-drawn-tile { margin-left: 18px; display: flex; align-items: flex-end; }
 .mahjong-drawn-tile.compact { margin-left: 13.5px; }
