@@ -173,9 +173,8 @@
 .individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) td { border-top: 3px solid #d97706; }
 .individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(6) td:first-child::before,
 .individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) { border-top: 3px solid #d97706; }
-.individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) td { border-top: 3px solid #647174; }
-.individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) td { background: #c7cdce !important; }
-.individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) td:first-child::before { content: "淘汰区"; display: block; margin: 0 -12px 8px; padding: 8px 12px; background: #c7cdce; color: #4b5558; font-size: 12px; font-weight: 800; }
+.individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) td { border-top: 44px solid #c7cdce; background: #c7cdce !important; }
+.individual-standings-table tbody tr.eliminated-standing-row:nth-of-type(10) td:first-child::before { content: "淘汰区"; position: absolute; top: -35px; left: 12px; color: #4b5558; font-size: 12px; font-weight: 800; }
 .mahjong-hand.compact { gap: 0; }
 .mahjong-drawn-tile { margin-left: 18px; display: flex; align-items: flex-end; }
 .mahjong-drawn-tile.compact { margin-left: 13.5px; }
