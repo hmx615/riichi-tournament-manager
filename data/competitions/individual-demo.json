@@ -126,7 +126,4412 @@
       "usernames": []
     }
   ],
-  "matches": [],
+  "matches": [
+    {
+      "id": "individual-demo-001",
+      "matchNumber": 1,
+      "scheduleId": "individual-demo-preliminary-1-1",
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-20T02:00:00.000Z",
+      "tenhouLogId": "majsoul-effc3b27459f31f655b6504d553068fd",
+      "contentFingerprint": "a052366642a2afb4ce7f66f176543052",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "nagaRatings": [],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 17100,
+          "rank": 3,
+          "competitionPoints": -17.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 30600,
+          "rank": 2,
+          "competitionPoints": 15.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 11900,
+          "rank": 4,
+          "competitionPoints": -43.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 40400,
+          "rank": 1,
+          "competitionPoints": 45.4,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "individual-demo-002",
+      "matchNumber": 2,
+      "scheduleId": "individual-demo-preliminary-1-2",
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-20T03:00:00.000Z",
+      "tenhouLogId": "majsoul-4b6a6d284985f4fb78ae9eb463de757a",
+      "contentFingerprint": "3ce0d8887c9af788053f3c7b9b699acc",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "nagaRatings": [],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 17100,
+          "rank": 3,
+          "competitionPoints": -17.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 30600,
+          "rank": 2,
+          "competitionPoints": 15.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 11900,
+          "rank": 4,
+          "competitionPoints": -43.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 40400,
+          "rank": 1,
+          "competitionPoints": 45.4,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "individual-demo-003",
+      "matchNumber": 3,
+      "scheduleId": "individual-demo-preliminary-1-3",
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-20T04:00:00.000Z",
+      "tenhouLogId": "majsoul-25bebd88c766b3b22939870933f276eb",
+      "contentFingerprint": "dfd8a935d16ca150a0c0a58602a75fb1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "nagaRatings": [],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 17100,
+          "rank": 3,
+          "competitionPoints": -17.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 30600,
+          "rank": 2,
+          "competitionPoints": 15.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 11900,
+          "rank": 4,
+          "competitionPoints": -43.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 40400,
+          "rank": 1,
+          "competitionPoints": 45.4,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "individual-demo-004",
+      "matchNumber": 4,
+      "scheduleId": "individual-demo-preliminary-1-4",
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-20T05:00:00.000Z",
+      "tenhouLogId": "majsoul-c0cf492e2fdeab19647a2c5a85732a33",
+      "contentFingerprint": "d48fea0f0654d7fb4b8fd8b32fa8d14a",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "nagaRatings": [],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 17100,
+          "rank": 3,
+          "competitionPoints": -17.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 30600,
+          "rank": 2,
+          "competitionPoints": 15.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 11900,
+          "rank": 4,
+          "competitionPoints": -43.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 40400,
+          "rank": 1,
+          "competitionPoints": 45.4,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "individual-demo-005",
+      "matchNumber": 5,
+      "scheduleId": "individual-demo-preliminary-2-1",
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-22T12:00:00.000Z",
+      "tenhouLogId": "demo-2-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-2-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-006",
+      "matchNumber": 6,
+      "scheduleId": "individual-demo-preliminary-2-2",
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-22T14:00:00.000Z",
+      "tenhouLogId": "demo-2-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-2-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-007",
+      "matchNumber": 7,
+      "scheduleId": "individual-demo-preliminary-2-3",
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-22T16:00:00.000Z",
+      "tenhouLogId": "demo-2-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-2-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-008",
+      "matchNumber": 8,
+      "scheduleId": "individual-demo-preliminary-2-4",
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-22T18:00:00.000Z",
+      "tenhouLogId": "demo-2-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-2-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-009",
+      "matchNumber": 9,
+      "scheduleId": "individual-demo-preliminary-3-1",
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-23T12:00:00.000Z",
+      "tenhouLogId": "demo-3-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-3-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-010",
+      "matchNumber": 10,
+      "scheduleId": "individual-demo-preliminary-3-2",
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-23T14:00:00.000Z",
+      "tenhouLogId": "demo-3-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-3-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-011",
+      "matchNumber": 11,
+      "scheduleId": "individual-demo-preliminary-3-3",
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-23T16:00:00.000Z",
+      "tenhouLogId": "demo-3-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-3-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-012",
+      "matchNumber": 12,
+      "scheduleId": "individual-demo-preliminary-3-4",
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-23T18:00:00.000Z",
+      "tenhouLogId": "demo-3-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-3-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-013",
+      "matchNumber": 13,
+      "scheduleId": "individual-demo-preliminary-4-1",
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-24T12:00:00.000Z",
+      "tenhouLogId": "demo-4-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-4-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-014",
+      "matchNumber": 14,
+      "scheduleId": "individual-demo-preliminary-4-2",
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-24T14:00:00.000Z",
+      "tenhouLogId": "demo-4-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-4-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-015",
+      "matchNumber": 15,
+      "scheduleId": "individual-demo-preliminary-4-3",
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-24T16:00:00.000Z",
+      "tenhouLogId": "demo-4-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-4-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-016",
+      "matchNumber": 16,
+      "scheduleId": "individual-demo-preliminary-4-4",
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-24T18:00:00.000Z",
+      "tenhouLogId": "demo-4-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-4-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-017",
+      "matchNumber": 17,
+      "scheduleId": "individual-demo-preliminary-5-1",
+      "stage": "preliminary",
+      "round": 5,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-25T12:00:00.000Z",
+      "tenhouLogId": "demo-5-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-5-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-018",
+      "matchNumber": 18,
+      "scheduleId": "individual-demo-preliminary-5-2",
+      "stage": "preliminary",
+      "round": 5,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-25T14:00:00.000Z",
+      "tenhouLogId": "demo-5-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-5-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-019",
+      "matchNumber": 19,
+      "scheduleId": "individual-demo-preliminary-5-3",
+      "stage": "preliminary",
+      "round": 5,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-25T16:00:00.000Z",
+      "tenhouLogId": "demo-5-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-5-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-020",
+      "matchNumber": 20,
+      "scheduleId": "individual-demo-preliminary-5-4",
+      "stage": "preliminary",
+      "round": 5,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-25T18:00:00.000Z",
+      "tenhouLogId": "demo-5-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-5-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-021",
+      "matchNumber": 21,
+      "scheduleId": "individual-demo-preliminary-6-1",
+      "stage": "preliminary",
+      "round": 6,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-26T12:00:00.000Z",
+      "tenhouLogId": "demo-6-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-6-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-022",
+      "matchNumber": 22,
+      "scheduleId": "individual-demo-preliminary-6-2",
+      "stage": "preliminary",
+      "round": 6,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-26T14:00:00.000Z",
+      "tenhouLogId": "demo-6-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-6-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-023",
+      "matchNumber": 23,
+      "scheduleId": "individual-demo-preliminary-6-3",
+      "stage": "preliminary",
+      "round": 6,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-26T16:00:00.000Z",
+      "tenhouLogId": "demo-6-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-6-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-024",
+      "matchNumber": 24,
+      "scheduleId": "individual-demo-preliminary-6-4",
+      "stage": "preliminary",
+      "round": 6,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-26T18:00:00.000Z",
+      "tenhouLogId": "demo-6-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-6-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-025",
+      "matchNumber": 25,
+      "scheduleId": "individual-demo-preliminary-7-1",
+      "stage": "preliminary",
+      "round": 7,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-27T12:00:00.000Z",
+      "tenhouLogId": "demo-7-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-7-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-026",
+      "matchNumber": 26,
+      "scheduleId": "individual-demo-preliminary-7-2",
+      "stage": "preliminary",
+      "round": 7,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-27T14:00:00.000Z",
+      "tenhouLogId": "demo-7-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-7-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-027",
+      "matchNumber": 27,
+      "scheduleId": "individual-demo-preliminary-7-3",
+      "stage": "preliminary",
+      "round": 7,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-27T16:00:00.000Z",
+      "tenhouLogId": "demo-7-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-7-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-028",
+      "matchNumber": 28,
+      "scheduleId": "individual-demo-preliminary-7-4",
+      "stage": "preliminary",
+      "round": 7,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-27T18:00:00.000Z",
+      "tenhouLogId": "demo-7-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-7-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-029",
+      "matchNumber": 29,
+      "scheduleId": "individual-demo-preliminary-8-1",
+      "stage": "preliminary",
+      "round": 8,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-28T12:00:00.000Z",
+      "tenhouLogId": "demo-8-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-8-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-030",
+      "matchNumber": 30,
+      "scheduleId": "individual-demo-preliminary-8-2",
+      "stage": "preliminary",
+      "round": 8,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-28T14:00:00.000Z",
+      "tenhouLogId": "demo-8-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-8-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-031",
+      "matchNumber": 31,
+      "scheduleId": "individual-demo-preliminary-8-3",
+      "stage": "preliminary",
+      "round": 8,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-28T16:00:00.000Z",
+      "tenhouLogId": "demo-8-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-8-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-032",
+      "matchNumber": 32,
+      "scheduleId": "individual-demo-preliminary-8-4",
+      "stage": "preliminary",
+      "round": 8,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-28T18:00:00.000Z",
+      "tenhouLogId": "demo-8-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-8-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-033",
+      "matchNumber": 33,
+      "scheduleId": "individual-demo-preliminary-9-1",
+      "stage": "preliminary",
+      "round": 9,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-29T12:00:00.000Z",
+      "tenhouLogId": "demo-9-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-9-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-034",
+      "matchNumber": 34,
+      "scheduleId": "individual-demo-preliminary-9-2",
+      "stage": "preliminary",
+      "round": 9,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-29T14:00:00.000Z",
+      "tenhouLogId": "demo-9-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-9-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-035",
+      "matchNumber": 35,
+      "scheduleId": "individual-demo-preliminary-9-3",
+      "stage": "preliminary",
+      "round": 9,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-29T16:00:00.000Z",
+      "tenhouLogId": "demo-9-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-9-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-036",
+      "matchNumber": 36,
+      "scheduleId": "individual-demo-preliminary-9-4",
+      "stage": "preliminary",
+      "round": 9,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-29T18:00:00.000Z",
+      "tenhouLogId": "demo-9-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-9-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-037",
+      "matchNumber": 37,
+      "scheduleId": "individual-demo-preliminary-10-1",
+      "stage": "preliminary",
+      "round": 10,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-09-30T12:00:00.000Z",
+      "tenhouLogId": "demo-10-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-10-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-038",
+      "matchNumber": 38,
+      "scheduleId": "individual-demo-preliminary-10-2",
+      "stage": "preliminary",
+      "round": 10,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-09-30T14:00:00.000Z",
+      "tenhouLogId": "demo-10-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-10-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-039",
+      "matchNumber": 39,
+      "scheduleId": "individual-demo-preliminary-10-3",
+      "stage": "preliminary",
+      "round": 10,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-09-30T16:00:00.000Z",
+      "tenhouLogId": "demo-10-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-10-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-040",
+      "matchNumber": 40,
+      "scheduleId": "individual-demo-preliminary-10-4",
+      "stage": "preliminary",
+      "round": 10,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-09-30T18:00:00.000Z",
+      "tenhouLogId": "demo-10-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-10-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-041",
+      "matchNumber": 41,
+      "scheduleId": "individual-demo-preliminary-11-1",
+      "stage": "preliminary",
+      "round": 11,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-01T12:00:00.000Z",
+      "tenhouLogId": "demo-11-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-11-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-042",
+      "matchNumber": 42,
+      "scheduleId": "individual-demo-preliminary-11-2",
+      "stage": "preliminary",
+      "round": 11,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-01T14:00:00.000Z",
+      "tenhouLogId": "demo-11-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-11-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-043",
+      "matchNumber": 43,
+      "scheduleId": "individual-demo-preliminary-11-3",
+      "stage": "preliminary",
+      "round": 11,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-01T16:00:00.000Z",
+      "tenhouLogId": "demo-11-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-11-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-044",
+      "matchNumber": 44,
+      "scheduleId": "individual-demo-preliminary-11-4",
+      "stage": "preliminary",
+      "round": 11,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-01T18:00:00.000Z",
+      "tenhouLogId": "demo-11-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-11-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-045",
+      "matchNumber": 45,
+      "scheduleId": "individual-demo-preliminary-12-1",
+      "stage": "preliminary",
+      "round": 12,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-02T12:00:00.000Z",
+      "tenhouLogId": "demo-12-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-12-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-046",
+      "matchNumber": 46,
+      "scheduleId": "individual-demo-preliminary-12-2",
+      "stage": "preliminary",
+      "round": 12,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-02T14:00:00.000Z",
+      "tenhouLogId": "demo-12-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-12-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-047",
+      "matchNumber": 47,
+      "scheduleId": "individual-demo-preliminary-12-3",
+      "stage": "preliminary",
+      "round": 12,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-02T16:00:00.000Z",
+      "tenhouLogId": "demo-12-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-12-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-048",
+      "matchNumber": 48,
+      "scheduleId": "individual-demo-preliminary-12-4",
+      "stage": "preliminary",
+      "round": 12,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-02T18:00:00.000Z",
+      "tenhouLogId": "demo-12-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-12-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-049",
+      "matchNumber": 49,
+      "scheduleId": "individual-demo-preliminary-13-1",
+      "stage": "preliminary",
+      "round": 13,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-03T12:00:00.000Z",
+      "tenhouLogId": "demo-13-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-13-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-050",
+      "matchNumber": 50,
+      "scheduleId": "individual-demo-preliminary-13-2",
+      "stage": "preliminary",
+      "round": 13,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-03T14:00:00.000Z",
+      "tenhouLogId": "demo-13-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-13-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-051",
+      "matchNumber": 51,
+      "scheduleId": "individual-demo-preliminary-13-3",
+      "stage": "preliminary",
+      "round": 13,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-03T16:00:00.000Z",
+      "tenhouLogId": "demo-13-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-13-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-052",
+      "matchNumber": 52,
+      "scheduleId": "individual-demo-preliminary-13-4",
+      "stage": "preliminary",
+      "round": 13,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-03T18:00:00.000Z",
+      "tenhouLogId": "demo-13-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-13-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-053",
+      "matchNumber": 53,
+      "scheduleId": "individual-demo-preliminary-14-1",
+      "stage": "preliminary",
+      "round": 14,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-04T12:00:00.000Z",
+      "tenhouLogId": "demo-14-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-14-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-054",
+      "matchNumber": 54,
+      "scheduleId": "individual-demo-preliminary-14-2",
+      "stage": "preliminary",
+      "round": 14,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-04T14:00:00.000Z",
+      "tenhouLogId": "demo-14-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-14-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-055",
+      "matchNumber": 55,
+      "scheduleId": "individual-demo-preliminary-14-3",
+      "stage": "preliminary",
+      "round": 14,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-04T16:00:00.000Z",
+      "tenhouLogId": "demo-14-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-14-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-056",
+      "matchNumber": 56,
+      "scheduleId": "individual-demo-preliminary-14-4",
+      "stage": "preliminary",
+      "round": 14,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-04T18:00:00.000Z",
+      "tenhouLogId": "demo-14-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-14-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-057",
+      "matchNumber": 57,
+      "scheduleId": "individual-demo-preliminary-15-1",
+      "stage": "preliminary",
+      "round": 15,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-05T12:00:00.000Z",
+      "tenhouLogId": "demo-15-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-15-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-058",
+      "matchNumber": 58,
+      "scheduleId": "individual-demo-preliminary-15-2",
+      "stage": "preliminary",
+      "round": 15,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-05T14:00:00.000Z",
+      "tenhouLogId": "demo-15-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-15-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-059",
+      "matchNumber": 59,
+      "scheduleId": "individual-demo-preliminary-15-3",
+      "stage": "preliminary",
+      "round": 15,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-05T16:00:00.000Z",
+      "tenhouLogId": "demo-15-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-15-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-060",
+      "matchNumber": 60,
+      "scheduleId": "individual-demo-preliminary-15-4",
+      "stage": "preliminary",
+      "round": 15,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-05T18:00:00.000Z",
+      "tenhouLogId": "demo-15-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-15-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-061",
+      "matchNumber": 61,
+      "scheduleId": "individual-demo-preliminary-16-1",
+      "stage": "preliminary",
+      "round": 16,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-06T12:00:00.000Z",
+      "tenhouLogId": "demo-16-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-16-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-062",
+      "matchNumber": 62,
+      "scheduleId": "individual-demo-preliminary-16-2",
+      "stage": "preliminary",
+      "round": 16,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-06T14:00:00.000Z",
+      "tenhouLogId": "demo-16-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-16-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-063",
+      "matchNumber": 63,
+      "scheduleId": "individual-demo-preliminary-16-3",
+      "stage": "preliminary",
+      "round": 16,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-06T16:00:00.000Z",
+      "tenhouLogId": "demo-16-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-16-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-064",
+      "matchNumber": 64,
+      "scheduleId": "individual-demo-preliminary-16-4",
+      "stage": "preliminary",
+      "round": 16,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-06T18:00:00.000Z",
+      "tenhouLogId": "demo-16-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-16-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-065",
+      "matchNumber": 65,
+      "scheduleId": "individual-demo-preliminary-17-1",
+      "stage": "preliminary",
+      "round": 17,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-07T12:00:00.000Z",
+      "tenhouLogId": "demo-17-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-17-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 31200,
+          "rank": 1,
+          "competitionPoints": 36.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 26600,
+          "rank": 2,
+          "competitionPoints": 11.6,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-066",
+      "matchNumber": 66,
+      "scheduleId": "individual-demo-preliminary-17-2",
+      "stage": "preliminary",
+      "round": 17,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-07T14:00:00.000Z",
+      "tenhouLogId": "demo-17-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-17-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-067",
+      "matchNumber": 67,
+      "scheduleId": "individual-demo-preliminary-17-3",
+      "stage": "preliminary",
+      "round": 17,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-07T16:00:00.000Z",
+      "tenhouLogId": "demo-17-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-17-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-068",
+      "matchNumber": 68,
+      "scheduleId": "individual-demo-preliminary-17-4",
+      "stage": "preliminary",
+      "round": 17,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-07T18:00:00.000Z",
+      "tenhouLogId": "demo-17-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-17-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-069",
+      "matchNumber": 69,
+      "scheduleId": "individual-demo-preliminary-18-1",
+      "stage": "preliminary",
+      "round": 18,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-08T12:00:00.000Z",
+      "tenhouLogId": "demo-18-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-18-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 30800,
+          "rank": 1,
+          "competitionPoints": 35.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 27000,
+          "rank": 2,
+          "competitionPoints": 12,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-070",
+      "matchNumber": 70,
+      "scheduleId": "individual-demo-preliminary-18-2",
+      "stage": "preliminary",
+      "round": 18,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-08T14:00:00.000Z",
+      "tenhouLogId": "demo-18-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-18-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-071",
+      "matchNumber": 71,
+      "scheduleId": "individual-demo-preliminary-18-3",
+      "stage": "preliminary",
+      "round": 18,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-08T16:00:00.000Z",
+      "tenhouLogId": "demo-18-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-18-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-072",
+      "matchNumber": 72,
+      "scheduleId": "individual-demo-preliminary-18-4",
+      "stage": "preliminary",
+      "round": 18,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-08T18:00:00.000Z",
+      "tenhouLogId": "demo-18-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-18-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-073",
+      "matchNumber": 73,
+      "scheduleId": "individual-demo-preliminary-19-1",
+      "stage": "preliminary",
+      "round": 19,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-09T12:00:00.000Z",
+      "tenhouLogId": "demo-19-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-19-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 31100,
+          "rank": 1,
+          "competitionPoints": 36.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 26700,
+          "rank": 2,
+          "competitionPoints": 11.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-074",
+      "matchNumber": 74,
+      "scheduleId": "individual-demo-preliminary-19-2",
+      "stage": "preliminary",
+      "round": 19,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-09T14:00:00.000Z",
+      "tenhouLogId": "demo-19-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-19-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-075",
+      "matchNumber": 75,
+      "scheduleId": "individual-demo-preliminary-19-3",
+      "stage": "preliminary",
+      "round": 19,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-09T16:00:00.000Z",
+      "tenhouLogId": "demo-19-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-19-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-076",
+      "matchNumber": 76,
+      "scheduleId": "individual-demo-preliminary-19-4",
+      "stage": "preliminary",
+      "round": 19,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-09T18:00:00.000Z",
+      "tenhouLogId": "demo-19-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-19-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-077",
+      "matchNumber": 77,
+      "scheduleId": "individual-demo-preliminary-20-1",
+      "stage": "preliminary",
+      "round": 20,
+      "tableNumber": 1,
+      "status": "completed",
+      "playedAt": "2026-10-10T12:00:00.000Z",
+      "tenhouLogId": "demo-20-1",
+      "contentFingerprint": "demo-individual-demo-preliminary-20-1",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-13",
+          "sourceUsername": "天鳳玩家C",
+          "rawPoints": 30700,
+          "rank": 1,
+          "competitionPoints": 35.7,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-15",
+          "sourceUsername": "天鳳玩家E",
+          "rawPoints": 27100,
+          "rank": 2,
+          "competitionPoints": 12.1,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-14",
+          "sourceUsername": "天鳳玩家D",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-16",
+          "sourceUsername": "天鳳玩家F",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-078",
+      "matchNumber": 78,
+      "scheduleId": "individual-demo-preliminary-20-2",
+      "stage": "preliminary",
+      "round": 20,
+      "tableNumber": 2,
+      "status": "completed",
+      "playedAt": "2026-10-10T14:00:00.000Z",
+      "tenhouLogId": "demo-20-2",
+      "contentFingerprint": "demo-individual-demo-preliminary-20-2",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-2",
+          "sourceUsername": "彭虹清",
+          "rawPoints": 31000,
+          "rank": 1,
+          "competitionPoints": 36,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-4",
+          "sourceUsername": "鄂子懿",
+          "rawPoints": 26800,
+          "rank": 2,
+          "competitionPoints": 11.8,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-1",
+          "sourceUsername": "何明轩",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-3",
+          "sourceUsername": "吴东杰",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-079",
+      "matchNumber": 79,
+      "scheduleId": "individual-demo-preliminary-20-3",
+      "stage": "preliminary",
+      "round": 20,
+      "tableNumber": 3,
+      "status": "completed",
+      "playedAt": "2026-10-10T16:00:00.000Z",
+      "tenhouLogId": "demo-20-3",
+      "contentFingerprint": "demo-individual-demo-preliminary-20-3",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 1,
+          "participantId": "demo-6",
+          "sourceUsername": "NAGA守备型",
+          "rawPoints": 31300,
+          "rank": 1,
+          "competitionPoints": 36.3,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-8",
+          "sourceUsername": "赵士强",
+          "rawPoints": 26500,
+          "rank": 2,
+          "competitionPoints": 11.5,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 0,
+          "participantId": "demo-5",
+          "sourceUsername": "Mortal",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-7",
+          "sourceUsername": "NAGA副露型",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    },
+    {
+      "id": "individual-demo-080",
+      "matchNumber": 80,
+      "scheduleId": "individual-demo-preliminary-20-4",
+      "stage": "preliminary",
+      "round": 20,
+      "tableNumber": 4,
+      "status": "completed",
+      "playedAt": "2026-10-10T18:00:00.000Z",
+      "tenhouLogId": "demo-20-4",
+      "contentFingerprint": "demo-individual-demo-preliminary-20-4",
+      "tenhouUrl": "",
+      "sourceType": "majsoul",
+      "nagaUrl": null,
+      "nagaReportId": null,
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "demo-9",
+          "sourceUsername": "王聿阳",
+          "rawPoints": 30900,
+          "rank": 1,
+          "competitionPoints": 35.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 2,
+          "participantId": "demo-11",
+          "sourceUsername": "天鳳玩家A",
+          "rawPoints": 26900,
+          "rank": 2,
+          "competitionPoints": 11.9,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 1,
+          "participantId": "demo-10",
+          "sourceUsername": "赵得華",
+          "rawPoints": 22800,
+          "rank": 3,
+          "competitionPoints": -12.2,
+          "assignmentSource": "manual"
+        },
+        {
+          "seat": 3,
+          "participantId": "demo-12",
+          "sourceUsername": "天鳳玩家B",
+          "rawPoints": 19400,
+          "rank": 4,
+          "competitionPoints": -35.6,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": "自动生成的初赛测试数据"
+    }
+  ],
   "individualSettings": {
     "stages": {
       "preliminary": {
@@ -157,7 +4562,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 1
     },
     {
       "id": "individual-demo-preliminary-1-2",
@@ -172,7 +4578,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 2
     },
     {
       "id": "individual-demo-preliminary-1-3",
@@ -187,7 +4594,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 3
     },
     {
       "id": "individual-demo-preliminary-1-4",
@@ -202,7 +4610,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 4
     },
     {
       "id": "individual-demo-preliminary-2-1",
@@ -217,7 +4626,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 5
     },
     {
       "id": "individual-demo-preliminary-2-2",
@@ -232,7 +4642,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 6
     },
     {
       "id": "individual-demo-preliminary-2-3",
@@ -247,7 +4658,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 7
     },
     {
       "id": "individual-demo-preliminary-2-4",
@@ -262,7 +4674,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 8
     },
     {
       "id": "individual-demo-preliminary-3-1",
@@ -277,7 +4690,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 9
     },
     {
       "id": "individual-demo-preliminary-3-2",
@@ -292,7 +4706,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 10
     },
     {
       "id": "individual-demo-preliminary-3-3",
@@ -307,7 +4722,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 11
     },
     {
       "id": "individual-demo-preliminary-3-4",
@@ -322,7 +4738,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 12
     },
     {
       "id": "individual-demo-preliminary-4-1",
@@ -337,7 +4754,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 13
     },
     {
       "id": "individual-demo-preliminary-4-2",
@@ -352,7 +4770,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 14
     },
     {
       "id": "individual-demo-preliminary-4-3",
@@ -367,7 +4786,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 15
     },
     {
       "id": "individual-demo-preliminary-4-4",
@@ -382,7 +4802,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 16
     },
     {
       "id": "individual-demo-preliminary-5-1",
@@ -397,7 +4818,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 17
     },
     {
       "id": "individual-demo-preliminary-5-2",
@@ -412,7 +4834,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 18
     },
     {
       "id": "individual-demo-preliminary-5-3",
@@ -427,7 +4850,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 19
     },
     {
       "id": "individual-demo-preliminary-5-4",
@@ -442,7 +4866,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 20
     },
     {
       "id": "individual-demo-preliminary-6-1",
@@ -457,7 +4882,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 21
     },
     {
       "id": "individual-demo-preliminary-6-2",
@@ -472,7 +4898,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 22
     },
     {
       "id": "individual-demo-preliminary-6-3",
@@ -487,7 +4914,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 23
     },
     {
       "id": "individual-demo-preliminary-6-4",
@@ -502,7 +4930,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 24
     },
     {
       "id": "individual-demo-preliminary-7-1",
@@ -517,7 +4946,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 25
     },
     {
       "id": "individual-demo-preliminary-7-2",
@@ -532,7 +4962,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 26
     },
     {
       "id": "individual-demo-preliminary-7-3",
@@ -547,7 +4978,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 27
     },
     {
       "id": "individual-demo-preliminary-7-4",
@@ -562,7 +4994,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 28
     },
     {
       "id": "individual-demo-preliminary-8-1",
@@ -577,7 +5010,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 29
     },
     {
       "id": "individual-demo-preliminary-8-2",
@@ -592,7 +5026,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 30
     },
     {
       "id": "individual-demo-preliminary-8-3",
@@ -607,7 +5042,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 31
     },
     {
       "id": "individual-demo-preliminary-8-4",
@@ -622,7 +5058,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 32
     },
     {
       "id": "individual-demo-preliminary-9-1",
@@ -637,7 +5074,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 33
     },
     {
       "id": "individual-demo-preliminary-9-2",
@@ -652,7 +5090,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 34
     },
     {
       "id": "individual-demo-preliminary-9-3",
@@ -667,7 +5106,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 35
     },
     {
       "id": "individual-demo-preliminary-9-4",
@@ -682,7 +5122,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 36
     },
     {
       "id": "individual-demo-preliminary-10-1",
@@ -697,7 +5138,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 37
     },
     {
       "id": "individual-demo-preliminary-10-2",
@@ -712,7 +5154,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 38
     },
     {
       "id": "individual-demo-preliminary-10-3",
@@ -727,7 +5170,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 39
     },
     {
       "id": "individual-demo-preliminary-10-4",
@@ -742,7 +5186,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 40
     },
     {
       "id": "individual-demo-preliminary-11-1",
@@ -757,7 +5202,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 41
     },
     {
       "id": "individual-demo-preliminary-11-2",
@@ -772,7 +5218,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 42
     },
     {
       "id": "individual-demo-preliminary-11-3",
@@ -787,7 +5234,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 43
     },
     {
       "id": "individual-demo-preliminary-11-4",
@@ -802,7 +5250,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 44
     },
     {
       "id": "individual-demo-preliminary-12-1",
@@ -817,7 +5266,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 45
     },
     {
       "id": "individual-demo-preliminary-12-2",
@@ -832,7 +5282,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 46
     },
     {
       "id": "individual-demo-preliminary-12-3",
@@ -847,7 +5298,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 47
     },
     {
       "id": "individual-demo-preliminary-12-4",
@@ -862,7 +5314,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 48
     },
     {
       "id": "individual-demo-preliminary-13-1",
@@ -877,7 +5330,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 49
     },
     {
       "id": "individual-demo-preliminary-13-2",
@@ -892,7 +5346,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 50
     },
     {
       "id": "individual-demo-preliminary-13-3",
@@ -907,7 +5362,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 51
     },
     {
       "id": "individual-demo-preliminary-13-4",
@@ -922,7 +5378,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 52
     },
     {
       "id": "individual-demo-preliminary-14-1",
@@ -937,7 +5394,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 53
     },
     {
       "id": "individual-demo-preliminary-14-2",
@@ -952,7 +5410,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 54
     },
     {
       "id": "individual-demo-preliminary-14-3",
@@ -967,7 +5426,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 55
     },
     {
       "id": "individual-demo-preliminary-14-4",
@@ -982,7 +5442,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 56
     },
     {
       "id": "individual-demo-preliminary-15-1",
@@ -997,7 +5458,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 57
     },
     {
       "id": "individual-demo-preliminary-15-2",
@@ -1012,7 +5474,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 58
     },
     {
       "id": "individual-demo-preliminary-15-3",
@@ -1027,7 +5490,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 59
     },
     {
       "id": "individual-demo-preliminary-15-4",
@@ -1042,7 +5506,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 60
     },
     {
       "id": "individual-demo-preliminary-16-1",
@@ -1057,7 +5522,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 61
     },
     {
       "id": "individual-demo-preliminary-16-2",
@@ -1072,7 +5538,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 62
     },
     {
       "id": "individual-demo-preliminary-16-3",
@@ -1087,7 +5554,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 63
     },
     {
       "id": "individual-demo-preliminary-16-4",
@@ -1102,7 +5570,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 64
     },
     {
       "id": "individual-demo-preliminary-17-1",
@@ -1117,7 +5586,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 65
     },
     {
       "id": "individual-demo-preliminary-17-2",
@@ -1132,7 +5602,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 66
     },
     {
       "id": "individual-demo-preliminary-17-3",
@@ -1147,7 +5618,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 67
     },
     {
       "id": "individual-demo-preliminary-17-4",
@@ -1162,7 +5634,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 68
     },
     {
       "id": "individual-demo-preliminary-18-1",
@@ -1177,7 +5650,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 69
     },
     {
       "id": "individual-demo-preliminary-18-2",
@@ -1192,7 +5666,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 70
     },
     {
       "id": "individual-demo-preliminary-18-3",
@@ -1207,7 +5682,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 71
     },
     {
       "id": "individual-demo-preliminary-18-4",
@@ -1222,7 +5698,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 72
     },
     {
       "id": "individual-demo-preliminary-19-1",
@@ -1237,7 +5714,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 73
     },
     {
       "id": "individual-demo-preliminary-19-2",
@@ -1252,7 +5730,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 74
     },
     {
       "id": "individual-demo-preliminary-19-3",
@@ -1267,7 +5746,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 75
     },
     {
       "id": "individual-demo-preliminary-19-4",
@@ -1282,7 +5762,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 76
     },
     {
       "id": "individual-demo-preliminary-20-1",
@@ -1297,7 +5778,8 @@
         "demo-15",
         "demo-16"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 77
     },
     {
       "id": "individual-demo-preliminary-20-2",
@@ -1312,7 +5794,8 @@
         "demo-3",
         "demo-4"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 78
     },
     {
       "id": "individual-demo-preliminary-20-3",
@@ -1327,7 +5810,8 @@
         "demo-7",
         "demo-8"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 79
     },
     {
       "id": "individual-demo-preliminary-20-4",
@@ -1342,7 +5826,8 @@
         "demo-11",
         "demo-12"
       ],
-      "status": "scheduled"
+      "status": "completed",
+      "matchNumber": 80
     }
   ]
 }
