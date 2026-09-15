@@ -153,6 +153,10 @@
 .individual-standings-table { font-variant-numeric: tabular-nums; }
 .individual-standings-table td:nth-child(3), .individual-standings-table td:nth-child(4), .individual-standings-table td:nth-child(5), .individual-standings-table td:nth-child(6) { font-size: 16px; font-weight: 800; color: #0f766e; }
 .qualification-line td { padding: 7px 12px; border-top: 3px solid #d97706; border-bottom: 1px solid #f2c879; background: #fff7df; color: #b45309; font-size: 13px; font-weight: 800; letter-spacing: .02em; }
+.stage-seal { display: inline-flex; align-items: center; padding: 3px 9px; border: 1px solid currentColor; border-radius: 999px; font-size: 11px; font-style: normal; font-weight: 800; vertical-align: middle; }
+.stage-seal-active { color: #b45309; background: #fff7df; }
+.stage-seal-done { color: #15803d; background: #ecfdf3; }
+.stage-seal-pending { color: #64748b; background: #f8fafc; }
 .stage-final { background: #f5e7c5; color: #7c5714; }
 .stage-semifinal { background: #e4edf5; color: #315f7e; }
 .stage-preliminary { background: #e3f1eb; color: #28715e; }

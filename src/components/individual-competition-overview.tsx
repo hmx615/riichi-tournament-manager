@@ -96,7 +96,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
         const pending = stageTables.filter((table) => table.status !== "completed" && !scheduledMatch(competition, table));
         if (stageTables.length && !pending.length) return null;
         return <section className="schedule-stage-group" key={stage}>
-          <h4>{stageLabels[stage]}</h4>
+          <h4>{stageLabels[stage]} <em className={`stage-seal stage-seal-${stageStatus(stage) === "进行中" ? "active" : stageStatus(stage) === "已完成" ? "done" : "pending"}`}>{stageStatus(stage)}</em></h4>
           {pending.length ? <div className="individual-schedule-grid">{pending.map((table) =>
             <article className="individual-schedule-card" key={table.id}>
               <header><strong>{dateFormatter.format(new Date(table.scheduledAt))}</strong><span>{stageLabels[stage]} · 第 {table.round} 轮 · A{table.tableNumber}</span></header>
@@ -113,7 +113,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
         const matches = competition.matches.filter((match) => match.status === "completed" && match.stage === stage)
           .sort((a, b) => Date.parse(b.playedAt) - Date.parse(a.playedAt) || b.matchNumber - a.matchNumber);
         return matches.length ? <section className="schedule-stage-group" key={stage}>
-          <h4>{stageLabels[stage]}</h4>
+          <h4>{stageLabels[stage]} <em className={`stage-seal stage-seal-${stageStatus(stage) === "进行中" ? "active" : stageStatus(stage) === "已完成" ? "done" : "pending"}`}>{stageStatus(stage)}</em></h4>
           <div className="individual-schedule-grid">{matches.map((match) => {
             const table = plannedTables.find((item) => scheduledMatch(competition, item)?.id === match.id);
             return <article className="individual-schedule-card schedule-completed" key={match.id}>
