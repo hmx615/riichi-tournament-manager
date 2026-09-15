@@ -157,6 +157,7 @@
 .stage-seal-active { color: #b45309; background: #fff7df; }
 .stage-seal-done { color: #15803d; background: #ecfdf3; }
 .stage-seal-pending { color: #64748b; background: #f8fafc; }
+.workflow .stage-seal { margin-left: 6px; }
 .stage-final { background: #f5e7c5; color: #7c5714; }
 .stage-semifinal { background: #e4edf5; color: #315f7e; }
 .stage-preliminary { background: #e3f1eb; color: #28715e; }
