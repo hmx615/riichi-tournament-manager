@@ -70,10 +70,13 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
     if (competition.matches.some((match) => match.stage === "semifinal" && match.seats.some((seat) => seat.participantId === participantId))) return "半决赛";
     return "初赛";
   };
-  const sortedPlayers = [...competition.participants].sort((left, right) => (totals[right.id] ?? 0) - (totals[left.id] ?? 0));
   const activeStage = finalComplete ? "final" : competition.matches.some((match) => match.stage === "semifinal") ? "semifinal" : "preliminary";
   const stageAdvancingCount = activeStage === "preliminary" ? settings?.stages.preliminary.advancingPlayerCount ?? 0 : activeStage === "semifinal" ? settings?.semifinalAdvancingPlayerCount ?? settings?.stages.semifinal.advancingPlayerCount ?? 0 : 0;
   const activeStageComplete = stageComplete(activeStage);
+  const stageStatus = (stage: "preliminary" | "semifinal" | "final") => stageComplete(stage) ? "已完成" : competition.matches.some((match) => match.status === "completed" && match.stage === stage) || stage === activeStage ? "进行中" : "待进行";
+  const stageRawPoints = (id: string, stage: "preliminary" | "semifinal" | "final") => competition.matches.filter((m) => m.status === "completed" && m.stage === stage).flatMap((m) => m.seats.filter((s) => s.participantId === id)).reduce((sum, s) => sum + s.competitionPoints, 0);
+  const displayPoints = (id: string) => { const p = stageRawPoints(id, "preliminary"); const s = stageRawPoints(id, "semifinal"); const f = stageRawPoints(id, "final"); return finalComplete ? f + (s + p / 2) / 2 : activeStage === "semifinal" ? s + p / 2 : p; };
+  const sortedPlayers = [...competition.participants].sort((left, right) => displayPoints(right.id) - displayPoints(left.id));
   return <div className="page competition-page">
     {showBackLink && <Link className="back-link" href="/"><ArrowLeft size={16} />返回比赛列表</Link>}
     <div className="page-heading">
