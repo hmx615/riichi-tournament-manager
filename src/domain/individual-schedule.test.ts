@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { generateIndividualSchedule } from "./individual-schedule";
+import { generateIndividualSchedule, planIndividualSchedule } from "./individual-schedule";
 
 describe("generateIndividualSchedule", () => {
   it("gives every player the target number of games", () => {
@@ -44,5 +44,51 @@ describe("generateIndividualSchedule", () => {
         }
       }
     }
+  });
+
+  it("seats uneven player counts with byes instead of inventing a fourth player", () => {
+    const plan = planIndividualSchedule(["a", "b", "c", "d", "e"], "preliminary", 2, { allowUnevenGames: true });
+    expect(plan.tables).toHaveLength(2);
+    const games = new Map<string, number>();
+    for (const table of plan.tables) for (const id of table.participantIds) games.set(id, (games.get(id) ?? 0) + 1);
+    const played = [...games.values()];
+    expect(played.sort()).toEqual([1, 1, 2, 2, 2]);
+    expect(plan.byes).toHaveLength(2);
+    for (const bye of plan.byes) {
+      expect(games.get(bye.participantId)).toBeLessThan(2);
+    }
+  });
+
+  it("keeps games within one game of each other for every uneven roster", () => {
+    for (let count = 4; count <= 24; count++) {
+      for (let games = 1; games <= 8; games++) {
+        const ids = Array.from({ length: count }, (_, index) => String(index));
+        const plan = planIndividualSchedule(ids, "preliminary", games, { allowUnevenGames: true });
+        const played = new Map(ids.map((id) => [id, 0]));
+        for (const table of plan.tables) {
+          expect(table.participantIds).toHaveLength(4);
+          expect(new Set(table.participantIds).size).toBe(4);
+          for (const id of table.participantIds) played.set(id, played.get(id)! + 1);
+        }
+        for (const round of new Set(plan.tables.map((table) => table.round))) {
+          const seated = plan.tables.filter((table) => table.round === round).flatMap((table) => table.participantIds);
+          expect(new Set(seated).size).toBe(seated.length);
+        }
+        const values = [...played.values()];
+        expect(Math.max(...values) - Math.min(...values)).toBeLessThanOrEqual(1);
+        expect(plan.byes).toHaveLength(count * games % 4);
+        expect(new Set(plan.byes.map((bye) => bye.participantId)).size).toBe(plan.byes.length);
+        for (const bye of plan.byes) expect(played.get(bye.participantId)!).toBe(games - 1);
+        for (const bye of plan.byes) expect(bye.stage).toBe("preliminary");
+      }
+    }
+  });
+
+  it("still refuses uneven totals unless the caller opts in", () => {
+    expect(() => planIndividualSchedule(["a", "b", "c", "d", "e"], "semifinal", 2)).toThrow("4 的倍数");
+  });
+
+  it("rejects rosters smaller than one table", () => {
+    expect(() => planIndividualSchedule(["a", "b", "c"], "final", 4, { allowUnevenGames: true })).toThrow("至少需要 4 名选手");
   });
 });

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import { CheckCircle2, Link2, RefreshCw, Upload } from "lucide-react";
 import type { Competition, IndividualScheduleTable } from "@/domain/types";
-import { parseMatchAction, saveMatchAction, type MatchEntryState } from "@/app/competitions/1st-xrc/matches/actions";
+import { parseMatchAction, saveMatchAction, type MatchEntryState } from "@/app/competitions/matches/actions";
 
 const winds = ["东", "南", "西", "北"];
 const initialState: MatchEntryState = { status: "idle", message: "", preview: null, operation: null, targetMatchNumber: null };
@@ -67,7 +67,7 @@ export function MatchEntryForm({ competition, schedule }: { competition: Competi
             return (
               <div key={`${preview?.logId || "empty"}-${wind}`}>
                 <b>{wind}</b>
-                <span className="source-name">{seat?.sourceUsername || "等待解析原始昵称"}{seat ? ` · ${seat.rawPoints.toLocaleString("zh-CN")}` : ""}</span>
+                <span className="source-name">{seat?.sourceUsername || "等待解析原始昵称"}{seat ? ` · ${seat.rawPoints.toLocaleString("zh-CN")}` : ""}{seat?.resolvedByTable && <em className="seat-match-note" title="该昵称被多人共用，按同桌去重自动确定">同桌去重</em>}{seat?.resolvedByPreference && <em className="seat-match-note preference" title="该昵称被多人共用，按偏好规则匹配，请核对">偏好匹配</em>}</span>
                 <select name={`participant${index}`} aria-label={`${wind}家选手`} defaultValue={participantId} disabled={!preview || supplementing} required={!supplementing}>
                   <option value="" disabled>选择赛事选手</option>
                   {competition.participants.filter((participant) => !schedule || schedule.participantIds.includes(participant.id)).map((participant) => <option value={participant.id} key={participant.id}>{participant.displayName}</option>)}

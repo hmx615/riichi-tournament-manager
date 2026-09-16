@@ -9,7 +9,7 @@ import type { Competition, IndividualCompetitionSettings, Participant } from "@/
 import { listPeople } from "@/server/person-repository";
 import { hasDuplicateHumanParticipants } from "@/domain/participant-validation";
 import { isValidPersonId } from "@/domain/person-id";
-import { generateIndividualSchedule } from "@/domain/individual-schedule";
+import { planIndividualSchedule } from "@/domain/individual-schedule";
 
 export type CreateCompetitionState = { message: string; fieldErrors?: Record<string, string[]>; values?: Record<string, string> };
 
@@ -112,6 +112,10 @@ export async function createCompetitionAction(
     preliminaryDirectFinalPlayerCount: parsed.data.preliminaryDirectFinal,
     pairingMode: "balanced_opponents",
   } : undefined;
+  // 人数不是 4 的倍数时，允许部分选手少打一个半庄（记为轮空），而不是虚构第四名选手。
+  const preliminaryPlan = parsed.data.format === "individual"
+    ? planIndividualSchedule(participants.map((participant) => participant.id), "preliminary", individualSettings!.stages.preliminary.matchCountPerPlayer, { allowUnevenGames: true })
+    : null;
   const competition: Competition = {
     id,
     name: parsed.data.name,
@@ -124,7 +128,8 @@ export async function createCompetitionAction(
     participants,
     matches: [],
     individualSettings,
-    individualSchedule: parsed.data.format === "individual" ? generateIndividualSchedule(participants.map((participant) => participant.id), "preliminary", individualSettings!.stages.preliminary.matchCountPerPlayer).map((table, index) => ({ ...table, id: `${id}-preliminary-${table.round}-${table.tableNumber}`, scheduledAt: new Date(Date.UTC(2026, 8, 12, 12 + index * 2)).toISOString(), timezone: "Asia/Shanghai", status: "scheduled" as const })) : undefined,
+    individualSchedule: preliminaryPlan?.tables.map((table, index) => ({ ...table, id: `${id}-preliminary-${table.round}-${table.tableNumber}`, scheduledAt: new Date(Date.UTC(2026, 8, 12, 12 + index * 2)).toISOString(), timezone: "Asia/Shanghai", status: "scheduled" as const })),
+    individualByes: preliminaryPlan?.byes.length ? preliminaryPlan.byes : undefined,
   };
 
   try {

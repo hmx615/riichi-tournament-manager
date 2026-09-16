@@ -12,6 +12,7 @@ coverage/
 data/*.db
 data/*.db-*
 data/backups/
+data/_local-test-backup/
 data/naga-reports/
 data/avatars/
 data/tutorial-case-states.json

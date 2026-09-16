@@ -1,5 +1,29 @@
 [
   {
+    "id": "e-ziyi",
+    "displayName": "鄂子懿",
+    "kind": "human",
+    "color": "#3b78a0",
+    "aliases": [
+      "鄂子懿",
+      "鄂 子懿",
+      "mzhj"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "mzhj"
+      },
+      {
+        "platform": "majsoul",
+        "username": "紫罗兰万古长存"
+      }
+    ],
+    "avatarKey": "people/e-ziyi/b2578bef-8b00-4c8f-8e36-4a57ef88b590",
+    "avatarVersion": 1788332466332,
+    "avatarContentType": "image/jpeg"
+  },
+  {
     "id": "hmx",
     "displayName": "何明轩",
     "kind": "human",
@@ -35,6 +59,65 @@
     "avatarContentType": "image/jpeg"
   },
   {
+    "id": "mortal",
+    "displayName": "Mortal",
+    "kind": "ai",
+    "color": "#4f5962",
+    "aliases": [
+      "Mortal",
+      "NoName",
+      "Mortal 4.1b"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "NoName"
+      }
+    ],
+    "avatarKey": "people/mortal/49e49095-d012-4b4a-a837-a008cec9d5ca",
+    "avatarVersion": 1788332574806,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "naga",
+    "displayName": "NAGA副露型",
+    "kind": "ai",
+    "color": "#6657c7",
+    "aliases": [
+      "NAGA副露型",
+      "NAGA",
+      "nagaカガシ"
+    ],
+    "accounts": [],
+    "avatarKey": "people/naga/2a3252f5-b36a-473e-9cdb-0b15615599f1",
+    "avatarVersion": 1788332611675,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "wu-dongjie",
+    "displayName": "吴东杰",
+    "kind": "human",
+    "color": "#d1495b",
+    "aliases": [
+      "吴东杰",
+      "吴 东杰",
+      "Veritas"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "Veritas"
+      },
+      {
+        "platform": "majsoul",
+        "username": "卡夫卡爱上坡路"
+      }
+    ],
+    "avatarKey": "people/wu-dongjie/eef8e752-bf15-456d-a100-db8eac3e8021",
+    "avatarVersion": 1788332728666,
+    "avatarContentType": "image/png"
+  },
+  {
     "id": "xiaop",
     "displayName": "彭虹清",
     "kind": "human",
@@ -67,10 +150,6 @@
         "username": "こくらあさひ"
       },
       {
-        "platform": "tenhou",
-        "username": "ハンバーガー"
-      },
-      {
         "platform": "majsoul",
         "username": "越山逐月"
       }
@@ -78,89 +157,6 @@
     "avatarKey": "people/xiaop/a5af5f42-75e3-42b2-a85c-09dbc715291d",
     "avatarVersion": 1788331839347,
     "avatarContentType": "image/png"
-  },
-  {
-    "id": "naga",
-    "displayName": "NAGA副露型",
-    "kind": "ai",
-    "color": "#6657c7",
-    "aliases": [
-      "NAGA副露型",
-      "NAGA",
-      "nagaカガシ"
-    ],
-    "accounts": [],
-    "avatarKey": "people/naga/2a3252f5-b36a-473e-9cdb-0b15615599f1",
-    "avatarVersion": 1788332611675,
-    "avatarContentType": "image/jpeg"
-  },
-  {
-    "id": "mortal",
-    "displayName": "Mortal",
-    "kind": "ai",
-    "color": "#4f5962",
-    "aliases": [
-      "Mortal",
-      "NoName",
-      "Mortal 4.1b"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "NoName"
-      }
-    ],
-    "avatarKey": "people/mortal/49e49095-d012-4b4a-a837-a008cec9d5ca",
-    "avatarVersion": 1788332574806,
-    "avatarContentType": "image/jpeg"
-  },
-  {
-    "id": "wu-dongjie",
-    "displayName": "吴东杰",
-    "kind": "human",
-    "color": "#d1495b",
-    "aliases": [
-      "吴东杰",
-      "吴 东杰",
-      "Veritas"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "Veritas"
-      },
-      {
-        "platform": "majsoul",
-        "username": "卡夫卡爱上坡路"
-      }
-    ],
-    "avatarKey": "people/wu-dongjie/eef8e752-bf15-456d-a100-db8eac3e8021",
-    "avatarVersion": 1788332728666,
-    "avatarContentType": "image/png"
-  },
-  {
-    "id": "e-ziyi",
-    "displayName": "鄂子懿",
-    "kind": "human",
-    "color": "#3b78a0",
-    "aliases": [
-      "鄂子懿",
-      "鄂 子懿",
-      "mzhj"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "mzhj"
-      },
-      {
-        "platform": "majsoul",
-        "username": "紫罗兰万古长存"
-      }
-    ],
-    "avatarKey": "people/e-ziyi/b2578bef-8b00-4c8f-8e36-4a57ef88b590",
-    "avatarVersion": 1788332466332,
-    "avatarContentType": "image/jpeg"
   },
   {
     "id": "士强",
@@ -256,5 +252,62 @@
     "avatarKey": "people/humiao/2235990b-aa7d-4e59-b20e-0a8d5171f00b",
     "avatarVersion": 1789279909007,
     "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "纪委",
+    "displayName": "李冀炜",
+    "kind": "human",
+    "color": "#161e8d",
+    "aliases": [
+      "李冀炜",
+      "李冀伟"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "人神"
+      }
+    ],
+    "avatarKey": "people/%E7%BA%AA%E5%A7%94/a0919609-8309-4733-8dd7-41affebe4a17",
+    "avatarVersion": 1789367298784,
+    "avatarContentType": "image/png"
+  },
+  {
+    "id": "hamburger",
+    "displayName": "李晓赫",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "李晓赫",
+      "ハンバーガー"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "ハンバーガー"
+      }
+    ],
+    "avatarKey": "people/hamburger/e1b8110a-e4a9-4371-8795-3276167f591b",
+    "avatarVersion": 1789443054351,
+    "avatarContentType": "image/png"
+  },
+  {
+    "id": "chenluo",
+    "displayName": "陈洛",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "陈洛",
+      "なないし"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "なないし"
+      }
+    ],
+    "avatarKey": "people/chenluo/26e48e49-a041-4d72-b9c9-263cf42fb81e",
+    "avatarVersion": 1789522175169,
+    "avatarContentType": "image/png"
   }
 ]

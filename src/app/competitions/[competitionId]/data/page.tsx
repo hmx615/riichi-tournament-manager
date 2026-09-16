@@ -9,8 +9,13 @@ import { computeCompetitionSummary } from "@/server/competition-statistics";
 import { isIndividualCompetition } from "@/domain/competition-format";
 import { IndividualCompetitionData } from "@/components/individual-competition-overview";
 
-export default async function CompetitionDataPage({ params }: { params: Promise<{ competitionId: string }> }) {
+export default async function CompetitionDataPage({ params, searchParams }: {
+  params: Promise<{ competitionId: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const { competitionId } = await params;
+  const query = await searchParams;
+  const round = typeof query.round === "string" && /^\d+$/.test(query.round) ? Number(query.round) : 0;
   const competition = await getCompetition(competitionId);
   if (!competition) notFound();
   if (competition.matches.length === 0) return (
@@ -32,7 +37,7 @@ export default async function CompetitionDataPage({ params }: { params: Promise<
     <div className="page data-page">
       <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回比赛</Link>
       <div className="page-heading"><div><p className="eyebrow">{competition.code} · 个人赛</p><h1>积分与数据</h1></div></div>
-      <IndividualCompetitionData competition={competition} summary={summary} />
+      <IndividualCompetitionData competition={competition} summary={summary} round={round} />
     </div>
   );
   return (

@@ -3,7 +3,7 @@ import "server-only";
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { Competition, PersonAccount } from "@/domain/types";
-import { inferParticipantId } from "@/domain/participant-matching";
+import { resolveTableParticipants } from "@/domain/participant-matching";
 import { listPeople } from "@/server/person-repository";
 import { normalizeMajsoulJson } from "@/domain/majsoul-json";
 import { calculateNagaRatings, type SeatNagaRating } from "@/domain/naga-rating";
@@ -42,6 +42,10 @@ export type MatchPreview = {
     rank: 1 | 2 | 3 | 4;
     competitionPoints: number;
     participantId: string | null;
+    /** 共用账号经同桌去重（同名人类选手不会占两个座次）自动确定。 */
+    resolvedByTable: boolean;
+    /** 共用账号经偏好规则（如同桌出现何明轩与赵得華时「東海大黄魚」归赵得華）自动确定，可在确认页手改。 */
+    resolvedByPreference: boolean;
   }>;
 };
 
@@ -234,6 +238,7 @@ async function previewFromLog({
   const rawPoints = [log.sc[0], log.sc[2], log.sc[4], log.sc[6]].map(Number);
   const ranks = ranksFromRawPoints(rawPoints);
   const points = calculateCompetitionPoints(rawPoints, competition.initialPoints, competition.rankPoints);
+  const matches = resolveTableParticipants(competition, log.name, people, accountPlatform);
   return {
     sourceUrl,
     sourceType,
@@ -251,7 +256,9 @@ async function previewFromLog({
       rawPoints: rawPoints[seat],
       rank: ranks[seat],
       competitionPoints: points[seat],
-      participantId: inferParticipantId(competition, sourceUsername, people, accountPlatform),
+      participantId: matches[seat]?.participantId ?? null,
+      resolvedByTable: matches[seat]?.resolvedByTable ?? false,
+      resolvedByPreference: matches[seat]?.resolvedByPreference ?? false,
     })),
   };
 }

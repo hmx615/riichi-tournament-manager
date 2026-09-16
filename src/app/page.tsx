@@ -86,7 +86,7 @@ export default async function CompetitionsPage() {
           <div className="competition-main">
             <div className={`competition-title ${styles.competitionTitle}`}><span className="match-pool-mark">♛ 天梯</span>{matchPool.name}<span className="status match-pool-status">长期开放</span></div>
             <div className="competition-meta">所有人物可参加 · {completedMatches(matchPool)} 半庄 / 无限</div>
-            <div className="player-list">{matchPool.participants.slice(0, 12).map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}{matchPool.participants.length > 12 && <span className="player-overflow">+{matchPool.participants.length - 12}</span>}</div>
+            <div className="player-list">{matchPool.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
           </div>
           <div className="competition-row-actions">
             {admin && <><Link className="icon-link" href={`/competitions/${matchPool.id}/settings`} title="家妈杯设置" aria-label="家妈杯设置"><Settings size={17} /></Link><Link className="icon-link" href={`/competitions/${matchPool.id}/matches/new`} title="录入家妈杯牌谱" aria-label="录入家妈杯牌谱"><FilePlus2 size={17} /></Link></>}
