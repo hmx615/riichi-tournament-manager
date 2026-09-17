@@ -1,0 +1,52 @@
+.wrapper.wrapper { position: relative; display: block; width: fit-content; }
+.inline { display: none; }
+
+.wrapper .tip {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 20px);
+  z-index: 6;
+  padding: 6px 9px;
+  border-radius: 5px;
+  background: var(--sidebar, #242b30);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity .14s ease, transform .14s ease;
+  box-shadow: 0 8px 20px rgba(15, 23, 32, .24);
+}
+
+.wrapper .tip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 12px;
+  border: 4px solid transparent;
+  border-top-color: var(--sidebar, #242b30);
+}
+
+.wrapper:hover .tip,
+.wrapper:focus-within .tip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 触屏与窄屏没有悬停能力，直接把精确值排在段位下方。 */
+@media (hover: none), (max-width: 760px) {
+  .wrapper .tip { display: none; }
+  .wrapper .inline {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    line-height: 1.3;
+  }
+}

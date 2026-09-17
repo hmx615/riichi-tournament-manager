@@ -7,7 +7,7 @@ import { listPeople } from "@/server/person-repository";
 import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
 import { riichiWaitSamples, summarizeRiichiWaitSamples, type RiichiWaitSample } from "../domain/riichi-wait";
 import { assessMatchQuality, type PlayerQuality } from "../domain/match-quality";
-import { estimateRankByGame, type EstimatedRank } from "../domain/estimated-rank";
+import { estimateRankByGame, estimateRankPreciseByGame, type EstimatedRank } from "../domain/estimated-rank";
 import { summarizeNagaMetrics } from "../domain/naga-summary";
 import { isNagaName } from "../domain/participant-matching";
 // @ts-expect-error The fixed legacy calculator is CommonJS and has no type declarations.
@@ -64,6 +64,7 @@ export type PersonStatistics = {
   person: Person;
   totalCompetitionPoints: number;
   estimatedRank: EstimatedRank | null;
+  estimatedRankPrecise: number | null;
   summary: PlayerSummary;
   rankCounts: number[];
   ratings: PersonRatingSummary[];
@@ -98,6 +99,11 @@ function summarizeRatings(ratings: NagaRating[]): PersonRatingSummary[] {
 function estimatedRankForPerson(person: Person, ratings: NagaRating[]): EstimatedRank | null {
   if (["mortal", "naga"].includes(person.id) || isNagaName(person.displayName)) return "10+";
   return estimateRankByGame(ratings);
+}
+
+function estimatedPreciseRankForPerson(person: Person, ratings: NagaRating[]): number | null {
+  if (["mortal", "naga"].includes(person.id) || isNagaName(person.displayName)) return null;
+  return estimateRankPreciseByGame(ratings);
 }
 
 function compareMatchesNewestFirst(left: PersonMatchSummary, right: PersonMatchSummary) {
@@ -182,6 +188,7 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
       person,
       totalCompetitionPoints: Number(matches.reduce((sum, match) => sum + match.competitionPoints, 0).toFixed(1)),
       estimatedRank: estimatedRankForPerson(person, ratings[person.id]),
+      estimatedRankPrecise: estimatedPreciseRankForPerson(person, ratings[person.id]),
       summary: {
         ...(matches.length ? stats.finalize(rawStats[person.id]) : {}),
         立直多面率: wait.multiSideRate,

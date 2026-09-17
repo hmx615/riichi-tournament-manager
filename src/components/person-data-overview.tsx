@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { formatEstimatedRank } from "@/domain/estimated-rank";
+import { EstimatedRankValue } from "@/components/estimated-rank-value";
 import type { PersonStatistics } from "@/server/person-statistics";
 import styles from "./person-data-overview.module.css";
 
@@ -34,7 +34,7 @@ function displayValue(value: number | null | undefined, type: MetricType) {
 const dateFormatter = new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" });
 
 export function PersonDataOverview({ statistics }: { statistics: PersonStatistics }) {
-  const { person, estimatedRank, summary, rankCounts, ratings, quality, competitions, matches, totalCompetitionPoints } = statistics;
+  const { person, estimatedRank, estimatedRankPrecise, summary, rankCounts, ratings, quality, competitions, matches, totalCompetitionPoints } = statistics;
   const total = matches.length || 1;
   const averageRank = summary["平均顺位"];
   return (
@@ -43,7 +43,7 @@ export function PersonDataOverview({ statistics }: { statistics: PersonStatistic
         <div className="summary-block"><span>总 PT<strong className={totalCompetitionPoints >= 0 ? "positive" : "negative"}>{totalCompetitionPoints >= 0 ? "+" : ""}{totalCompetitionPoints.toFixed(1)}</strong></span></div>
         <div className="summary-block"><span>半庄<strong>{matches.length}</strong></span></div>
         <div className="summary-block"><span>平均顺位<strong>{averageRank?.toFixed(2) ?? "-"}</strong></span></div>
-        <div className="summary-block"><span>推定段位<strong>{formatEstimatedRank(estimatedRank)}</strong></span></div>
+        <div className="summary-block"><span>推定段位<EstimatedRankValue rank={estimatedRank} precise={estimatedRankPrecise} /></span></div>
       </section>
 
       <section className="rank-distribution person-rank-section">

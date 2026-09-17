@@ -524,6 +524,9 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .competition-row.match-pool-row { grid-template-columns: minmax(300px, 1fr) auto; border: 1px solid #dfbd58; background: #fff8d8; box-shadow: 0 8px 24px rgba(151, 111, 24, .12); }
 .match-pool-row .player-list { flex-wrap: wrap; overflow: visible; row-gap: 6px; }
 .match-pool-mark { color: #86651a; font-size: .76rem; font-weight: 700; letter-spacing: .04em; border: 1px solid #d5a84d; background: #fff4cf; padding: .25rem .5rem; border-radius: 999px; }
+.match-pool-all { min-height: 28px; padding: 4px 12px; border: 1px dashed #d8b45e; border-radius: 999px; background: #fffdf3; color: #8a5b00; display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 750; }
+.match-pool-all > svg { color: #b58a2c; }
+.match-pool-all-count { padding: 1px 7px; border-radius: 999px; background: #fff1c8; color: #8a5b00; font-size: 10px; font-weight: 800; }
 .match-pool-status { color: #8a5b00; background: #fff4cf; border-color: #e0bd69; }
 .player-overflow { color: var(--ink-muted); font-size: .82rem; align-self: center; }
 .score-preview { display: grid; grid-template-columns: repeat(4, minmax(58px, 1fr)); gap: 18px; }
@@ -944,6 +947,10 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
   .summary-block:last-child { border-bottom: 0; }
   .section-block, .standings { padding: 16px; }
   .competition-row { padding: 15px; gap: 17px; grid-template-columns: 1fr 34px; }
+  .competition-row.match-pool-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .match-pool-row .competition-title { flex-wrap: wrap; row-gap: 6px; }
+  .match-pool-row .competition-row-actions { align-self: start; }
+  .match-pool-all { white-space: nowrap; }
   .score-preview { gap: 9px; }
   .workflow { grid-template-columns: 1fr; }
   .workflow li { border-right: 0; border-bottom: 1px solid var(--line); }
@@ -1007,6 +1014,13 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
   .login-page { min-height: calc(100vh - 55px); padding-bottom: 100px; }
   .login-form { padding: 22px; }
 }
+
+/* 窄屏放不下「内容 + 操作」两列，操作按钮换到下一行，避免与内容挤在一起。 */
+@media (max-width: 520px) {
+  .competition-row.match-pool-row { grid-template-columns: 1fr; }
+  .match-pool-row .competition-row-actions { align-self: center; }
+}
+
 .quality-visuals-off .goldBadge,.quality-visuals-off .diamondBadge,.quality-visuals-off .horseBadge,.quality-visuals-off .playerDiamond,.quality-visuals-off .playerGold,.quality-visuals-off .playerHorse,.quality-visuals-off .goldRow,.quality-visuals-off .diamondRow,.quality-visuals-off .horseRow{background:none!important;background-image:none!important;color:inherit!important;border-color:inherit!important;text-shadow:none!important}
 .quality-visuals-off .goldBadge,.quality-visuals-off .diamondBadge,.quality-visuals-off .horseBadge,.quality-visuals-off .playerDiamond,.quality-visuals-off .playerGold,.quality-visuals-off .playerHorse{display:none!important}
 .quality-visuals-off .goldRow,.quality-visuals-off .diamondRow,.quality-visuals-off .horseRow{background:transparent!important;background-image:none!important;color:inherit!important;border-color:inherit!important;text-shadow:none!important}

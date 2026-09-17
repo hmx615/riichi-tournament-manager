@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { estimateRank, estimateRankByDecision, estimateRankByGame, estimateRankByHand, formatEstimatedRank } from "./estimated-rank";
+import { estimateRank, estimateRankByDecision, estimateRankByGame, estimateRankByHand, estimateRankPreciseByGame, formatEstimatedRank, formatEstimatedRankPrecise } from "./estimated-rank";
 
 describe("estimated rank", () => {
   it("converts weighted metrics within each model before combining models", () => {
@@ -35,5 +35,21 @@ describe("estimated rank", () => {
     expect(formatEstimatedRank(9.35)).toBe("9.3段");
     expect(formatEstimatedRank("10+")).toBe("10+段");
     expect(formatEstimatedRank(null)).toBe("-");
+  });
+
+  it("exposes a four-decimal precise value that rounds back to the displayed rank", () => {
+    const ratings = [
+      { model: "ニシキ", rating: 79.4, agreementRate: 0.656, badMoveRate: 0.151, decisionCount: 1 },
+      { model: "ニシキ", rating: 90.6, agreementRate: 0.795, badMoveRate: 0.039, decisionCount: 100 },
+    ];
+    const precise = estimateRankPreciseByGame(ratings);
+    expect(precise).toBeCloseTo(5.1828, 3);
+    expect(Number(precise!.toFixed(1))).toBe(estimateRankByGame(ratings));
+    expect(formatEstimatedRankPrecise(precise)).toBe("5.1828段");
+    expect(formatEstimatedRankPrecise(null)).toBe("-");
+  });
+
+  it("has no precise value without a supported NAGA model", () => {
+    expect(estimateRankPreciseByGame([])).toBeNull();
   });
 });

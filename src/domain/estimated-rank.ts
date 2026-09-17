@@ -45,7 +45,8 @@ function interpolateRank(value: number, curve: number[]) {
   return null;
 }
 
-export function estimateRankByPerspective(ratings: RatingMetrics[], perspective: EstimatedRankPerspective) {
+// 返回未取整的原始推定值，供展示两位以上小数使用。
+function estimateRankValueByPerspective(ratings: RatingMetrics[], perspective: EstimatedRankPerspective) {
   const ratingsByModel = new Map<string, RatingMetrics[]>();
   for (const rating of ratings) {
     if (!calibrations[rating.model]) continue;
@@ -64,11 +65,22 @@ export function estimateRankByPerspective(ratings: RatingMetrics[], perspective:
     return estimates.length ? [estimates.reduce((sum, rank) => sum + rank, 0) / estimates.length] : [];
   });
   if (!modelRanks.length) return null;
-  return Number((modelRanks.reduce((sum, rank) => sum + rank, 0) / modelRanks.length).toFixed(1));
+  return modelRanks.reduce((sum, rank) => sum + rank, 0) / modelRanks.length;
+}
+
+export function estimateRankByPerspective(ratings: RatingMetrics[], perspective: EstimatedRankPerspective) {
+  const value = estimateRankValueByPerspective(ratings, perspective);
+  return value == null ? null : Number(value.toFixed(1));
 }
 
 export function estimateRankByGame(ratings: RatingMetrics[]) {
   return estimateRankByPerspective(ratings, "game");
+}
+
+// 与 estimateRankByGame 同口径，只是保留四位小数，用于悬停查看精确值。
+export function estimateRankPreciseByGame(ratings: RatingMetrics[]) {
+  const value = estimateRankValueByPerspective(ratings, "game");
+  return value == null ? null : Number(value.toFixed(4));
 }
 
 export function estimateRankByDecision(ratings: RatingMetrics[]) {
@@ -86,4 +98,9 @@ export function estimateRank(ratings: RatingMetrics[]) {
 export function formatEstimatedRank(rank: EstimatedRank | null) {
   if (rank == null) return "-";
   return rank === "10+" ? "10+段" : `${rank.toFixed(1)}段`;
+}
+
+export function formatEstimatedRankPrecise(value: number | null | undefined) {
+  if (value == null || !Number.isFinite(value)) return "-";
+  return `${value.toFixed(4)}段`;
 }
