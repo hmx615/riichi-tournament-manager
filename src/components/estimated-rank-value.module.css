@@ -1,5 +1,5 @@
 .wrapper.wrapper { position: relative; display: block; width: fit-content; }
-.inline { display: none; }
+.wrapper.wrapper:focus { outline: none; }
 
 .wrapper .tip {
   position: absolute;
@@ -35,18 +35,4 @@
 .wrapper:focus-within .tip {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* 触屏与窄屏没有悬停能力，直接把精确值排在段位下方。 */
-@media (hover: none), (max-width: 760px) {
-  .wrapper .tip { display: none; }
-  .wrapper .inline {
-    display: block;
-    margin-top: 3px;
-    color: var(--muted);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .3px;
-    line-height: 1.3;
-  }
 }

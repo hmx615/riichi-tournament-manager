@@ -80,6 +80,17 @@ npm run cf:deploy:tutorial-worker
 
 存在新迁移时必须先执行 `cf:db:remote`。迁移均使用 `IF NOT EXISTS` 或冲突忽略策略，可重复检查而不会覆盖现有比赛数据。
 
+## 免费版 CPU 上限与两层缓存
+
+Workers 免费版每条请求只有 **10ms CPU**（付费版 30 秒），超限时 Cloudflare 返回 `Error 1102 Worker exceeded resource limits`（HTTP 503）。本项目的统计页面每次都要解析全部牌谱，单次需要几十到几百毫秒 CPU，因此加了两层缓存：
+
+1. **Pages 代理边缘缓存**（`cloudflare-pages-proxy/_worker.js`）：匿名 GET 的 HTML 与头像按 URL + 请求变体（RSC / 预取 / Accept 等）缓存在边缘，新鲜副本 45 秒内直接返回、完全不调用上游 Worker；过期后先返回旧副本，再在后台刷新（`x-mj-stale-while-revalidate` 语义手写实现）。带 Cookie 的请求（管理员、选手协商会话）与 `/api/*`（头像除外）一律直连上游，保证登录态与写入后的页面始终最新。响应上的 `x-mj-edge-cache` 是 HIT / STALE / MISS / BYPASS，便于排查。
+2. **统计结果快照**（`src/server/stats-snapshot.ts` + `stats_snapshots` 表）：`loadAllPersonStatistics` 与 `computeCompetitionSummary` 的结果按数据版本（各表的 `updated_at` / `created_at` 聚合）缓存到 D1，isolate 内存先命中，其次读快照，最后才真正重算。任何写入都会自动让旧快照失效。
+
+两层的意义：访问者几乎不再触发重计算；即使上游因为 CPU 超限返回 1102，边缘缓存仍会把旧副本返回给访问者，后台刷新会一直重试到成功。管理员带会话浏览时不被缓存，若偶发 1102，刷新一次通常即可（免费版对偶发超限有一定余量，持续超限才会被终止）。
+
+改动 `_worker.js` 后只需 `npm run cf:deploy:pages`；新增 `stats_snapshots` 表需要先跑一次 `npm run cf:db:remote`。
+
 ## 备份
 
 ```bash

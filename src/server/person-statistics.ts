@@ -4,6 +4,7 @@ import type { Competition, NagaRating, Person } from "@/domain/types";
 import type { PlayerSummary } from "@/server/competition-statistics";
 import { listCompetitions } from "@/server/competition-repository";
 import { listPeople } from "@/server/person-repository";
+import { cachedSnapshot } from "@/server/stats-snapshot";
 import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
 import { riichiWaitSamples, summarizeRiichiWaitSamples, type RiichiWaitSample } from "../domain/riichi-wait";
 import { assessMatchQuality, type PlayerQuality } from "../domain/match-quality";
@@ -218,7 +219,9 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
 
 export async function loadAllPersonStatistics() {
   const [people, competitions] = await Promise.all([listPeople(), listCompetitions()]);
-  return computeAllPersonStatistics(people, competitions);
+  // 全量统计要解析所有牌谱（几十到几百毫秒 CPU），免费版 Worker 会直接 1102，
+  // 因此按"数据版本"缓存结果：人物/比赛/牌谱任一变化都会自动失效重算。
+  return cachedSnapshot("person-statistics-v1", () => computeAllPersonStatistics(people, competitions));
 }
 
 export async function loadPersonEstimatedRanks() {

@@ -6,10 +6,9 @@ export function EstimatedRankValue({ rank, precise }: { rank: EstimatedRank | nu
   const exact = precise != null && Number.isFinite(precise) ? precise.toFixed(4) : null;
   if (!exact) return <strong>{label}</strong>;
   return (
-    <span className={styles.wrapper} aria-label={`推定段位 ${label}，精确值 ${exact}段`}>
+    <span className={styles.wrapper} tabIndex={0} aria-label={`推定段位 ${label}，精确值 ${exact}段`}>
       <strong>{label}</strong>
       <span className={styles.tip} aria-hidden="true">精确值 {exact}段</span>
-      <span className={styles.inline} aria-hidden="true">{exact}</span>
     </span>
   );
 }

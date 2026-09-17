@@ -2,6 +2,7 @@ import "server-only";
 
 import type { Competition } from "@/domain/types";
 import { readCachedLogs, type TenhouLog } from "@/server/tenhou";
+import { cachedSnapshot } from "@/server/stats-snapshot";
 import { riichiWaitSamples, summarizeRiichiWaitSamples, type RiichiWaitSample } from "../domain/riichi-wait";
 // @ts-expect-error The fixed legacy calculator is CommonJS and has no type declarations.
 import legacyStatsModule from "../../reference/1st-xrc-29/mrc_stats.js";
@@ -20,7 +21,7 @@ function legacyStats(): LegacyStatsModule {
   return legacyStatsModule as LegacyStatsModule;
 }
 
-export async function computeCompetitionSummary(competition: Competition): Promise<CompetitionSummary> {
+async function computeCompetitionSummaryUncached(competition: Competition): Promise<CompetitionSummary> {
   const calculator = legacyStats();
   const allStats = Object.fromEntries(competition.participants.map((participant) => [participant.id, calculator.createStats()]));
   const waitSamples = new Map<string, RiichiWaitSample[]>(competition.participants.map((participant) => [participant.id, []]));
@@ -45,4 +46,10 @@ export async function computeCompetitionSummary(competition: Competition): Promi
       立直好型率: wait.goodShapeRate,
     }];
   }));
+}
+
+// 一次全量统计要解析该比赛全部牌谱（几十毫秒起步），免费版 Worker 会被 CPU 上限掐断，
+// 因此结果按"数据版本"缓存到 D1，命中时只读一行小 JSON。
+export async function computeCompetitionSummary(competition: Competition): Promise<CompetitionSummary> {
+  return cachedSnapshot(`competition-summary-v1:${competition.id}`, () => computeCompetitionSummaryUncached(competition));
 }
