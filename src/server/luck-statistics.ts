@@ -5,6 +5,7 @@ import {
   INITIAL_SHANTEN_BASELINE,
   luckSamplesFromRound,
   summarizeLuck,
+  type LuckViews,
   type LuckReport,
   type LuckSample,
 } from "@/domain/luck";
@@ -35,6 +36,8 @@ type CompletedMatch = {
   personBySeat: string[];
 };
 
+export type PersonLuckViews = LuckViews;
+
 function legacyStats(): LegacyStatsModule {
   return legacyStatsModule as LegacyStatsModule;
 }
@@ -59,22 +62,24 @@ function collectCompletedMatches(competitions: Competition[]): CompletedMatch[] 
 }
 
 /**
- * 每个人的近况运势。
+ * 每个人的运势：近期（最近 20 半庄）与长期（全部牌谱）两套。
  *
- * 只处理"最近 20 半庄"覆盖到的牌谱（所有人窗口的并集），并且每份牌谱只解析一次：
- * 一局解出 4 个座位的样本，再按人聚合，避免逐个人重复解析。
+ * 每份牌谱只解析一次，一局解出 4 个座位的样本；样本带着来源牌谱 ID，
+ * 近期视图直接按窗口过滤，不必把重计算跑两遍。
  */
-export async function computePersonLuck(windowMatches: number = LUCK_WINDOW_MATCHES): Promise<Record<string, LuckReport>> {
+export async function computePersonLuck(windowMatches: number = LUCK_WINDOW_MATCHES): Promise<Record<string, PersonLuckViews>> {
   const [people, competitions] = await Promise.all([listPeople(), listCompetitions()]);
   const matches = collectCompletedMatches(competitions);
 
-  // 1. 每个人取最近 N 场，得到窗口内的牌谱集合。
+  // 1. 每个人取最近 N 场，得到窗口内的牌谱集合；全部牌谱用于长期视图。
   const windowLogIds = new Map<string, Set<string>>(people.map((person) => [person.id, new Set<string>()]));
   const windowMatchCount = new Map<string, number>(people.map((person) => [person.id, 0]));
+  const totalMatchCount = new Map<string, number>(people.map((person) => [person.id, 0]));
   for (const person of people) {
     const mine = matches
       .filter((match) => match.personBySeat.includes(person.id))
       .sort((left, right) => Date.parse(right.playedAt) - Date.parse(left.playedAt) || right.matchNumber - left.matchNumber);
+    totalMatchCount.set(person.id, mine.length);
     for (const match of mine.slice(0, Math.max(1, windowMatches))) {
       windowLogIds.get(person.id)?.add(match.logId);
       windowMatchCount.set(person.id, (windowMatchCount.get(person.id) ?? 0) + 1);
@@ -82,18 +87,19 @@ export async function computePersonLuck(windowMatches: number = LUCK_WINDOW_MATC
   }
 
   const logMeta = new Map(matches.map((match) => [match.logId, match]));
-  const targetLogIds = [...new Set([...windowLogIds.values()].flatMap((ids) => [...ids]))];
+  const targetLogIds = [...new Set(matches.map((match) => match.logId))];
   const logs = await readCachedLogs(targetLogIds);
 
   const calculator = legacyStats();
-  const samplesByPerson = new Map<string, LuckSample[]>(people.map((person) => [person.id, []]));
+  const samplesByPerson = new Map<string, Array<{ logId: string; sample: LuckSample }>>(people.map((person) => [person.id, []]));
   // 起手向听只累计两个数，直接调用统计脚本里的向听函数，
   // 比为一手牌跑完整的 addHandStats 快得多（这是本模块最贵的一步）。
-  const shantenSum = new Map<string, number>(people.map((person) => [person.id, 0]));
-  const shantenHands = new Map<string, number>(people.map((person) => [person.id, 0]));
-  const roundsByPerson = new Map<string, number>(people.map((person) => [person.id, 0]));
+  const shanten = new Map<string, { allSum: number; allHands: number; windowSum: number; windowHands: number }>(
+    people.map((person) => [person.id, { allSum: 0, allHands: 0, windowSum: 0, windowHands: 0 }]),
+  );
+  const roundsByPerson = new Map<string, { all: number; window: number }>(people.map((person) => [person.id, { all: 0, window: 0 }]));
 
-  // 2. 逐局生成样本并累计起手向听；窗口外的人物用一次性对象承接，避免污染统计。
+  // 2. 逐局生成样本并累计起手向听。
   for (const logId of targetLogIds) {
     const meta = logMeta.get(logId);
     const log = logs.get(logId);
@@ -107,34 +113,53 @@ export async function computePersonLuck(windowMatches: number = LUCK_WINDOW_MATC
       if (samples) {
         for (const sample of samples) {
           const personId = meta.personBySeat[sample.seat];
-          if (!inWindow(personId)) continue;
-          samplesByPerson.get(personId)?.push(sample);
+          if (!personId || !samplesByPerson.has(personId)) continue;
+          samplesByPerson.get(personId)?.push({ logId, sample });
         }
       }
       for (let seat = 0; seat < 4; seat += 1) {
         const personId = meta.personBySeat[seat];
-        if (!inWindow(personId)) continue;
+        const record = shanten.get(personId);
+        if (!record) continue;
         const initial = round[4 + seat * 3];
         if (!Array.isArray(initial) || initial.length !== 13) continue;
-        shantenSum.set(personId, (shantenSum.get(personId) ?? 0) + calculator.initialShanten(initial.map(Number)));
-        shantenHands.set(personId, (shantenHands.get(personId) ?? 0) + 1);
+        const value = calculator.initialShanten(initial.map(Number));
+        record.allSum += value;
+        record.allHands += 1;
+        if (inWindow(personId)) {
+          record.windowSum += value;
+          record.windowHands += 1;
+        }
       }
     }
     for (const personId of new Set(meta.personBySeat)) {
-      if (!inWindow(personId)) continue;
-      roundsByPerson.set(personId, (roundsByPerson.get(personId) ?? 0) + rounds);
+      const record = roundsByPerson.get(personId);
+      if (!record) continue;
+      record.all += rounds;
+      if (inWindow(personId)) record.window += rounds;
     }
   }
 
   return Object.fromEntries(people.map((person) => {
-    const hands = shantenHands.get(person.id) ?? 0;
-    const mean = hands > 0 ? (shantenSum.get(person.id) ?? 0) / hands : 0;
-    return [person.id, summarizeLuck(samplesByPerson.get(person.id) ?? [], {
-      windowMatches: windowMatchCount.get(person.id) ?? 0,
-      windowRounds: roundsByPerson.get(person.id) ?? 0,
-      initialShantenMean: mean,
-      initialShantenHands: hands,
-    })];
+    const entries = samplesByPerson.get(person.id) ?? [];
+    const record = shanten.get(person.id) ?? { allSum: 0, allHands: 0, windowSum: 0, windowHands: 0 };
+    const counts = roundsByPerson.get(person.id) ?? { all: 0, window: 0 };
+    const window = windowLogIds.get(person.id) ?? new Set<string>();
+    const recentSamples = entries.filter((entry) => window.has(entry.logId)).map((entry) => entry.sample);
+    return [person.id, {
+      recent: summarizeLuck(recentSamples, {
+        windowMatches: windowMatchCount.get(person.id) ?? 0,
+        windowRounds: counts.window,
+        initialShantenMean: record.windowHands > 0 ? record.windowSum / record.windowHands : 0,
+        initialShantenHands: record.windowHands,
+      }),
+      allTime: summarizeLuck(entries.map((entry) => entry.sample), {
+        windowMatches: totalMatchCount.get(person.id) ?? 0,
+        windowRounds: counts.all,
+        initialShantenMean: record.allHands > 0 ? record.allSum / record.allHands : 0,
+        initialShantenHands: record.allHands,
+      }),
+    } satisfies PersonLuckViews];
   }));
 }
 

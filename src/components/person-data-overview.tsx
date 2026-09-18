@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { EstimatedRankValue } from "@/components/estimated-rank-value";
 import { PersonMetricGroups, type ComparePerson, type MetricSummary } from "@/components/person-metric-groups";
-import { PersonLuckCard } from "@/components/person-luck-card";
-import type { LuckReport } from "@/domain/luck";
+import { PersonSummary } from "@/components/person-summary";
+import type { PersonLuckViews } from "@/server/luck-statistics";
 import type { PersonStatistics } from "@/server/person-statistics";
 import styles from "./person-data-overview.module.css";
 
@@ -26,21 +25,21 @@ export function PersonDataOverview({ statistics, people, summaries, initialCompa
   people: ComparePerson[];
   summaries: Record<string, MetricSummary>;
   initialCompareId: string | null;
-  luck: LuckReport | null;
+  luck: PersonLuckViews | null;
 }) {
   const { person, estimatedRank, estimatedRankPrecise, summary, rankCounts, ratings, quality, competitions, matches, totalCompetitionPoints } = statistics;
   const total = matches.length || 1;
   const averageRank = summary["平均顺位"];
   return (
     <>
-      <section className={`summary-grid person-summary ${styles.rankSummary}`} aria-label="人物概况">
-        <div className="summary-block"><span>总 PT<strong className={totalCompetitionPoints >= 0 ? "positive" : "negative"}>{totalCompetitionPoints >= 0 ? "+" : ""}{totalCompetitionPoints.toFixed(1)}</strong></span></div>
-        <div className="summary-block"><span>半庄<strong>{matches.length}</strong></span></div>
-        <div className="summary-block"><span>平均顺位<strong>{averageRank?.toFixed(2) ?? "-"}</strong></span></div>
-        <div className="summary-block"><span>推定段位<EstimatedRankValue rank={estimatedRank} precise={estimatedRankPrecise} /></span></div>
-      </section>
-
-      {luck && <PersonLuckCard report={luck} />}
+      <PersonSummary
+        totalPoints={totalCompetitionPoints}
+        matchCount={matches.length}
+        averageRank={averageRank ?? null}
+        rank={estimatedRank}
+        preciseRank={estimatedRankPrecise}
+        luck={luck}
+      />
 
       <section className="rank-distribution person-rank-section">
         <div className="rank-section-head"><h2>顺位分布</h2><div className="rank-legend">{rankColors.map((color, index) => <span key={color}><i style={{ background: color }} />{index + 1}位</span>)}</div></div>

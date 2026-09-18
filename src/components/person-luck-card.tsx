@@ -1,7 +1,9 @@
+"use client";
+
 import type { LuckDimension, LuckReport } from "@/domain/luck";
 import styles from "./person-luck-card.module.css";
 
-const levelClass: Record<LuckReport["level"], string> = {
+export const levelClass: Record<LuckReport["level"], string> = {
   绝好调: styles.peak,
   好调: styles.good,
   平平无奇: styles.plain,
@@ -33,19 +35,35 @@ function DimensionRow({ dimension }: { dimension: LuckDimension }) {
   );
 }
 
-export function PersonLuckCard({ report }: { report: LuckReport }) {
+export type LuckView = "recent" | "allTime";
+
+export function PersonLuckCard({ report, recent, allTime, view, onChange }: {
+  report: LuckReport;
+  recent: LuckReport;
+  allTime: LuckReport;
+  view: LuckView;
+  onChange: (view: LuckView) => void;
+}) {
   return (
     <section className={`section-block ${styles.card}`}>
       <div className={styles.head}>
         <div>
           <h2>近期运势</h2>
           <p className={styles.window}>
-            近 20 半庄（实际 {report.windowMatches} 半庄 · {report.windowRounds} 局）
+            {view === "recent"
+              ? `近 20 半庄（实际 ${recent.windowMatches} 半庄 · ${recent.windowRounds} 局）`
+              : `全部牌谱（${allTime.windowMatches} 半庄 · ${allTime.windowRounds} 局）`}
           </p>
         </div>
-        <div className={`${styles.level} ${levelClass[report.level]}`}>
-          <strong>{report.level}</strong>
-          <small>{report.score >= 0 ? "+" : ""}{report.score.toFixed(2)}</small>
+        <div className={styles.controls}>
+          <div className={styles.switch} role="group" aria-label="运势统计范围">
+            <button type="button" className={view === "recent" ? styles.switchOn : styles.switchOff} aria-pressed={view === "recent"} onClick={() => onChange("recent")}>
+              近期 · 20 半庄
+            </button>
+            <button type="button" className={view === "allTime" ? styles.switchOn : styles.switchOff} aria-pressed={view === "allTime"} onClick={() => onChange("allTime")}>
+              长期 · 全部牌谱
+            </button>
+          </div>
         </div>
       </div>
       <div className={styles.rows}>

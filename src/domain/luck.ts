@@ -310,6 +310,12 @@ export type LuckReport = {
   windowRounds: number;
 };
 
+/** 同一个人物的两套视图：近期窗口与全部牌谱。 */
+export type LuckViews = {
+  recent: LuckReport;
+  allTime: LuckReport;
+};
+
 /**
  * 分档阈值。综合分数是 9 个维度 z 的加权平均，方差天然小于单个维度，
  * 20 半庄窗口下实测分布约为 ±0.25 个标准差，所以用 0.45 / 0.18 切五档
