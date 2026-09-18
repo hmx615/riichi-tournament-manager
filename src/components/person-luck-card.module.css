@@ -23,6 +23,7 @@
 
 .pill {
   display: inline-flex;
+  width: fit-content;
   align-items: baseline;
   gap: 6px;
   margin-top: 4px;
@@ -141,15 +142,16 @@
 }
 
 .bad {
-  color: #12457f;
-  border-color: color-mix(in srgb, #12457f 60%, var(--line));
-  background: #d5e6f8;
+  color: #0b3f96;
+  border-color: #0b3f96;
+  background: #c9dff9;
 }
 
 .worst {
-  color: #3b0d70;
-  border-color: color-mix(in srgb, #3b0d70 65%, var(--line));
-  background: #e0cdf7;
+  color: #2a0450;
+  border-color: #2a0450;
+  background: #d2b4f0;
+  font-weight: 900;
 }
 
 .rows {
