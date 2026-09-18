@@ -141,15 +141,15 @@
 }
 
 .bad {
-  color: #2f6fb3;
-  border-color: color-mix(in srgb, #2f6fb3 35%, var(--line));
-  background: #f1f7fd;
+  color: #12457f;
+  border-color: color-mix(in srgb, #12457f 60%, var(--line));
+  background: #d5e6f8;
 }
 
 .worst {
-  color: #5b2f96;
-  border-color: color-mix(in srgb, #6b3fa0 40%, var(--line));
-  background: #f5f0fd;
+  color: #3b0d70;
+  border-color: color-mix(in srgb, #3b0d70 65%, var(--line));
+  background: #e0cdf7;
 }
 
 .rows {
