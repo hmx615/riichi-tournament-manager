@@ -706,6 +706,8 @@ module.exports = {
   createStats,
   fetchLog,
   finalize,
+  // 供运势统计单独取起步向听，避免为一手牌跑完整的 addHandStats。
+  initialShanten,
   matchLogToExcel,
   readExcelScores,
   readLogIds,

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { EstimatedRankValue } from "@/components/estimated-rank-value";
 import { PersonMetricGroups, type ComparePerson, type MetricSummary } from "@/components/person-metric-groups";
+import { PersonLuckCard } from "@/components/person-luck-card";
+import type { LuckReport } from "@/domain/luck";
 import type { PersonStatistics } from "@/server/person-statistics";
 import styles from "./person-data-overview.module.css";
 
@@ -19,11 +21,12 @@ function pieGradient(counts: number[]) {
 
 const dateFormatter = new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" });
 
-export function PersonDataOverview({ statistics, people, summaries, initialCompareId }: {
+export function PersonDataOverview({ statistics, people, summaries, initialCompareId, luck }: {
   statistics: PersonStatistics;
   people: ComparePerson[];
   summaries: Record<string, MetricSummary>;
   initialCompareId: string | null;
+  luck: LuckReport | null;
 }) {
   const { person, estimatedRank, estimatedRankPrecise, summary, rankCounts, ratings, quality, competitions, matches, totalCompetitionPoints } = statistics;
   const total = matches.length || 1;
@@ -36,6 +39,8 @@ export function PersonDataOverview({ statistics, people, summaries, initialCompa
         <div className="summary-block"><span>平均顺位<strong>{averageRank?.toFixed(2) ?? "-"}</strong></span></div>
         <div className="summary-block"><span>推定段位<EstimatedRankValue rank={estimatedRank} precise={estimatedRankPrecise} /></span></div>
       </section>
+
+      {luck && <PersonLuckCard report={luck} />}
 
       <section className="rank-distribution person-rank-section">
         <div className="rank-section-head"><h2>顺位分布</h2><div className="rank-legend">{rankColors.map((color, index) => <span key={color}><i style={{ background: color }} />{index + 1}位</span>)}</div></div>
