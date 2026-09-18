@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { EstimatedRankValue } from "@/components/estimated-rank-value";
-import { PersonLuckCard, levelClass, type LuckView } from "@/components/person-luck-card";
+import { luckLevelClass, luckPillClass } from "@/components/luck-level";
+import { PersonLuckCard, type LuckView } from "@/components/person-luck-card";
 import type { EstimatedRank } from "@/domain/estimated-rank";
 import type { LuckViews } from "@/domain/luck";
 import styles from "./person-data-overview.module.css";
@@ -31,7 +32,7 @@ export function PersonSummary({ totalPoints, matchCount, averageRank, rank, prec
         <div className="summary-block">
           <span>运势{report && <small className={luckStyles.summaryMeta}>{view === "recent" ? "近 20 半庄" : "全部牌谱"}</small>}
             {report && (
-              <strong className={`${luckStyles.pill} ${levelClass[report.level]}`}>
+              <strong className={`${luckPillClass} ${luckLevelClass[report.level]}`}>
                 {report.level}
                 <small>{report.score >= 0 ? "+" : ""}{report.score.toFixed(2)}</small>
               </strong>

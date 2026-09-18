@@ -469,10 +469,10 @@ export function summarizeLuck(samples: LuckSample[], context: {
     },
     {
       key: "contest",
-      label: "对攻",
+      label: "对攻胜利",
       actual: contestWins,
       expected: contestExpected,
-      unit: "次",
+      unit: "胜",
       sampleCount: contests.length,
       z: shrink(contestVariance > 0 ? (contestWins - contestExpected) / Math.sqrt(contestVariance) : 0, contests.length),
       weight: 30,
