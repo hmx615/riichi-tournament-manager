@@ -64,7 +64,7 @@ function collectCompletedMatches(competitions: Competition[]): CompletedMatch[] 
  * 只处理"最近 20 半庄"覆盖到的牌谱（所有人窗口的并集），并且每份牌谱只解析一次：
  * 一局解出 4 个座位的样本，再按人聚合，避免逐个人重复解析。
  */
-export async function computePersonLuck(): Promise<Record<string, LuckReport>> {
+export async function computePersonLuck(windowMatches: number = LUCK_WINDOW_MATCHES): Promise<Record<string, LuckReport>> {
   const [people, competitions] = await Promise.all([listPeople(), listCompetitions()]);
   const matches = collectCompletedMatches(competitions);
 
@@ -75,7 +75,7 @@ export async function computePersonLuck(): Promise<Record<string, LuckReport>> {
     const mine = matches
       .filter((match) => match.personBySeat.includes(person.id))
       .sort((left, right) => Date.parse(right.playedAt) - Date.parse(left.playedAt) || right.matchNumber - left.matchNumber);
-    for (const match of mine.slice(0, LUCK_WINDOW_MATCHES)) {
+    for (const match of mine.slice(0, Math.max(1, windowMatches))) {
       windowLogIds.get(person.id)?.add(match.logId);
       windowMatchCount.set(person.id, (windowMatchCount.get(person.id) ?? 0) + 1);
     }
