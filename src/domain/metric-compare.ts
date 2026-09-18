@@ -6,7 +6,7 @@ export type Metric = readonly [field: string, type: MetricType];
 export const METRIC_GROUPS: Array<{ title: string; metrics: Metric[] }> = [
   { title: "攻守与选择", metrics: [["和牌率", "rate"], ["放铳率", "rate"], ["副露率", "rate"], ["立直率", "rate"], ["自摸率", "rate"], ["默听率", "rate"], ["流听率", "rate"], ["先制率", "rate"], ["追立率", "rate"], ["平均起手向听", "decimal"]] },
   { title: "打点与收支", metrics: [["平均打点", "point"], ["平均铳点", "point"], ["被炸率", "rate"], ["平均被炸点数", "point"], ["打点效率", "point"], ["铳点损失", "point"], ["净打点效率", "signed"], ["局收支", "signed"], ["里宝率", "rate"], ["平均里宝数", "decimal"]] },
-  { title: "立直与副露结果", metrics: [["立直后和牌率", "rate"], ["立直后放铳率", "rate"], ["立直后流局率", "rate"], ["立直多面率", "rate"], ["立直好型率", "rate"], ["平均立直巡目", "decimal"], ["和了巡数", "decimal"], ["副露后和牌率", "rate"], ["副露后放铳率", "rate"], ["副露后流局率", "rate"]] },
+  { title: "立直与副露", metrics: [["立直后和牌率", "rate"], ["立直后放铳率", "rate"], ["立直后流局率", "rate"], ["立直多面率", "rate"], ["立直好型率", "rate"], ["平均立直巡目", "decimal"], ["和了巡数", "decimal"], ["副露后和牌率", "rate"], ["副露后放铳率", "rate"], ["副露后流局率", "rate"]] },
 ];
 
 /** 对比只需要这 30 个字段，不必把每个人的全部统计都发给客户端。 */

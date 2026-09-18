@@ -23,7 +23,7 @@ const groups: Array<{ title: string; metrics: Metric[] }> = [
     ],
   },
   {
-    title: "立直与副露结果",
+    title: "立直与副露",
     metrics: [
       ["立直后和牌率", "rate"], ["立直后放铳率", "rate"], ["立直后流局率", "rate"], ["立直多面率", "rate"],
       ["立直好型率", "rate"], ["平均立直巡目", "decimal"], ["和了巡数", "decimal"],
