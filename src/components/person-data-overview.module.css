@@ -58,9 +58,209 @@
   background: #fff5f1;
 }
 
+/* 指标框标题行：左侧标题（对比时带姓名），右上角对比按钮。 */
+.groupHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.groupTitles {
+  min-width: 0;
+}
+
+.groupTitles h2 {
+  margin: 0;
+}
+
+.compareNames {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.compareNames i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.compareNames em {
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 800;
+  opacity: 0.7;
+}
+
+.compareControl {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.compareButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.compareButton:hover {
+  border-color: color-mix(in srgb, currentColor 35%, var(--line));
+}
+
+.compareClear {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.compareClear:hover {
+  color: #b3403c;
+  border-color: color-mix(in srgb, #b3403c 35%, var(--line));
+}
+
+.comparePanel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  width: min(240px, calc(100vw - 48px));
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: 0 18px 42px rgba(23, 32, 46, 0.16);
+}
+
+.compareSearch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--muted);
+}
+
+.compareSearch input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 11px;
+  outline: none;
+}
+
+.compareOptions {
+  margin-top: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+  display: grid;
+  gap: 2px;
+}
+
+.compareOption,
+.compareOptionActive {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.compareOption:hover {
+  background: var(--soft);
+}
+
+.compareOptionActive {
+  background: var(--soft);
+}
+
+.compareOption i,
+.compareOptionActive i {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+}
+
+.compareOption small,
+.compareOptionActive small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.compareEmpty {
+  margin: 10px 0 6px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 10px;
+}
+
+/* 对比模式：每行变成"指标 / 我的值 / 对手的值"三列。 */
+.compareList.compareList > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(48px, auto) minmax(48px, auto);
+  gap: 6px;
+}
+
+.compareList.compareList > div > strong {
+  padding: 3px 7px;
+  border-radius: 6px;
+  text-align: right;
+}
+
+.better {
+  color: #13725d;
+  background: color-mix(in srgb, #13725d 12%, transparent);
+}
+
+.worse {
+  color: #b3403c;
+  background: color-mix(in srgb, #b3403c 12%, transparent);
+}
+
 @media (max-width: 700px) {
   .rankSummary {
     grid-template-columns: 1fr;
+  }
+
+  .groupHead {
+    align-items: center;
   }
 
   .qualityGrid {

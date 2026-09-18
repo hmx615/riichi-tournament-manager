@@ -1,18 +1,11 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { EstimatedRankValue } from "@/components/estimated-rank-value";
+import { PersonMetricGroups, type ComparePerson, type MetricSummary } from "@/components/person-metric-groups";
 import type { PersonStatistics } from "@/server/person-statistics";
 import styles from "./person-data-overview.module.css";
 
-type MetricType = "rate" | "decimal" | "point" | "signed";
-type Metric = readonly [field: string, type: MetricType];
-
 const rankColors = ["#e3a51a", "#3b91b8", "#8b929a", "#cf5560"];
-const metricGroups: Array<{ title: string; metrics: Metric[] }> = [
-  { title: "攻守与选择", metrics: [["和牌率", "rate"], ["放铳率", "rate"], ["副露率", "rate"], ["立直率", "rate"], ["自摸率", "rate"], ["默听率", "rate"], ["流听率", "rate"], ["先制率", "rate"], ["追立率", "rate"], ["平均起手向听", "decimal"]] },
-  { title: "打点与收支", metrics: [["平均打点", "point"], ["平均铳点", "point"], ["被炸率", "rate"], ["平均被炸点数", "point"], ["打点效率", "point"], ["铳点损失", "point"], ["净打点效率", "signed"], ["局收支", "signed"], ["里宝率", "rate"], ["平均里宝数", "decimal"]] },
-  { title: "立直与副露结果", metrics: [["立直后和牌率", "rate"], ["立直后放铳率", "rate"], ["立直后流局率", "rate"], ["立直多面率", "rate"], ["立直好型率", "rate"], ["平均立直巡目", "decimal"], ["和了巡数", "decimal"], ["副露后和牌率", "rate"], ["副露后放铳率", "rate"], ["副露后流局率", "rate"]] },
-];
 
 function pieGradient(counts: number[]) {
   const total = counts.reduce((sum, count) => sum + count, 0) || 1;
@@ -24,16 +17,14 @@ function pieGradient(counts: number[]) {
   }).join(", ")})`;
 }
 
-function displayValue(value: number | null | undefined, type: MetricType) {
-  if (value == null || !Number.isFinite(value)) return "-";
-  if (type === "rate") return `${(value * 100).toFixed(2)}%`;
-  if (type === "decimal") return value.toFixed(2);
-  return value.toLocaleString("zh-CN", { maximumFractionDigits: 0 });
-}
-
 const dateFormatter = new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" });
 
-export function PersonDataOverview({ statistics }: { statistics: PersonStatistics }) {
+export function PersonDataOverview({ statistics, people, summaries, initialCompareId }: {
+  statistics: PersonStatistics;
+  people: ComparePerson[];
+  summaries: Record<string, MetricSummary>;
+  initialCompareId: string | null;
+}) {
   const { person, estimatedRank, estimatedRankPrecise, summary, rankCounts, ratings, quality, competitions, matches, totalCompetitionPoints } = statistics;
   const total = matches.length || 1;
   const averageRank = summary["平均顺位"];
@@ -58,7 +49,13 @@ export function PersonDataOverview({ statistics }: { statistics: PersonStatistic
 
       <section className={`data-group ${styles.qualitySection}`}><h2>对局质量</h2><div className={styles.qualityGrid}><span className={styles.diamondMetric}>钻率<strong>{quality.diamondRate == null ? "-" : `${(quality.diamondRate * 100).toFixed(2)}%`}</strong></span><span className={styles.goldMetric}>金率<strong>{quality.goldRate == null ? "-" : `${(quality.goldRate * 100).toFixed(2)}%`}</strong></span><span className={styles.horseMetric}>马率<strong>{quality.horseRate == null ? "-" : `${(quality.horseRate * 100).toFixed(2)}%`}</strong></span></div></section>
 
-      <div className="person-metric-groups">{metricGroups.map((group) => <section className="data-group" key={group.title}><h2>{group.title}</h2><div className="person-metric-list">{group.metrics.map(([field, type]) => <div key={field}><span>{field}</span><strong>{displayValue(summary[field], type)}</strong></div>)}</div></section>)}</div>
+      <PersonMetricGroups
+        person={{ id: person.id, displayName: person.displayName, color: person.color, matchCount: matches.length }}
+        summary={summary}
+        people={people}
+        summaries={summaries}
+        initialCompareId={initialCompareId}
+      />
 
       <section className="section-block person-history-section"><div className="section-heading"><div><h2>分比赛成绩</h2></div></div><div className="table-wrap"><table className="person-table"><thead><tr><th>比赛</th><th>半庄</th><th>平均顺位</th><th>比赛积分</th></tr></thead><tbody>{competitions.map((competition) => <tr key={competition.competitionId}><td><Link href={`/competitions/${competition.competitionId}`}>{competition.competitionName}</Link><small>{competition.competitionCode}</small></td><td>{competition.matchCount}</td><td>{competition.averageRank.toFixed(2)}</td><td className={competition.competitionPoints >= 0 ? "positive" : "negative"}>{competition.competitionPoints >= 0 ? "+" : ""}{competition.competitionPoints.toFixed(1)}</td></tr>)}</tbody></table></div></section>
 
