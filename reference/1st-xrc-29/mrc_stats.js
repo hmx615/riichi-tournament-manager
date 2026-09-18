@@ -13,6 +13,10 @@ const CACHE_DIR = path.join(OUTPUT_DIR, "cache");
 const IDENTITIES = ["hmx", "xiaop", "NAGA", "Mortal"];
 const EXCEL_ROWS = { hmx: 4, xiaop: 5, NAGA: 6, Mortal: 7 };
 const TERMINALS = new Set([0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33]);
+/** 每半庄起始素点，用于计算局收支。 */
+const INITIAL_SCORE = 25000;
+/** 子家自摸满贯的合计点数（2000/4000），作为"满贯以上"的判定阈值。 */
+const MANGAN_TSUMO_POINTS = 8000;
 const CONFIRMED_OVERRIDES = {
   // Excel match 25 contains incorrect scores; the user confirmed this exact paipu.
   "2026082417gm-0009-1940-bddca1e2": {
@@ -348,8 +352,10 @@ function createStats() {
     drawWhileFuro: 0,
     tsumoLossHands: 0,
     tsumoLossValueSum: 0,
+    tsumoLossDealerManganHands: 0,
     ippatsuWins: 0,
     uraWins: 0,
+    uraDoraSum: 0,
     yakumanWins: 0,
     maxFan: 0,
     doubleRiichi: 0,
@@ -443,7 +449,13 @@ function addHandStats(allStats, hand, seatIdentities) {
       if (state.riichi) stats.riichiWinIncome += income;
       const labels = yakuLabels(win);
       if (labels.some((label) => label.includes("一発"))) stats.ippatsuWins += 1;
-      if (labels.some((label) => label.includes("裏ドラ"))) stats.uraWins += 1;
+      const uraDora = labels.map((label) => label.match(/裏ドラ\((\d+)飜\)/)).find(Boolean);
+      // 天凤标准牌谱只在有里宝时列出"裏ドラ(N飜)"，NAGA 导出牌谱即使是 0 飜也会列出，
+      // 因此统一按飜数判断：只有 1 飜以上才算"带里宝"。
+      if (uraDora) {
+        stats.uraDoraSum += Number(uraDora[1]);
+        if (Number(uraDora[1]) >= 1) stats.uraWins += 1;
+      }
       if (String(win[2][3] || "").includes("役満")) stats.yakumanWins += 1;
       if (labels.some((label) => label.includes("ダブル立直"))) stats.doubleRiichi += 1;
       const fan = labels.reduce((sum, label) => sum + Number((label.match(/\((\d+)飜\)/) || [])[1] || 0), 0);
@@ -473,7 +485,10 @@ function addHandStats(allStats, hand, seatIdentities) {
     if (opponentTsumo) {
       stats.tsumoLossHands += 1;
       const winnerSeat = Number(opponentTsumo[2][0]);
-      stats.tsumoLossValueSum += Math.max(0, pointDelta(opponentTsumo, winnerSeat));
+      const tsumoValue = Math.max(0, pointDelta(opponentTsumo, winnerSeat));
+      stats.tsumoLossValueSum += tsumoValue;
+      // 被炸庄：自己是庄家时被自摸，且对方合计点数达到满贯以上。
+      if (state.seat === dealer && tsumoValue >= MANGAN_TSUMO_POINTS) stats.tsumoLossDealerManganHands += 1;
     }
 
     if (exhaustiveDraw) {
@@ -520,7 +535,9 @@ function finalize(stats) {
     流听率: rounded(ratio(stats.drawTenpaiHands, stats.drawHands)),
     一发率: rounded(ratio(stats.ippatsuWins, stats.riichiWins)),
     里宝率: rounded(ratio(stats.uraWins, stats.riichiWins)),
-    被炸率: rounded(ratio(stats.tsumoLossHands, stats.hands)),
+    平均里宝数: rounded(ratio(stats.uraDoraSum, stats.riichiWins), 3),
+    被炸率: rounded(ratio(stats.tsumoLossDealerManganHands, stats.tsumoLossHands)),
+    被自摸率: rounded(ratio(stats.tsumoLossHands, stats.hands)),
     平均被炸点数: rounded(ratio(stats.tsumoLossValueSum, stats.tsumoLossHands), 0),
     放铳时立直率: rounded(ratio(stats.dealInWhileRiichi, stats.dealInHands)),
     放铳时副露率: rounded(ratio(stats.dealInWhileFuro, stats.dealInHands)),
@@ -537,7 +554,7 @@ function finalize(stats) {
     立直和了: stats.riichiWins,
     副露和了: stats.furoWins,
     默听和了: stats.damaWins,
-    立直巡目: rounded(ratio(stats.riichiTurnSum, stats.riichiHands), 3),
+    平均立直巡目: rounded(ratio(stats.riichiTurnSum, stats.riichiHands), 3),
     立直收支: rounded(ratio(stats.riichiNetSum, stats.riichiHands), 0),
     立直收入: rounded(ratio(stats.riichiWinIncome, stats.riichiWins), 0),
     立直支出: rounded(ratio(stats.riichiDealInCost, stats.dealInWhileRiichi), 0),
@@ -554,6 +571,11 @@ function finalize(stats) {
     打点效率: rounded(ratio(stats.winPointSum, stats.hands), 0),
     铳点损失: rounded(ratio(stats.dealInPointSum, stats.hands), 0),
     净打点效率: rounded(ratio(stats.winPointSum - stats.dealInPointSum, stats.hands), 0),
+    // 局收支：每局平均素点收支 =（终局素点合计 − 起始素点 × 对局数）÷ 统计局数。
+    局收支: rounded(
+      ratio(stats.finalScoreByRank.reduce((sum, value) => sum + value, 0) - INITIAL_SCORE * stats.games, stats.hands),
+      1,
+    ),
     平均起手向听: rounded(ratio(stats.initialShantenSum, stats.hands), 3),
     平均起手向听亲: rounded(ratio(stats.dealerShantenSum, stats.dealerHands), 3),
     平均起手向听子: rounded(ratio(stats.childShantenSum, stats.childHands), 3),

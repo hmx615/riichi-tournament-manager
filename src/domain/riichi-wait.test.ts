@@ -95,6 +95,24 @@ describe("riichi wait samples", () => {
     expect(waitNames(samples[0].waitTileIndexes)).toEqual(["2s", "5s", "8s"]);
   });
 
+  it("counts a twin-pair (shaapon) wait as multi-sided", () => {
+    // 1m1m 234m 567m 789p 3s3s：双碰听 1m / 3s，两种待牌。
+    const hand = tiles("1m", "1m", "2m", "3m", "4m", "5m", "6m", "7m", "7p", "8p", "9p", "3s", "3s");
+    const round = compactRound({
+      hands: [hand, fillerHand.slice(), fillerHand.slice(), fillerHand.slice()],
+      draws: [[tileNames["1p"], tileNames["7z"]], [], [], []],
+      rivers: [[60, "r47"], [], [], []],
+    });
+    const samples = riichiWaitSamples([round]);
+    expect(samples).toHaveLength(1);
+    expect(waitNames(samples[0].waitTileIndexes)).toEqual(["1m", "3s"]);
+    expect(samples[0].waitTileTypeCount).toBe(2);
+    expect(samples[0].isMultiSide).toBe(true);
+    // 自己手里各占 2 张，双碰剩余 2 + 2 = 4 张，达不到好型的 6 张门槛。
+    expect(samples[0].remainingWaitTileCount).toBe(4);
+    expect(samples[0].isGoodShape).toBe(false);
+  });
+
   it("counts tiles already visible on the table at the riichi moment", () => {
     const hand = tiles("1m", "2m", "3m", "4m", "5m", "6m", "9p", "9p", "3s", "4s", "5s", "6s", "7s");
     const round = compactRound({

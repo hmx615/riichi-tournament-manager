@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { SNAPSHOT_REVISION } from "./stats-snapshot";
 
 const mocks = vi.hoisted(() => ({
   usesD1Storage: vi.fn(() => true),
@@ -10,8 +11,8 @@ vi.mock("@/server/cloudflare-storage", () => ({ usesD1Storage: mocks.usesD1Stora
 
 type Row = { version: string; document: string };
 
-// 版本号是六个聚合字段拼起来的，测试里用同样的拼法造数据。
-const versionKey = (value: string) => [value, 1, value, 1, value, 1].join("|");
+// 版本号是"口径版本 + 六个聚合字段"拼起来的，测试里用同样的拼法造数据。
+const versionKey = (value: string) => [String(SNAPSHOT_REVISION), value, 1, value, 1, value, 1].join("|");
 
 function fakeDatabase({ version = "v1", row = null as Row | null } = {}) {
   const statements: string[] = [];

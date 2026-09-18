@@ -10,6 +10,12 @@ type MemoryEntry = { version: string; value: unknown };
 const memory = new Map<string, MemoryEntry>();
 
 /**
+ * 统计口径或字段有任何变化时手动 +1：版本号里带上它，历史快照会自动失效并重算。
+ * 只改代码不改数据时，这一步是唯一能让旧快照失效的办法。
+ */
+export const SNAPSHOT_REVISION = 2;
+
+/**
  * 数据版本号：任何写入（比赛、人物、牌谱缓存）都会让 updated_at / created_at 变化，
  * 从而自动让旧快照失效。只查一行聚合值，几乎不消耗 CPU。
  */
@@ -24,6 +30,7 @@ async function dataVersion() {
       (SELECT COUNT(*) FROM logs) AS logCount`)
     .first<Record<string, string | number>>();
   return [
+    String(SNAPSHOT_REVISION),
     row?.competitionUpdatedAt ?? "",
     row?.competitionCount ?? "",
     row?.personUpdatedAt ?? "",
