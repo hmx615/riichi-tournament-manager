@@ -16,6 +16,7 @@
     "cf:seed:build": "node scripts/build-d1-seed.mjs",
     "cf:db:local": "wrangler d1 migrations apply riichi-tournament-manager --local",
     "cf:db:remote": "wrangler d1 migrations apply riichi-tournament-manager --remote",
+    "cf:db:pull": "node scripts/sync-from-d1.mjs",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

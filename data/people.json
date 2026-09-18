@@ -1,5 +1,86 @@
 [
   {
+    "id": "NAGA守备型",
+    "displayName": "NAGA守备型",
+    "kind": "ai",
+    "color": "#168f83",
+    "aliases": [
+      "NAGA守备型",
+      "NAGA",
+      "nagaカガシ"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "NAGA守备型"
+      },
+      {
+        "platform": "tenhou",
+        "username": "◯NAGA12"
+      },
+      {
+        "platform": "tenhou",
+        "username": "◯NAGA19"
+      },
+      {
+        "platform": "tenhou",
+        "username": "◯NAGA14"
+      },
+      {
+        "platform": "tenhou",
+        "username": "◯NAGA15"
+      },
+      {
+        "platform": "tenhou",
+        "username": "◯NAGA03"
+      }
+    ],
+    "avatarKey": "people/NAGA%E5%AE%88%E5%A4%87%E5%9E%8B/33ba94b4-97dd-4c28-a17c-c886c3e93acc",
+    "avatarVersion": 1789106727929,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "Zhao_dehua",
+    "displayName": "赵得華",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "赵得華"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "東海大黄魚"
+      },
+      {
+        "platform": "majsoul",
+        "username": "陈黑水"
+      }
+    ],
+    "avatarKey": "people/Zhao_dehua/cbaab6ef-b3e9-4a22-8211-81c3144695a7",
+    "avatarVersion": 1789279203857,
+    "avatarContentType": "image/png"
+  },
+  {
+    "id": "chenluo",
+    "displayName": "陈洛",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "陈洛",
+      "なないし"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "なないし"
+      }
+    ],
+    "avatarKey": "people/chenluo/26e48e49-a041-4d72-b9c9-263cf42fb81e",
+    "avatarVersion": 1789522175169,
+    "avatarContentType": "image/png"
+  },
+  {
     "id": "e-ziyi",
     "displayName": "鄂子懿",
     "kind": "human",
@@ -24,6 +105,25 @@
     "avatarContentType": "image/jpeg"
   },
   {
+    "id": "hamburger",
+    "displayName": "李晓赫",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "李晓赫",
+      "ハンバーガー"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "ハンバーガー"
+      }
+    ],
+    "avatarKey": "people/hamburger/e1b8110a-e4a9-4371-8795-3276167f591b",
+    "avatarVersion": 1789443054351,
+    "avatarContentType": "image/png"
+  },
+  {
     "id": "hmx",
     "displayName": "何明轩",
     "kind": "human",
@@ -34,7 +134,8 @@
       "hmx",
       "東海大黄魚",
       "猫妥",
-      "Traaaaa"
+      "Traaaaa",
+      "mingxuan"
     ],
     "accounts": [
       {
@@ -46,16 +147,42 @@
         "username": "猫妥"
       },
       {
-        "platform": "majsoul",
-        "username": "Traaaaa"
+        "platform": "tenhou",
+        "username": "風蛍月"
       },
       {
         "platform": "tenhou",
-        "username": "風蛍月"
+        "username": "mingxuan"
+      },
+      {
+        "platform": "majsoul",
+        "username": "Traaaaa"
       }
     ],
     "avatarKey": "people/hmx/892e8407-a1d8-4c18-a24c-01dcfbd2c225",
     "avatarVersion": 1788332133713,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "humiao",
+    "displayName": "王聿阳",
+    "kind": "human",
+    "color": "#16348d",
+    "aliases": [
+      "王聿阳"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "humiao"
+      },
+      {
+        "platform": "majsoul",
+        "username": "壶庙"
+      }
+    ],
+    "avatarKey": "people/humiao/2235990b-aa7d-4e59-b20e-0a8d5171f00b",
+    "avatarVersion": 1789279909007,
     "avatarContentType": "image/jpeg"
   },
   {
@@ -178,82 +305,6 @@
     "avatarContentType": "image/jpeg"
   },
   {
-    "id": "NAGA守备型",
-    "displayName": "NAGA守备型",
-    "kind": "ai",
-    "color": "#168f83",
-    "aliases": [
-      "NAGA守备型",
-      "NAGA",
-      "nagaカガシ"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "NAGA守备型"
-      },
-      {
-        "platform": "tenhou",
-        "username": "◯NAGA12"
-      },
-      {
-        "platform": "tenhou",
-        "username": "◯NAGA19"
-      },
-      {
-        "platform": "tenhou",
-        "username": "◯NAGA14"
-      }
-    ],
-    "avatarKey": "people/NAGA%E5%AE%88%E5%A4%87%E5%9E%8B/33ba94b4-97dd-4c28-a17c-c886c3e93acc",
-    "avatarVersion": 1789106727929,
-    "avatarContentType": "image/jpeg"
-  },
-  {
-    "id": "Zhao_dehua",
-    "displayName": "赵得華",
-    "kind": "human",
-    "color": "#168f83",
-    "aliases": [
-      "赵得華"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "東海大黄魚"
-      },
-      {
-        "platform": "majsoul",
-        "username": "陈黑水"
-      }
-    ],
-    "avatarKey": "people/Zhao_dehua/cbaab6ef-b3e9-4a22-8211-81c3144695a7",
-    "avatarVersion": 1789279203857,
-    "avatarContentType": "image/png"
-  },
-  {
-    "id": "humiao",
-    "displayName": "王聿阳",
-    "kind": "human",
-    "color": "#16348d",
-    "aliases": [
-      "王聿阳"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "humiao"
-      },
-      {
-        "platform": "majsoul",
-        "username": "壶庙"
-      }
-    ],
-    "avatarKey": "people/humiao/2235990b-aa7d-4e59-b20e-0a8d5171f00b",
-    "avatarVersion": 1789279909007,
-    "avatarContentType": "image/jpeg"
-  },
-  {
     "id": "纪委",
     "displayName": "李冀炜",
     "kind": "human",
@@ -270,44 +321,6 @@
     ],
     "avatarKey": "people/%E7%BA%AA%E5%A7%94/a0919609-8309-4733-8dd7-41affebe4a17",
     "avatarVersion": 1789367298784,
-    "avatarContentType": "image/png"
-  },
-  {
-    "id": "hamburger",
-    "displayName": "李晓赫",
-    "kind": "human",
-    "color": "#168f83",
-    "aliases": [
-      "李晓赫",
-      "ハンバーガー"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "ハンバーガー"
-      }
-    ],
-    "avatarKey": "people/hamburger/e1b8110a-e4a9-4371-8795-3276167f591b",
-    "avatarVersion": 1789443054351,
-    "avatarContentType": "image/png"
-  },
-  {
-    "id": "chenluo",
-    "displayName": "陈洛",
-    "kind": "human",
-    "color": "#168f83",
-    "aliases": [
-      "陈洛",
-      "なないし"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "なないし"
-      }
-    ],
-    "avatarKey": "people/chenluo/26e48e49-a041-4d72-b9c9-263cf42fb81e",
-    "avatarVersion": 1789522175169,
     "avatarContentType": "image/png"
   }
 ]
