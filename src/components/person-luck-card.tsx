@@ -67,16 +67,9 @@ export function PersonLuckCard({ report, recent, allTime, view, onChange }: {
         </div>
       </div>
       {!collapsed && (
-        <>
-          <div className={styles.rows}>
-            {report.dimensions.map((dimension) => <DimensionRow key={dimension.key} dimension={dimension} />)}
-          </div>
-          <p className={styles.note}>
-            只统计和技术无关的部分：发牌（起手向听、配牌宝牌/赤牌）、进程（摸牌宝牌、待牌被扣、里宝、一发）、对攻胜利。
-            「对攻胜利」= 有人和牌的局里，先把当时所有听牌的人按待牌枚数算出各自的期望胜率，再看实际是谁和牌：显示的就是实际赢下的次数与期望次数。
-            每项都跟期望值比较，样本少的维度会自动向"平平"收缩；不足 8 半庄时仅供参考。
-          </p>
-        </>
+        <div className={styles.rows}>
+          {report.dimensions.map((dimension) => <DimensionRow key={dimension.key} dimension={dimension} />)}
+        </div>
       )}
     </section>
   );

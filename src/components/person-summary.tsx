@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { ReactNode } from "react";
 import { EstimatedRankValue } from "@/components/estimated-rank-value";
 import { luckLevelClass, luckPillClass } from "@/components/luck-level";
 import { PersonLuckCard, type LuckView } from "@/components/person-luck-card";
@@ -13,13 +14,15 @@ import luckStyles from "./person-luck-card.module.css";
  * 人物概况：总 PT / 半庄 / 平均顺位 / 运势 / 推定段位，下面接运势明细。
  * 运势的"近期/长期"开关在这里统一持有状态，概况块和明细表永远一致。
  */
-export function PersonSummary({ totalPoints, matchCount, averageRank, rank, preciseRank, luck }: {
+export function PersonSummary({ totalPoints, matchCount, averageRank, rank, preciseRank, luck, children }: {
   totalPoints: number;
   matchCount: number;
   averageRank: number | null;
   rank: EstimatedRank | null;
   preciseRank: number | null;
   luck: LuckViews | null;
+  /** 顺位分布 / NAGA / 对局质量，插在概况行和运势明细之间。 */
+  children?: ReactNode;
 }) {
   const [view, setView] = useState<LuckView>("recent");
   const report = luck ? (view === "recent" ? luck.recent : luck.allTime) : null;
@@ -41,6 +44,8 @@ export function PersonSummary({ totalPoints, matchCount, averageRank, rank, prec
         </div>
         <div className="summary-block"><span>推定段位<EstimatedRankValue rank={rank} precise={preciseRank} /></span></div>
       </section>
+
+      {children}
 
       {luck && report && (
         <PersonLuckCard report={report} recent={luck.recent} allTime={luck.allTime} view={view} onChange={setView} />

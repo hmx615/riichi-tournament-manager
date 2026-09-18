@@ -39,19 +39,19 @@ export function PersonDataOverview({ statistics, people, summaries, initialCompa
         rank={estimatedRank}
         preciseRank={estimatedRankPrecise}
         luck={luck}
-      />
+      >
+        <section className="rank-distribution person-rank-section">
+          <div className="rank-section-head"><h2>顺位分布</h2><div className="rank-legend">{rankColors.map((color, index) => <span key={color}><i style={{ background: color }} />{index + 1}位</span>)}</div></div>
+          <div className="person-rank-body">
+            <div className="rank-donut-wrap"><div className="rank-donut" style={{ background: pieGradient(rankCounts) }} /><div className="rank-donut-center"><strong>{averageRank?.toFixed(2) ?? "-"}</strong><small>平均顺位</small></div></div>
+            <div className="person-rank-counts">{rankCounts.map((count, index) => <span key={index}><strong style={{ color: rankColors[index] }}>{count}</strong><small>{index + 1}位 · {(count / total * 100).toFixed(2)}%</small></span>)}</div>
+          </div>
+        </section>
 
-      <section className="rank-distribution person-rank-section">
-        <div className="rank-section-head"><h2>顺位分布</h2><div className="rank-legend">{rankColors.map((color, index) => <span key={color}><i style={{ background: color }} />{index + 1}位</span>)}</div></div>
-        <div className="person-rank-body">
-          <div className="rank-donut-wrap"><div className="rank-donut" style={{ background: pieGradient(rankCounts) }} /><div className="rank-donut-center"><strong>{averageRank?.toFixed(2) ?? "-"}</strong><small>平均顺位</small></div></div>
-          <div className="person-rank-counts">{rankCounts.map((count, index) => <span key={index}><strong style={{ color: rankColors[index] }}>{count}</strong><small>{index + 1}位 · {(count / total * 100).toFixed(2)}%</small></span>)}</div>
-        </div>
-      </section>
+        {ratings.length > 0 && <section className="data-group person-rating-section"><h2>NAGA Rating 与一致率</h2><div className="person-rating-grid">{ratings.map((rating) => <div key={rating.model} style={{ "--player-color": person.color } as React.CSSProperties}><strong>{rating.model}</strong><span>Rating:{rating.rating.toFixed(2)}</span><span>一致率:{(rating.agreementRate * 100).toFixed(2)}%</span><span>恶手率:{(rating.badMoveRate * 100).toFixed(2)}%</span></div>)}</div></section>}
 
-      {ratings.length > 0 && <section className="data-group person-rating-section"><h2>NAGA Rating 与一致率</h2><div className="person-rating-grid">{ratings.map((rating) => <div key={rating.model} style={{ "--player-color": person.color } as React.CSSProperties}><strong>{rating.model}</strong><span>Rating:{rating.rating.toFixed(2)}</span><span>一致率:{(rating.agreementRate * 100).toFixed(2)}%</span><span>恶手率:{(rating.badMoveRate * 100).toFixed(2)}%</span></div>)}</div></section>}
-
-      <section className={`data-group ${styles.qualitySection}`}><h2>对局质量</h2><div className={styles.qualityGrid}><span className={styles.diamondMetric}>钻率<strong>{quality.diamondRate == null ? "-" : `${(quality.diamondRate * 100).toFixed(2)}%`}</strong></span><span className={styles.goldMetric}>金率<strong>{quality.goldRate == null ? "-" : `${(quality.goldRate * 100).toFixed(2)}%`}</strong></span><span className={styles.horseMetric}>马率<strong>{quality.horseRate == null ? "-" : `${(quality.horseRate * 100).toFixed(2)}%`}</strong></span></div></section>
+        <section className={`data-group ${styles.qualitySection}`}><h2>对局质量</h2><div className={styles.qualityGrid}><span className={styles.diamondMetric}>钻率<strong>{quality.diamondRate == null ? "-" : `${(quality.diamondRate * 100).toFixed(2)}%`}</strong></span><span className={styles.goldMetric}>金率<strong>{quality.goldRate == null ? "-" : `${(quality.goldRate * 100).toFixed(2)}%`}</strong></span><span className={styles.horseMetric}>马率<strong>{quality.horseRate == null ? "-" : `${(quality.horseRate * 100).toFixed(2)}%`}</strong></span></div></section>
+      </PersonSummary>
 
       <PersonMetricGroups
         person={{ id: person.id, displayName: person.displayName, color: person.color, matchCount: matches.length }}
