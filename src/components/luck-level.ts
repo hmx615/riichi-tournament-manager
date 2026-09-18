@@ -12,3 +12,5 @@ export const luckLevelClass: Record<LuckLevel, string> = {
 
 /** 概况行 / 排行榜里的小胶囊样式。 */
 export const luckPillClass = styles.pill;
+/** 排行榜等窄列用的紧凑胶囊（只放等级文字，不放分数）。 */
+export const luckInlinePillClass = styles.inlinePill;

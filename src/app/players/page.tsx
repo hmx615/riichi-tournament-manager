@@ -5,7 +5,7 @@ import { loadAllPersonStatistics } from "@/server/person-statistics";
 import { loadPersonLuck } from "@/server/luck-statistics";
 import { PersonAvatar } from "@/components/person-avatar";
 import { EstimatedRankValue } from "@/components/estimated-rank-value";
-import { luckLevelClass, luckPillClass } from "@/components/luck-level";
+import { luckInlinePillClass, luckLevelClass, luckPillClass } from "@/components/luck-level";
 import styles from "./players.module.css";
 
 export default async function PlayersPage() {
@@ -16,7 +16,7 @@ export default async function PlayersPage() {
     <section className="summary-grid"><div className="summary-block"><span>登记人物<strong>{people.length}</strong></span></div><div className="summary-block"><span>人类选手<strong>{people.filter((item) => item.person.kind === "human").length}</strong></span></div></section>
     <section className="section-block person-directory"><div className="section-heading"><div><h2>排行榜</h2></div></div><div className="person-directory-list">{people.map(({ person, estimatedRank, estimatedRankPrecise, summary, totalCompetitionPoints }) => {
       const recentLuck = luck[person.id]?.recent ?? null;
-      return <article key={person.id} style={{ "--player-color": person.color } as React.CSSProperties}><div className="person-directory-name"><PersonAvatar person={person} size="small" /><div><strong>{person.displayName}</strong><small>{person.kind === "human" ? "人类" : "AI"} · {person.aliases.slice(0, 3).join(" / ")}</small></div></div><div className={styles.directoryMetrics}><span>总 PT<strong className={totalCompetitionPoints >= 0 ? "positive" : "negative"}>{totalCompetitionPoints >= 0 ? "+" : ""}{totalCompetitionPoints.toFixed(1)}</strong></span><span>半庄<strong>{summary["对局数"] ?? 0}</strong></span><span>平均顺位<strong>{summary["平均顺位"]?.toFixed(2) ?? "-"}</strong></span><span>近期运势{recentLuck ? <strong className={`${luckPillClass} ${luckLevelClass[recentLuck.level]}`}>{recentLuck.level}<small>{recentLuck.score >= 0 ? "+" : ""}{recentLuck.score.toFixed(2)}</small></strong> : <strong>-</strong>}</span><span>推定段位<EstimatedRankValue rank={estimatedRank} precise={estimatedRankPrecise} /></span></div><Link className="icon-link" href={`/players/${encodeURIComponent(person.id)}`} title="查看人物数据" aria-label={`查看${person.displayName}数据`}><ArrowRight /></Link></article>;
+      return <article key={person.id} style={{ "--player-color": person.color } as React.CSSProperties}><div className="person-directory-name"><PersonAvatar person={person} size="small" /><div><strong>{person.displayName}</strong><small>{person.kind === "human" ? "人类" : "AI"} · {person.aliases.slice(0, 3).join(" / ")}</small></div></div><div className={styles.directoryMetrics}><span>总 PT<strong className={totalCompetitionPoints >= 0 ? "positive" : "negative"}>{totalCompetitionPoints >= 0 ? "+" : ""}{totalCompetitionPoints.toFixed(1)}</strong></span><span>半庄<strong>{summary["对局数"] ?? 0}</strong></span><span>平均顺位<strong>{summary["平均顺位"]?.toFixed(2) ?? "-"}</strong></span><span>近期运势{recentLuck ? <strong className={`${luckPillClass} ${luckInlinePillClass} ${luckLevelClass[recentLuck.level]}`}>{recentLuck.level}</strong> : <strong>-</strong>}</span><span>推定段位<EstimatedRankValue rank={estimatedRank} precise={estimatedRankPrecise} /></span></div><Link className="icon-link" href={`/players/${encodeURIComponent(person.id)}`} title="查看人物数据" aria-label={`查看${person.displayName}数据`}><ArrowRight /></Link></article>;
     })}</div></section>
   </div>;
 }

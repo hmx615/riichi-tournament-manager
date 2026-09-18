@@ -38,6 +38,13 @@
   opacity: 0.85;
 }
 
+/* 排行榜等窄列用的紧凑胶囊（不放分数）。 */
+.inlinePill {
+  margin-top: 3px;
+  padding: 1px 8px;
+  font-size: 13px !important;
+}
+
 .summaryMeta {
   margin-left: 6px;
   color: var(--muted);

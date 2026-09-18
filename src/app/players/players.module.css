@@ -1,5 +1,5 @@
 :global(.person-directory-list) article > div.directoryMetrics {
-  grid-template-columns: repeat(5, 88px);
+  grid-template-columns: 78px 62px 78px minmax(92px, auto) 86px;
 }
 
 @media (max-width: 760px) {
