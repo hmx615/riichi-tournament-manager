@@ -244,7 +244,8 @@
 
 .barPositive {
   left: 50%;
-  background: #13725d;
+  background: linear-gradient(90deg, #ffb300, #ffd83d);
+  box-shadow: 0 0 6px rgba(255, 190, 0, 0.6);
 }
 
 .barNegative {
