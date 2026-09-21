@@ -16,13 +16,13 @@
     {
       "id": "person-e-ziyi",
       "personId": "e-ziyi",
-      "displayName": "鄂子懿",
+      "displayName": "紫罗兰梦幻花园",
       "kind": "human",
       "color": "#3b78a0",
       "usernames": [
-        "鄂子懿",
-        "鄂子懿",
-        "鄂 子懿",
+        "紫罗兰梦幻花园",
+        "紫罗兰梦幻花园",
+        "紫罗兰万古长存",
         "mzhj",
         "mzhj",
         "紫罗兰万古长存"
@@ -31,17 +31,14 @@
     {
       "id": "person-hmx",
       "personId": "hmx",
-      "displayName": "何明轩",
+      "displayName": "Traaaaa",
       "kind": "human",
       "color": "#168f83",
       "usernames": [
-        "何明轩",
-        "何明轩",
-        "何 明轩",
-        "hmx",
+        "Traaaaa",
+        "Traaaaa",
         "東海大黄魚",
         "猫妥",
-        "Traaaaa",
         "mingxuan",
         "東海大黄魚",
         "猫妥",
@@ -80,13 +77,12 @@
     {
       "id": "person-wu-dongjie",
       "personId": "wu-dongjie",
-      "displayName": "吴东杰",
+      "displayName": "卡夫卡爱上坡路",
       "kind": "human",
       "color": "#d1495b",
       "usernames": [
-        "吴东杰",
-        "吴东杰",
-        "吴 东杰",
+        "卡夫卡爱上坡路",
+        "卡夫卡爱上坡路",
         "Veritas",
         "Veritas",
         "卡夫卡爱上坡路"
@@ -95,13 +91,12 @@
     {
       "id": "person-xiaop",
       "personId": "xiaop",
-      "displayName": "彭虹清",
+      "displayName": "越山逐月",
       "kind": "human",
       "color": "#d58a18",
       "usernames": [
-        "彭虹清",
-        "彭虹清",
-        "彭 虹清",
+        "越山逐月",
+        "越山逐月",
         "xiaop",
         "風蛍月",
         "猫妥",
@@ -118,12 +113,13 @@
     {
       "id": "person-士强",
       "personId": "士强",
-      "displayName": "赵士强",
+      "displayName": "九条嘟嘟嘟",
       "kind": "human",
       "color": "#168f83",
       "usernames": [
-        "赵士强",
-        "赵士强",
+        "九条嘟嘟嘟",
+        "九条嘟嘟嘟",
+        "雨后土墙",
         "マジエロ茉子",
         "マジエロ茉子"
       ]
@@ -142,18 +138,21 @@
         "NAGA守备型",
         "◯NAGA12",
         "◯NAGA19",
-        "◯NAGA14"
+        "◯NAGA14",
+        "◯NAGA15",
+        "◯NAGA03"
       ]
     },
     {
       "id": "person-Zhao_dehua",
       "personId": "Zhao_dehua",
-      "displayName": "赵得華",
+      "displayName": "中華有为",
       "kind": "human",
       "color": "#168f83",
       "usernames": [
-        "赵得華",
-        "赵得華",
+        "中華有为",
+        "中華有为",
+        "DH",
         "東海大黄魚",
         "陈黑水"
       ]
@@ -161,12 +160,13 @@
     {
       "id": "person-humiao",
       "personId": "humiao",
-      "displayName": "王聿阳",
+      "displayName": "胡米奥",
       "kind": "human",
       "color": "#16348d",
       "usernames": [
-        "王聿阳",
-        "王聿阳",
+        "胡米奥",
+        "胡米奥",
+        "壶庙",
         "humiao",
         "壶庙"
       ]
@@ -174,25 +174,26 @@
     {
       "id": "person-纪委",
       "personId": "纪委",
-      "displayName": "李冀炜",
+      "displayName": "乌蒙一号机",
       "kind": "human",
       "color": "#161e8d",
       "usernames": [
-        "李冀炜",
-        "李冀炜",
-        "李冀伟",
+        "乌蒙一号机",
+        "乌蒙一号机",
+        "ljw",
         "人神"
       ]
     },
     {
       "id": "person-hamburger",
       "personId": "hamburger",
-      "displayName": "李晓赫",
+      "displayName": "Hamburger",
       "kind": "human",
       "color": "#168f83",
       "usernames": [
-        "李晓赫",
-        "李晓赫",
+        "Hamburger",
+        "Hamburger",
+        "日尧赤赤",
         "ハンバーガー",
         "ハンバーガー"
       ]
@@ -200,12 +201,13 @@
     {
       "id": "person-chenluo",
       "personId": "chenluo",
-      "displayName": "陈洛",
+      "displayName": "小石",
       "kind": "human",
       "color": "#168f83",
       "usernames": [
-        "陈洛",
-        "陈洛",
+        "小石",
+        "小石",
+        "尘落",
         "なないし",
         "なないし"
       ]
@@ -4306,6 +4308,711 @@
         }
       ],
       "reviewNote": null
+    },
+    {
+      "id": "match-pool-045",
+      "matchNumber": 45,
+      "status": "completed",
+      "playedAt": "2026-09-18T20:00:00+08:00",
+      "tenhouLogId": "2026091820gm-0009-1940-d8f73ad5",
+      "contentFingerprint": "3e4132f67da960b430b4f78e980346c9",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026091820gm-0009-1940-d8f73ad5",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=514fa0354e7f47d70d41bbd8e31286becfc0f9592908877382940a8804b01818v2_2&tw=0",
+      "nagaReportId": "514fa0354e7f47d70d41bbd8e31286becfc0f9592908877382940a8804b01818v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-纪委",
+          "model": "ニシキ",
+          "rating": 84.89,
+          "agreementRate": 0.7444,
+          "badMoveRate": 0.1,
+          "decisionCount": 90
+        },
+        {
+          "participantId": "person-纪委",
+          "model": "カガシ",
+          "rating": 84.176,
+          "agreementRate": 0.7333,
+          "badMoveRate": 0.1,
+          "decisionCount": 90
+        },
+        {
+          "participantId": "person-humiao",
+          "model": "ニシキ",
+          "rating": 86.731,
+          "agreementRate": 0.7667,
+          "badMoveRate": 0.0444,
+          "decisionCount": 90
+        },
+        {
+          "participantId": "person-humiao",
+          "model": "カガシ",
+          "rating": 83.407,
+          "agreementRate": 0.7,
+          "badMoveRate": 0.0778,
+          "decisionCount": 90
+        },
+        {
+          "participantId": "person-wu-dongjie",
+          "model": "ニシキ",
+          "rating": 91.174,
+          "agreementRate": 0.8438,
+          "badMoveRate": 0.0417,
+          "decisionCount": 96
+        },
+        {
+          "participantId": "person-wu-dongjie",
+          "model": "カガシ",
+          "rating": 88.267,
+          "agreementRate": 0.7917,
+          "badMoveRate": 0.0729,
+          "decisionCount": 96
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "ニシキ",
+          "rating": 90.101,
+          "agreementRate": 0.8085,
+          "badMoveRate": 0.0426,
+          "decisionCount": 94
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "カガシ",
+          "rating": 89.461,
+          "agreementRate": 0.7872,
+          "badMoveRate": 0.0638,
+          "decisionCount": 94
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-纪委",
+          "sourceUsername": "人神",
+          "rawPoints": 16200,
+          "rank": 3,
+          "competitionPoints": -18.8,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-humiao",
+          "sourceUsername": "humiao",
+          "rawPoints": 16700,
+          "rank": 2,
+          "competitionPoints": 1.7,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-wu-dongjie",
+          "sourceUsername": "Veritas",
+          "rawPoints": 15200,
+          "rank": 4,
+          "competitionPoints": -39.8,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-hmx",
+          "sourceUsername": "mingxuan",
+          "rawPoints": 51900,
+          "rank": 1,
+          "competitionPoints": 56.9,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "match-pool-046",
+      "matchNumber": 46,
+      "status": "completed",
+      "playedAt": "2026-09-18T21:00:00+08:00",
+      "tenhouLogId": "2026091821gm-0009-1940-d9a2059c",
+      "contentFingerprint": "f66f50f0c2a257ed7fcd84aa81f6dd90",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026091821gm-0009-1940-d9a2059c",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=9dba210fe652c372d6f8a53b75b71c7f489da2ab35f83b031d0062c5c6fffb42v2_2&tw=0",
+      "nagaReportId": "9dba210fe652c372d6f8a53b75b71c7f489da2ab35f83b031d0062c5c6fffb42v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-wu-dongjie",
+          "model": "ニシキ",
+          "rating": 78.793,
+          "agreementRate": 0.6716,
+          "badMoveRate": 0.1567,
+          "decisionCount": 134
+        },
+        {
+          "participantId": "person-wu-dongjie",
+          "model": "カガシ",
+          "rating": 79.061,
+          "agreementRate": 0.6866,
+          "badMoveRate": 0.1567,
+          "decisionCount": 134
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "ニシキ",
+          "rating": 89.514,
+          "agreementRate": 0.7923,
+          "badMoveRate": 0.0538,
+          "decisionCount": 130
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "カガシ",
+          "rating": 86.782,
+          "agreementRate": 0.7385,
+          "badMoveRate": 0.0692,
+          "decisionCount": 130
+        },
+        {
+          "participantId": "person-纪委",
+          "model": "ニシキ",
+          "rating": 89.495,
+          "agreementRate": 0.7574,
+          "badMoveRate": 0.0368,
+          "decisionCount": 136
+        },
+        {
+          "participantId": "person-纪委",
+          "model": "カガシ",
+          "rating": 88.658,
+          "agreementRate": 0.75,
+          "badMoveRate": 0.0515,
+          "decisionCount": 136
+        },
+        {
+          "participantId": "person-humiao",
+          "model": "ニシキ",
+          "rating": 85.688,
+          "agreementRate": 0.7445,
+          "badMoveRate": 0.0876,
+          "decisionCount": 137
+        },
+        {
+          "participantId": "person-humiao",
+          "model": "カガシ",
+          "rating": 83.61,
+          "agreementRate": 0.7226,
+          "badMoveRate": 0.0876,
+          "decisionCount": 137
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-wu-dongjie",
+          "sourceUsername": "Veritas",
+          "rawPoints": 9000,
+          "rank": 4,
+          "competitionPoints": -46,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-hmx",
+          "sourceUsername": "mingxuan",
+          "rawPoints": 34700,
+          "rank": 2,
+          "competitionPoints": 19.7,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-纪委",
+          "sourceUsername": "人神",
+          "rawPoints": 41600,
+          "rank": 1,
+          "competitionPoints": 46.6,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-humiao",
+          "sourceUsername": "humiao",
+          "rawPoints": 14700,
+          "rank": 3,
+          "competitionPoints": -20.3,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "match-pool-047",
+      "matchNumber": 47,
+      "status": "completed",
+      "playedAt": "2026-09-19T01:00:00+08:00",
+      "tenhouLogId": "2026091901gm-0009-1940-459d11b9",
+      "contentFingerprint": "dde93066d6945483c0a25bcdddb44ce6",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026091901gm-0009-1940-459d11b9",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=28e3b62a11f0a1c30717106702bce7bb7d676c270a1c1634dbcd28597026316ev2_2&tw=0",
+      "nagaReportId": "28e3b62a11f0a1c30717106702bce7bb7d676c270a1c1634dbcd28597026316ev2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-纪委",
+          "model": "ニシキ",
+          "rating": 84.306,
+          "agreementRate": 0.7188,
+          "badMoveRate": 0.1062,
+          "decisionCount": 160
+        },
+        {
+          "participantId": "person-纪委",
+          "model": "カガシ",
+          "rating": 85.015,
+          "agreementRate": 0.7312,
+          "badMoveRate": 0.0875,
+          "decisionCount": 160
+        },
+        {
+          "participantId": "person-xiaop",
+          "model": "ニシキ",
+          "rating": 90.546,
+          "agreementRate": 0.7844,
+          "badMoveRate": 0.0479,
+          "decisionCount": 167
+        },
+        {
+          "participantId": "person-xiaop",
+          "model": "カガシ",
+          "rating": 88.189,
+          "agreementRate": 0.7545,
+          "badMoveRate": 0.0599,
+          "decisionCount": 167
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "ニシキ",
+          "rating": 92.024,
+          "agreementRate": 0.8365,
+          "badMoveRate": 0.0314,
+          "decisionCount": 159
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "カガシ",
+          "rating": 92.368,
+          "agreementRate": 0.8491,
+          "badMoveRate": 0.0314,
+          "decisionCount": 159
+        },
+        {
+          "participantId": "person-e-ziyi",
+          "model": "ニシキ",
+          "rating": 86.396,
+          "agreementRate": 0.7329,
+          "badMoveRate": 0.0497,
+          "decisionCount": 161
+        },
+        {
+          "participantId": "person-e-ziyi",
+          "model": "カガシ",
+          "rating": 84.367,
+          "agreementRate": 0.7267,
+          "badMoveRate": 0.0994,
+          "decisionCount": 161
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-纪委",
+          "sourceUsername": "人神",
+          "rawPoints": 7700,
+          "rank": 4,
+          "competitionPoints": -47.3,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 46500,
+          "rank": 1,
+          "competitionPoints": 51.5,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-hmx",
+          "sourceUsername": "mingxuan",
+          "rawPoints": 15200,
+          "rank": 3,
+          "competitionPoints": -19.8,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-e-ziyi",
+          "sourceUsername": "mzhj",
+          "rawPoints": 30600,
+          "rank": 2,
+          "competitionPoints": 15.6,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "match-pool-048",
+      "matchNumber": 48,
+      "status": "completed",
+      "playedAt": "2026-09-19T01:00:00+08:00",
+      "tenhouLogId": "2026091901gm-0009-1940-0465333c",
+      "contentFingerprint": "ac0a4ece58046f9985ae64245571feb4",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026091901gm-0009-1940-0465333c",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=1b28a8ed7d0d2b12fbcec6bbd3303a32e3ee1f10c4222af81a5d3d551e180640v2_2&tw=0",
+      "nagaReportId": "1b28a8ed7d0d2b12fbcec6bbd3303a32e3ee1f10c4222af81a5d3d551e180640v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-纪委",
+          "model": "ニシキ",
+          "rating": 84.752,
+          "agreementRate": 0.7471,
+          "badMoveRate": 0.0805,
+          "decisionCount": 174
+        },
+        {
+          "participantId": "person-纪委",
+          "model": "カガシ",
+          "rating": 86.074,
+          "agreementRate": 0.7644,
+          "badMoveRate": 0.0575,
+          "decisionCount": 174
+        },
+        {
+          "participantId": "person-e-ziyi",
+          "model": "ニシキ",
+          "rating": 89.846,
+          "agreementRate": 0.7852,
+          "badMoveRate": 0.0201,
+          "decisionCount": 149
+        },
+        {
+          "participantId": "person-e-ziyi",
+          "model": "カガシ",
+          "rating": 89.69,
+          "agreementRate": 0.7584,
+          "badMoveRate": 0.0604,
+          "decisionCount": 149
+        },
+        {
+          "participantId": "person-xiaop",
+          "model": "ニシキ",
+          "rating": 84.789,
+          "agreementRate": 0.717,
+          "badMoveRate": 0.0503,
+          "decisionCount": 159
+        },
+        {
+          "participantId": "person-xiaop",
+          "model": "カガシ",
+          "rating": 86.403,
+          "agreementRate": 0.7484,
+          "badMoveRate": 0.0629,
+          "decisionCount": 159
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "ニシキ",
+          "rating": 89.006,
+          "agreementRate": 0.7861,
+          "badMoveRate": 0.0578,
+          "decisionCount": 173
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "カガシ",
+          "rating": 88.919,
+          "agreementRate": 0.8208,
+          "badMoveRate": 0.0405,
+          "decisionCount": 173
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-纪委",
+          "sourceUsername": "人神",
+          "rawPoints": 24800,
+          "rank": 3,
+          "competitionPoints": -10.2,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-e-ziyi",
+          "sourceUsername": "mzhj",
+          "rawPoints": 25800,
+          "rank": 2,
+          "competitionPoints": 10.8,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 16000,
+          "rank": 4,
+          "competitionPoints": -39,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-hmx",
+          "sourceUsername": "mingxuan",
+          "rawPoints": 33400,
+          "rank": 1,
+          "competitionPoints": 38.4,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "match-pool-049",
+      "matchNumber": 49,
+      "status": "completed",
+      "playedAt": "2026-09-20T12:00:00+08:00",
+      "tenhouLogId": "2026092012gm-0009-1940-410308be",
+      "contentFingerprint": "fee712d37a2b469a0628eff84cd31452",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026092012gm-0009-1940-410308be",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=ebeceb295fdce5d477a2525e467af4ad3a4e97ca2c541a08b1b4ee6ef6992b11v2_2&tw=0",
+      "nagaReportId": "ebeceb295fdce5d477a2525e467af4ad3a4e97ca2c541a08b1b4ee6ef6992b11v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-hmx",
+          "model": "ニシキ",
+          "rating": 90.965,
+          "agreementRate": 0.8129,
+          "badMoveRate": 0.036,
+          "decisionCount": 139
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "カガシ",
+          "rating": 90.124,
+          "agreementRate": 0.7986,
+          "badMoveRate": 0.036,
+          "decisionCount": 139
+        },
+        {
+          "participantId": "person-xiaop",
+          "model": "ニシキ",
+          "rating": 93.724,
+          "agreementRate": 0.8645,
+          "badMoveRate": 0.0323,
+          "decisionCount": 155
+        },
+        {
+          "participantId": "person-xiaop",
+          "model": "カガシ",
+          "rating": 89.752,
+          "agreementRate": 0.8065,
+          "badMoveRate": 0.0581,
+          "decisionCount": 155
+        },
+        {
+          "participantId": "person-wu-dongjie",
+          "model": "ニシキ",
+          "rating": 86.7,
+          "agreementRate": 0.7671,
+          "badMoveRate": 0.0616,
+          "decisionCount": 146
+        },
+        {
+          "participantId": "person-wu-dongjie",
+          "model": "カガシ",
+          "rating": 85.816,
+          "agreementRate": 0.726,
+          "badMoveRate": 0.0822,
+          "decisionCount": 146
+        },
+        {
+          "participantId": "person-士强",
+          "model": "ニシキ",
+          "rating": 89.272,
+          "agreementRate": 0.7838,
+          "badMoveRate": 0.0541,
+          "decisionCount": 148
+        },
+        {
+          "participantId": "person-士强",
+          "model": "カガシ",
+          "rating": 85.91,
+          "agreementRate": 0.777,
+          "badMoveRate": 0.0743,
+          "decisionCount": 148
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-hmx",
+          "sourceUsername": "mingxuan",
+          "rawPoints": 36000,
+          "rank": 1,
+          "competitionPoints": 41,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 18100,
+          "rank": 4,
+          "competitionPoints": -36.9,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-wu-dongjie",
+          "sourceUsername": "Veritas",
+          "rawPoints": 24900,
+          "rank": 2,
+          "competitionPoints": 9.9,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-士强",
+          "sourceUsername": "マジエロ茉子",
+          "rawPoints": 21000,
+          "rank": 3,
+          "competitionPoints": -14,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "match-pool-050",
+      "matchNumber": 50,
+      "status": "completed",
+      "playedAt": "2026-09-21T11:00:00+08:00",
+      "tenhouLogId": "2026092111gm-0009-1940-24c1ee89",
+      "contentFingerprint": "ede5c0353881bce70eb50ca985162310",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026092111gm-0009-1940-24c1ee89",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=21f9f9bb85e249cdbd0973058045e77a74974ebd44dd018547833d871d4c94d3v2_2&tw=0",
+      "nagaReportId": "21f9f9bb85e249cdbd0973058045e77a74974ebd44dd018547833d871d4c94d3v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-hmx",
+          "model": "ニシキ",
+          "rating": 87.064,
+          "agreementRate": 0.7468,
+          "badMoveRate": 0.0506,
+          "decisionCount": 158
+        },
+        {
+          "participantId": "person-hmx",
+          "model": "カガシ",
+          "rating": 85.315,
+          "agreementRate": 0.7152,
+          "badMoveRate": 0.0759,
+          "decisionCount": 158
+        },
+        {
+          "participantId": "person-hamburger",
+          "model": "ニシキ",
+          "rating": 89.319,
+          "agreementRate": 0.7852,
+          "badMoveRate": 0.0738,
+          "decisionCount": 149
+        },
+        {
+          "participantId": "person-hamburger",
+          "model": "カガシ",
+          "rating": 87.772,
+          "agreementRate": 0.7651,
+          "badMoveRate": 0.0872,
+          "decisionCount": 149
+        },
+        {
+          "participantId": "person-士强",
+          "model": "ニシキ",
+          "rating": 89.583,
+          "agreementRate": 0.8039,
+          "badMoveRate": 0.0458,
+          "decisionCount": 153
+        },
+        {
+          "participantId": "person-士强",
+          "model": "カガシ",
+          "rating": 87.974,
+          "agreementRate": 0.7843,
+          "badMoveRate": 0.0458,
+          "decisionCount": 153
+        },
+        {
+          "participantId": "person-xiaop",
+          "model": "ニシキ",
+          "rating": 87.353,
+          "agreementRate": 0.7762,
+          "badMoveRate": 0.042,
+          "decisionCount": 143
+        },
+        {
+          "participantId": "person-xiaop",
+          "model": "カガシ",
+          "rating": 86.008,
+          "agreementRate": 0.7413,
+          "badMoveRate": 0.0839,
+          "decisionCount": 143
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-hmx",
+          "sourceUsername": "mingxuan",
+          "rawPoints": 39500,
+          "rank": 1,
+          "competitionPoints": 44.5,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-hamburger",
+          "sourceUsername": "ハンバーガー",
+          "rawPoints": 13900,
+          "rank": 4,
+          "competitionPoints": -41.1,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-士强",
+          "sourceUsername": "マジエロ茉子",
+          "rawPoints": 20500,
+          "rank": 3,
+          "competitionPoints": -14.5,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-xiaop",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 26100,
+          "rank": 2,
+          "competitionPoints": 11.1,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
     }
+  ],
+  "autoIncludePersonTags": [
+    "国企办公厅"
   ]
 }

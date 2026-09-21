@@ -35,17 +35,21 @@
         "username": "◯NAGA03"
       }
     ],
+    "tags": [],
+    "majsoulRank": "魂天",
+    "majsoulCelestialLevel": 1,
     "avatarKey": "people/NAGA%E5%AE%88%E5%A4%87%E5%9E%8B/33ba94b4-97dd-4c28-a17c-c886c3e93acc",
     "avatarVersion": 1789106727929,
     "avatarContentType": "image/jpeg"
   },
   {
     "id": "Zhao_dehua",
-    "displayName": "赵得華",
+    "displayName": "中華有为",
     "kind": "human",
     "color": "#168f83",
     "aliases": [
-      "赵得華"
+      "中華有为",
+      "DH"
     ],
     "accounts": [
       {
@@ -57,17 +61,22 @@
         "username": "陈黑水"
       }
     ],
-    "avatarKey": "people/Zhao_dehua/cbaab6ef-b3e9-4a22-8211-81c3144695a7",
-    "avatarVersion": 1789279203857,
-    "avatarContentType": "image/png"
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀圣1",
+    "avatarKey": "people/Zhao_dehua/686469ec-411b-4f5c-ac75-13162bac116f",
+    "avatarVersion": 1789975260792,
+    "avatarContentType": "image/jpeg"
   },
   {
     "id": "chenluo",
-    "displayName": "陈洛",
+    "displayName": "小石",
     "kind": "human",
     "color": "#168f83",
     "aliases": [
-      "陈洛",
+      "小石",
+      "尘落",
       "なないし"
     ],
     "accounts": [
@@ -76,18 +85,23 @@
         "username": "なないし"
       }
     ],
-    "avatarKey": "people/chenluo/26e48e49-a041-4d72-b9c9-263cf42fb81e",
-    "avatarVersion": 1789522175169,
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "魂天",
+    "majsoulCelestialLevel": 1,
+    "avatarKey": "people/chenluo/e7a848bb-1c0e-4d17-8fee-d4c553adbfbd",
+    "avatarVersion": 1789975799555,
     "avatarContentType": "image/png"
   },
   {
     "id": "e-ziyi",
-    "displayName": "鄂子懿",
+    "displayName": "紫罗兰梦幻花园",
     "kind": "human",
     "color": "#3b78a0",
     "aliases": [
-      "鄂子懿",
-      "鄂 子懿",
+      "紫罗兰梦幻花园",
+      "紫罗兰万古长存",
       "mzhj"
     ],
     "accounts": [
@@ -100,17 +114,22 @@
         "username": "紫罗兰万古长存"
       }
     ],
-    "avatarKey": "people/e-ziyi/b2578bef-8b00-4c8f-8e36-4a57ef88b590",
-    "avatarVersion": 1788332466332,
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀圣3",
+    "avatarKey": "people/e-ziyi/f5d4f9a9-d16f-4d96-8d7b-c1cf71c84ce9",
+    "avatarVersion": 1789976071065,
     "avatarContentType": "image/jpeg"
   },
   {
     "id": "hamburger",
-    "displayName": "李晓赫",
+    "displayName": "Hamburger",
     "kind": "human",
     "color": "#168f83",
     "aliases": [
-      "李晓赫",
+      "Hamburger",
+      "日尧赤赤",
       "ハンバーガー"
     ],
     "accounts": [
@@ -119,22 +138,23 @@
         "username": "ハンバーガー"
       }
     ],
-    "avatarKey": "people/hamburger/e1b8110a-e4a9-4371-8795-3276167f591b",
-    "avatarVersion": 1789443054351,
-    "avatarContentType": "image/png"
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀圣1",
+    "avatarKey": "people/hamburger/dffcc52e-8912-4859-aebd-f8d24a586378",
+    "avatarVersion": 1789975698274,
+    "avatarContentType": "image/jpeg"
   },
   {
     "id": "hmx",
-    "displayName": "何明轩",
+    "displayName": "Traaaaa",
     "kind": "human",
     "color": "#168f83",
     "aliases": [
-      "何明轩",
-      "何 明轩",
-      "hmx",
+      "Traaaaa",
       "東海大黄魚",
       "猫妥",
-      "Traaaaa",
       "mingxuan"
     ],
     "accounts": [
@@ -159,17 +179,23 @@
         "username": "Traaaaa"
       }
     ],
-    "avatarKey": "people/hmx/892e8407-a1d8-4c18-a24c-01dcfbd2c225",
-    "avatarVersion": 1788332133713,
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "魂天",
+    "majsoulCelestialLevel": 3,
+    "avatarKey": "people/hmx/b46287d7-9ab0-4df7-9ae4-1c88d1940bff",
+    "avatarVersion": 1789975199512,
     "avatarContentType": "image/jpeg"
   },
   {
     "id": "humiao",
-    "displayName": "王聿阳",
+    "displayName": "胡米奥",
     "kind": "human",
     "color": "#16348d",
     "aliases": [
-      "王聿阳"
+      "胡米奥",
+      "壶庙"
     ],
     "accounts": [
       {
@@ -181,8 +207,12 @@
         "username": "壶庙"
       }
     ],
-    "avatarKey": "people/humiao/2235990b-aa7d-4e59-b20e-0a8d5171f00b",
-    "avatarVersion": 1789279909007,
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀豪3",
+    "avatarKey": "people/humiao/82f38046-5be8-4935-99e4-ad551a45ce11",
+    "avatarVersion": 1789977877855,
     "avatarContentType": "image/jpeg"
   },
   {
@@ -201,6 +231,9 @@
         "username": "NoName"
       }
     ],
+    "tags": [],
+    "majsoulRank": "魂天",
+    "majsoulCelestialLevel": 1,
     "avatarKey": "people/mortal/49e49095-d012-4b4a-a837-a008cec9d5ca",
     "avatarVersion": 1788332574806,
     "avatarContentType": "image/jpeg"
@@ -216,18 +249,20 @@
       "nagaカガシ"
     ],
     "accounts": [],
+    "tags": [],
+    "majsoulRank": "魂天",
+    "majsoulCelestialLevel": 1,
     "avatarKey": "people/naga/2a3252f5-b36a-473e-9cdb-0b15615599f1",
     "avatarVersion": 1788332611675,
     "avatarContentType": "image/jpeg"
   },
   {
     "id": "wu-dongjie",
-    "displayName": "吴东杰",
+    "displayName": "卡夫卡爱上坡路",
     "kind": "human",
     "color": "#d1495b",
     "aliases": [
-      "吴东杰",
-      "吴 东杰",
+      "卡夫卡爱上坡路",
       "Veritas"
     ],
     "accounts": [
@@ -240,18 +275,21 @@
         "username": "卡夫卡爱上坡路"
       }
     ],
-    "avatarKey": "people/wu-dongjie/eef8e752-bf15-456d-a100-db8eac3e8021",
-    "avatarVersion": 1788332728666,
-    "avatarContentType": "image/png"
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀圣2",
+    "avatarKey": "people/wu-dongjie/6d9d1081-b5ec-433e-a6c7-4c7139f69917",
+    "avatarVersion": 1789971288733,
+    "avatarContentType": "image/jpeg"
   },
   {
     "id": "xiaop",
-    "displayName": "彭虹清",
+    "displayName": "越山逐月",
     "kind": "human",
     "color": "#d58a18",
     "aliases": [
-      "彭虹清",
-      "彭 虹清",
+      "越山逐月",
       "xiaop",
       "風蛍月",
       "猫妥",
@@ -281,17 +319,23 @@
         "username": "越山逐月"
       }
     ],
-    "avatarKey": "people/xiaop/a5af5f42-75e3-42b2-a85c-09dbc715291d",
-    "avatarVersion": 1788331839347,
-    "avatarContentType": "image/png"
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "魂天",
+    "majsoulCelestialLevel": 1,
+    "avatarKey": "people/xiaop/59819618-cda2-45d2-b228-21799b4a2354",
+    "avatarVersion": 1789974638591,
+    "avatarContentType": "image/jpeg"
   },
   {
     "id": "士强",
-    "displayName": "赵士强",
+    "displayName": "九条嘟嘟嘟",
     "kind": "human",
     "color": "#168f83",
     "aliases": [
-      "赵士强",
+      "九条嘟嘟嘟",
+      "雨后土墙",
       "マジエロ茉子"
     ],
     "accounts": [
@@ -300,18 +344,23 @@
         "username": "マジエロ茉子"
       }
     ],
-    "avatarKey": "people/%E5%A3%AB%E5%BC%BA/065bb9b7-faa5-471a-b661-84a78fea4e09",
-    "avatarVersion": 1788938468677,
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "魂天",
+    "majsoulCelestialLevel": 1,
+    "avatarKey": "people/%E5%A3%AB%E5%BC%BA/a9a36695-dca6-4e6a-bf3e-5fbc5e2c9124",
+    "avatarVersion": 1789975870476,
     "avatarContentType": "image/jpeg"
   },
   {
     "id": "纪委",
-    "displayName": "李冀炜",
+    "displayName": "乌蒙一号机",
     "kind": "human",
     "color": "#161e8d",
     "aliases": [
-      "李冀炜",
-      "李冀伟"
+      "乌蒙一号机",
+      "ljw"
     ],
     "accounts": [
       {
@@ -319,8 +368,12 @@
         "username": "人神"
       }
     ],
-    "avatarKey": "people/%E7%BA%AA%E5%A7%94/a0919609-8309-4733-8dd7-41affebe4a17",
-    "avatarVersion": 1789367298784,
-    "avatarContentType": "image/png"
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀士2",
+    "avatarKey": "people/%E7%BA%AA%E5%A7%94/f811f8b1-fc8a-4226-a55f-234d01f56eac",
+    "avatarVersion": 1789975312311,
+    "avatarContentType": "image/jpeg"
   }
 ]
