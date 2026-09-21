@@ -3,15 +3,37 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { deleteCompetition, getCompetition, updateCompetition } from "@/server/competition-repository";
+import { deleteCompetition, getCompetition, updateCompetition, updateMatchPoolAutoIncludeTags } from "@/server/competition-repository";
 import { isAdmin } from "@/server/auth";
 import { listPeople } from "@/server/person-repository";
 import { hasDuplicateHumanParticipants } from "@/domain/participant-validation";
 import { isValidPersonId } from "../../../../domain/person-id";
+import { normalizePersonTags } from "@/domain/person-tags";
 
 export type CompetitionSettingsState = { status: "idle" | "error" | "success"; message: string; redirectTo?: string; fieldErrors?: Record<string, string[]>; values?: Record<string, string> };
 function formValues(formData: FormData) { return Object.fromEntries([...formData.entries()].filter(([, v]) => typeof v === "string").map(([k, v]) => [k, v as string])); }
 export type DeleteCompetitionState = { status: "idle" | "error"; message: string };
+export type MatchPoolTagsState = { status: "idle" | "error" | "success"; message: string };
+
+export async function saveMatchPoolTagsAction(
+  _state: MatchPoolTagsState,
+  formData: FormData,
+): Promise<MatchPoolTagsState> {
+  if (!await isAdmin()) return { status: "error", message: "需要管理员登录" };
+  if (formData.get("competitionId") !== "match-pool") return { status: "error", message: "仅人物池可设置自动加入标签" };
+  const tags = normalizePersonTags(formData.getAll("autoIncludePersonTags").filter((value): value is string => typeof value === "string"));
+  if (!tags.length) return { status: "error", message: "至少选择一个自动加入标签" };
+  if (tags.length > 20 || tags.some((tag) => tag.length > 30)) return { status: "error", message: "人物标签数量或长度超出限制" };
+  try {
+    await updateMatchPoolAutoIncludeTags(tags);
+  } catch (error) {
+    return { status: "error", message: error instanceof Error ? error.message : "自动加入规则保存失败" };
+  }
+  revalidatePath("/match-pool");
+  revalidatePath("/competitions/match-pool");
+  revalidatePath("/competitions/match-pool/settings");
+  return { status: "success", message: "自动加入规则已保存" };
+}
 
 const schema = z.object({
   competitionId: z.string().regex(/^[a-z0-9-]+$/),

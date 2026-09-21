@@ -6,6 +6,7 @@ import type { Competition, MatchRecord, NagaRating, Participant } from "@/domain
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
 import { completeScheduledMatch } from "@/domain/scheduled-match";
+import { DEFAULT_PERSON_TAG, normalizePersonTags, personTags } from "@/domain/person-tags";
 
 export const MATCH_POOL_ID = "match-pool";
 export const MERGED_COMPETITION_IDS = new Set(["1st-cccp", "1st-wdc", "1st-fyc", "1st-lmc", "1st-cccp213e"]);
@@ -15,15 +16,18 @@ export async function getOrCreateMatchPool(): Promise<Competition> {
   const { listPeople } = await import("@/server/person-repository");
   const people = await listPeople();
   let competition = await getCompetition(MATCH_POOL_ID);
-  const participants: Participant[] = people.map((person) => ({
+  const participantFor = (person: (typeof people)[number]): Participant => ({
     id: `person-${person.id}`,
     personId: person.id,
     displayName: person.displayName,
     kind: person.kind,
     color: person.color,
     usernames: [person.displayName, ...person.aliases, ...person.accounts.map((account) => account.username)],
-  }));
+  });
+  const autoIncludePersonTags = normalizePersonTags(competition?.autoIncludePersonTags ?? [DEFAULT_PERSON_TAG]);
+  const eligiblePeople = people.filter((person) => personTags(person).some((tag) => autoIncludePersonTags.includes(tag)));
   if (!competition) {
+    const participants = eligiblePeople.map(participantFor);
     competition = {
       id: MATCH_POOL_ID,
       name: "国企天梯赛·家妈杯",
@@ -35,20 +39,35 @@ export async function getOrCreateMatchPool(): Promise<Competition> {
       rankPoints: [30, 10, -10, -30],
       participants,
       matches: [],
+      autoIncludePersonTags,
     };
     await createCompetition(competition);
     return competition;
   }
-  const existing = new Map(competition.participants.map((participant) => [participant.personId, participant]));
-  const changed = participants.some((participant) => {
-    const previous = existing.get(participant.personId);
-    return !previous || previous.displayName !== participant.displayName || previous.color !== participant.color || previous.usernames.join("\u0000") !== participant.usernames.join("\u0000");
-  }) || competition.participants.length !== participants.length;
+  const peopleById = new Map(people.map((person) => [person.id, person]));
+  const includedIds = new Set(competition.participants.map((participant) => participant.personId).filter(Boolean));
+  const participants = competition.participants.map((participant) => {
+    const person = participant.personId ? peopleById.get(participant.personId) : null;
+    return person ? { ...participantFor(person), id: participant.id } : participant;
+  });
+  for (const person of eligiblePeople) {
+    if (!includedIds.has(person.id)) participants.push(participantFor(person));
+  }
+  const changed = JSON.stringify(participants) !== JSON.stringify(competition.participants)
+    || JSON.stringify(autoIncludePersonTags) !== JSON.stringify(competition.autoIncludePersonTags);
   if (changed) {
     competition.participants = participants;
-    await replaceCompetition(competition);
+    competition.autoIncludePersonTags = autoIncludePersonTags;
+    await replaceCompetition(competition, undefined, false);
   }
   return competition;
+}
+
+export async function updateMatchPoolAutoIncludeTags(tags: string[]) {
+  const competition = await getCompetition(MATCH_POOL_ID) ?? await getOrCreateMatchPool();
+  competition.autoIncludePersonTags = normalizePersonTags(tags);
+  await replaceCompetition(competition, undefined, false);
+  return getOrCreateMatchPool();
 }
 
 const competitionDirectory = path.join(dataDirectory, "competitions");
@@ -76,7 +95,7 @@ async function readD1Competition(id: string) {
   return row ? { competition: parseCompetition(row.document), version: row.version } : null;
 }
 
-async function replaceD1Competition(competition: Competition, reason?: string) {
+async function replaceD1Competition(competition: Competition, reason?: string, invalidateStatistics = true) {
   const current = await readD1Competition(competition.id);
   if (!current) throw new Error("比赛不存在");
   const db = await tournamentDatabase();
@@ -87,9 +106,13 @@ async function replaceD1Competition(competition: Competition, reason?: string) {
       "INSERT INTO competition_backups (id, competition_id, reason, document, created_at) VALUES (?, ?, ?, ?, ?)",
     ).bind(crypto.randomUUID(), competition.id, reason, JSON.stringify(current.competition), now));
   }
-  statements.push(db.prepare(
-    "UPDATE competitions SET document = ?, version = version + 1, updated_at = ? WHERE id = ? AND version = ?",
-  ).bind(JSON.stringify(competition), now, competition.id, current.version));
+  statements.push(invalidateStatistics
+    ? db.prepare(
+      "UPDATE competitions SET document = ?, version = version + 1, updated_at = ? WHERE id = ? AND version = ?",
+    ).bind(JSON.stringify(competition), now, competition.id, current.version)
+    : db.prepare(
+      "UPDATE competitions SET document = ?, version = version + 1 WHERE id = ? AND version = ?",
+    ).bind(JSON.stringify(competition), competition.id, current.version));
   const results = await db.batch(statements);
   const update = results[results.length - 1];
   if (!update.success || update.meta.changes !== 1) throw new Error("比赛数据已被其他操作更新，请刷新后重试");
@@ -106,8 +129,8 @@ async function replaceFileCompetition(competition: Competition) {
   }
 }
 
-async function replaceCompetition(competition: Competition, reason?: string) {
-  if (usesD1Storage()) return replaceD1Competition(competition, reason);
+async function replaceCompetition(competition: Competition, reason?: string, invalidateStatistics = true) {
+  if (usesD1Storage()) return replaceD1Competition(competition, reason, invalidateStatistics);
   if (reason) {
     const current = await getCompetition(competition.id);
     if (!current) throw new Error("比赛不存在");

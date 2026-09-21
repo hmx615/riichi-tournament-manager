@@ -1,3 +1,5 @@
+import type { MajsoulRank } from "@/domain/majsoul-rank";
+
 export type ParticipantKind = "human" | "ai";
 export type CompetitionStatus = "draft" | "active" | "completed" | "archived";
 export type MatchStatus = "scheduled" | "processing" | "completed" | "needs_review" | "invalid";
@@ -134,6 +136,12 @@ export type Person = {
   color: string;
   aliases: string[];
   accounts: PersonAccount[];
+  /** 人物分类标签；旧人类档案缺省归入“国企办公厅”。 */
+  tags?: string[];
+  /** 手工维护的雀魂四麻段位，仅用于人物资料展示，不参与战绩计算。 */
+  majsoulRank?: MajsoulRank;
+  /** 魂天等级为 1–20；非魂天段位不保存该字段。 */
+  majsoulCelestialLevel?: number;
   avatarKey?: string;
   avatarVersion?: number;
   avatarContentType?: "image/jpeg" | "image/png" | "image/webp";
@@ -214,6 +222,8 @@ export type Competition = {
   rankPoints: [number, number, number, number];
   participants: Participant[];
   matches: MatchRecord[];
+  /** 人物池按任一命中标签自动追加人物；不自动移除已有成员。 */
+  autoIncludePersonTags?: string[];
   individualSettings?: IndividualCompetitionSettings;
   individualSchedule?: IndividualScheduleTable[];
   /** 人数不是 4 的倍数时产生的轮空名单（按阶段）。 */

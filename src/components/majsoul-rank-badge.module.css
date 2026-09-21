@@ -1,0 +1,36 @@
+.badge,
+.empty {
+  min-height: 40px;
+  margin-top: 1px;
+  color: var(--ink);
+}
+
+.badge.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  white-space: nowrap;
+}
+
+.badge img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.badge .suffix.suffix {
+  min-width: 16px;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.celestial .suffix.suffix {
+  font-size: 10px;
+}
+
+.empty.empty {
+  display: flex;
+  align-items: center;
+}

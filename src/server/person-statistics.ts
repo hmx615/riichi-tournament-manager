@@ -217,11 +217,31 @@ export async function computeAllPersonStatistics(people: Person[], competitions:
   })) as Record<string, PersonStatistics>;
 }
 
+export function withCurrentPersonProfiles(statistics: Record<string, PersonStatistics>, people: Person[]) {
+  return Object.fromEntries(people.map((person) => {
+    const cached = statistics[person.id];
+    if (cached) return [person.id, { ...cached, person }];
+    return [person.id, {
+      person,
+      totalCompetitionPoints: 0,
+      estimatedRank: person.kind === "ai" ? "10+" : null,
+      estimatedRankPrecise: null,
+      summary: { 立直多面率: null, 立直好型率: null },
+      rankCounts: [0, 0, 0, 0],
+      ratings: [],
+      quality: { eligibleCount: 0, diamondRate: null, goldRate: null, horseRate: null },
+      competitions: [],
+      matches: [],
+    } satisfies PersonStatistics];
+  })) as Record<string, PersonStatistics>;
+}
+
 export async function loadAllPersonStatistics() {
   const [people, competitions] = await Promise.all([listPeople(), listCompetitions()]);
   // 全量统计要解析所有牌谱（几十到几百毫秒 CPU），免费版 Worker 会直接 1102，
-  // 因此按"数据版本"缓存结果：人物/比赛/牌谱任一变化都会自动失效重算。
-  return cachedSnapshot("person-statistics-v1", () => computeAllPersonStatistics(people, competitions));
+  // 因此按"统计数据版本"缓存结果。头像不影响统计，命中快照后覆盖为最新人物资料即可。
+  const statistics = await cachedSnapshot("person-statistics-v1", () => computeAllPersonStatistics(people, competitions));
+  return withCurrentPersonProfiles(statistics, people);
 }
 
 export async function loadPersonEstimatedRanks() {

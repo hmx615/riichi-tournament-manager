@@ -14,18 +14,26 @@ const memory = new Map<string, MemoryEntry>();
  * 只改代码不改数据时，这一步是唯一能让旧快照失效的办法。
  */
 export const SNAPSHOT_REVISION = 4;
+const ignoredPersonVersion = "*";
+
+function normalizedVersion(version: string) {
+  const parts = version.split("|");
+  if (parts.length === 7) {
+    parts[3] = ignoredPersonVersion;
+    parts[4] = ignoredPersonVersion;
+  }
+  return parts.join("|");
+}
 
 /**
- * 数据版本号：任何写入（比赛、人物、牌谱缓存）都会让 updated_at / created_at 变化，
- * 从而自动让旧快照失效。只查一行聚合值，几乎不消耗 CPU。
+ * 数据版本号只跟比赛和牌谱有关。人物档案由展示层实时合并，不参与统计版本。
+ * 保留两个占位槽并归一化历史版本，部署本改动时可直接复用现有快照。
  */
 async function dataVersion() {
   const db = await tournamentDatabase();
   const row = await db.prepare(`SELECT
       (SELECT COALESCE(MAX(updated_at), '') FROM competitions) AS competitionUpdatedAt,
       (SELECT COUNT(*) FROM competitions) AS competitionCount,
-      (SELECT COALESCE(MAX(updated_at), '') FROM people) AS personUpdatedAt,
-      (SELECT COUNT(*) FROM people) AS personCount,
       (SELECT COALESCE(MAX(created_at), '') FROM logs) AS logCreatedAt,
       (SELECT COUNT(*) FROM logs) AS logCount`)
     .first<Record<string, string | number>>();
@@ -33,8 +41,8 @@ async function dataVersion() {
     String(SNAPSHOT_REVISION),
     row?.competitionUpdatedAt ?? "",
     row?.competitionCount ?? "",
-    row?.personUpdatedAt ?? "",
-    row?.personCount ?? "",
+    ignoredPersonVersion,
+    ignoredPersonVersion,
     row?.logCreatedAt ?? "",
     row?.logCount ?? "",
   ].join("|");
@@ -65,7 +73,7 @@ export async function cachedSnapshot<T>(id: string, compute: () => Promise<T>): 
     const row = await db.prepare("SELECT version, document FROM stats_snapshots WHERE id = ?")
       .bind(id)
       .first<SnapshotRow>();
-    if (row && row.version === version) {
+    if (row && normalizedVersion(row.version) === version) {
       const value = JSON.parse(row.document) as T;
       memory.set(id, { version, value });
       return value;

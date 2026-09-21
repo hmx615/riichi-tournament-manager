@@ -6,6 +6,8 @@ import { DeleteCompetitionForm } from "@/components/delete-competition-form";
 import { getCompetition } from "@/server/competition-repository";
 import { requireAdminPage } from "@/server/auth";
 import { listPeople } from "@/server/person-repository";
+import { MatchPoolTagSettingsForm } from "@/components/match-pool-tag-settings-form";
+import { DEFAULT_PERSON_TAG, personTags } from "@/domain/person-tags";
 
 export default async function CompetitionSettingsPage({ params }: { params: Promise<{ competitionId: string }> }) {
   const { competitionId } = await params;
@@ -17,6 +19,10 @@ export default async function CompetitionSettingsPage({ params }: { params: Prom
       <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回比赛</Link>
       <div className="page-heading"><div><p className="eyebrow">{competition.code}</p><h1>比赛设置</h1></div></div>
       {competition.format === "individual" && <Link className="button schedule-settings-link" href={`/competitions/${competition.id}/schedule`}><CalendarClock size={17} />修改赛程</Link>}
+      {competition.id === "match-pool" && <MatchPoolTagSettingsForm
+        availableTags={[...new Set([...(competition.autoIncludePersonTags ?? [DEFAULT_PERSON_TAG]), ...people.flatMap(personTags)])].sort((left, right) => left.localeCompare(right, "zh-Hans-CN"))}
+        selectedTags={competition.autoIncludePersonTags ?? [DEFAULT_PERSON_TAG]}
+      />}
       <CompetitionSettingsForm competition={competition} people={people} />
       <DeleteCompetitionForm competitionId={competition.id} competitionCode={competition.code} matchCount={competition.matches.length} />
     </div>

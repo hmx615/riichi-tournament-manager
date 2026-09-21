@@ -7,6 +7,7 @@ import { personIdError } from "../domain/person-id";
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
 import { listCompetitions } from "@/server/competition-repository";
+import { personTags } from "@/domain/person-tags";
 
 async function syncMatchPool() {
   const repository = await import("@/server/competition-repository");
@@ -21,7 +22,20 @@ function validatePersonId(id: string) {
 }
 
 function parsePerson(document: string) {
-  return JSON.parse(document) as Person;
+  const person = JSON.parse(document) as Person;
+  return { ...person, tags: personTags(person) };
+}
+
+function matchPoolProfile(person: Person) {
+  return {
+    id: person.id,
+    displayName: person.displayName,
+    kind: person.kind,
+    color: person.color,
+    aliases: [...person.aliases].sort(),
+    accounts: [...person.accounts].sort((left, right) => left.platform.localeCompare(right.platform) || left.username.localeCompare(right.username)),
+    tags: [...personTags(person)].sort(),
+  };
 }
 
 export async function listPeople(): Promise<Person[]> {
@@ -32,7 +46,7 @@ export async function listPeople(): Promise<Person[]> {
     return result.results.map((row) => parsePerson(row.document));
   }
   const people = JSON.parse(await fs.readFile(peopleFile, "utf8")) as Person[];
-  return people;
+  return people.map((person) => ({ ...person, tags: personTags(person) }));
 }
 
 export async function getPerson(id: string): Promise<Person | null> {
@@ -84,15 +98,17 @@ export async function updatePerson(person: Person) {
   validatePersonId(person.id);
   if (usesD1Storage()) {
     const db = await tournamentDatabase();
-    const current = await db.prepare("SELECT version FROM people WHERE id = ?")
+    const current = await db.prepare("SELECT document, version FROM people WHERE id = ?")
       .bind(person.id)
-      .first<{ version: number }>();
+      .first<{ document: string; version: number }>();
     if (!current) throw new Error("人物不存在");
+    const now = new Date().toISOString();
+    const matchPoolChanged = JSON.stringify(matchPoolProfile(parsePerson(current.document))) !== JSON.stringify(matchPoolProfile(person));
     const result = await db.prepare("UPDATE people SET document = ?, version = version + 1, updated_at = ? WHERE id = ? AND version = ?")
-      .bind(JSON.stringify(person), new Date().toISOString(), person.id, current.version)
+      .bind(JSON.stringify(person), now, person.id, current.version)
       .run();
     if (!result.success || result.meta.changes !== 1) throw new Error("人物数据已被其他操作更新，请刷新后重试");
-    await syncMatchPool();
+    if (matchPoolChanged) await syncMatchPool();
     return;
   }
   const people = await listPeople();
@@ -115,14 +131,17 @@ export async function rememberPersonAccounts(mappings: ConfirmedPersonAccount[])
   if (usesD1Storage()) {
     const db = await tournamentDatabase();
     // Append to the current JSON document so concurrent profile edits are not overwritten.
-    const results = await db.batch(unique.map(({ personId, account }) => db.prepare(`
-      UPDATE people SET document = json_insert(document, '$.accounts[#]', json(?)),
-        version = version + 1, updated_at = ?
-      WHERE id = ? AND NOT EXISTS (
-        SELECT 1 FROM json_each(people.document, '$.accounts') AS account
-        WHERE json_extract(account.value, '$.platform') = ? AND json_extract(account.value, '$.username') = ?
-      )
-    `).bind(JSON.stringify(account), new Date().toISOString(), personId, account.platform, account.username)));
+    const results = await db.batch(unique.map(({ personId, account }) => {
+      const now = new Date().toISOString();
+      return db.prepare(`
+        UPDATE people SET document = json_insert(document, '$.accounts[#]', json(?)),
+          version = version + 1, updated_at = ?
+        WHERE id = ? AND NOT EXISTS (
+          SELECT 1 FROM json_each(people.document, '$.accounts') AS account
+          WHERE json_extract(account.value, '$.platform') = ? AND json_extract(account.value, '$.username') = ?
+        )
+      `).bind(JSON.stringify(account), now, personId, account.platform, account.username);
+    }));
     if (results.some((result) => !result.success)) throw new Error("平台账号保存失败");
     for (const { personId } of unique) {
       if (!await getPerson(personId)) throw new Error("参赛人物不存在，请检查人物档案");

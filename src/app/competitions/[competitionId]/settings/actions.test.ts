@@ -5,6 +5,7 @@ const mocks = vi.hoisted(() => ({
   getCompetition: vi.fn(),
   deleteCompetition: vi.fn(),
   updateCompetition: vi.fn(),
+  updateMatchPoolAutoIncludeTags: vi.fn(),
   listPeople: vi.fn(),
   revalidatePath: vi.fn(),
   redirect: vi.fn(() => { throw new Error("NEXT_REDIRECT"); }),
@@ -18,10 +19,11 @@ vi.mock("@/server/competition-repository", () => ({
   getCompetition: mocks.getCompetition,
   deleteCompetition: mocks.deleteCompetition,
   updateCompetition: mocks.updateCompetition,
+  updateMatchPoolAutoIncludeTags: mocks.updateMatchPoolAutoIncludeTags,
 }));
 vi.mock("@/server/person-repository", () => ({ listPeople: mocks.listPeople }));
 
-import { deleteCompetitionAction, saveCompetitionSettingsAction, type DeleteCompetitionState } from "./actions";
+import { deleteCompetitionAction, saveCompetitionSettingsAction, saveMatchPoolTagsAction, type DeleteCompetitionState } from "./actions";
 
 const idle: DeleteCompetitionState = { status: "idle", message: "" };
 
@@ -76,6 +78,23 @@ it("saves settings without throwing a redirect sentinel", async () => {
   });
   expect(mocks.redirect).not.toHaveBeenCalled();
   expect(mocks.updateCompetition).toHaveBeenCalledTimes(1);
+});
+
+it("saves match-pool auto-include tags through the non-statistical update path", async () => {
+  vi.clearAllMocks();
+  mocks.isAdmin.mockResolvedValue(true);
+  mocks.updateMatchPoolAutoIncludeTags.mockResolvedValue(undefined);
+  const form = new FormData();
+  form.set("competitionId", "match-pool");
+  form.append("autoIncludePersonTags", "国企办公厅");
+  form.append("autoIncludePersonTags", "联赛选手");
+
+  await expect(saveMatchPoolTagsAction({ status: "idle", message: "" }, form)).resolves.toEqual({
+    status: "success",
+    message: "自动加入规则已保存",
+  });
+  expect(mocks.updateMatchPoolAutoIncludeTags).toHaveBeenCalledWith(["国企办公厅", "联赛选手"]);
+  expect(mocks.updateCompetition).not.toHaveBeenCalled();
 });
 
 describe("delete competition action", () => {

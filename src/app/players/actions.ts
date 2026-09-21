@@ -9,6 +9,8 @@ import { isValidPersonId } from "../../domain/person-id";
 import { isAdmin } from "@/server/auth";
 import { deleteAvatar, newAvatarKey, putAvatar } from "@/server/avatar-storage";
 import { createPerson, deletePerson, getPerson, updatePerson } from "@/server/person-repository";
+import { DEFAULT_PERSON_TAG, normalizePersonTags } from "@/domain/person-tags";
+import { isMajsoulCelestialLevel, majsoulRanks } from "@/domain/majsoul-rank";
 
 export type PersonFormState = { status: "idle" | "error"; message: string; values?: Record<string, string> };
 export type DeletePersonState = { status: "idle" | "error"; message: string };
@@ -25,6 +27,9 @@ const schema = z.object({
   tenhouAccounts: z.string(),
   majsoulAccounts: z.string(),
   otherAccounts: z.string(),
+  tags: z.string().max(500),
+  majsoulRank: z.enum(["", ...majsoulRanks], { message: "请选择有效的雀魂段位" }),
+  majsoulCelestialLevel: z.string(),
 });
 
 function values(value: string) {
@@ -56,8 +61,22 @@ export async function savePersonAction(_state: PersonFormState, formData: FormDa
     tenhouAccounts: formData.get("tenhouAccounts"),
     majsoulAccounts: formData.get("majsoulAccounts"),
     otherAccounts: formData.get("otherAccounts"),
+    tags: formData.get("tags") ?? DEFAULT_PERSON_TAG,
+    majsoulRank: formData.get("majsoulRank") ?? "",
+    majsoulCelestialLevel: formData.get("majsoulCelestialLevel") ?? "",
   });
   if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message || "人物数据格式无效", values: returnedValues(formData) };
+  const celestialLevel = parsed.data.majsoulCelestialLevel ? Number(parsed.data.majsoulCelestialLevel) : undefined;
+  if (parsed.data.majsoulRank === "魂天" && (celestialLevel === undefined || !isMajsoulCelestialLevel(celestialLevel))) {
+    return { status: "error", message: "魂天等级必须选择 Lv.1 至 Lv.20", values: returnedValues(formData) };
+  }
+  if (parsed.data.majsoulRank !== "魂天" && celestialLevel !== undefined) {
+    return { status: "error", message: "仅魂天段位可以设置魂天等级", values: returnedValues(formData) };
+  }
+  const tags = normalizePersonTags(values(parsed.data.tags));
+  if (tags.length > 20 || tags.some((tag) => tag.length > 30)) {
+    return { status: "error", message: "人物标签最多 20 个，且每个不能超过 30 个字符", values: returnedValues(formData) };
+  }
   if (parsed.data.mode === "edit" && parsed.data.originalId !== parsed.data.id) return { status: "error", message: "人物 ID 不允许修改" };
   const current = parsed.data.mode === "edit" ? await getPerson(parsed.data.id) : null;
   if (parsed.data.mode === "edit" && !current) return { status: "error", message: "人物不存在" };
@@ -79,6 +98,9 @@ export async function savePersonAction(_state: PersonFormState, formData: FormDa
     color: parsed.data.color.toLowerCase(),
     aliases: [...new Set([parsed.data.displayName, ...values(parsed.data.aliases)])],
     accounts: accounts(parsed.data),
+    tags,
+    ...(parsed.data.majsoulRank ? { majsoulRank: parsed.data.majsoulRank } : {}),
+    ...(parsed.data.majsoulRank === "魂天" ? { majsoulCelestialLevel: celestialLevel } : {}),
     ...(!removeAvatar && current?.avatarKey && current.avatarContentType ? {
       avatarKey: current.avatarKey,
       avatarVersion: current.avatarVersion,

@@ -12,7 +12,7 @@ vi.mock("@/server/competition-repository", () => ({ listCompetitions: mocks.list
 vi.mock("@/server/person-repository", () => ({ listPeople: mocks.listPeople }));
 vi.mock("@/server/tenhou", () => ({ readCachedLogs: mocks.readCachedLogs }));
 
-import { computeAllPersonStatistics, computePersonEstimatedRanks } from "./person-statistics";
+import { computeAllPersonStatistics, computePersonEstimatedRanks, withCurrentPersonProfiles } from "./person-statistics";
 import { formatEstimatedRank } from "../domain/estimated-rank";
 import { assessMatchLevel } from "../domain/match-level";
 
@@ -75,6 +75,44 @@ function competition(id: string, matchNumber: number): Competition {
 }
 
 describe("person statistics", () => {
+  it("uses the current avatar without rebuilding cached statistics", () => {
+    const stalePerson = { ...people[0], avatarKey: "people/hmx/old", avatarVersion: 1, avatarContentType: "image/png" as const };
+    const currentPerson = { ...people[0], avatarKey: "people/hmx/new", avatarVersion: 2, avatarContentType: "image/jpeg" as const };
+    const cached = {
+      hmx: {
+        person: stalePerson,
+        totalCompetitionPoints: 12,
+        estimatedRank: null,
+        estimatedRankPrecise: null,
+        summary: {},
+        rankCounts: [0, 0, 0, 0],
+        ratings: [],
+        quality: { eligibleCount: 0, diamondRate: null, goldRate: null, horseRate: null },
+        competitions: [],
+        matches: [],
+      },
+    };
+
+    const result = withCurrentPersonProfiles(cached, [currentPerson]);
+
+    expect(result.hmx.person).toBe(currentPerson);
+    expect(result.hmx.totalCompetitionPoints).toBe(12);
+  });
+
+  it("adds a newly created person with zero statistics without rebuilding the snapshot", () => {
+    const newPerson: Person = { id: "new", displayName: "新人", kind: "human", color: "#168f83", aliases: ["新人"], accounts: [] };
+    const result = withCurrentPersonProfiles({}, [newPerson]);
+
+    expect(result.new).toMatchObject({
+      person: newPerson,
+      totalCompetitionPoints: 0,
+      estimatedRank: null,
+      summary: { 立直多面率: null, 立直好型率: null },
+      rankCounts: [0, 0, 0, 0],
+      matches: [],
+    });
+  });
+
   it.each(["NAGA守备型", "naga-守备型", "NAGA副露型", "版本 NaGa 2"])("fixes %s at displayed 10+ and calculated 10 without games", async (displayName) => {
     const person: Person = { ...people[0], id: "new-version", displayName, kind: "ai" };
     mocks.readCachedLogs.mockResolvedValue(new Map());

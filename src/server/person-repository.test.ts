@@ -9,13 +9,17 @@ const mocks = vi.hoisted(() => ({
   usesD1Storage: vi.fn(() => false),
   tournamentDatabase: vi.fn(),
   listCompetitions: vi.fn(),
+  getOrCreateMatchPool: vi.fn(),
 }));
 vi.mock("server-only", () => ({}));
 vi.mock("@/server/data-directory", () => ({ get dataDirectory() { return mocks.dataDirectory; } }));
 vi.mock("@/server/cloudflare-storage", () => ({ usesD1Storage: mocks.usesD1Storage, tournamentDatabase: mocks.tournamentDatabase }));
-vi.mock("@/server/competition-repository", () => ({ listCompetitions: mocks.listCompetitions }));
+vi.mock("@/server/competition-repository", () => ({
+  listCompetitions: mocks.listCompetitions,
+  getOrCreateMatchPool: mocks.getOrCreateMatchPool,
+}));
 
-const person: Person = { id: "明轩", displayName: "明轩", kind: "human", color: "#168f83", aliases: [], accounts: [] };
+const person: Person = { id: "明轩", displayName: "明轩", kind: "human", color: "#168f83", aliases: [], accounts: [], tags: ["国企办公厅"] };
 const otherPerson: Person = { ...person, id: "other", displayName: "Other" };
 
 describe("person deletion storage", () => {
@@ -88,5 +92,43 @@ describe("person deletion storage", () => {
     else await expect(repository.deletePerson(person.id)).rejects.toThrow("请刷新后重试");
     expect(prepare).toHaveBeenCalledWith(expect.stringContaining("AND NOT EXISTS"));
     expect(statement.bind).toHaveBeenCalledWith(person.id, 7, person.id);
+  });
+
+  it.each([
+    ["avatar-only", { ...person, avatarKey: "people/test/new", avatarVersion: 2, avatarContentType: "image/png" as const }, false],
+    ["Mahjong Soul rank", { ...person, majsoulRank: "雀豪2" as const }, false],
+    ["profile", { ...person, displayName: "新名称" }, true],
+  ])("updates %s changes without touching a statistics timestamp", async (_label, updated, syncsMatchPool) => {
+    mocks.usesD1Storage.mockReturnValue(true);
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-09-21T08:00:00.000Z"));
+    const selectStatement = {
+      bind: vi.fn().mockReturnThis(),
+      first: vi.fn().mockResolvedValue({
+        document: JSON.stringify(person),
+        version: 7,
+      }),
+    };
+    const updateStatement = {
+      bind: vi.fn().mockReturnThis(),
+      run: vi.fn().mockResolvedValue({ success: true, meta: { changes: 1 } }),
+    };
+    const prepare = vi.fn((sql: string) => sql.startsWith("SELECT document") ? selectStatement : updateStatement);
+    mocks.tournamentDatabase.mockResolvedValue({ prepare });
+
+    try {
+      const repository = await import("./person-repository");
+      await repository.updatePerson(updated);
+      expect(updateStatement.bind).toHaveBeenCalledWith(
+        JSON.stringify(updated),
+        "2026-09-21T08:00:00.000Z",
+        person.id,
+        7,
+      );
+      expect(prepare.mock.calls.some(([sql]) => String(sql).includes("statistics_updated_at"))).toBe(false);
+      expect(mocks.getOrCreateMatchPool).toHaveBeenCalledTimes(syncsMatchPool ? 1 : 0);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

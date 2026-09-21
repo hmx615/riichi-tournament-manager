@@ -36,6 +36,8 @@ function validForm() {
   form.set("tenhouAccounts", "tenhou-name");
   form.set("majsoulAccounts", "");
   form.set("otherAccounts", "");
+  form.set("majsoulRank", "雀豪2");
+  form.set("majsoulCelestialLevel", "");
   return form;
 }
 
@@ -61,8 +63,38 @@ describe("person actions", () => {
 
   it("creates a normalized person and redirects", async () => {
     await expect(savePersonAction(idle, validForm())).rejects.toThrow("NEXT_REDIRECT");
-    expect(mocks.createPerson).toHaveBeenCalledWith(expect.objectContaining({ id: "new-player", displayName: "新选手", kind: "human" }));
+    expect(mocks.createPerson).toHaveBeenCalledWith(expect.objectContaining({ id: "new-player", displayName: "新选手", kind: "human", tags: ["国企办公厅"], majsoulRank: "雀豪2" }));
     expect(mocks.redirect).toHaveBeenCalledWith("/players/new-player");
+  });
+
+  it("rejects a rank outside the shared Mahjong Soul options", async () => {
+    const form = validForm();
+    form.set("majsoulRank", "最强段位");
+    const state = await savePersonAction(idle, form);
+    expect(state.message).toBe("请选择有效的雀魂段位");
+    expect(mocks.createPerson).not.toHaveBeenCalled();
+  });
+
+  it("requires a valid level for Celestial and stores it", async () => {
+    const invalid = validForm();
+    invalid.set("majsoulRank", "魂天");
+    invalid.set("majsoulCelestialLevel", "21");
+    expect((await savePersonAction(idle, invalid)).message).toBe("魂天等级必须选择 Lv.1 至 Lv.20");
+    expect(mocks.createPerson).not.toHaveBeenCalled();
+
+    const valid = validForm();
+    valid.set("majsoulRank", "魂天");
+    valid.set("majsoulCelestialLevel", "7");
+    await expect(savePersonAction(idle, valid)).rejects.toThrow("NEXT_REDIRECT");
+    expect(mocks.createPerson).toHaveBeenCalledWith(expect.objectContaining({ majsoulRank: "魂天", majsoulCelestialLevel: 7 }));
+  });
+
+  it("does not accept a Celestial level for another rank", async () => {
+    const form = validForm();
+    form.set("majsoulCelestialLevel", "2");
+    const state = await savePersonAction(idle, form);
+    expect(state.message).toBe("仅魂天段位可以设置魂天等级");
+    expect(mocks.createPerson).not.toHaveBeenCalled();
   });
 
   it("does not allow an edit request to change the person ID", async () => {

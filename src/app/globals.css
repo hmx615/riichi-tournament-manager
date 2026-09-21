@@ -694,6 +694,10 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .person-avatar-small { width: 46px; height: 46px; font-size: 13px; }
 .person-avatar-medium { width: 96px; height: 96px; font-size: 23px; }
 .person-avatar-large { width: 220px; height: 220px; font-size: 42px; }
+.person-tags { margin: 8px 0; display: flex; flex-wrap: wrap; gap: 5px; }
+.person-tags span { padding: 3px 7px; border: 1px solid #b9ccc6; border-radius: 2px; background: #edf6f3; color: var(--green); font-size: 9px; font-weight: 750; }
+.person-tags.compact { margin: 3px 0; gap: 3px; }
+.person-tags.compact span { padding: 1px 5px; font-size: 8px; }
 .person-profile-header { margin-bottom: 26px; display: grid; grid-template-columns: minmax(0, 1fr) 220px; align-items: start; gap: 36px; }
 .person-profile-header .page-heading { min-width: 0; margin: 0; }
 .person-profile-header .person-avatar { justify-self: end; }
@@ -930,7 +934,7 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
   .sidebar { position: fixed; z-index: 20; top: auto; bottom: 0; width: 100%; height: 58px; padding: 6px 12px; flex-direction: row; align-items: center; border-top: 1px solid #465158; }
   .workspace { margin-left: 0; }
   .brand { display: none; }
-  .sidebar nav { padding: 0; flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .sidebar nav { padding: 0; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); }
   .sidebar nav a { min-height: 44px; }
   .new-competition { width: 44px; height: 44px; margin: 0; }
   .topbar { height: 55px; padding: 0 17px; }
