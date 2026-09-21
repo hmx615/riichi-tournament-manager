@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Settings } from "lucide-react";
+import { ArrowLeft, Settings, Swords } from "lucide-react";
 import { notFound } from "next/navigation";
 import { PersonDataOverview } from "@/components/person-data-overview";
 import { PersonAvatar } from "@/components/person-avatar";
@@ -35,7 +35,7 @@ export default async function PersonPage({ params, searchParams }: {
   const summaries = Object.fromEntries(entries.map((item) => [item.person.id, pickCompareMetrics(item.summary)]));
   return <div className="page person-page">
     <Link className="back-link" href="/players"><ArrowLeft size={16} />返回排行榜</Link>
-    <div className="person-profile-header"><div className="page-heading"><div><p className="eyebrow">{person.kind === "human" ? "人类选手" : "AI 选手"}</p><h1>{person.displayName}</h1><PersonTags person={person} /><p>{person.aliases.join(" · ")}</p></div>{admin && <div className="heading-actions"><Link className="button" href={`/players/${encodeURIComponent(person.id)}/settings`}><Settings size={17} />人物设置</Link></div>}</div><PersonAvatar person={person} size="large" /></div>
+    <div className="person-profile-header"><div className="page-heading"><div><p className="eyebrow">{person.kind === "human" ? "人类选手" : "AI 选手"}</p><h1>{person.displayName}</h1><PersonTags person={person} /><p>{person.aliases.join(" · ")}</p></div><div className="heading-actions"><Link className="button" href={`/players/${encodeURIComponent(person.id)}/casual`}><Swords size={17} />散排数据</Link>{admin && <Link className="button" href={`/players/${encodeURIComponent(person.id)}/settings`}><Settings size={17} />人物设置</Link>}</div></div><PersonAvatar person={person} size="large" /></div>
     <PersonDataOverview statistics={statistics} people={people} summaries={summaries} initialCompareId={initialCompareId} luck={luck} />
   </div>;
 }

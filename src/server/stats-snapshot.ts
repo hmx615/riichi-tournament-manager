@@ -53,14 +53,19 @@ async function dataVersion() {
  * 免费版 Worker 每条请求只有 10ms CPU，重算一次要几十到几百毫秒，会直接 1102；
  * 缓存命中后只剩读一行 + 解析小 JSON，CPU 降到几毫秒。
  */
-export async function cachedSnapshot<T>(id: string, compute: () => Promise<T>): Promise<T> {
+export async function cachedSnapshot<T>(
+  id: string,
+  compute: () => Promise<T>,
+  /** 默认按比赛与牌谱的版本号；散排统计传入自己的版本函数，互不影响。 */
+  versionSource: () => Promise<string> = dataVersion,
+): Promise<T> {
   // 本地开发用文件仓储，直接计算即可。
   if (!usesD1Storage()) return compute();
 
   let version = "";
   let db: Awaited<ReturnType<typeof tournamentDatabase>>;
   try {
-    version = await dataVersion();
+    version = await versionSource();
     db = await tournamentDatabase();
   } catch {
     return compute();

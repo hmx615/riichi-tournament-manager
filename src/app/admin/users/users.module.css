@@ -1,0 +1,7 @@
+.subtitle { color: var(--muted); font-size: 12px; }
+.actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.unbound { color: #b04a3c; font-size: 12px; }
+
+.empty { padding: 46px 20px; display: grid; justify-items: center; gap: 8px; border: 1px dashed var(--line); background: var(--paper); color: var(--muted); }
+.empty strong { color: var(--ink); }
+.empty span { font-size: 12px; }

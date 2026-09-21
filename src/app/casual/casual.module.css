@@ -1,0 +1,30 @@
+.notice {
+  margin-bottom: 22px;
+  padding: 15px 18px;
+  display: flex;
+  gap: 12px;
+  border: 1px solid #e6cfa0;
+  border-left: 4px solid #e0a83c;
+  background: #fffaf0;
+  color: #6b5320;
+}
+
+.notice svg { flex: none; margin-top: 2px; }
+.notice strong { display: block; margin-bottom: 4px; color: #8a6416; font-size: 13px; }
+.notice p { margin: 0; font-size: 12px; line-height: 1.7; }
+
+.seatList { display: grid; gap: 3px; }
+.seatList > span { display: flex; align-items: baseline; gap: 7px; font-size: 12px; }
+.seatList b { min-width: 26px; color: var(--muted); font-size: 11px; font-weight: 700; }
+.seatList a { font-weight: 700; }
+.seatList small { color: var(--muted); font-size: 11px; }
+.seatList .guestSeat { color: #7d868d; }
+.seatList .selfSeat a, .seatList .selfSeat .guestSeat { color: var(--green); }
+.seatList .selfSeat b { color: var(--green); }
+
+.empty { padding: 46px 20px; display: grid; justify-items: center; gap: 8px; border: 1px dashed var(--line); background: var(--paper); color: var(--muted); }
+.empty strong { color: var(--ink); }
+.empty span { font-size: 12px; }
+
+.seatHint { margin: -4px 0 12px; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.seatRow { align-items: center; }

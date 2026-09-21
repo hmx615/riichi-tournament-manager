@@ -93,3 +93,44 @@ export async function verifyTutorialSessionToken(token: string, secret: string, 
     return null;
   }
 }
+
+export type PlayerSessionPayload = {
+  userId: string;
+  username: string;
+  personId: string | null;
+  expiresAt: number;
+};
+
+export async function createPlayerSessionToken(
+  secret: string,
+  payload: Omit<PlayerSessionPayload, "expiresAt">,
+  expiresAt: number,
+) {
+  const encoded = encodeBase64Url(new TextEncoder().encode(JSON.stringify({
+    version: 1,
+    role: "player",
+    ...payload,
+    expiresAt,
+  })));
+  return `${encoded}.${encodeBase64Url(await hmac(secret, encoded))}`;
+}
+
+export async function verifyPlayerSessionToken(
+  token: string,
+  secret: string,
+  now = Date.now(),
+): Promise<PlayerSessionPayload | null> {
+  const [payload, signature, extra] = token.split(".");
+  if (!payload || !signature || extra) return null;
+  try {
+    if (!safeEqual(decodeBase64Url(signature), await hmac(secret, payload))) return null;
+    const data = JSON.parse(new TextDecoder().decode(decodeBase64Url(payload))) as Record<string, unknown>;
+    if (data.version !== 1 || data.role !== "player") return null;
+    if (typeof data.userId !== "string" || typeof data.username !== "string" || typeof data.expiresAt !== "number") return null;
+    if (data.expiresAt <= now) return null;
+    const personId = typeof data.personId === "string" && data.personId ? data.personId : null;
+    return { userId: data.userId, username: data.username, personId, expiresAt: data.expiresAt };
+  } catch {
+    return null;
+  }
+}

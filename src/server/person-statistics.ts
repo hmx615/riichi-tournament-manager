@@ -128,13 +128,22 @@ export function computePersonEstimatedRanks(people: Person[], competitions: Comp
 }
 
 export async function computeAllPersonStatistics(people: Person[], competitions: Competition[]) {
+  const logIds = competitions.flatMap((competition) => competition.matches
+    .filter((match) => match.status === "completed")
+    .map((match) => match.tenhouLogId));
+  return computePersonStatistics(people, competitions, await readCachedLogs(logIds));
+}
+
+/**
+ * 统计核心：比赛与散排共用同一套口径，只有牌谱来源不同（比赛读 logs，散排读 casual_logs）。
+ */
+export async function computePersonStatistics(people: Person[], competitions: Competition[], logs: Map<string, TenhouLog>) {
   const stats = calculator();
   const rawStats: Record<string, Record<string, number | number[]>> = Object.fromEntries(people.map((person) => [person.id, stats.createStats()]));
   const histories: Record<string, PersonMatchSummary[]> = Object.fromEntries(people.map((person) => [person.id, []]));
   const ratings: Record<string, NagaRating[]> = Object.fromEntries(people.map((person) => [person.id, []]));
   const waitSamples: Record<string, RiichiWaitSample[]> = Object.fromEntries(people.map((person) => [person.id, []]));
   const completed = competitions.flatMap((competition) => competition.matches.filter((match) => match.status === "completed").map((match) => ({ competition, match })));
-  const logs = await readCachedLogs(completed.map(({ match }) => match.tenhouLogId));
 
   for (const { competition, match } of completed) {
     const log = logs.get(match.tenhouLogId);

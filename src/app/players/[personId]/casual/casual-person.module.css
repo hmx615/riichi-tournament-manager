@@ -1,0 +1,13 @@
+.backRow { display: flex; gap: 18px; flex-wrap: wrap; }
+.subtitle { color: var(--muted); font-size: 12px; }
+
+.opponents { display: flex; flex-wrap: wrap; gap: 6px 12px; }
+.opponents > span { display: inline-flex; align-items: baseline; gap: 5px; font-size: 12px; }
+.opponents em { color: #7d868d; font-style: normal; }
+.opponents small { color: var(--muted); font-size: 10px; }
+
+.nagaBadge { padding: 1px 6px; border: 1px solid #b9ccc6; border-radius: 2px; background: #edf6f3; color: var(--green); font-size: 10px; font-weight: 700; }
+
+.empty { padding: 56px 20px; display: grid; justify-items: center; gap: 10px; border: 1px dashed var(--line); background: var(--paper); color: var(--muted); }
+.empty strong { color: var(--ink); }
+.empty span { max-width: 460px; font-size: 12px; line-height: 1.8; text-align: center; }

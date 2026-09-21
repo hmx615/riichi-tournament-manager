@@ -87,7 +87,7 @@ async function fetchJson(url: string) {
   }
 }
 
-function validateLog(value: unknown, expectedLogId: string): TenhouLog {
+export function validateTenhouLog(value: unknown, expectedLogId: string): TenhouLog {
   if (!value || typeof value !== "object") throw new Error("天凤牌谱格式无效");
   const log = value as Partial<TenhouLog>;
   if (!Array.isArray(log.name) || log.name.length !== 4 || !log.name.every((name) => typeof name === "string")) throw new Error("牌谱缺少四家昵称");
@@ -111,12 +111,12 @@ export async function readCachedLog(logId: string): Promise<TenhouLog | null> {
     const row = await db.prepare("SELECT document FROM logs WHERE id = ?")
       .bind(logId)
       .first<{ document: string }>();
-    return row ? validateLog(JSON.parse(row.document), logId) : null;
+    return row ? validateTenhouLog(JSON.parse(row.document), logId) : null;
   }
   for (const directory of [logCacheDirectory, legacyCacheDirectory]) {
     try {
       const value = JSON.parse(await fs.readFile(path.join(directory, `${logId}.json`), "utf8"));
-      return validateLog(value, logId);
+      return validateTenhouLog(value, logId);
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
     }
@@ -142,7 +142,7 @@ export async function readCachedLogs(logIds: string[]) {
     const result = await db.prepare(`SELECT id, document FROM logs WHERE id IN (${placeholders})`)
       .bind(...ids)
       .all<{ id: string; document: string }>();
-    for (const row of result.results) logs.set(row.id, validateLog(JSON.parse(row.document), row.id));
+    for (const row of result.results) logs.set(row.id, validateTenhouLog(JSON.parse(row.document), row.id));
   }
   return logs;
 }
@@ -151,7 +151,7 @@ async function fetchTenhouLog(logId: string) {
   const cached = await readCachedLog(logId);
   if (cached) return cached;
   const value = await fetchJson(`https://tenhou.net/5/mjlog2json.cgi?${encodeURIComponent(logId)}`);
-  const log = validateLog(value, logId);
+  const log = validateTenhouLog(value, logId);
   if (usesD1Storage()) {
     const db = await tournamentDatabase();
     await db.prepare("INSERT INTO logs (id, document, created_at) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET document = excluded.document")

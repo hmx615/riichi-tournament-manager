@@ -1,7 +1,7 @@
 "use client";
 
 import Link, { useLinkStatus } from "next/link";
-import { BarChart3, CirclePlus, ClipboardList, LogIn, LogOut, Trophy, UserRoundPlus, Users } from "lucide-react";
+import { BarChart3, CirclePlus, ClipboardList, KeyRound, LogIn, LogOut, Swords, Trophy, UserRoundPlus, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
@@ -21,7 +21,11 @@ function competitionIdFromPath(pathname: string) {
   return competitionId && competitionId !== "new" ? competitionId : null;
 }
 
-export function AppShell({ children, admin }: { children: ReactNode; admin: boolean }) {
+export function AppShell({ children, admin, player }: {
+  children: ReactNode;
+  admin: boolean;
+  player?: { username: string; displayName: string; personId: string | null } | null;
+}) {
   const pathname = usePathname();
   const [competitionId, setCompetitionId] = useState("1st-xrc");
   const [qualityVisuals, setQualityVisuals] = useState(true);
@@ -43,6 +47,7 @@ export function AppShell({ children, admin }: { children: ReactNode; admin: bool
     { href: scheduleHref, label: "赛程", icon: ClipboardList, active: pathname.startsWith(scheduleHref) && !pathname.startsWith(dataHref) },
     { href: dataHref, label: "数据", icon: BarChart3, active: pathname.startsWith(dataHref) },
     { href: "/players", label: "排行榜", icon: Users, active: pathname.startsWith("/players") },
+    { href: "/casual", label: "散排", icon: Swords, active: pathname.startsWith("/casual") },
     { href: "/join", label: "登记", icon: UserRoundPlus, active: pathname.startsWith("/join") },
   ];
   if (pathname.startsWith("/tutorials/")) return <>{children}</>;
@@ -66,8 +71,11 @@ export function AppShell({ children, admin }: { children: ReactNode; admin: bool
         <header className="topbar">
           <div><strong>立直麻将赛事控制台</strong></div>
           <div className="auth-controls">
-            <label className="quality-toggle"><input type="checkbox" checked={qualityVisuals} onChange={(event) => { const enabled = event.target.checked; setQualityVisuals(enabled); window.localStorage.setItem(qualityVisualsKey, enabled ? "on" : "off"); }} />显示金钻马</label><span className={`environment ${admin ? "admin-mode" : "viewer-mode"}`}>{admin ? "管理员模式" : "浏览模式"}</span>
-            {admin ? <form action={logoutAction}><button className="topbar-action" type="submit"><LogOut size={15} />退出</button></form> : <Link className="topbar-action" href="/login"><LogIn size={15} />管理员登录</Link>}
+            <label className="quality-toggle"><input type="checkbox" checked={qualityVisuals} onChange={(event) => { const enabled = event.target.checked; setQualityVisuals(enabled); window.localStorage.setItem(qualityVisualsKey, enabled ? "on" : "off"); }} />显示金钻马</label><span className={`environment ${admin ? "admin-mode" : player ? "player-mode" : "viewer-mode"}`}>{admin ? "管理员模式" : player ? `选手 · ${player.displayName || player.username}` : "浏览模式"}</span>
+            {admin && <Link className="topbar-action" href="/admin/users"><KeyRound size={15} />账号管理</Link>}
+            {admin || player
+              ? <form action={logoutAction}><button className="topbar-action" type="submit"><LogOut size={15} />退出</button></form>
+              : <Link className="topbar-action" href="/login"><LogIn size={15} />登录</Link>}
           </div>
         </header>
         <main>{children}</main>

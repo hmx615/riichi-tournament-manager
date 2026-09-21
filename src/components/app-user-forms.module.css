@@ -1,0 +1,17 @@
+.credentials {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  border: 1px solid #8fc7b5;
+  background: #eef8f4;
+}
+
+.credentials strong { font-size: 13px; color: var(--green); }
+.credentials code { padding: 2px 8px; border: 1px solid #b9ccc6; background: #fff; font-size: 15px; letter-spacing: 1px; }
+.credentials small { color: var(--muted); font-size: 11px; }
+
+.inlineForm { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.inlineForm .credentials { flex: 1 0 100%; margin: 0; }
