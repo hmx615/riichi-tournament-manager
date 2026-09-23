@@ -541,6 +541,8 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .match-pool-status { color: #8a5b00; background: #fff4cf; border-color: #e0bd69; }
 .player-overflow { color: var(--ink-muted); font-size: .82rem; align-self: center; }
 .competition-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; }
+/* 成绩卡片组本身可伸缩，避免固定宽度的卡片被挤到第二行。 */
+.competition-footer .score-cards { flex: 1 1 auto; min-width: 0; }
 /* 选手成绩卡片：一位在前，等宽等距。 */
 .score-cards { display: flex; flex-wrap: wrap; gap: 10px; }
 .score-card { --player-color: #555; flex: 1 1 0; min-width: 128px; max-width: 230px; min-height: 46px; padding: 6px 12px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 9px; border: 1px solid color-mix(in srgb, var(--player-color) 35%, white); border-left: 3px solid var(--player-color); background: color-mix(in srgb, var(--player-color) 4%, white); }
