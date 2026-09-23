@@ -123,7 +123,10 @@ export default async function CompetitionsPage() {
               <div className={`competition-title ${styles.competitionTitle}`}>{item.status === "active" && <span className="live-dot" />}{item.name}<span className={`status ${competitionStatus[item.status].className}`}>{competitionStatus[item.status].label}</span><CompetitionStrength competition={item} personRanks={personRanks} /></div>
               <div className="competition-meta">{item.code} · {isMatchPoolCompetition(item) ? `${completedMatches(item)} 半庄 / 无限` : `${completedMatches(item)}/${item.plannedMatchCount}半庄`}</div>
               {isMatchPoolCompetition(item)
-                ? <div className="competition-footer"><div className="player-list"><span className="pool-player-count"><Users size={13} />{item.participants.length} 人</span></div></div>
+                ? <div className="competition-footer">
+                    <div className="player-list"><span className="pool-player-count"><Users size={13} />{item.participants.length} 人</span></div>
+                    <CompetitionScores competition={item} limit={3} />
+                  </div>
                 : <CompetitionScores competition={item} />}
             </div>
             <div className="competition-row-actions">

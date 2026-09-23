@@ -549,8 +549,17 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .score-card-rank { width: 20px; height: 20px; display: grid; place-items: center; background: var(--player-color); color: #fff; font-size: 11px; font-weight: 800; }
 .score-card-name { overflow: hidden; color: var(--player-color); font-size: 13px; font-weight: 850; text-overflow: ellipsis; white-space: nowrap; }
 .score-card strong { font-size: 14px; font-weight: 850; }
-/* 家妈杯只展示前三名：固定宽度，名字不截断，三张卡片始终等宽等距。 */
-.match-pool-row .score-card { flex: 0 1 200px; min-width: 190px; max-width: 200px; }
+/* 人物池只展示前三名：固定宽度，名字不截断，三张卡片始终等宽等距。 */
+.match-pool-row .score-card, .competition-row.pool-row .score-card { flex: 0 1 220px; min-width: 210px; max-width: 220px; }
+/* 人物池的卡片统一成金色系，与家妈杯的黄色底一致。 */
+.match-pool-row .score-card, .competition-row.pool-row .score-card {
+  --player-color: #c79a34;
+  border-color: #e0bd69;
+  border-left-color: #c79a34;
+  background: #fffdf3;
+}
+.match-pool-row .score-card-rank, .competition-row.pool-row .score-card-rank { background: #c79a34; }
+.match-pool-row .score-card-name, .competition-row.pool-row .score-card-name { color: #8a5b00; }
 .positive { color: #13725d !important; }
 .negative { color: var(--red) !important; }
 .icon-link, .table-action { display: grid; place-items: center; border: 1px solid var(--line); color: var(--muted); }
