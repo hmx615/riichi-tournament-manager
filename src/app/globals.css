@@ -534,11 +534,12 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .match-pool-status { color: #8a5b00; background: #fff4cf; border-color: #e0bd69; }
 .player-overflow { color: var(--ink-muted); font-size: .82rem; align-self: center; }
 .competition-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; }
-.score-preview { display: flex; flex-wrap: wrap; gap: 6px 20px; }
-.score-preview span { min-width: 58px; text-align: left; }
-.score-preview small, .score-preview strong { display: block; }
-.score-preview small { margin-bottom: 4px; color: var(--muted); font-size: 10px; }
-.score-preview strong { font-size: 15px; }
+/* 选手成绩卡片：一位在前，等宽等距。 */
+.score-cards { display: flex; flex-wrap: wrap; gap: 10px; }
+.score-card { --player-color: #555; flex: 1 1 0; min-width: 128px; max-width: 230px; min-height: 46px; padding: 6px 12px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 9px; border: 1px solid color-mix(in srgb, var(--player-color) 35%, white); border-left: 3px solid var(--player-color); background: color-mix(in srgb, var(--player-color) 4%, white); }
+.score-card-rank { width: 20px; height: 20px; display: grid; place-items: center; background: var(--player-color); color: #fff; font-size: 11px; font-weight: 800; }
+.score-card-name { overflow: hidden; color: var(--player-color); font-size: 13px; font-weight: 850; text-overflow: ellipsis; white-space: nowrap; }
+.score-card strong { font-size: 14px; font-weight: 850; }
 .positive { color: #13725d !important; }
 .negative { color: var(--red) !important; }
 .icon-link, .table-action { display: grid; place-items: center; border: 1px solid var(--line); color: var(--muted); }

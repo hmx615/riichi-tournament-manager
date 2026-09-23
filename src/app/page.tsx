@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays, CirclePlus, Database, FilePlus2, Settings, Users } from "lucide-react";
 import { competition as fallbackCompetition, totalsForCompetition } from "@/data/competition";
 import { MatchLevelBadge } from "@/components/competition-overview";
-import { PlayerTag } from "@/components/player-tag";
 import type { EstimatedRank } from "@/domain/estimated-rank";
 import { assessMatchLevel } from "@/domain/match-level";
 import { isIndividualCompetition, isMatchPoolCompetition } from "@/domain/competition-format";
@@ -27,13 +26,17 @@ function completedMatches(competition: Competition) {
 
 function CompetitionScores({ competition }: { competition: Competition }) {
   const totals = totalsForCompetition(competition);
+  // 按名次排列（一位在前），每张卡片一位选手，等宽等距。
+  const ranked = [...competition.participants].sort((left, right) => totals[right.id] - totals[left.id]
+    || left.displayName.localeCompare(right.displayName, "zh-Hans-CN"));
   return (
-    <div className="score-preview">
-      {competition.participants.map((participant) => (
-        <span key={participant.id}>
-          <small>{participant.displayName}</small>
+    <div className="score-cards">
+      {ranked.map((participant, index) => (
+        <article className="score-card" key={participant.id} style={{ "--player-color": participant.color } as React.CSSProperties}>
+          <span className="score-card-rank">{index + 1}</span>
+          <span className="score-card-name">{participant.displayName}</span>
           <strong className={totals[participant.id] >= 0 ? "positive" : "negative"}>{totals[participant.id] >= 0 ? "+" : ""}{totals[participant.id].toFixed(1)}</strong>
-        </span>
+        </article>
       ))}
     </div>
   );
@@ -102,10 +105,9 @@ export default async function CompetitionsPage() {
           <div className="competition-main">
             <div className={`competition-title ${styles.competitionTitle}`}>{competition.status === "active" && <span className="live-dot" />}{competition.name}<span className={`status ${competitionStatus[competition.status].className}`}>{competitionStatus[competition.status].label}</span><CompetitionStrength competition={competition} personRanks={personRanks} /></div>
             <div className="competition-meta">{competition.code} · {isMatchPoolCompetition(competition) ? `${completed} 半庄 / 无限` : `${completed}/${competition.plannedMatchCount}半庄`}</div>
-            <div className="competition-footer">
-              <div className="player-list">{isMatchPoolCompetition(competition) ? <span className="pool-player-count"><Users size={13} />{competition.participants.length} 人</span> : competition.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
-              {!isMatchPoolCompetition(competition) && <CompetitionScores competition={competition} />}
-            </div>
+            {isMatchPoolCompetition(competition)
+              ? <div className="competition-footer"><div className="player-list"><span className="pool-player-count"><Users size={13} />{competition.participants.length} 人</span></div></div>
+              : <CompetitionScores competition={competition} />}
           </div>
           <div className="competition-row-actions">
             {admin && <Link className="icon-link" href={`/competitions/${competition.id}/settings`} title={`${competition.name}设置`} aria-label={`${competition.name}设置`}><Settings size={17} /></Link>}
@@ -118,10 +120,9 @@ export default async function CompetitionsPage() {
             <div className="competition-main">
               <div className={`competition-title ${styles.competitionTitle}`}>{item.status === "active" && <span className="live-dot" />}{item.name}<span className={`status ${competitionStatus[item.status].className}`}>{competitionStatus[item.status].label}</span><CompetitionStrength competition={item} personRanks={personRanks} /></div>
               <div className="competition-meta">{item.code} · {isMatchPoolCompetition(item) ? `${completedMatches(item)} 半庄 / 无限` : `${completedMatches(item)}/${item.plannedMatchCount}半庄`}</div>
-              <div className="competition-footer">
-                <div className="player-list">{isMatchPoolCompetition(item) ? <span className="pool-player-count"><Users size={13} />{item.participants.length} 人</span> : item.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
-                {!isMatchPoolCompetition(item) && <CompetitionScores competition={item} />}
-              </div>
+              {isMatchPoolCompetition(item)
+                ? <div className="competition-footer"><div className="player-list"><span className="pool-player-count"><Users size={13} />{item.participants.length} 人</span></div></div>
+                : <CompetitionScores competition={item} />}
             </div>
             <div className="competition-row-actions">
               {admin && <Link className="icon-link" href={`/competitions/${item.id}/settings`} title={`${item.name}设置`} aria-label={`${item.name}设置`}><Settings size={17} /></Link>}
