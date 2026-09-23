@@ -67,6 +67,18 @@ async function writeLocalLog(log: TenhouLog) {
   await fs.writeFile(path.join(logsDirectory, `${log.ref}.json`), `${JSON.stringify(log)}\n`);
 }
 
+/** 解析阶段也只写散排缓存，不能触碰正式比赛的 logs 表。 */
+export async function cacheCasualLog(log: TenhouLog) {
+  if (usesD1Storage()) {
+    const db = await tournamentDatabase();
+    await db.prepare("INSERT INTO casual_logs (id, document, created_at) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET document = excluded.document")
+      .bind(log.ref, JSON.stringify(log), new Date().toISOString())
+      .run();
+    return;
+  }
+  await writeLocalLog(log);
+}
+
 export async function saveCasualRecord(record: CasualRecord, log: TenhouLog) {
   if (usesD1Storage()) {
     const db = await tournamentDatabase();
@@ -80,7 +92,7 @@ export async function saveCasualRecord(record: CasualRecord, log: TenhouLog) {
     if (results.some((result) => !result.success)) throw new Error("散排牌谱保存失败");
     return;
   }
-  await writeLocalLog(log);
+  await cacheCasualLog(log);
   await writeLocalRecords([...(await localRecords()), record]);
 }
 

@@ -34,7 +34,7 @@ export function CasualEntryForm({ people, selfPersonId }: {
     setSourceDirty(false);
     setSeats(parsedPreview.seats.map((seat) => {
       const personId = seat.participantId?.startsWith("person-") ? seat.participantId.slice("person-".length) : "";
-      return { personId, guestName: personId ? "" : seat.sourceUsername };
+      return { personId, guestName: seat.sourceUsername };
     }));
   }, [parsedPreview]);
 
@@ -73,7 +73,9 @@ export function CasualEntryForm({ people, selfPersonId }: {
       </section>
       <section className={`form-section${preview ? "" : " disabled-preview"}`}>
         <div className="form-section-title"><span>2</span><div><h2>确认四家身份</h2></div></div>
-        <p className={styles.seatHint}>人物池里的选手直接在下拉里选择；不认识的排位对手保持「排位对手」，填他的昵称即可（不会建人物档案）。</p>
+        <p className={styles.seatHint}>{selfPersonId
+          ? "每家只需确认是你自己还是排位对手；对手沿用牌谱昵称，不会建立人物档案。"
+          : "站内选手可直接选择；其他人保持为「排位对手」，不会建立人物档案。"}</p>
         <div className={`seat-editor${preview ? " active" : ""}`}>
           {winds.map((wind, index) => {
             const seat = preview?.seats[index];
@@ -82,13 +84,11 @@ export function CasualEntryForm({ people, selfPersonId }: {
               <div key={`${preview?.logId || "empty"}-${wind}`} className={styles.seatRow}>
                 <b>{wind}</b>
                 <span className="source-name">{seat?.sourceUsername || "等待解析原始昵称"}{seat ? ` · ${seat.rawPoints.toLocaleString("zh-CN")}` : ""}{seat?.resolvedByTable && <em className="seat-match-note" title="该昵称被多人共用，按同桌去重自动确定">同桌去重</em>}{seat?.resolvedByPreference && <em className="seat-match-note preference" title="该昵称被多人共用，按偏好规则匹配，请核对">偏好匹配</em>}</span>
-                <select name={`person${index}`} aria-label={`${wind}家选手`} value={draft.personId} disabled={!preview} onChange={(event) => updateSeat(index, { personId: event.target.value, guestName: event.target.value ? "" : draft.guestName })}>
-                  <option value="">排位对手（不在人物池）</option>
+                <select name={`person${index}`} aria-label={`${wind}家选手`} value={draft.personId} disabled={!preview} onChange={(event) => updateSeat(index, { personId: event.target.value })}>
+                  <option value="">排位对手</option>
                   {people.map((person) => <option value={person.id} key={person.id}>{person.displayName}{person.id === selfPersonId ? "（我）" : ""}</option>)}
                 </select>
-                {!draft.personId && (
-                  <input name={`guest${index}`} aria-label={`${wind}家对手昵称`} value={draft.guestName} disabled={!preview} maxLength={30} placeholder="排位对手昵称" onChange={(event) => updateSeat(index, { guestName: event.target.value })} />
-                )}
+                {!draft.personId && <input name={`guest${index}`} type="hidden" value={draft.guestName} />}
                 <span className={`match-state${draft.personId || draft.guestName ? " confirmed" : ""}`}>{seat ? `${seat.rank}位` : "未匹配"}</span>
               </div>
             );

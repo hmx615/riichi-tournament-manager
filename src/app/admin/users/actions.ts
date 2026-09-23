@@ -27,11 +27,13 @@ export async function createAppUserAction(_state: AppUserActionState, formData: 
   const password = String(formData.get("password") || "").trim() || generateAppUserPassword();
   const parsed = createAppUserSchema.safeParse({ ...values, password });
   if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message || "账号信息无效", values };
-  if (!await getPerson(parsed.data.personId)) return { status: "error", message: "绑定的人物不存在", values };
+  const person = await getPerson(parsed.data.personId);
+  if (!person) return { status: "error", message: "绑定的人物不存在", values };
   try {
     await createAppUser({
       username: parsed.data.username,
-      displayName: parsed.data.displayName,
+      // 备注留空时直接用人物当前名字，避免出现真名。
+      displayName: parsed.data.displayName?.trim() || person.displayName,
       personId: parsed.data.personId,
       role: "player",
       password,

@@ -17,7 +17,7 @@ function accountText(person: Person | undefined, platform: "tenhou" | "majsoul" 
   return person?.accounts.filter((account) => account.platform === platform).map((account) => account.username).join(", ") || "";
 }
 
-export function PersonForm({ person }: { person?: Person }) {
+export function PersonForm({ person, availableTags }: { person?: Person; availableTags: string[] }) {
   const [state, action, pending] = useActionState(savePersonAction, initialState);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [removeAvatar, setRemoveAvatar] = useState(false);
@@ -28,6 +28,7 @@ export function PersonForm({ person }: { person?: Person }) {
   useEffect(() => () => { if (avatarPreview) URL.revokeObjectURL(avatarPreview); }, [avatarPreview]);
   const value = (name: string, fallback = "") => state.values?.[name] ?? fallback;
   const displayedPerson = removeAvatar && person ? { ...person, avatarKey: undefined, avatarVersion: undefined, avatarContentType: undefined } : person;
+  const selectedTags = new Set(state.selectedTags ?? (person ? personTags(person) : availableTags.includes(DEFAULT_PERSON_TAG) ? [DEFAULT_PERSON_TAG] : []));
   return <form className="form-layout" action={action} onSubmit={(event) => { const form = event.currentTarget; const id = (form.elements.namedItem("id") as HTMLInputElement).value; const displayName = (form.elements.namedItem("displayName") as HTMLInputElement).value.trim(); if ((!person && personIdError(id)) || !displayName || avatarError) { event.preventDefault(); if (!displayName) { const input = form.elements.namedItem("displayName") as HTMLInputElement; input.setCustomValidity("请填写显示名称"); input.reportValidity(); input.addEventListener("input", () => input.setCustomValidity(""), { once: true }); } } }}>
     <input name="mode" type="hidden" value={person ? "edit" : "create"} />
     {person && <input name="originalId" type="hidden" value={person.id} />}
@@ -36,7 +37,9 @@ export function PersonForm({ person }: { person?: Person }) {
       <label className="field"><span>显示名称</span><input name="displayName" defaultValue={value("displayName", person?.displayName || "")} required /></label>
       <label className="field"><span>人物类型</span><select name="kind" defaultValue={person?.kind || "human"}><option value="human">人类</option><option value="ai">AI</option></select></label>
       <label className="field"><span>识别颜色</span><input className="color-input" name="color" type="color" defaultValue={person?.color || "#168f83"} /></label>
-      <label className="field wide"><span>人物标签</span><input name="tags" defaultValue={value("tags", person ? personTags(person).join(", ") : DEFAULT_PERSON_TAG)} placeholder="多个标签用逗号分隔" /></label>
+      <div className="field wide"><span>人物标签</span>{availableTags.length ? <div className="choice-group">
+        {availableTags.map((tag) => <label key={tag}><input name="tags" type="checkbox" value={tag} defaultChecked={selectedTags.has(tag)} /><span>{tag}</span></label>)}
+      </div> : <p className="field-note">尚未创建可用标签，请先到标签管理中创建。</p>}</div>
       <label className="field wide"><span>历史昵称</span><textarea name="aliases" rows={3} defaultValue={value("aliases", person?.aliases.join(", ") || "")} /></label>
     </div></section>
     <section className="form-section"><div className="form-section-title"><span>2</span><div><h2>平台账号</h2></div></div><div className="field-grid">

@@ -30,7 +30,7 @@ export default async function CasualPage() {
   const peopleById = new Map(people.map((person) => [person.id, person]));
   const viewerPersonId = player?.personId ?? null;
   const peopleOptions = [...people]
-    .filter((person) => person.kind === "human")
+    .filter((person) => person.kind === "human" && (admin || person.id === viewerPersonId))
     .sort((left, right) => left.displayName.localeCompare(right.displayName, "zh-Hans-CN"))
     .map((person) => ({ id: person.id, displayName: person.displayName }));
 
@@ -42,6 +42,12 @@ export default async function CasualPage() {
       {person ? <Link href={`/players/${encodeURIComponent(person.id)}`}>{person.displayName}</Link> : <span className={styles.guestSeat}>{seat.guestName || "排位对手"}</span>}
       <small>{seat.rawPoints.toLocaleString("zh-CN")}</small>
     </span>;
+  }
+
+  /** 录入人只显示人物名，不暴露选手账号（账号名多为姓名缩写）。 */
+  function createdByLabel(record: CasualRecord) {
+    if (!record.createdByPersonId) return "管理员";
+    return peopleById.get(record.createdByPersonId)?.displayName ?? "选手";
   }
 
   return <div className="page">
@@ -62,7 +68,7 @@ export default async function CasualPage() {
       </div>
     </section>
     {!admin && player && !player.personId && <section className={styles.notice}><ShieldAlert size={18} /><div><strong>当前账号还没有绑定人物</strong><p>请联系管理员在账号管理里把账号绑定到人物，之后才能录入散排牌谱。</p></div></section>}
-    {(admin || player) && <section className="section-block">
+    {(admin || viewerPersonId) && <section className="section-block">
       <div className="section-heading"><div><h2>录入散排牌谱</h2></div></div>
       <CasualEntryForm people={peopleOptions} selfPersonId={viewerPersonId} />
     </section>}
@@ -84,7 +90,7 @@ export default async function CasualPage() {
                 {record.nagaUrl && <a href={record.nagaUrl} target="_blank" rel="noreferrer">NAGA<ExternalLink size={13} /></a>}
                 {!record.tenhouUrl && !record.nagaUrl && <span>-</span>}
               </div></td>
-              <td>{record.createdByUsername || "管理员"}<small>{dateTime.format(new Date(record.createdAt))}</small></td>
+              <td>{createdByLabel(record)}<small>{dateTime.format(new Date(record.createdAt))}</small></td>
               <td>{owner ? <DeleteCasualRecordForm recordId={record.id} label={ordered.map((seat) => seat.personId ? peopleById.get(seat.personId)?.displayName ?? seat.personId : seat.guestName).join("、")} /> : <span>-</span>}</td>
             </tr>;
           })}</tbody>

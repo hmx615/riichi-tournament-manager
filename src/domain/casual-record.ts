@@ -9,9 +9,9 @@ export const casualInitialPoints = 25000;
 
 export type CasualSeat = {
   seat: 0 | 1 | 2 | 3;
-  /** 人物池内选手；与 guestName 二选一。 */
+  /** 站内人物；与 guestName 二选一。 */
   personId: string | null;
-  /** 不在人物池里的排位对手昵称；只做展示，不建人物档案。 */
+  /** 排位对手昵称；只做展示，不建人物档案。 */
   guestName: string | null;
   /** 牌谱里的原始昵称，永远保留。 */
   sourceUsername: string;
@@ -68,10 +68,11 @@ export const casualGuestNameMaxLength = 30;
 /** 返回错误文案；合法时返回 null。 */
 export function casualSeatError(
   seats: Array<{ personId?: string | null; guestName?: string | null }>,
-  options: { requiredPersonId?: string | null } = {},
+  options: { requiredPersonId?: string | null; allowedPersonIds?: readonly string[] } = {},
 ) {
   if (seats.length !== 4) return "散排牌谱必须正好四家";
   const personIds: string[] = [];
+  const allowedPersonIds = options.allowedPersonIds ? new Set(options.allowedPersonIds) : null;
   for (const [index, seat] of seats.entries()) {
     const personId = seat.personId?.trim() || "";
     const guestName = seat.guestName?.trim() || "";
@@ -79,6 +80,7 @@ export function casualSeatError(
     if (personId && guestName) return `第 ${index + 1} 家同时选择了选手和排位对手，请二选一`;
     if (guestName.length > casualGuestNameMaxLength) return `第 ${index + 1} 家的对手昵称不能超过 ${casualGuestNameMaxLength} 个字符`;
     if (personId) {
+      if (allowedPersonIds && !allowedPersonIds.has(personId)) return `第 ${index + 1} 家选择了不可用的人物`;
       if (personIds.includes(personId)) return "同一人物不能在散排里占两个座次";
       personIds.push(personId);
     }

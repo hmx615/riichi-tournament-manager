@@ -6,12 +6,13 @@ import { DeletePersonForm } from "@/components/delete-person-form";
 import { requireAdminPage } from "@/server/auth";
 import { getPerson, personCompetitions } from "@/server/person-repository";
 import { decodePersonId } from "@/domain/person-id";
+import { listPersonTags } from "@/server/person-tag-repository";
 
 export default async function PersonSettingsPage({ params }: { params: Promise<{ personId: string }> }) {
   const { personId } = await params;
   await requireAdminPage(`/players/${personId}/settings`);
-  const person = await getPerson(decodePersonId(personId));
+  const [person, availableTags] = await Promise.all([getPerson(decodePersonId(personId)), listPersonTags()]);
   if (!person) notFound();
   const competitions = await personCompetitions(person.id);
-  return <div className="page form-page"><Link className="back-link" href={`/players/${encodeURIComponent(person.id)}`}><ArrowLeft size={16} />返回人物数据</Link><div className="page-heading"><div><p className="eyebrow">人物库</p><h1>人物设置</h1></div></div><PersonForm person={person} /><DeletePersonForm personId={person.id} competitions={competitions} /></div>;
+  return <div className="page form-page"><Link className="back-link" href={`/players/${encodeURIComponent(person.id)}`}><ArrowLeft size={16} />返回人物数据</Link><div className="page-heading"><div><p className="eyebrow">人物库</p><h1>人物设置</h1></div></div><PersonForm person={person} availableTags={availableTags} /><DeletePersonForm personId={person.id} competitions={competitions} /></div>;
 }

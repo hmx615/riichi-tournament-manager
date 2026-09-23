@@ -11,9 +11,9 @@ import type { Competition, MatchRecord, NagaRating } from "@/domain/types";
 import { matchContentFingerprint } from "@/domain/tenhou-log-normalizer";
 import { appendMatch, getCompetition, listCompetitions, supplementMatchNagaAnalysis } from "@/server/competition-repository";
 import { parseCachedMajsoulSource, parseMajsoulJsonSource, parseMatchSource, readCachedLogs, type MatchPreview } from "@/server/tenhou";
-import { isAdmin } from "@/server/auth";
 import { rememberPersonAccounts, type ConfirmedPersonAccount } from "@/server/person-repository";
 import { entrySchedule, requireOpenTable, scheduledMatch } from "@/domain/scheduled-match";
+import { canEnterCompetitionMatches } from "@/server/match-entry-auth";
 
 export type MatchEntryState = {
   status: "idle" | "success" | "error";
@@ -107,9 +107,9 @@ function needsNagaSupplement(match: MatchRecord, ratings: NagaRating[]) {
 }
 
 export async function parseMatchAction(_state: MatchEntryState, formData: FormData): Promise<MatchEntryState> {
-  if (!await isAdmin()) return initialError("需要管理员登录");
   const competitionId = competitionIdFrom(formData);
   if (!competitionId.success) return initialError(competitionId.error.issues[0]?.message || "比赛 ID 格式无效");
+  if (!await canEnterCompetitionMatches(competitionId.data)) return initialError("当前账号没有该比赛的牌谱录入权限");
   const competition = await getCompetition(competitionId.data);
   if (!competition) return initialError("比赛数据不存在");
   try {
@@ -157,9 +157,9 @@ export async function parseMatchAction(_state: MatchEntryState, formData: FormDa
 }
 
 export async function saveMatchAction(_state: MatchEntryState, formData: FormData): Promise<MatchEntryState> {
-  if (!await isAdmin()) return initialError("需要管理员登录");
   const competitionId = competitionIdFrom(formData);
   if (!competitionId.success) return initialError(competitionId.error.issues[0]?.message || "比赛 ID 格式无效");
+  if (!await canEnterCompetitionMatches(competitionId.data)) return initialError("当前账号没有该比赛的牌谱录入权限");
   const competition = await getCompetition(competitionId.data);
   if (!competition) return initialError("比赛数据不存在");
   let confirmedAccounts: ConfirmedPersonAccount[] = [];

@@ -103,7 +103,7 @@ export default async function PersonCasualPage({ params }: { params: Promise<{ p
                   {record && casualRecordHasNaga(record) && <span className={styles.nagaBadge}>含 NAGA</span>}
                   {!record?.tenhouUrl && !record?.nagaUrl && <span>-</span>}
                 </div></td>
-                <td>{record?.createdByUsername || "管理员"}</td>
+                <td>{record?.createdByPersonId ? peopleById.get(record.createdByPersonId)?.displayName ?? "选手" : "管理员"}</td>
               </tr>;
             })}</tbody>
           </table>

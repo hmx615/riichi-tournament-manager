@@ -2,7 +2,7 @@ import "server-only";
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Competition, MatchRecord, NagaRating, Participant } from "@/domain/types";
+import type { Competition, MatchRecord, NagaRating, Participant, Person } from "@/domain/types";
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
 import { completeScheduledMatch } from "@/domain/scheduled-match";
@@ -11,39 +11,20 @@ import { DEFAULT_PERSON_TAG, normalizePersonTags, personTags } from "@/domain/pe
 export const MATCH_POOL_ID = "match-pool";
 export const MERGED_COMPETITION_IDS = new Set(["1st-cccp", "1st-wdc", "1st-fyc", "1st-lmc", "1st-cccp213e"]);
 
-/** Returns the permanent all-player pool and synchronizes newly-created people into it. */
-export async function getOrCreateMatchPool(): Promise<Competition> {
-  const { listPeople } = await import("@/server/person-repository");
-  const people = await listPeople();
-  let competition = await getCompetition(MATCH_POOL_ID);
-  const participantFor = (person: (typeof people)[number]): Participant => ({
+function participantFor(person: Person): Participant {
+  return {
     id: `person-${person.id}`,
     personId: person.id,
     displayName: person.displayName,
     kind: person.kind,
     color: person.color,
-    usernames: [person.displayName, ...person.aliases, ...person.accounts.map((account) => account.username)],
-  });
-  const autoIncludePersonTags = normalizePersonTags(competition?.autoIncludePersonTags ?? [DEFAULT_PERSON_TAG]);
+    usernames: [...new Set([person.displayName, ...person.aliases, ...person.accounts.map((account) => account.username)])],
+  };
+}
+
+async function synchronizeMatchPool(competition: Competition, people: Person[]) {
+  const autoIncludePersonTags = normalizePersonTags(competition.autoIncludePersonTags ?? []);
   const eligiblePeople = people.filter((person) => personTags(person).some((tag) => autoIncludePersonTags.includes(tag)));
-  if (!competition) {
-    const participants = eligiblePeople.map(participantFor);
-    competition = {
-      id: MATCH_POOL_ID,
-      name: "国企天梯赛·家妈杯",
-      code: "MATCH-POOL",
-      format: "four_player",
-      status: "active",
-      plannedMatchCount: 100000,
-      initialPoints: 25000,
-      rankPoints: [30, 10, -10, -30],
-      participants,
-      matches: [],
-      autoIncludePersonTags,
-    };
-    await createCompetition(competition);
-    return competition;
-  }
   const peopleById = new Map(people.map((person) => [person.id, person]));
   const includedIds = new Set(competition.participants.map((participant) => participant.personId).filter(Boolean));
   const participants = competition.participants.map((participant) => {
@@ -63,11 +44,52 @@ export async function getOrCreateMatchPool(): Promise<Competition> {
   return competition;
 }
 
-export async function updateMatchPoolAutoIncludeTags(tags: string[]) {
-  const competition = await getCompetition(MATCH_POOL_ID) ?? await getOrCreateMatchPool();
+/** Returns the permanent highlighted pool and synchronizes tagged people into it. */
+export async function getOrCreateMatchPool(): Promise<Competition> {
+  const { listPeople } = await import("@/server/person-repository");
+  const people = await listPeople();
+  let competition = await getCompetition(MATCH_POOL_ID);
+  if (!competition) {
+    competition = {
+      id: MATCH_POOL_ID,
+      name: "国企天梯赛·家妈杯",
+      code: "MATCH-POOL",
+      format: "four_player",
+      status: "active",
+      plannedMatchCount: 100000,
+      initialPoints: 25000,
+      rankPoints: [30, 10, -10, -30],
+      participants: people.filter((person) => personTags(person).includes(DEFAULT_PERSON_TAG)).map(participantFor),
+      matches: [],
+      autoIncludePersonTags: [DEFAULT_PERSON_TAG],
+    };
+    await createCompetition(competition);
+    return competition;
+  }
+  competition.autoIncludePersonTags ??= [DEFAULT_PERSON_TAG];
+  return synchronizeMatchPool(competition, people);
+}
+
+export async function synchronizeAllMatchPools() {
+  await getOrCreateMatchPool();
+  const { listPeople } = await import("@/server/person-repository");
+  const [people, competitions] = await Promise.all([listPeople(), listCompetitions()]);
+  for (const competition of competitions) {
+    if (competition.id !== MATCH_POOL_ID && competition.autoIncludePersonTags !== undefined) {
+      await synchronizeMatchPool(competition, people);
+    }
+  }
+}
+
+export async function updateMatchPoolAutoIncludeTags(competitionId: string, tags: string[]) {
+  const competition = competitionId === MATCH_POOL_ID
+    ? await getCompetition(MATCH_POOL_ID) ?? await getOrCreateMatchPool()
+    : await getCompetition(competitionId);
+  if (!competition || competition.autoIncludePersonTags === undefined) throw new Error("匹配池不存在");
   competition.autoIncludePersonTags = normalizePersonTags(tags);
   await replaceCompetition(competition, undefined, false);
-  return getOrCreateMatchPool();
+  const { listPeople } = await import("@/server/person-repository");
+  return synchronizeMatchPool(competition, await listPeople());
 }
 
 const competitionDirectory = path.join(dataDirectory, "competitions");

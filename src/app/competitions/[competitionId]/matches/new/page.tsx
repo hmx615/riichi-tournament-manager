@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { MatchEntryForm } from "@/components/match-entry-form";
 import { getCompetition } from "@/server/competition-repository";
-import { requireAdminPage } from "@/server/auth";
+import { requireCompetitionMatchEntryPage } from "@/server/match-entry-auth";
 import { scheduledMatch } from "@/domain/scheduled-match";
 
 export default async function NewMatchPage({ params, searchParams }: {
@@ -14,7 +14,7 @@ export default async function NewMatchPage({ params, searchParams }: {
   const query = await searchParams;
   const selection = new URLSearchParams();
   for (const key of ["scheduleId", "stage", "round", "table"]) if (typeof query[key] === "string") selection.set(key, query[key]);
-  await requireAdminPage(`/competitions/${competitionId}/matches/new${selection.size ? `?${selection}` : ""}`);
+  await requireCompetitionMatchEntryPage(competitionId, `/competitions/${competitionId}/matches/new${selection.size ? `?${selection}` : ""}`);
   const competition = await getCompetition(competitionId);
   if (!competition) notFound();
   const labels = { preliminary: "初赛", semifinal: "半决赛", final: "决赛" };

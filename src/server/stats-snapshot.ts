@@ -15,27 +15,28 @@ const memory = new Map<string, MemoryEntry>();
  */
 export const SNAPSHOT_REVISION = 4;
 const ignoredPersonVersion = "*";
+const ignoredLogVersion = "*";
 
 function normalizedVersion(version: string) {
   const parts = version.split("|");
   if (parts.length === 7) {
     parts[3] = ignoredPersonVersion;
     parts[4] = ignoredPersonVersion;
+    parts[5] = ignoredLogVersion;
+    parts[6] = ignoredLogVersion;
   }
   return parts.join("|");
 }
 
 /**
- * 数据版本号只跟比赛和牌谱有关。人物档案由展示层实时合并，不参与统计版本。
- * 保留两个占位槽并归一化历史版本，部署本改动时可直接复用现有快照。
+ * 数据版本号只跟比赛记录有关。人物档案由展示层实时合并，牌谱缓存只有在比赛记录引用后才参与计算，
+ * 两者都不单独触发统计。保留历史占位槽并归一化旧版本，部署本改动时可直接复用现有快照。
  */
 async function dataVersion() {
   const db = await tournamentDatabase();
   const row = await db.prepare(`SELECT
       (SELECT COALESCE(MAX(updated_at), '') FROM competitions) AS competitionUpdatedAt,
-      (SELECT COUNT(*) FROM competitions) AS competitionCount,
-      (SELECT COALESCE(MAX(created_at), '') FROM logs) AS logCreatedAt,
-      (SELECT COUNT(*) FROM logs) AS logCount`)
+      (SELECT COUNT(*) FROM competitions) AS competitionCount`)
     .first<Record<string, string | number>>();
   return [
     String(SNAPSHOT_REVISION),
@@ -43,8 +44,8 @@ async function dataVersion() {
     row?.competitionCount ?? "",
     ignoredPersonVersion,
     ignoredPersonVersion,
-    row?.logCreatedAt ?? "",
-    row?.logCount ?? "",
+    ignoredLogVersion,
+    ignoredLogVersion,
   ].join("|");
 }
 
@@ -56,7 +57,7 @@ async function dataVersion() {
 export async function cachedSnapshot<T>(
   id: string,
   compute: () => Promise<T>,
-  /** 默认按比赛与牌谱的版本号；散排统计传入自己的版本函数，互不影响。 */
+  /** 默认按正式比赛记录版本；散排统计传入自己的版本函数，互不影响。 */
   versionSource: () => Promise<string> = dataVersion,
 ): Promise<T> {
   // 本地开发用文件仓储，直接计算即可。

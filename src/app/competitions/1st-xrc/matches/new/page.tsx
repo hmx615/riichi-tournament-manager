@@ -3,10 +3,10 @@ import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { MatchEntryForm } from "@/components/match-entry-form";
 import { getCompetition } from "@/server/competition-repository";
-import { requireAdminPage } from "@/server/auth";
+import { requireCompetitionMatchEntryPage } from "@/server/match-entry-auth";
 
 export default async function NewMatchPage() {
-  await requireAdminPage("/competitions/1st-xrc/matches/new");
+  await requireCompetitionMatchEntryPage("1st-xrc", "/competitions/1st-xrc/matches/new");
   const competition = await getCompetition("1st-xrc");
   if (!competition) notFound();
   return (

@@ -18,16 +18,17 @@ const remote = process.argv.includes("--remote");
 const dryRun = process.argv.includes("--dry-run");
 
 /** 账号 → 人物 ID（人物 ID 见 data/people.json）。 */
+// 人物 ID 一律等于人物当前名字（不用姓名拼音，避免实名外泄）；displayName 也跟随人物名。
 const accounts = [
-  { username: "phq", personId: "xiaop", displayName: "彭虹清" },
-  { username: "zdh", personId: "Zhao_dehua", displayName: "赵得华" },
-  { username: "wyy", personId: "humiao", displayName: "胡米奥" },
-  { username: "ljw", personId: "纪委", displayName: "乌蒙一号机" },
-  { username: "lxh", personId: "hamburger", displayName: "李晓赫" },
-  { username: "cl", personId: "chenluo", displayName: "陈洛" },
-  { username: "zsq", personId: "士强", displayName: "九条嘟嘟嘟" },
-  { username: "wdj", personId: "wu-dongjie", displayName: "吴东杰" },
-  { username: "ezy", personId: "e-ziyi", displayName: "鄂子懿" },
+  { username: "phq", personId: "越山逐月", displayName: "越山逐月" },
+  { username: "zdh", personId: "中華有为", displayName: "中華有为" },
+  { username: "wyy", personId: "胡米奥", displayName: "胡米奥" },
+  { username: "ljw", personId: "乌蒙一号机", displayName: "乌蒙一号机" },
+  { username: "lxh", personId: "Hamburger", displayName: "Hamburger" },
+  { username: "cl", personId: "Nanaishi", displayName: "Nanaishi" },
+  { username: "zsq", personId: "九条", displayName: "九条" },
+  { username: "wdj", personId: "卡夫卡爱上坡路", displayName: "卡夫卡爱上坡路" },
+  { username: "ezy", personId: "紫罗兰梦幻花园", displayName: "紫罗兰梦幻花园" },
 ];
 
 const passwordAlphabet = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";

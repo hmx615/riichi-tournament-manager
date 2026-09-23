@@ -523,6 +523,9 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .player-tag i { width: 8px; height: 8px; background: var(--player-color); }
 .player-tag.compact { min-height: 27px; padding: 3px 9px; font-size: 12px; }
 .competition-row.match-pool-row { grid-template-columns: minmax(300px, 1fr) auto; border: 1px solid #dfbd58; background: #fff8d8; box-shadow: 0 8px 24px rgba(151, 111, 24, .12); }
+.competition-row.pool-row { grid-template-columns: minmax(300px, 1fr) auto; }
+.pool-player-count { min-height: 27px; padding: 4px 10px; border: 1px solid var(--line); background: var(--soft); display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; font-weight: 750; }
+.pool-person-count { margin-top: 8px; display: flex; align-items: center; gap: 6px; }
 .match-pool-row .player-list { flex-wrap: wrap; overflow: visible; row-gap: 6px; }
 .match-pool-mark { color: #86651a; font-size: .76rem; font-weight: 700; letter-spacing: .04em; border: 1px solid #d5a84d; background: #fff4cf; padding: .25rem .5rem; border-radius: 999px; }
 .match-pool-all { min-height: 28px; padding: 4px 12px; border: 1px dashed #d8b45e; border-radius: 999px; background: #fffdf3; color: #8a5b00; display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 750; }
@@ -826,6 +829,7 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .choice-group label { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--soft-line); font-size: 12px; cursor: pointer; }
 .choice-group label.checked { border-color: var(--green); background: var(--green-soft); font-weight: 700; }
 .choice-group input { accent-color: var(--green); }
+.field .choice-group input { width: 16px; height: 16px; min-height: 0; padding: 0; flex: 0 0 16px; }
 .time-slots { display: grid; gap: 6px; padding: 10px 12px; border: 1px dashed var(--soft-line); background: #fdfdfc; }
 .time-slots-title { color: var(--muted); font-size: 10px; }
 .time-slot { display: flex; align-items: center; gap: 6px; }
@@ -953,6 +957,7 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
   .section-block, .standings { padding: 16px; }
   .competition-row { padding: 15px; gap: 17px; grid-template-columns: 1fr 34px; }
   .competition-row.match-pool-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .competition-row.pool-row { grid-template-columns: minmax(0, 1fr) auto; }
   .match-pool-row .competition-title { flex-wrap: wrap; row-gap: 6px; }
   .match-pool-row .competition-row-actions { align-self: start; }
   .match-pool-all { white-space: nowrap; }
@@ -1023,6 +1028,7 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 /* 窄屏放不下「内容 + 操作」两列，操作按钮换到下一行，避免与内容挤在一起。 */
 @media (max-width: 520px) {
   .competition-row.match-pool-row { grid-template-columns: 1fr; }
+  .competition-row.pool-row { grid-template-columns: 1fr; }
   .match-pool-row .competition-row-actions { align-self: center; }
 }
 

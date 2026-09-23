@@ -34,7 +34,7 @@ export default async function AdminUsersPage() {
       <div>
         <p className="eyebrow">仅管理员可见</p>
         <h1>账号管理</h1>
-        <p className={styles.subtitle}>选手账号用于散排录入：登录后只能录入包含自己（绑定人物）的牌谱。</p>
+        <p className={styles.subtitle}>选手账号可录入各项比赛牌谱，不可修改或删除已有数据；散排仍只能录入包含自己（绑定人物）的牌谱。</p>
       </div>
     </div>
     <CreateAppUserForm people={options} />

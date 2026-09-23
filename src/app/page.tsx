@@ -5,12 +5,13 @@ import { MatchLevelBadge } from "@/components/competition-overview";
 import { PlayerTag } from "@/components/player-tag";
 import type { EstimatedRank } from "@/domain/estimated-rank";
 import { assessMatchLevel } from "@/domain/match-level";
-import { isIndividualCompetition } from "@/domain/competition-format";
+import { isIndividualCompetition, isMatchPoolCompetition } from "@/domain/competition-format";
 import { listCompetitions, MATCH_POOL_ID } from "@/server/competition-repository";
 import { isAdmin } from "@/server/auth";
 import { listPeople } from "@/server/person-repository";
 import { loadPersonEstimatedRanks } from "@/server/person-statistics";
 import type { Competition } from "@/domain/types";
+import { currentPlayer } from "@/server/player-auth";
 import styles from "./page.module.css";
 
 const competitionStatus = {
@@ -45,16 +46,15 @@ function CompetitionStrength({ competition, personRanks }: { competition: Compet
 }
 
 export default async function CompetitionsPage() {
-  const [admin, storedCompetitions, people, personRanks] = await Promise.all([
+  const [admin, player, storedCompetitions, people, personRanks] = await Promise.all([
     isAdmin(),
+    currentPlayer(),
     listCompetitions(),
     listPeople(),
     loadPersonEstimatedRanks(),
   ]);
   const matchPool = storedCompetitions.find((item) => item.id === MATCH_POOL_ID);
-  // The home page only exposes the active public competitions: the match pool,
-  // the two retained cups, and every multi-stage individual competition.
-  const visibleCompetitions = storedCompetitions.filter((item) => item.id !== MATCH_POOL_ID && (item.id === "1st-rc" || item.id === "1st-xrc" || isIndividualCompetition(item)));
+  const visibleCompetitions = storedCompetitions.filter((item) => item.id !== MATCH_POOL_ID);
   const allCompetitions = (visibleCompetitions.length
     ? visibleCompetitions
     : [fallbackCompetition]);
@@ -89,29 +89,30 @@ export default async function CompetitionsPage() {
             <div className="player-list"><span className="match-pool-all" title={matchPool.participants.map((participant) => participant.displayName).join("、")}><Users size={13} />全体玩家<span className="match-pool-all-count">{matchPool.participants.length} 人</span></span></div>
           </div>
           <div className="competition-row-actions">
-            {admin && <><Link className="icon-link" href={`/competitions/${matchPool.id}/settings`} title="家妈杯设置" aria-label="家妈杯设置"><Settings size={17} /></Link><Link className="icon-link" href={`/competitions/${matchPool.id}/matches/new`} title="录入家妈杯牌谱" aria-label="录入家妈杯牌谱"><FilePlus2 size={17} /></Link></>}
+            {admin && <Link className="icon-link" href={`/competitions/${matchPool.id}/settings`} title="家妈杯设置" aria-label="家妈杯设置"><Settings size={17} /></Link>}
+            {(admin || player) && <Link className="icon-link" href={`/competitions/${matchPool.id}/matches/new`} title="录入家妈杯牌谱" aria-label="录入家妈杯牌谱"><FilePlus2 size={17} /></Link>}
             <Link className="icon-link" href={`/competitions/${matchPool.id}`} title="打开国企天梯赛·家妈杯" aria-label="打开国企天梯赛·家妈杯"><ArrowRight /></Link>
           </div>
         </article>}
-        <article className="competition-row">
+        <article className={`competition-row${isMatchPoolCompetition(competition) ? " pool-row" : ""}`}>
           <div className="competition-main">
             <div className={`competition-title ${styles.competitionTitle}`}>{competition.status === "active" && <span className="live-dot" />}{competition.name}<span className={`status ${competitionStatus[competition.status].className}`}>{competitionStatus[competition.status].label}</span><CompetitionStrength competition={competition} personRanks={personRanks} /></div>
-            <div className="competition-meta">{competition.code} · {completed}/{competition.plannedMatchCount}半庄</div>
-            <div className="player-list">
-              {competition.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}
-            </div>
+            <div className="competition-meta">{competition.code} · {isMatchPoolCompetition(competition) ? `${completed} 半庄 / 无限` : `${completed}/${competition.plannedMatchCount}半庄`}</div>
+            <div className="player-list">{isMatchPoolCompetition(competition) ? <span className="pool-player-count"><Users size={13} />{competition.participants.length} 人</span> : competition.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
           </div>
-          <CompetitionScores competition={competition} />
+          {!isMatchPoolCompetition(competition) && <CompetitionScores competition={competition} />}
+          {(admin || player) && <Link className="icon-link" href={`/competitions/${competition.id}/matches/new`} title={`录入${competition.name}牌谱`} aria-label={`录入${competition.name}牌谱`}><FilePlus2 size={17} /></Link>}
           <Link className="icon-link" href={`/competitions/${competition.id}`} title="打开比赛" aria-label="打开比赛"><ArrowRight /></Link>
         </article>
         {otherCompetitions.map((item) => (
-          <article className="competition-row compact-row" key={item.id}>
+          <article className={`competition-row compact-row${isMatchPoolCompetition(item) ? " pool-row" : ""}`} key={item.id}>
             <div className="competition-main">
               <div className={`competition-title ${styles.competitionTitle}`}>{item.status === "active" && <span className="live-dot" />}{item.name}<span className={`status ${competitionStatus[item.status].className}`}>{competitionStatus[item.status].label}</span><CompetitionStrength competition={item} personRanks={personRanks} /></div>
-              <div className="competition-meta">{item.code} · {completedMatches(item)}/{item.plannedMatchCount}半庄</div>
-              <div className="player-list">{item.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
+              <div className="competition-meta">{item.code} · {isMatchPoolCompetition(item) ? `${completedMatches(item)} 半庄 / 无限` : `${completedMatches(item)}/${item.plannedMatchCount}半庄`}</div>
+              <div className="player-list">{isMatchPoolCompetition(item) ? <span className="pool-player-count"><Users size={13} />{item.participants.length} 人</span> : item.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
             </div>
-            <CompetitionScores competition={item} />
+            {!isMatchPoolCompetition(item) && <CompetitionScores competition={item} />}
+            {(admin || player) && <Link className="icon-link" href={`/competitions/${item.id}/matches/new`} title={`录入${item.name}牌谱`} aria-label={`录入${item.name}牌谱`}><FilePlus2 size={17} /></Link>}
             <Link className="icon-link" href={`/competitions/${item.id}`} title="打开比赛" aria-label={`打开${item.name}`}><ArrowRight /></Link>
           </article>
         ))}

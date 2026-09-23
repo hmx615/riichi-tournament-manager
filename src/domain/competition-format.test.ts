@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { competitionFormat, individualSettingsFor, isIndividualCompetition } from "./competition-format";
+import { competitionFormat, individualSettingsFor, isIndividualCompetition, isMatchPoolCompetition } from "./competition-format";
 
 describe("competition format", () => {
   it("keeps legacy competitions as four-player competitions", () => {
@@ -14,5 +14,10 @@ describe("competition format", () => {
     expect(competitionFormat(competition)).toBe("individual");
     expect(isIndividualCompetition(competition)).toBe(true);
     expect(individualSettingsFor(competition)?.stages.semifinal.matchCountPerPlayer).toBe(0);
+  });
+
+  it("recognizes any competition with an automatic tag rule as a match pool", () => {
+    expect(isMatchPoolCompetition({ autoIncludePersonTags: [] })).toBe(true);
+    expect(isMatchPoolCompetition({})).toBe(false);
   });
 });

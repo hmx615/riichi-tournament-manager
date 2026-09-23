@@ -9,14 +9,14 @@ const mocks = vi.hoisted(() => ({
   usesD1Storage: vi.fn(() => false),
   tournamentDatabase: vi.fn(),
   listCompetitions: vi.fn(),
-  getOrCreateMatchPool: vi.fn(),
+  synchronizeAllMatchPools: vi.fn(),
 }));
 vi.mock("server-only", () => ({}));
 vi.mock("@/server/data-directory", () => ({ get dataDirectory() { return mocks.dataDirectory; } }));
 vi.mock("@/server/cloudflare-storage", () => ({ usesD1Storage: mocks.usesD1Storage, tournamentDatabase: mocks.tournamentDatabase }));
 vi.mock("@/server/competition-repository", () => ({
   listCompetitions: mocks.listCompetitions,
-  getOrCreateMatchPool: mocks.getOrCreateMatchPool,
+  synchronizeAllMatchPools: mocks.synchronizeAllMatchPools,
 }));
 
 const person: Person = { id: "明轩", displayName: "明轩", kind: "human", color: "#168f83", aliases: [], accounts: [], tags: ["国企办公厅"] };
@@ -126,7 +126,7 @@ describe("person deletion storage", () => {
         7,
       );
       expect(prepare.mock.calls.some(([sql]) => String(sql).includes("statistics_updated_at"))).toBe(false);
-      expect(mocks.getOrCreateMatchPool).toHaveBeenCalledTimes(syncsMatchPool ? 1 : 0);
+      expect(mocks.synchronizeAllMatchPools).toHaveBeenCalledTimes(syncsMatchPool ? 1 : 0);
     } finally {
       vi.useRealTimers();
     }

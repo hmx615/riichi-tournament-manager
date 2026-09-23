@@ -34,11 +34,12 @@ function QualityBadges({ competition, matchNumber }: { competition: Competition;
   </>;
 }
 
-export function IndividualCompetitionOverview({ competition, summary, showBackLink = false, admin }: {
+export function IndividualCompetitionOverview({ competition, summary, showBackLink = false, admin, canEnterMatches = admin }: {
   competition: Competition;
   summary: CompetitionSummary;
   showBackLink?: boolean;
   admin: boolean;
+  canEnterMatches?: boolean;
 }) {
   const completed = competition.matches.filter((match) => match.status === "completed").length;
   const settings = individualSettingsFor(competition);
@@ -178,7 +179,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
                 const participant = competition.participants.find((item) => item.id === id);
                 return <span style={{ "--player-color": participant?.color } as React.CSSProperties} key={id}>{participant?.displayName ?? id}</span>;
               })}</div>
-              <footer>{admin ? <Link className="button primary" href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>录入牌谱</Link> : <span>待开赛</span>}</footer>
+              <footer>{canEnterMatches ? <Link className="button primary" href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>录入牌谱</Link> : <span>待开赛</span>}</footer>
             </article>
           )}</div> : <article className="individual-schedule-card schedule-pending-card"><header><strong>{stageLabels[stage]}</strong></header><div className="schedule-pending-label">待定中...</div></article>}
         </section>;
@@ -196,7 +197,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
                 const participant = competition.participants.find((item) => item.id === seat.participantId);
                 return <span style={{ "--player-color": participant?.color } as React.CSSProperties} key={seat.seat}>{participant?.displayName || seat.sourceUsername}</span>;
               })}</div>
-              <footer><strong className="schedule-done">已录入牌谱</strong><Link className="table-edit-link" href={`/competitions/${competition.id}/matches/${match.matchNumber}`}><Pencil size={14} />查看</Link></footer>
+              <footer><strong className="schedule-done">已录入牌谱</strong>{admin && <Link className="table-edit-link" href={`/competitions/${competition.id}/matches/${match.matchNumber}`}><Pencil size={14} />查看</Link>}</footer>
             </article>;
           })}</div>
         </section> : null;

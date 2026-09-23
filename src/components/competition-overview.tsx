@@ -4,7 +4,7 @@ import type { Competition } from "@/domain/types";
 import type { EstimatedRank } from "@/domain/estimated-rank";
 import { assessMatchQuality, type PlayerQuality } from "@/domain/match-quality";
 import { assessMatchLevel, type MatchLevelAssessment } from "@/domain/match-level";
-import { isIndividualCompetition } from "@/domain/competition-format";
+import { isIndividualCompetition, isMatchPoolCompetition } from "@/domain/competition-format";
 import type { CompetitionSummary } from "@/server/competition-statistics";
 import { totalsForCompetition } from "@/data/competition";
 import { PlayerTag } from "@/components/player-tag";
@@ -37,28 +37,30 @@ export function MatchLevelBadge({ assessment, compact = false }: { assessment: M
   return <span className={`${className} ${styles.horseLevel}`} title={title}><ChessKnight size={compact ? 12 : 16} /><span>赛事强度</span><b>送马</b></span>;
 }
 
-export function CompetitionOverview({ competition, summary, participantRanks, showBackLink = false, admin }: {
+export function CompetitionOverview({ competition, summary, participantRanks, showBackLink = false, admin, canEnterMatches = admin }: {
   competition: Competition;
   summary: CompetitionSummary;
   participantRanks: Record<string, EstimatedRank | null>;
   showBackLink?: boolean;
   admin: boolean;
+  canEnterMatches?: boolean;
 }) {
   const totals = totalsForCompetition(competition);
   const completed = competition.matches.filter((match) => match.status === "completed").length;
   const participantById = Object.fromEntries(competition.participants.map((participant) => [participant.id, participant]));
   const sortedPlayers = [...competition.participants].sort((left, right) => totals[right.id] - totals[left.id]);
-  const levelAssessment = isIndividualCompetition(competition) ? null : assessMatchLevel(competition.participants.map((participant) => participantRanks[participant.id] ?? null));
+  const matchPool = isMatchPoolCompetition(competition);
+  const levelAssessment = isIndividualCompetition(competition) || matchPool ? null : assessMatchLevel(competition.participants.map((participant) => participantRanks[participant.id] ?? null));
   return (
     <div className="page competition-page">
       {showBackLink && <Link className="back-link" href="/"><ArrowLeft size={16} />返回比赛列表</Link>}
       <div className="page-heading">
-        <div><p className="eyebrow">{competition.code}</p><h1>{competition.name}</h1><p>{competitionStatus[competition.status]} · {competition.id === "match-pool" ? `${completed} 半庄 / 无限` : `${completed}/${competition.plannedMatchCount}半庄`}</p></div>
+        <div><p className="eyebrow">{competition.code}</p><h1>{competition.name}</h1><p>{competitionStatus[competition.status]} · {matchPool ? `${completed} 半庄 / 无限` : `${completed}/${competition.plannedMatchCount}半庄`}</p></div>
         {levelAssessment && <div className={styles.headingLevel}><MatchLevelBadge assessment={levelAssessment} /></div>}
-        {admin && <div className="heading-actions">
-          <Link className="button" href={`/competitions/${competition.id}/settings`}><Settings size={17} />比赛设置</Link>
-          {competition.matches.length > 0 && <Link className="button" href={`/competitions/${competition.id}/data`}><BarChart3 size={17} />查看数据</Link>}
-          <Link className="button primary" href={`/competitions/${competition.id}/matches/new`}><FilePlus2 size={17} />录入牌谱</Link>
+        {(admin || canEnterMatches) && <div className="heading-actions">
+          {admin && <Link className="button" href={`/competitions/${competition.id}/settings`}><Settings size={17} />比赛设置</Link>}
+          {admin && competition.matches.length > 0 && <Link className="button" href={`/competitions/${competition.id}/data`}><BarChart3 size={17} />查看数据</Link>}
+          {canEnterMatches && <Link className="button primary" href={`/competitions/${competition.id}/matches/new`}><FilePlus2 size={17} />录入牌谱</Link>}
         </div>}
       </div>
       <section className="standings">

@@ -30,6 +30,13 @@ describe("散排座次校验", () => {
       .toBe("只能录入包含你自己的散排牌谱");
   });
 
+  it("选手账号不能把排位对手登记成其他站内人物", () => {
+    expect(casualSeatError(
+      [seat("self"), seat("other"), seat(null, "c"), seat(null, "d")],
+      { requiredPersonId: "self", allowedPersonIds: ["self"] },
+    )).toBe("第 2 家选择了不可用的人物");
+  });
+
   it("路人昵称有长度上限", () => {
     expect(casualSeatError([seat("a"), seat("b"), seat("c"), seat(null, "あ".repeat(casualGuestNameMaxLength + 1))])).toContain("不能超过");
   });

@@ -17,6 +17,10 @@ export function isIndividualCompetition(competition: Pick<Competition, "format">
   return competitionFormat(competition) === "individual";
 }
 
+export function isMatchPoolCompetition(competition: Pick<Competition, "autoIncludePersonTags">) {
+  return competition.autoIncludePersonTags !== undefined;
+}
+
 export function individualSettingsFor(competition: Pick<Competition, "format" | "individualSettings">): IndividualCompetitionSettings | null {
   if (!isIndividualCompetition(competition)) return null;
   return competition.individualSettings || defaultIndividualCompetitionSettings;

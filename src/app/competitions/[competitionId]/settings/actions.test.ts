@@ -7,6 +7,7 @@ const mocks = vi.hoisted(() => ({
   updateCompetition: vi.fn(),
   updateMatchPoolAutoIncludeTags: vi.fn(),
   listPeople: vi.fn(),
+  listPersonTags: vi.fn(),
   revalidatePath: vi.fn(),
   redirect: vi.fn(() => { throw new Error("NEXT_REDIRECT"); }),
 }));
@@ -22,6 +23,7 @@ vi.mock("@/server/competition-repository", () => ({
   updateMatchPoolAutoIncludeTags: mocks.updateMatchPoolAutoIncludeTags,
 }));
 vi.mock("@/server/person-repository", () => ({ listPeople: mocks.listPeople }));
+vi.mock("@/server/person-tag-repository", () => ({ listPersonTags: mocks.listPersonTags }));
 
 import { deleteCompetitionAction, saveCompetitionSettingsAction, saveMatchPoolTagsAction, type DeleteCompetitionState } from "./actions";
 
@@ -84,6 +86,8 @@ it("saves match-pool auto-include tags through the non-statistical update path",
   vi.clearAllMocks();
   mocks.isAdmin.mockResolvedValue(true);
   mocks.updateMatchPoolAutoIncludeTags.mockResolvedValue(undefined);
+  mocks.listPersonTags.mockResolvedValue(["国企办公厅", "联赛选手"]);
+  mocks.getCompetition.mockResolvedValue({ id: "match-pool", autoIncludePersonTags: ["国企办公厅"] });
   const form = new FormData();
   form.set("competitionId", "match-pool");
   form.append("autoIncludePersonTags", "国企办公厅");
@@ -93,8 +97,24 @@ it("saves match-pool auto-include tags through the non-statistical update path",
     status: "success",
     message: "自动加入规则已保存",
   });
-  expect(mocks.updateMatchPoolAutoIncludeTags).toHaveBeenCalledWith(["国企办公厅", "联赛选手"]);
+  expect(mocks.updateMatchPoolAutoIncludeTags).toHaveBeenCalledWith("match-pool", ["国企办公厅", "联赛选手"]);
   expect(mocks.updateCompetition).not.toHaveBeenCalled();
+});
+
+it("rejects a match-pool tag that is no longer defined", async () => {
+  vi.clearAllMocks();
+  mocks.isAdmin.mockResolvedValue(true);
+  mocks.listPersonTags.mockResolvedValue(["国企办公厅"]);
+  mocks.getCompetition.mockResolvedValue({ id: "match-pool", autoIncludePersonTags: ["国企办公厅"] });
+  const form = new FormData();
+  form.set("competitionId", "match-pool");
+  form.set("autoIncludePersonTags", "已删除标签");
+
+  await expect(saveMatchPoolTagsAction({ status: "idle", message: "" }, form)).resolves.toEqual({
+    status: "error",
+    message: "人物标签已变更，请刷新页面后重新选择",
+  });
+  expect(mocks.updateMatchPoolAutoIncludeTags).not.toHaveBeenCalled();
 });
 
 describe("delete competition action", () => {

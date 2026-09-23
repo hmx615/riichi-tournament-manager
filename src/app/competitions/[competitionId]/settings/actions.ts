@@ -9,6 +9,7 @@ import { listPeople } from "@/server/person-repository";
 import { hasDuplicateHumanParticipants } from "@/domain/participant-validation";
 import { isValidPersonId } from "../../../../domain/person-id";
 import { normalizePersonTags } from "@/domain/person-tags";
+import { listPersonTags } from "@/server/person-tag-repository";
 
 export type CompetitionSettingsState = { status: "idle" | "error" | "success"; message: string; redirectTo?: string; fieldErrors?: Record<string, string[]>; values?: Record<string, string> };
 function formValues(formData: FormData) { return Object.fromEntries([...formData.entries()].filter(([, v]) => typeof v === "string").map(([k, v]) => [k, v as string])); }
@@ -20,18 +21,21 @@ export async function saveMatchPoolTagsAction(
   formData: FormData,
 ): Promise<MatchPoolTagsState> {
   if (!await isAdmin()) return { status: "error", message: "需要管理员登录" };
-  if (formData.get("competitionId") !== "match-pool") return { status: "error", message: "仅人物池可设置自动加入标签" };
+  const competitionId = String(formData.get("competitionId") || "");
+  if (!/^[a-z0-9-]+$/.test(competitionId)) return { status: "error", message: "比赛 ID 格式无效" };
+  const competition = await getCompetition(competitionId);
+  if (!competition || competition.autoIncludePersonTags === undefined) return { status: "error", message: "仅匹配池可设置自动加入标签" };
   const tags = normalizePersonTags(formData.getAll("autoIncludePersonTags").filter((value): value is string => typeof value === "string"));
-  if (!tags.length) return { status: "error", message: "至少选择一个自动加入标签" };
-  if (tags.length > 20 || tags.some((tag) => tag.length > 30)) return { status: "error", message: "人物标签数量或长度超出限制" };
+  const availableTags = await listPersonTags();
+  if (tags.some((tag) => !availableTags.includes(tag))) return { status: "error", message: "人物标签已变更，请刷新页面后重新选择" };
   try {
-    await updateMatchPoolAutoIncludeTags(tags);
+    await updateMatchPoolAutoIncludeTags(competitionId, tags);
   } catch (error) {
     return { status: "error", message: error instanceof Error ? error.message : "自动加入规则保存失败" };
   }
-  revalidatePath("/match-pool");
-  revalidatePath("/competitions/match-pool");
-  revalidatePath("/competitions/match-pool/settings");
+  revalidatePath("/");
+  revalidatePath(`/competitions/${competitionId}`);
+  revalidatePath(`/competitions/${competitionId}/settings`);
   return { status: "success", message: "自动加入规则已保存" };
 }
 

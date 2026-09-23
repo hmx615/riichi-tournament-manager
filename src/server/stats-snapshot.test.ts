@@ -11,8 +11,8 @@ vi.mock("@/server/cloudflare-storage", () => ({ usesD1Storage: mocks.usesD1Stora
 
 type Row = { version: string; document: string };
 
-// 两个人物槽位保留为占位符，以兼容线上已有的七段式版本号。
-const versionKey = (value: string) => [String(SNAPSHOT_REVISION), value, 1, "*", "*", value, 1].join("|");
+// 人物与牌谱缓存槽位保留为占位符，以兼容线上已有的七段式版本号。
+const versionKey = (value: string) => [String(SNAPSHOT_REVISION), value, 1, "*", "*", "*", "*"].join("|");
 const legacyVersionKey = (value: string) => [String(SNAPSHOT_REVISION), value, 1, "person-time", 13, value, 1].join("|");
 
 function fakeDatabase({ version = "v1", row = null as Row | null } = {}) {
@@ -81,7 +81,7 @@ describe("cachedSnapshot", () => {
     expect(rows.get("k")?.version).toBe(versionKey("v2"));
   });
 
-  it("人物表完全不参与统计版本，并兼容已有快照", async () => {
+  it("人物表与牌谱缓存都不参与统计版本，并兼容已有快照", async () => {
     const { db, statements } = fakeDatabase({
       version: "v3",
       row: { version: legacyVersionKey("v3"), document: JSON.stringify({ value: 7 }) },
@@ -93,6 +93,7 @@ describe("cachedSnapshot", () => {
     expect(compute).not.toHaveBeenCalled();
     const versionSql = statements.find((sql) => sql.includes("FROM competitions) AS competitionUpdatedAt"));
     expect(versionSql).not.toContain("FROM people");
+    expect(versionSql).not.toContain("FROM logs");
   });
 
   it("版本一致时直接复用 D1 快照，不重算", async () => {
@@ -102,6 +103,19 @@ describe("cachedSnapshot", () => {
     const compute = vi.fn(async () => ({ value: 8 }));
     expect(await cachedSnapshot("k", compute)).toEqual({ value: 7 });
     expect(compute).not.toHaveBeenCalled();
+  });
+
+  it("自定义版本源只控制自己的快照，不读取正式比赛版本", async () => {
+    const { db, statements, rows } = fakeDatabase();
+    mocks.tournamentDatabase.mockResolvedValue(db);
+    const { cachedSnapshot } = await import("./stats-snapshot");
+    const compute = vi.fn(async () => ({ value: "casual" }));
+    const casualVersion = vi.fn(async () => "casual-v1");
+
+    expect(await cachedSnapshot("casual-statistics-v1", compute, casualVersion)).toEqual({ value: "casual" });
+    expect(casualVersion).toHaveBeenCalledTimes(1);
+    expect(statements.some((sql) => sql.includes("FROM competitions) AS competitionUpdatedAt"))).toBe(false);
+    expect(rows.get("casual-statistics-v1")?.version).toBe("casual-v1");
   });
 
   it("快照损坏时回退到重算", async () => {

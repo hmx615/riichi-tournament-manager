@@ -10,6 +10,7 @@ const mocks = vi.hoisted(() => ({
   deleteAvatar: vi.fn(),
   newAvatarKey: vi.fn(),
   detectAvatarContentType: vi.fn(),
+  listPersonTags: vi.fn(),
   revalidatePath: vi.fn(),
   redirect: vi.fn(() => { throw new Error("NEXT_REDIRECT"); }),
 }));
@@ -20,6 +21,7 @@ vi.mock("@/domain/avatar", () => ({ maxAvatarBytes: 2 * 1024 * 1024, detectAvata
 vi.mock("@/server/auth", () => ({ isAdmin: mocks.isAdmin }));
 vi.mock("@/server/person-repository", () => ({ createPerson: mocks.createPerson, getPerson: mocks.getPerson, updatePerson: mocks.updatePerson, deletePerson: mocks.deletePerson }));
 vi.mock("@/server/avatar-storage", () => ({ putAvatar: mocks.putAvatar, deleteAvatar: mocks.deleteAvatar, newAvatarKey: mocks.newAvatarKey }));
+vi.mock("@/server/person-tag-repository", () => ({ listPersonTags: mocks.listPersonTags }));
 
 import { deletePersonAction, savePersonAction, type PersonFormState } from "./actions";
 
@@ -38,6 +40,7 @@ function validForm() {
   form.set("otherAccounts", "");
   form.set("majsoulRank", "雀豪2");
   form.set("majsoulCelestialLevel", "");
+  form.set("tags", "国企办公厅");
   return form;
 }
 
@@ -52,6 +55,7 @@ describe("person actions", () => {
     mocks.deleteAvatar.mockResolvedValue(undefined);
     mocks.newAvatarKey.mockReturnValue("people/new-player/avatar-key");
     mocks.detectAvatarContentType.mockReturnValue("image/png");
+    mocks.listPersonTags.mockResolvedValue(["国企办公厅"]);
   });
 
   it("rejects visitors before writing", async () => {
@@ -65,6 +69,14 @@ describe("person actions", () => {
     await expect(savePersonAction(idle, validForm())).rejects.toThrow("NEXT_REDIRECT");
     expect(mocks.createPerson).toHaveBeenCalledWith(expect.objectContaining({ id: "new-player", displayName: "新选手", kind: "human", tags: ["国企办公厅"], majsoulRank: "雀豪2" }));
     expect(mocks.redirect).toHaveBeenCalledWith("/players/new-player");
+  });
+
+  it("rejects a tag that the administrator has not created", async () => {
+    const form = validForm();
+    form.set("tags", "伪造标签");
+    const state = await savePersonAction(idle, form);
+    expect(state.message).toBe("人物标签已变更，请刷新页面后重新选择");
+    expect(mocks.createPerson).not.toHaveBeenCalled();
   });
 
   it("rejects a rank outside the shared Mahjong Soul options", async () => {

@@ -12,7 +12,7 @@ export function LoginForm({ nextPath }: { nextPath: string }) {
     <form className="login-form" action={action}>
       <input type="hidden" name="next" value={nextPath} />
       <div className="login-icon"><LockKeyhole size={24} /></div>
-      <div><h1>登录</h1><p>访客可直接浏览比赛；管理员可修改全部数据，选手账号可以在「散排」里录入包含自己的牌谱。</p></div>
+      <div><h1>登录</h1><p>访客可直接浏览比赛；管理员可修改全部数据，选手账号可录入比赛牌谱，也可以在「散排」里录入包含自己的牌谱。</p></div>
       <label className="field"><span>账号</span><input name="username" autoComplete="username" required autoFocus /></label>
       <label className="field"><span>密码</span><input name="password" type="password" autoComplete="current-password" required /></label>
       {state.status === "error" && <p className="form-message error">{state.message}</p>}

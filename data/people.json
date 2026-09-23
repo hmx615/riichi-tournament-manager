@@ -33,9 +33,15 @@
       {
         "platform": "tenhou",
         "username": "◯NAGA03"
+      },
+      {
+        "platform": "tenhou",
+        "username": "◯NAGA02"
       }
     ],
-    "tags": [],
+    "tags": [
+      "国企办公厅"
+    ],
     "majsoulRank": "魂天",
     "majsoulCelestialLevel": 1,
     "avatarKey": "people/NAGA%E5%AE%88%E5%A4%87%E5%9E%8B/33ba94b4-97dd-4c28-a17c-c886c3e93acc",
@@ -43,46 +49,19 @@
     "avatarContentType": "image/jpeg"
   },
   {
-    "id": "Zhao_dehua",
-    "displayName": "中華有为",
-    "kind": "human",
-    "color": "#168f83",
+    "id": "mortal",
+    "displayName": "Mortal",
+    "kind": "ai",
+    "color": "#4f5962",
     "aliases": [
-      "中華有为",
-      "DH"
+      "Mortal",
+      "NoName",
+      "Mortal 4.1b"
     ],
     "accounts": [
       {
         "platform": "tenhou",
-        "username": "東海大黄魚"
-      },
-      {
-        "platform": "majsoul",
-        "username": "陈黑水"
-      }
-    ],
-    "tags": [
-      "国企办公厅"
-    ],
-    "majsoulRank": "雀圣1",
-    "avatarKey": "people/Zhao_dehua/686469ec-411b-4f5c-ac75-13162bac116f",
-    "avatarVersion": 1789975260792,
-    "avatarContentType": "image/jpeg"
-  },
-  {
-    "id": "chenluo",
-    "displayName": "小石",
-    "kind": "human",
-    "color": "#168f83",
-    "aliases": [
-      "小石",
-      "尘落",
-      "なないし"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "なないし"
+        "username": "NoName"
       }
     ],
     "tags": [
@@ -90,64 +69,264 @@
     ],
     "majsoulRank": "魂天",
     "majsoulCelestialLevel": 1,
-    "avatarKey": "people/chenluo/e7a848bb-1c0e-4d17-8fee-d4c553adbfbd",
-    "avatarVersion": 1789975799555,
-    "avatarContentType": "image/png"
-  },
-  {
-    "id": "e-ziyi",
-    "displayName": "紫罗兰梦幻花园",
-    "kind": "human",
-    "color": "#3b78a0",
-    "aliases": [
-      "紫罗兰梦幻花园",
-      "紫罗兰万古长存",
-      "mzhj"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "mzhj"
-      },
-      {
-        "platform": "majsoul",
-        "username": "紫罗兰万古长存"
-      }
-    ],
-    "tags": [
-      "国企办公厅"
-    ],
-    "majsoulRank": "雀圣3",
-    "avatarKey": "people/e-ziyi/f5d4f9a9-d16f-4d96-8d7b-c1cf71c84ce9",
-    "avatarVersion": 1789976071065,
+    "avatarKey": "people/mortal/49e49095-d012-4b4a-a837-a008cec9d5ca",
+    "avatarVersion": 1788332574806,
     "avatarContentType": "image/jpeg"
   },
   {
-    "id": "hamburger",
-    "displayName": "Hamburger",
+    "id": "naga",
+    "displayName": "NAGA副露型",
+    "kind": "ai",
+    "color": "#6657c7",
+    "aliases": [
+      "NAGA副露型",
+      "NAGA",
+      "nagaカガシ"
+    ],
+    "accounts": [],
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "魂天",
+    "majsoulCelestialLevel": 1,
+    "avatarKey": "people/naga/2a3252f5-b36a-473e-9cdb-0b15615599f1",
+    "avatarVersion": 1788332611675,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "GA",
+    "displayName": "GA",
+    "kind": "human",
+    "color": "#d1495b",
+    "aliases": [
+      "GA",
+      "GA_Official"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "GA_Official"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀豪2"
+  },
+  {
+    "id": "maodan6",
+    "displayName": "maodan6",
     "kind": "human",
     "color": "#168f83",
     "aliases": [
-      "Hamburger",
-      "日尧赤赤",
-      "ハンバーガー"
+      "maodan6"
     ],
     "accounts": [
       {
-        "platform": "tenhou",
-        "username": "ハンバーガー"
+        "platform": "majsoul",
+        "username": "maodan6"
       }
     ],
     "tags": [
-      "国企办公厅"
+      "你瓜提高班"
     ],
-    "majsoulRank": "雀圣1",
-    "avatarKey": "people/hamburger/dffcc52e-8912-4859-aebd-f8d24a586378",
-    "avatarVersion": 1789975698274,
-    "avatarContentType": "image/jpeg"
+    "majsoulRank": "雀杰3"
   },
   {
-    "id": "hmx",
+    "id": "未来",
+    "displayName": "未来",
+    "kind": "human",
+    "color": "#6657c7",
+    "aliases": [
+      "未来",
+      "未来会有未来"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "未来会有未来"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀杰3"
+  },
+  {
+    "id": "MartyrKun",
+    "displayName": "MartyrKun",
+    "kind": "human",
+    "color": "#d58a18",
+    "aliases": [
+      "MartyrKun"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "MartyrKu"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ]
+  },
+  {
+    "id": "由包不是豆奶",
+    "displayName": "由包不是豆奶",
+    "kind": "human",
+    "color": "#4e8fc5",
+    "aliases": [
+      "由包不是豆奶",
+      "神之114514"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "神之114514"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀士2"
+  },
+  {
+    "id": "25时",
+    "displayName": "25时",
+    "kind": "human",
+    "color": "#9c5f9c",
+    "aliases": [
+      "25时",
+      "星野爱Ai"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "星野爱Ai"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀士2"
+  },
+  {
+    "id": "养老的小王子",
+    "displayName": "养老的小王子",
+    "kind": "human",
+    "color": "#4d9b73",
+    "aliases": [
+      "养老的小王子"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "养老的小王子"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀士2"
+  },
+  {
+    "id": "浮云",
+    "displayName": "浮云",
+    "kind": "human",
+    "color": "#b56a3b",
+    "aliases": [
+      "浮云",
+      "kkfym"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "kkfym"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀士1"
+  },
+  {
+    "id": "枣十三",
+    "displayName": "枣十三",
+    "kind": "human",
+    "color": "#d1495b",
+    "aliases": [
+      "枣十三"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "枣十三"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀豪1"
+  },
+  {
+    "id": "风云一心",
+    "displayName": "风云一心",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "风云一心"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "风云一心"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀杰3"
+  },
+  {
+    "id": "TNT",
+    "displayName": "TNT",
+    "kind": "human",
+    "color": "#6657c7",
+    "aliases": [
+      "TNT",
+      "磁铁ouo"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "磁铁ouo"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ]
+  },
+  {
+    "id": "Leeflament",
+    "displayName": "Leeflament",
+    "kind": "human",
+    "color": "#d58a18",
+    "aliases": [
+      "Leeflament",
+      "种初慈禧"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "种初慈禧"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ]
+  },
+  {
+    "id": "Traaaaa",
     "displayName": "Traaaaa",
     "kind": "human",
     "color": "#168f83",
@@ -189,102 +368,7 @@
     "avatarContentType": "image/jpeg"
   },
   {
-    "id": "humiao",
-    "displayName": "胡米奥",
-    "kind": "human",
-    "color": "#16348d",
-    "aliases": [
-      "胡米奥",
-      "壶庙"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "humiao"
-      },
-      {
-        "platform": "majsoul",
-        "username": "壶庙"
-      }
-    ],
-    "tags": [
-      "国企办公厅"
-    ],
-    "majsoulRank": "雀豪3",
-    "avatarKey": "people/humiao/82f38046-5be8-4935-99e4-ad551a45ce11",
-    "avatarVersion": 1789977877855,
-    "avatarContentType": "image/jpeg"
-  },
-  {
-    "id": "mortal",
-    "displayName": "Mortal",
-    "kind": "ai",
-    "color": "#4f5962",
-    "aliases": [
-      "Mortal",
-      "NoName",
-      "Mortal 4.1b"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "NoName"
-      }
-    ],
-    "tags": [],
-    "majsoulRank": "魂天",
-    "majsoulCelestialLevel": 1,
-    "avatarKey": "people/mortal/49e49095-d012-4b4a-a837-a008cec9d5ca",
-    "avatarVersion": 1788332574806,
-    "avatarContentType": "image/jpeg"
-  },
-  {
-    "id": "naga",
-    "displayName": "NAGA副露型",
-    "kind": "ai",
-    "color": "#6657c7",
-    "aliases": [
-      "NAGA副露型",
-      "NAGA",
-      "nagaカガシ"
-    ],
-    "accounts": [],
-    "tags": [],
-    "majsoulRank": "魂天",
-    "majsoulCelestialLevel": 1,
-    "avatarKey": "people/naga/2a3252f5-b36a-473e-9cdb-0b15615599f1",
-    "avatarVersion": 1788332611675,
-    "avatarContentType": "image/jpeg"
-  },
-  {
-    "id": "wu-dongjie",
-    "displayName": "卡夫卡爱上坡路",
-    "kind": "human",
-    "color": "#d1495b",
-    "aliases": [
-      "卡夫卡爱上坡路",
-      "Veritas"
-    ],
-    "accounts": [
-      {
-        "platform": "tenhou",
-        "username": "Veritas"
-      },
-      {
-        "platform": "majsoul",
-        "username": "卡夫卡爱上坡路"
-      }
-    ],
-    "tags": [
-      "国企办公厅"
-    ],
-    "majsoulRank": "雀圣2",
-    "avatarKey": "people/wu-dongjie/6d9d1081-b5ec-433e-a6c7-4c7139f69917",
-    "avatarVersion": 1789971288733,
-    "avatarContentType": "image/jpeg"
-  },
-  {
-    "id": "xiaop",
+    "id": "越山逐月",
     "displayName": "越山逐月",
     "kind": "human",
     "color": "#d58a18",
@@ -329,12 +413,68 @@
     "avatarContentType": "image/jpeg"
   },
   {
-    "id": "士强",
-    "displayName": "九条嘟嘟嘟",
+    "id": "卡夫卡爱上坡路",
+    "displayName": "卡夫卡爱上坡路",
+    "kind": "human",
+    "color": "#d1495b",
+    "aliases": [
+      "卡夫卡爱上坡路",
+      "Veritas"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "Veritas"
+      },
+      {
+        "platform": "majsoul",
+        "username": "卡夫卡爱上坡路"
+      }
+    ],
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀圣2",
+    "avatarKey": "people/wu-dongjie/6d9d1081-b5ec-433e-a6c7-4c7139f69917",
+    "avatarVersion": 1789971288733,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "紫罗兰梦幻花园",
+    "displayName": "紫罗兰梦幻花园",
+    "kind": "human",
+    "color": "#3b78a0",
+    "aliases": [
+      "紫罗兰梦幻花园",
+      "紫罗兰万古长存",
+      "mzhj"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "mzhj"
+      },
+      {
+        "platform": "majsoul",
+        "username": "紫罗兰万古长存"
+      }
+    ],
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀圣3",
+    "avatarKey": "people/e-ziyi/f5d4f9a9-d16f-4d96-8d7b-c1cf71c84ce9",
+    "avatarVersion": 1789976071065,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "九条",
+    "displayName": "九条",
     "kind": "human",
     "color": "#168f83",
     "aliases": [
-      "九条嘟嘟嘟",
+      "九条",
+      "九条都嘟嘟",
       "雨后土墙",
       "マジエロ茉子"
     ],
@@ -342,6 +482,10 @@
       {
         "platform": "tenhou",
         "username": "マジエロ茉子"
+      },
+      {
+        "platform": "majsoul",
+        "username": "九条都嘟嘟"
       }
     ],
     "tags": [
@@ -354,7 +498,61 @@
     "avatarContentType": "image/jpeg"
   },
   {
-    "id": "纪委",
+    "id": "中華有为",
+    "displayName": "中華有为",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "中華有为",
+      "DH"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "東海大黄魚"
+      },
+      {
+        "platform": "majsoul",
+        "username": "陈黑水"
+      }
+    ],
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀圣1",
+    "avatarKey": "people/Zhao_dehua/686469ec-411b-4f5c-ac75-13162bac116f",
+    "avatarVersion": 1789975260792,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "胡米奥",
+    "displayName": "胡米奥",
+    "kind": "human",
+    "color": "#16348d",
+    "aliases": [
+      "胡米奥",
+      "壶庙"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "humiao"
+      },
+      {
+        "platform": "majsoul",
+        "username": "壶庙"
+      }
+    ],
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀豪3",
+    "avatarKey": "people/humiao/82f38046-5be8-4935-99e4-ad551a45ce11",
+    "avatarVersion": 1789977877855,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "乌蒙一号机",
     "displayName": "乌蒙一号机",
     "kind": "human",
     "color": "#161e8d",
@@ -375,5 +573,141 @@
     "avatarKey": "people/%E7%BA%AA%E5%A7%94/f811f8b1-fc8a-4226-a55f-234d01f56eac",
     "avatarVersion": 1789975312311,
     "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "Hamburger",
+    "displayName": "Hamburger",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "Hamburger",
+      "日尧赤赤",
+      "ハンバーガー"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "ハンバーガー"
+      }
+    ],
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀圣1",
+    "avatarKey": "people/hamburger/dffcc52e-8912-4859-aebd-f8d24a586378",
+    "avatarVersion": 1789975698274,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "Nanaishi",
+    "displayName": "Nanaishi",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "Nanaishi",
+      "小石",
+      "尘落",
+      "なないし"
+    ],
+    "accounts": [
+      {
+        "platform": "tenhou",
+        "username": "なないし"
+      }
+    ],
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "魂天",
+    "majsoulCelestialLevel": 1,
+    "avatarKey": "people/chenluo/e7a848bb-1c0e-4d17-8fee-d4c553adbfbd",
+    "avatarVersion": 1789975799555,
+    "avatarContentType": "image/png"
+  },
+  {
+    "id": "飞鱼宝宝",
+    "displayName": "飞鱼宝宝",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "飞鱼宝宝"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "蜜糖、"
+      }
+    ],
+    "tags": [
+      "国企办公厅"
+    ],
+    "majsoulRank": "雀豪1",
+    "avatarKey": "people/%E6%A1%83%E9%A3%9E%E9%B1%BC/a3e893f4-2651-4204-99e0-e997d674890a",
+    "avatarVersion": 1790063350495,
+    "avatarContentType": "image/jpeg"
+  },
+  {
+    "id": "乱花",
+    "displayName": "乱花",
+    "kind": "human",
+    "color": "#168f83",
+    "aliases": [
+      "乱花",
+      "、乱花"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "、乱花"
+      },
+      {
+        "platform": "tenhou",
+        "username": "乱花"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀杰3"
+  },
+  {
+    "id": "番薯",
+    "displayName": "番薯",
+    "kind": "human",
+    "color": "#c25b35",
+    "aliases": [
+      "番薯",
+      "烤好的香番薯"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "烤好的香番薯"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀豪1"
+  },
+  {
+    "id": "六脉神剑",
+    "displayName": "六脉神剑",
+    "kind": "human",
+    "color": "#4a5f9e",
+    "aliases": [
+      "六脉神剑",
+      "六脉神剑6"
+    ],
+    "accounts": [
+      {
+        "platform": "majsoul",
+        "username": "六脉神剑6"
+      }
+    ],
+    "tags": [
+      "你瓜提高班"
+    ],
+    "majsoulRank": "雀杰3"
   }
 ]

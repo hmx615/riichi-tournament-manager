@@ -9,10 +9,11 @@ import { luckInlinePillClass, luckLevelClass, luckPillClass } from "@/components
 import styles from "./players.module.css";
 import { PersonTags } from "@/components/person-tags";
 import { MajsoulRankBadge } from "@/components/majsoul-rank-badge";
+import { compareLeaderboardPeople } from "@/server/leaderboard";
 
 export default async function PlayersPage() {
   const [admin, statistics, luck] = await Promise.all([isAdmin(), loadAllPersonStatistics(), loadPersonLuck()]);
-  const people = Object.values(statistics).sort((left, right) => right.totalCompetitionPoints - left.totalCompetitionPoints || left.person.displayName.localeCompare(right.person.displayName));
+  const people = Object.values(statistics).sort(compareLeaderboardPeople);
   const humanCount = people.filter((item) => item.person.kind === "human").length;
   const celestialCount = people.filter((item) => item.person.kind === "human" && item.person.majsoulRank === "魂天").length;
   return <div className="page players-page">

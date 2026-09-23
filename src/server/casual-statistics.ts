@@ -37,7 +37,7 @@ export function orderedCasualRecords(records: CasualRecord[]) {
   return [...records].sort((left, right) => left.playedAt.localeCompare(right.playedAt) || left.createdAt.localeCompare(right.createdAt));
 }
 
-/** 解析牌谱时的身份匹配范围：人物池里的全部人物。 */
+/** 解析牌谱时的身份匹配范围由调用方传入；普通选手只传本人。 */
 export function casualMatchingCompetition(people: Person[]): Competition {
   return {
     id: CASUAL_COMPETITION_ID,

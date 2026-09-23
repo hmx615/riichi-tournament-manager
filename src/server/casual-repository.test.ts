@@ -10,7 +10,7 @@ vi.mock("@/server/data-directory", () => ({ dataDirectory: testDirectory }));
 vi.mock("@/server/stats-snapshot", () => ({ SNAPSHOT_REVISION: 4 }));
 vi.mock("@/server/tenhou", () => ({ validateTenhouLog: (value: unknown) => value }));
 
-import { casualDataVersion, deleteCasualRecord, findCasualRecordByLog, listCasualRecords, readCasualLog, saveCasualRecord } from "./casual-repository";
+import { cacheCasualLog, casualDataVersion, deleteCasualRecord, findCasualRecordByLog, listCasualRecords, readCasualLog, saveCasualRecord } from "./casual-repository";
 
 const log = { ref: "2026092012gm-0009-1940-410308be", name: ["a", "b", "c", "d"], sc: [42000, 25000, 25000, 25000, 20000, 13000, 0, 0], log: [] };
 
@@ -36,6 +36,12 @@ function record(id: string, logId = log.ref): CasualRecord {
 describe("散排本地仓储", () => {
   beforeEach(async () => {
     await fs.rm(testDirectory, { recursive: true, force: true });
+  });
+
+  it("解析缓存只写入散排日志目录", async () => {
+    await cacheCasualLog(log as never);
+    await expect(readCasualLog(log.ref)).resolves.toMatchObject({ ref: log.ref });
+    await expect(fs.stat(`${testDirectory}/logs/${log.ref}.json`)).rejects.toMatchObject({ code: "ENOENT" });
   });
 
   it("保存后能列出、按牌谱查找并读回牌谱原文", async () => {

@@ -21,11 +21,17 @@ import {
   parseCachedMajsoulSource,
   parseMajsoulJsonSource,
   parseMatchSource,
-  readCachedLog,
   type MatchPreview,
 } from "@/server/tenhou";
 import { casualMatchingCompetition } from "@/server/casual-statistics";
-import { deleteCasualRecord, findCasualRecordByLog, getCasualRecord, saveCasualRecord } from "@/server/casual-repository";
+import {
+  cacheCasualLog,
+  deleteCasualRecord,
+  findCasualRecordByLog,
+  getCasualRecord,
+  readCasualLog,
+  saveCasualRecord,
+} from "@/server/casual-repository";
 
 export type CasualEntryState = {
   status: "idle" | "success" | "error";
@@ -40,6 +46,12 @@ const sourceKindSchema = z.enum(["link", "majsoul_json"]);
 const maxMajsoulJsonBytes = 2 * 1024 * 1024;
 
 type Actor = { username: string; personId: string | null; isAdmin: boolean };
+
+const casualLogStorage = { read: readCasualLog, write: cacheCasualLog };
+
+function matchingPeopleForActor(people: Person[], actor: Actor) {
+  return actor.isAdmin ? people : people.filter((person) => person.id === actor.personId);
+}
 
 async function currentActor(): Promise<Actor | null> {
   if (await isAdmin()) return { username: "管理员", personId: null, isAdmin: true };
@@ -69,20 +81,20 @@ async function previewFromForm(formData: FormData, people: Person[]) {
   if (sourceKind.data === "link") {
     const source = sourceSchema.safeParse(formData.get("sourceUrl"));
     if (!source.success) throw new Error(source.error.issues[0]?.message || "链接格式无效");
-    return parseMatchSource(source.data, competition);
+    return parseMatchSource(source.data, competition, casualLogStorage);
   }
   const jsonText = String(formData.get("majsoulJsonText") || "").trim();
   if (jsonText) {
     if (new TextEncoder().encode(jsonText).byteLength > maxMajsoulJsonBytes) throw new Error("雀魂 JSON 内容不能超过 2 MB");
-    return parseMajsoulJsonSource(jsonText, competition);
+    return parseMajsoulJsonSource(jsonText, competition, casualLogStorage);
   }
   const file = formData.get("majsoulJson");
   if (isUploadedFile(file) && file.size > 0) {
     if (file.size > maxMajsoulJsonBytes) throw new Error("雀魂 JSON 文件不能超过 2 MB");
-    return parseMajsoulJsonSource(await file.text(), competition);
+    return parseMajsoulJsonSource(await file.text(), competition, casualLogStorage);
   }
   const cachedLogId = String(formData.get("parsedLogId") || "");
-  if (cachedLogId) return parseCachedMajsoulSource(cachedLogId, competition);
+  if (cachedLogId) return parseCachedMajsoulSource(cachedLogId, competition, casualLogStorage);
   throw new Error("请选择 Ricochet 导出的雀魂 JSON 文件");
 }
 
@@ -118,7 +130,7 @@ export async function parseCasualAction(_state: CasualEntryState, formData: Form
   if (blocked || !actor) return failed(blocked ?? "请先登录后再录入散排牌谱");
   try {
     const people = await listPeople();
-    const preview = await previewFromForm(formData, people);
+    const preview = await previewFromForm(formData, matchingPeopleForActor(people, actor));
     const recorded = await findCasualRecordByLog(preview.logId, preview.contentFingerprint);
     if (recorded) return failed("这份牌谱已经录入过散排，不能重复录入");
     if (!actor.isAdmin) {
@@ -143,17 +155,22 @@ export async function saveCasualAction(_state: CasualEntryState, formData: FormD
   const blocked = actorError(actor);
   if (blocked || !actor) return failed(blocked ?? "请先登录后再录入散排牌谱");
   let preview: MatchPreview;
+  let selectablePeople: Person[];
   try {
-    preview = await previewFromForm(formData, await listPeople());
+    selectablePeople = matchingPeopleForActor(await listPeople(), actor);
+    preview = await previewFromForm(formData, selectablePeople);
   } catch (error) {
     return failed(error instanceof Error ? error.message : "牌谱解析失败");
   }
   const seats = seatsFromForm(formData, preview);
-  const seatError = casualSeatError(seats, { requiredPersonId: actor.isAdmin ? null : actor.personId });
+  const seatError = casualSeatError(seats, {
+    requiredPersonId: actor.isAdmin ? null : actor.personId,
+    allowedPersonIds: selectablePeople.map((person) => person.id),
+  });
   if (seatError) return { status: "error", message: seatError, preview };
   const recorded = await findCasualRecordByLog(preview.logId, preview.contentFingerprint);
   if (recorded) return { status: "error", message: "这份牌谱已经录入过散排，不能重复录入", preview };
-  const log = await readCachedLog(preview.logId);
+  const log = await readCasualLog(preview.logId);
   if (!log) return { status: "error", message: "牌谱缓存已失效，请重新解析一次", preview };
 
   const sourceType: CasualSourceType = preview.sourceType === "majsoul" ? "majsoul" : preview.sourceType;
@@ -179,7 +196,7 @@ export async function saveCasualAction(_state: CasualEntryState, formData: FormD
     return { status: "error", message: error instanceof Error ? error.message : "散排牌谱保存失败", preview };
   }
   revalidatePath("/casual");
-  revalidatePath("/players");
+  revalidatePath("/players/[personId]/casual", "page");
   return { status: "success", message: "散排牌谱已保存，可在人物页的散排数据里查看", preview: null };
 }
 
@@ -196,5 +213,5 @@ export async function deleteCasualAction(formData: FormData) {
   if (!owner) return;
   await deleteCasualRecord(id);
   revalidatePath("/casual");
-  revalidatePath("/players");
+  revalidatePath("/players/[personId]/casual", "page");
 }

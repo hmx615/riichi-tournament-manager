@@ -1,7 +1,7 @@
 "use client";
 
 import Link, { useLinkStatus } from "next/link";
-import { BarChart3, CirclePlus, ClipboardList, KeyRound, LogIn, LogOut, Swords, Trophy, UserRoundPlus, Users } from "lucide-react";
+import { BarChart3, CirclePlus, ClipboardList, KeyRound, LogIn, LogOut, Swords, Tags, Trophy, UserRoundPlus, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
@@ -73,6 +73,7 @@ export function AppShell({ children, admin, player }: {
           <div className="auth-controls">
             <label className="quality-toggle"><input type="checkbox" checked={qualityVisuals} onChange={(event) => { const enabled = event.target.checked; setQualityVisuals(enabled); window.localStorage.setItem(qualityVisualsKey, enabled ? "on" : "off"); }} />显示金钻马</label><span className={`environment ${admin ? "admin-mode" : player ? "player-mode" : "viewer-mode"}`}>{admin ? "管理员模式" : player ? `选手 · ${player.displayName || player.username}` : "浏览模式"}</span>
             {admin && <Link className="topbar-action" href="/admin/users"><KeyRound size={15} />账号管理</Link>}
+            {admin && <Link className="topbar-action" href="/admin/tags"><Tags size={15} />标签管理</Link>}
             {admin || player
               ? <form action={logoutAction}><button className="topbar-action" type="submit"><LogOut size={15} />退出</button></form>
               : <Link className="topbar-action" href="/login"><LogIn size={15} />登录</Link>}

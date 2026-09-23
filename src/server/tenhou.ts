@@ -49,6 +49,11 @@ export type MatchPreview = {
   }>;
 };
 
+export type MatchLogStorage = {
+  read(logId: string): Promise<TenhouLog | null>;
+  write(log: TenhouLog): Promise<void>;
+};
+
 const logCacheDirectory = path.join(dataDirectory, "logs");
 const nagaReportCacheDirectory = path.join(dataDirectory, "naga-reports");
 const legacyCacheDirectory = path.join(process.cwd(), "reference", "1st-xrc-29", "cache");
@@ -147,20 +152,12 @@ export async function readCachedLogs(logIds: string[]) {
   return logs;
 }
 
-async function fetchTenhouLog(logId: string) {
-  const cached = await readCachedLog(logId);
+async function fetchTenhouLog(logId: string, storage: MatchLogStorage) {
+  const cached = await storage.read(logId);
   if (cached) return cached;
   const value = await fetchJson(`https://tenhou.net/5/mjlog2json.cgi?${encodeURIComponent(logId)}`);
   const log = validateTenhouLog(value, logId);
-  if (usesD1Storage()) {
-    const db = await tournamentDatabase();
-    await db.prepare("INSERT INTO logs (id, document, created_at) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET document = excluded.document")
-      .bind(log.ref, JSON.stringify(log), new Date().toISOString())
-      .run();
-    return log;
-  }
-  await fs.mkdir(logCacheDirectory, { recursive: true });
-  await fs.writeFile(path.join(logCacheDirectory, `${logId}.json`), `${JSON.stringify(log)}\n`);
+  await storage.write(log);
   return log;
 }
 
@@ -175,6 +172,11 @@ async function cacheLog(log: TenhouLog) {
   await fs.mkdir(logCacheDirectory, { recursive: true });
   await fs.writeFile(path.join(logCacheDirectory, `${log.ref}.json`), `${JSON.stringify(log)}\n`);
 }
+
+const competitionLogStorage: MatchLogStorage = {
+  read: readCachedLog,
+  write: cacheLog,
+};
 
 function logIdFromTenhouUrl(url: URL) {
   if (!/(^|\.)tenhou\.net$/i.test(url.hostname)) return null;
@@ -197,7 +199,7 @@ async function readNagaReport(reportId: string) {
   return report;
 }
 
-async function parseNagaUrl(url: URL) {
+async function parseNagaUrl(url: URL, storage: MatchLogStorage) {
   const reportId = url.searchParams.get("report_id");
   if (!reportId) return null;
   if (!/(^|\.)(ricochet\.cn|dmv\.nico)$/i.test(url.hostname)) return null;
@@ -207,7 +209,7 @@ async function parseNagaUrl(url: URL) {
   const ratings = calculateNagaRatings(report);
   if (typeof logId === "string" && logId.length > 0) return { logId, reportId, ratings, log: null };
   const log = await normalizeNagaCustomLog(report);
-  await cacheLog(log);
+  await storage.write(log);
   return { logId: log.ref, reportId, ratings, log };
 }
 
@@ -263,29 +265,41 @@ async function previewFromLog({
   };
 }
 
-export async function parseMajsoulJsonSource(jsonText: string, competition: Competition): Promise<MatchPreview> {
+export async function parseMajsoulJsonSource(
+  jsonText: string,
+  competition: Competition,
+  storage: MatchLogStorage = competitionLogStorage,
+): Promise<MatchPreview> {
   const log = await normalizeMajsoulJson(jsonText);
-  await cacheLog(log);
+  await storage.write(log);
   return previewFromLog({ sourceUrl: "", sourceType: "majsoul", log, competition });
 }
 
-export async function parseCachedMajsoulSource(logId: string, competition: Competition): Promise<MatchPreview> {
+export async function parseCachedMajsoulSource(
+  logId: string,
+  competition: Competition,
+  storage: MatchLogStorage = competitionLogStorage,
+): Promise<MatchPreview> {
   if (!/^majsoul-[a-f0-9]{32}$/.test(logId)) throw new Error("雀魂牌谱 ID 格式无效");
-  const log = await readCachedLog(logId);
+  const log = await storage.read(logId);
   if (!log || log.sourcePlatform !== "majsoul") throw new Error("雀魂 JSON 缓存已失效，请重新选择文件解析");
   return previewFromLog({ sourceUrl: "", sourceType: "majsoul", log, competition });
 }
 
-export async function parseMatchSource(sourceUrl: string, competition: Competition): Promise<MatchPreview> {
+export async function parseMatchSource(
+  sourceUrl: string,
+  competition: Competition,
+  storage: MatchLogStorage = competitionLogStorage,
+): Promise<MatchPreview> {
   let url: URL;
   try { url = new URL(sourceUrl); } catch { throw new Error("链接格式无效"); }
   const tenhouLogId = logIdFromTenhouUrl(url);
-  const nagaSource = tenhouLogId ? null : await parseNagaUrl(url);
+  const nagaSource = tenhouLogId ? null : await parseNagaUrl(url, storage);
   const logId = tenhouLogId || nagaSource?.logId;
   if (!logId) throw new Error("无法识别天凤或 NAGA 链接");
   const isTenhouLog = /^\d{10}gm-[0-9a-f]+-\d+-[0-9a-f]+$/i.test(logId);
   if (tenhouLogId && !isTenhouLog) throw new Error("天凤牌谱 ID 格式无效");
-  const log = nagaSource?.log || await fetchTenhouLog(logId);
+  const log = nagaSource?.log || await fetchTenhouLog(logId, storage);
   return previewFromLog({
     sourceUrl,
     sourceType: tenhouLogId ? "tenhou" : "naga",

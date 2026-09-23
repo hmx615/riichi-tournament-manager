@@ -7,7 +7,7 @@ export type AppUser = {
   id: string;
   username: string;
   displayName: string;
-  /** 绑定的人物 ID；散排录入的权限判断以此为准。 */
+  /** 绑定的人物 ID；散排录入的本人校验以此为准。 */
   personId: string | null;
   role: AppUserRole;
   passwordHash: string;
