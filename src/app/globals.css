@@ -516,6 +516,9 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .competition-row + .competition-row { margin-top: 9px; }
 .competition-row.compact-row { min-height: 112px; }
 /* 已完成的比赛：整体弱化，且不再提供录入与设置入口（见 page.tsx）。 */
+.draft-badge { min-height: 30px; padding: 5px 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #b9ccc6; background: #edf6f3; color: var(--green); font-size: 11px; font-weight: 750; }
+.draft-section { border-color: #b9ccc6; background: #f6fbf9; }
+.draft-notes { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 11px; line-height: 1.8; }
 .competition-row.completed-row { border-color: #e2e6e7; background: #f7f8f8; box-shadow: none; }
 .competition-row.completed-row .competition-title { color: #6b7378; font-weight: 750; }
 .competition-row.completed-row .competition-meta { color: #97a0a5; }

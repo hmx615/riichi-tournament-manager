@@ -6045,6 +6045,123 @@
         }
       ],
       "reviewNote": null
+    },
+    {
+      "id": "match-pool-060",
+      "matchNumber": 60,
+      "status": "completed",
+      "playedAt": "2026-09-23T12:00:00+08:00",
+      "tenhouLogId": "2026092312gm-0009-1940-17ddfe71",
+      "contentFingerprint": "adaa692ee88834a1a20ae527a408bbd5",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026092312gm-0009-1940-17ddfe71",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=81b373bb7ef22ffe8e77ec69e70cb69ff20d5ef5b1ffc42aa6d8f081fd2bab4bv2_2&tw=0&main=Veritas",
+      "nagaReportId": "81b373bb7ef22ffe8e77ec69e70cb69ff20d5ef5b1ffc42aa6d8f081fd2bab4bv2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-九条",
+          "model": "ニシキ",
+          "rating": 84.48,
+          "agreementRate": 0.7288,
+          "badMoveRate": 0.0593,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "person-九条",
+          "model": "カガシ",
+          "rating": 85.784,
+          "agreementRate": 0.7034,
+          "badMoveRate": 0.0339,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "person-Traaaaa",
+          "model": "ニシキ",
+          "rating": 90.022,
+          "agreementRate": 0.7656,
+          "badMoveRate": 0.0469,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "person-Traaaaa",
+          "model": "カガシ",
+          "rating": 87.07,
+          "agreementRate": 0.7422,
+          "badMoveRate": 0.0625,
+          "decisionCount": 128
+        },
+        {
+          "participantId": "person-越山逐月",
+          "model": "ニシキ",
+          "rating": 93.519,
+          "agreementRate": 0.8346,
+          "badMoveRate": 0.0236,
+          "decisionCount": 127
+        },
+        {
+          "participantId": "person-越山逐月",
+          "model": "カガシ",
+          "rating": 89.708,
+          "agreementRate": 0.8031,
+          "badMoveRate": 0.0472,
+          "decisionCount": 127
+        },
+        {
+          "participantId": "person-卡夫卡爱上坡路",
+          "model": "ニシキ",
+          "rating": 86.799,
+          "agreementRate": 0.7293,
+          "badMoveRate": 0.0977,
+          "decisionCount": 133
+        },
+        {
+          "participantId": "person-卡夫卡爱上坡路",
+          "model": "カガシ",
+          "rating": 83.407,
+          "agreementRate": 0.7068,
+          "badMoveRate": 0.1053,
+          "decisionCount": 133
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-九条",
+          "sourceUsername": "マジエロ茉子",
+          "rawPoints": 25800,
+          "rank": 3,
+          "competitionPoints": -9.2,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-Traaaaa",
+          "sourceUsername": "mingxuan",
+          "rawPoints": 25900,
+          "rank": 2,
+          "competitionPoints": 10.9,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-越山逐月",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 15900,
+          "rank": 4,
+          "competitionPoints": -39.1,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-卡夫卡爱上坡路",
+          "sourceUsername": "Veritas",
+          "rawPoints": 32400,
+          "rank": 1,
+          "competitionPoints": 37.4,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
     }
   ],
   "autoIncludePersonTags": [

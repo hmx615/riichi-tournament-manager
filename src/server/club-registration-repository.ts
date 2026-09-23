@@ -117,6 +117,18 @@ export async function createClubRegistration(input: ClubRegistrationInput) {
   return registration;
 }
 
+export async function getClubRegistration(id: string): Promise<ClubRegistration | null> {
+  if (usesD1Storage()) {
+    const db = await tournamentDatabase();
+    const row = await db.prepare(`
+      SELECT id, student_id, nickname, qq, majsoul_id, majsoul_nickname, current_rank, other_platform_rank, goals, created_at
+      FROM club_registrations WHERE id = ?
+    `).bind(id).first<Parameters<typeof fromRow>[0]>();
+    return row ? fromRow(row) : null;
+  }
+  return (await localRegistrations()).find((registration) => registration.id === id) ?? null;
+}
+
 export async function listClubRegistrations(): Promise<ClubRegistration[]> {
   if (usesD1Storage()) {
     const db = await tournamentDatabase();
