@@ -30,6 +30,7 @@ const schema = z.object({
   otherAccounts: z.string(),
   majsoulRank: z.enum(["", ...majsoulRanks], { message: "请选择有效的雀魂段位" }),
   majsoulCelestialLevel: z.string(),
+  sharedAccountPriority: z.string().max(300),
 });
 
 function values(value: string) {
@@ -63,6 +64,7 @@ export async function savePersonAction(_state: PersonFormState, formData: FormDa
     otherAccounts: formData.get("otherAccounts"),
     majsoulRank: formData.get("majsoulRank") ?? "",
     majsoulCelestialLevel: formData.get("majsoulCelestialLevel") ?? "",
+    sharedAccountPriority: formData.get("sharedAccountPriority") ?? "",
   });
   const submittedTags = normalizePersonTags(formData.getAll("tags").filter((value): value is string => typeof value === "string"));
   if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message || "人物数据格式无效", values: returnedValues(formData), selectedTags: submittedTags };
@@ -100,6 +102,7 @@ export async function savePersonAction(_state: PersonFormState, formData: FormDa
     aliases: [...new Set([parsed.data.displayName, ...values(parsed.data.aliases)])],
     accounts: accounts(parsed.data),
     tags,
+    ...(values(parsed.data.sharedAccountPriority).length ? { sharedAccountPriority: values(parsed.data.sharedAccountPriority) } : {}),
     ...(parsed.data.majsoulRank ? { majsoulRank: parsed.data.majsoulRank } : {}),
     ...(parsed.data.majsoulRank === "魂天" ? { majsoulCelestialLevel: celestialLevel } : {}),
     ...(!removeAvatar && current?.avatarKey && current.avatarContentType ? {

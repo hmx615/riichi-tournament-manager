@@ -410,7 +410,10 @@
     "majsoulCelestialLevel": 1,
     "avatarKey": "people/xiaop/59819618-cda2-45d2-b228-21799b4a2354",
     "avatarVersion": 1789974638591,
-    "avatarContentType": "image/jpeg"
+    "avatarContentType": "image/jpeg",
+    "sharedAccountPriority": [
+      "風蛍月"
+    ]
   },
   {
     "id": "卡夫卡爱上坡路",
@@ -522,7 +525,10 @@
     "majsoulRank": "雀圣1",
     "avatarKey": "people/Zhao_dehua/686469ec-411b-4f5c-ac75-13162bac116f",
     "avatarVersion": 1789975260792,
-    "avatarContentType": "image/jpeg"
+    "avatarContentType": "image/jpeg",
+    "sharedAccountPriority": [
+      "東海大黄魚"
+    ]
   },
   {
     "id": "胡米奥",

@@ -56,16 +56,13 @@ export type SeatMatch = {
 };
 
 /**
- * 共用账号偏好规则：昵称被多人登记时，如果 anchor 与 owner 同时出现在这一桌，
- * 就认为该昵称是 owner 在用（anchor 用他自己的另一个昵称占座）。
- *
- * - 「東海大黄魚」登记在何明轩与赵得華名下：何明轩与赵得華同桌时，大黄鱼算赵得華在用。
- * - 「風蛍月」登记在何明轩与彭虹清名下：何明轩与彭虹清同桌时，风蛍月算彭虹清在用。
+ * 共用账号的优先归属写在人物档案上（人物设置 → 共用账号优先归属）：
+ * 同一个昵称挂在多个人名下时，优先判给把它登记为「优先归属」的那个人。
+ * 规则随人物走，不再把具体人名写死在代码里。
  */
-const sharedAccountPreferences = [
-  { username: "東海大黄魚", anchor: "hmx", owner: "Zhao_dehua" },
-  { username: "風蛍月", anchor: "hmx", owner: "xiaop" },
-];
+export function sharedAccountPriorityOf(person: Person) {
+  return [...new Set((person.sharedAccountPriority ?? []).map((username) => username.trim()).filter(Boolean))];
+}
 
 /**
  * 把一桌四家的昵称放在一起匹配：
@@ -156,21 +153,25 @@ export function resolveTableParticipants(
     if (personId) present.add(personId);
   }
 
-  const participantByPersonId = new Map(competition.participants.flatMap((participant) =>
-    participant.personId ? [[participant.personId, participant] as const] : [],
-  ));
-  for (const rule of sharedAccountPreferences) {
-    if (!present.has(rule.anchor) || !present.has(rule.owner)) continue;
-    const owner = participantByPersonId.get(rule.owner);
-    const anchor = participantByPersonId.get(rule.anchor);
-    if (!owner || !anchor) continue;
-    usernames.forEach((username, seat) => {
-      if (pinned.has(seat) || username.trim() !== rule.username) return;
-      const candidates = candidateSets[seat];
-      if (!candidates.includes(owner.id) || !candidates.includes(anchor.id)) return;
-      if (feasible(pinned, seat, owner.id)) pinned.set(seat, owner.id);
+  const personById = new Map(people.map((person) => [person.id, person]));
+  // 只统计「同桌确实在场」的候选：AI 与无档案的参与者视为在场。
+  const presenceOf = (participantId: string) => {
+    const personId = participantById.get(participantId)?.personId;
+    return personId ? present.has(personId) : true;
+  };
+  usernames.forEach((rawUsername, seat) => {
+    if (pinned.has(seat)) return;
+    const username = rawUsername.trim();
+    const ambiguous = candidateSets[seat].filter(presenceOf);
+    if (ambiguous.length < 2) return;
+    const preferred = ambiguous.filter((participantId) => {
+      const personId = participantById.get(participantId)?.personId;
+      const person = personId ? personById.get(personId) : null;
+      return Boolean(person && sharedAccountPriorityOf(person).includes(username));
     });
-  }
+    if (preferred.length !== 1) return;
+    if (feasible(pinned, seat, preferred[0])) pinned.set(seat, preferred[0]);
+  });
 
   const resolved = solve(pinned);
   return candidateSets.map((candidates, seat) => ({

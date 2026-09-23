@@ -64,7 +64,9 @@ export default async function CompetitionsPage() {
   const completed = competition.matches.filter((match) => match.status === "completed").length;
   const otherCompetitions = competitions.filter((item) => item.id !== competition.id);
   const activeCompetitionCount = competitions.filter((item) => item.status === "active").length;
-  const recordedMatchCount = competitions.reduce((sum, item) => sum + completedMatches(item), 0);
+  // 已录入牌谱要算上家妈杯（人物池）：之前漏了它，数量对不上。
+  const recordedMatchCount = (storedCompetitions.length ? storedCompetitions : allCompetitions)
+    .reduce((sum, item) => sum + completedMatches(item), 0);
   const registeredPlayerCount = people.length;
 
   return (
@@ -86,7 +88,9 @@ export default async function CompetitionsPage() {
           <div className="competition-main">
             <div className={`competition-title ${styles.competitionTitle}`}><span className="match-pool-mark">♛ 天梯</span>{matchPool.name}<span className="status match-pool-status">长期开放</span></div>
             <div className="competition-meta">所有人物可参加 · {completedMatches(matchPool)} 半庄 / 无限</div>
-            <div className="player-list"><span className="match-pool-all" title={matchPool.participants.map((participant) => participant.displayName).join("、")}><Users size={13} />全体玩家<span className="match-pool-all-count">{matchPool.participants.length} 人</span></span></div>
+            <div className="competition-footer">
+              <div className="player-list"><span className="match-pool-all" title={matchPool.participants.map((participant) => participant.displayName).join("、")}><Users size={13} />全体玩家<span className="match-pool-all-count">{matchPool.participants.length} 人</span></span></div>
+            </div>
           </div>
           <div className="competition-row-actions">
             {admin && <Link className="icon-link" href={`/competitions/${matchPool.id}/settings`} title="家妈杯设置" aria-label="家妈杯设置"><Settings size={17} /></Link>}
@@ -98,22 +102,32 @@ export default async function CompetitionsPage() {
           <div className="competition-main">
             <div className={`competition-title ${styles.competitionTitle}`}>{competition.status === "active" && <span className="live-dot" />}{competition.name}<span className={`status ${competitionStatus[competition.status].className}`}>{competitionStatus[competition.status].label}</span><CompetitionStrength competition={competition} personRanks={personRanks} /></div>
             <div className="competition-meta">{competition.code} · {isMatchPoolCompetition(competition) ? `${completed} 半庄 / 无限` : `${completed}/${competition.plannedMatchCount}半庄`}</div>
-            <div className="player-list">{isMatchPoolCompetition(competition) ? <span className="pool-player-count"><Users size={13} />{competition.participants.length} 人</span> : competition.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
+            <div className="competition-footer">
+              <div className="player-list">{isMatchPoolCompetition(competition) ? <span className="pool-player-count"><Users size={13} />{competition.participants.length} 人</span> : competition.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
+              {!isMatchPoolCompetition(competition) && <CompetitionScores competition={competition} />}
+            </div>
           </div>
-          {!isMatchPoolCompetition(competition) && <CompetitionScores competition={competition} />}
-          {(admin || player) && <Link className="icon-link" href={`/competitions/${competition.id}/matches/new`} title={`录入${competition.name}牌谱`} aria-label={`录入${competition.name}牌谱`}><FilePlus2 size={17} /></Link>}
-          <Link className="icon-link" href={`/competitions/${competition.id}`} title="打开比赛" aria-label="打开比赛"><ArrowRight /></Link>
+          <div className="competition-row-actions">
+            {admin && <Link className="icon-link" href={`/competitions/${competition.id}/settings`} title={`${competition.name}设置`} aria-label={`${competition.name}设置`}><Settings size={17} /></Link>}
+            {(admin || player) && <Link className="icon-link" href={`/competitions/${competition.id}/matches/new`} title={`录入${competition.name}牌谱`} aria-label={`录入${competition.name}牌谱`}><FilePlus2 size={17} /></Link>}
+            <Link className="icon-link" href={`/competitions/${competition.id}`} title="打开比赛" aria-label="打开比赛"><ArrowRight /></Link>
+          </div>
         </article>
         {otherCompetitions.map((item) => (
           <article className={`competition-row compact-row${isMatchPoolCompetition(item) ? " pool-row" : ""}`} key={item.id}>
             <div className="competition-main">
               <div className={`competition-title ${styles.competitionTitle}`}>{item.status === "active" && <span className="live-dot" />}{item.name}<span className={`status ${competitionStatus[item.status].className}`}>{competitionStatus[item.status].label}</span><CompetitionStrength competition={item} personRanks={personRanks} /></div>
               <div className="competition-meta">{item.code} · {isMatchPoolCompetition(item) ? `${completedMatches(item)} 半庄 / 无限` : `${completedMatches(item)}/${item.plannedMatchCount}半庄`}</div>
-              <div className="player-list">{isMatchPoolCompetition(item) ? <span className="pool-player-count"><Users size={13} />{item.participants.length} 人</span> : item.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
+              <div className="competition-footer">
+                <div className="player-list">{isMatchPoolCompetition(item) ? <span className="pool-player-count"><Users size={13} />{item.participants.length} 人</span> : item.participants.map((participant) => <PlayerTag participant={participant} compact key={participant.id} />)}</div>
+                {!isMatchPoolCompetition(item) && <CompetitionScores competition={item} />}
+              </div>
             </div>
-            {!isMatchPoolCompetition(item) && <CompetitionScores competition={item} />}
-            {(admin || player) && <Link className="icon-link" href={`/competitions/${item.id}/matches/new`} title={`录入${item.name}牌谱`} aria-label={`录入${item.name}牌谱`}><FilePlus2 size={17} /></Link>}
-            <Link className="icon-link" href={`/competitions/${item.id}`} title="打开比赛" aria-label={`打开${item.name}`}><ArrowRight /></Link>
+            <div className="competition-row-actions">
+              {admin && <Link className="icon-link" href={`/competitions/${item.id}/settings`} title={`${item.name}设置`} aria-label={`${item.name}设置`}><Settings size={17} /></Link>}
+              {(admin || player) && <Link className="icon-link" href={`/competitions/${item.id}/matches/new`} title={`录入${item.name}牌谱`} aria-label={`录入${item.name}牌谱`}><FilePlus2 size={17} /></Link>}
+              <Link className="icon-link" href={`/competitions/${item.id}`} title="打开比赛" aria-label={`打开${item.name}`}><ArrowRight /></Link>
+            </div>
           </article>
         ))}
       </section>

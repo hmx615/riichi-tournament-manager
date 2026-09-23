@@ -58,6 +58,7 @@ const hmx: Person = {
 const zhao: Person = {
   id: "Zhao_dehua", displayName: "赵得華", kind: "human", color: "#222222", aliases: [],
   accounts: [{ platform: "tenhou", username: "東海大黄魚" }, { platform: "majsoul", username: "陈黑水" }],
+  sharedAccountPriority: ["東海大黄魚"],
 };
 const xiaop: Person = {
   id: "xiaop", displayName: "彭虹清", kind: "human", color: "#333333", aliases: [],
@@ -67,6 +68,7 @@ const xiaop: Person = {
     { platform: "tenhou", username: "こくらあさひ" },
     { platform: "majsoul", username: "越山逐月" },
   ],
+  sharedAccountPriority: ["風蛍月"],
 };
 const humiao: Person = { ...hmx, id: "humiao", displayName: "王聿阳", accounts: [{ platform: "tenhou", username: "humiao" }] };
 const shiqiang: Person = { ...hmx, id: "士强", displayName: "赵士强", accounts: [{ platform: "tenhou", username: "マジエロ茉子" }] };

@@ -41,6 +41,7 @@ export function PersonForm({ person, availableTags }: { person?: Person; availab
         {availableTags.map((tag) => <label key={tag}><input name="tags" type="checkbox" value={tag} defaultChecked={selectedTags.has(tag)} /><span>{tag}</span></label>)}
       </div> : <p className="field-note">尚未创建可用标签，请先到标签管理中创建。</p>}</div>
       <label className="field wide"><span>历史昵称</span><textarea name="aliases" rows={3} defaultValue={value("aliases", person?.aliases.join(", ") || "")} /></label>
+      <label className="field wide"><span>共用账号优先归属</span><input name="sharedAccountPriority" defaultValue={value("sharedAccountPriority", (person?.sharedAccountPriority ?? []).join(", "))} placeholder="昵称，逗号分隔；同一昵称挂在多人名下时优先算本人" /></label>
     </div></section>
     <section className="form-section"><div className="form-section-title"><span>2</span><div><h2>平台账号</h2></div></div><div className="field-grid">
       <label className="field wide"><span>天凤账号</span><input name="tenhouAccounts" defaultValue={value("tenhouAccounts", accountText(person, "tenhou"))} /></label>

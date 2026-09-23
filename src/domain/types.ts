@@ -138,6 +138,11 @@ export type Person = {
   accounts: PersonAccount[];
   /** 人物分类标签；旧人类档案缺省归入“国企办公厅”。 */
   tags?: string[];
+  /**
+   * 共用账号的优先归属：某个昵称同时挂在多人名下、且同桌确实有歧义时，优先判给登记了它的本人。
+   * 在人物设置里维护，不再把规则写死在代码里。
+   */
+  sharedAccountPriority?: string[];
   /** 手工维护的雀魂四麻段位，仅用于人物资料展示，不参与战绩计算。 */
   majsoulRank?: MajsoulRank;
   /** 魂天等级为 1–20；非魂天段位不保存该字段。 */
