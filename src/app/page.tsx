@@ -24,11 +24,12 @@ function completedMatches(competition: Competition) {
   return competition.matches.filter((match) => match.status === "completed").length;
 }
 
-function CompetitionScores({ competition }: { competition: Competition }) {
+function CompetitionScores({ competition, limit }: { competition: Competition; limit?: number }) {
   const totals = totalsForCompetition(competition);
   // 按名次排列（一位在前），每张卡片一位选手，等宽等距。
   const ranked = [...competition.participants].sort((left, right) => totals[right.id] - totals[left.id]
-    || left.displayName.localeCompare(right.displayName, "zh-Hans-CN"));
+    || left.displayName.localeCompare(right.displayName, "zh-Hans-CN"))
+    .slice(0, limit ?? undefined);
   return (
     <div className="score-cards">
       {ranked.map((participant, index) => (
@@ -93,6 +94,7 @@ export default async function CompetitionsPage() {
             <div className="competition-meta">所有人物可参加 · {completedMatches(matchPool)} 半庄 / 无限</div>
             <div className="competition-footer">
               <div className="player-list"><span className="match-pool-all" title={matchPool.participants.map((participant) => participant.displayName).join("、")}><Users size={13} />全体玩家<span className="match-pool-all-count">{matchPool.participants.length} 人</span></span></div>
+              <CompetitionScores competition={matchPool} limit={3} />
             </div>
           </div>
           <div className="competition-row-actions">
