@@ -1,0 +1,19 @@
+.form { margin-top: 12px; display: grid; gap: 10px; }
+
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.search { min-height: 32px; padding: 0 10px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: #fff; color: var(--muted); }
+.search input { width: 150px; border: 0; outline: none; font-size: 12px; }
+.count { color: var(--muted); font-size: 11px; }
+.count strong { color: var(--ink); font-size: 13px; }
+
+.grid { max-height: 260px; padding: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 6px; overflow: auto; border: 1px solid var(--line); background: var(--soft); }
+.member { --player-color: #555; min-height: 30px; padding: 4px 8px; display: flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: #fff; cursor: pointer; font-size: 12px; }
+.memberActive { border-color: color-mix(in srgb, var(--player-color) 45%, white); background: color-mix(in srgb, var(--player-color) 8%, white); }
+.member input { margin: 0; }
+.dot { width: 7px; height: 7px; background: var(--player-color); }
+.name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.empty { margin: 0; color: var(--muted); font-size: 12px; }
+
+.actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.success { color: var(--green); font-size: 12px; }
+.error { color: var(--red); font-size: 12px; }

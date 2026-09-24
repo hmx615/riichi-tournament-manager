@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Tags } from "lucide-react";
 import { CreatePersonTagForm, DeletePersonTagForm } from "@/components/person-tag-admin";
+import { PersonTagMembersForm } from "@/components/person-tag-members";
 import { requireAdminPage } from "@/server/auth";
 import { listPeople } from "@/server/person-repository";
 import { listPersonTags } from "@/server/person-tag-repository";
 import { personTags } from "@/domain/person-tags";
+import styles from "./tags.module.css";
 
 export const metadata: Metadata = { title: "标签管理 | XRC" };
 
@@ -18,14 +20,25 @@ export default async function AdminTagsPage() {
     <CreatePersonTagForm />
     <section className="section-block">
       <div className="section-heading"><div><h2>已有标签</h2></div><span className="table-count">{tags.length} 个</span></div>
-      {tags.length ? <div className="table-wrap"><table className="person-table">
-        <thead><tr><th>标签</th><th>已标记人物</th><th>操作</th></tr></thead>
-        <tbody>{tags.map((tag) => <tr key={tag}>
-          <td><strong><Tags size={14} /> {tag}</strong></td>
-          <td>{people.filter((person) => personTags(person).includes(tag)).length} 人</td>
-          <td><DeletePersonTagForm tag={tag} /></td>
-        </tr>)}</tbody>
-      </table></div> : <div className="form-message">当前没有标签，请先创建标签后再编辑人物分类。</div>}
+      {tags.length ? <div className={styles.tagList}>{tags.map((tag) => {
+        const members = people.filter((person) => personTags(person).includes(tag));
+        return <article className={styles.tagCard} key={tag}>
+          <header className={styles.tagHead}>
+            <strong><Tags size={15} /> {tag}</strong>
+            <span className={styles.tagCount}>{members.length} / {people.length} 人</span>
+            <DeletePersonTagForm tag={tag} />
+          </header>
+          <PersonTagMembersForm
+            tag={tag}
+            people={people.map((person) => ({
+              id: person.id,
+              displayName: person.displayName,
+              color: person.color,
+              tags: personTags(person),
+            }))}
+          />
+        </article>;
+      })}</div> : <div className="form-message">当前没有标签，请先创建标签后再编辑人物分类。</div>}
     </section>
   </div>;
 }

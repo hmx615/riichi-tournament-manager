@@ -1,0 +1,7 @@
+.tagList { display: grid; gap: 14px; }
+
+.tagCard { padding: 16px 18px; border: 1px solid var(--line); background: var(--paper); }
+.tagHead { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.tagHead strong { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; }
+.tagCount { padding: 2px 9px; border: 1px solid #b9ccc6; background: #edf6f3; color: var(--green); font-size: 11px; font-weight: 700; }
+.tagHead form { margin-left: auto; }

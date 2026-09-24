@@ -2,7 +2,8 @@ import "server-only";
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { DEFAULT_PERSON_TAG, normalizePersonTags } from "@/domain/person-tags";
+import { DEFAULT_PERSON_TAG, normalizePersonTags, personTags } from "@/domain/person-tags";
+import type { Person } from "@/domain/types";
 import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
 
@@ -124,4 +125,61 @@ export async function deletePersonTag(name: string) {
       await writeJson(path.join(competitionDirectory, competition.file), competition.document);
     }
   }
+}
+
+async function synchronizePools() {
+  const repository = await import("@/server/competition-repository");
+  if (typeof repository.synchronizeAllMatchPools === "function") await repository.synchronizeAllMatchPools();
+}
+
+/**
+ * 批量维护某个标签下的人：勾选的人加上标签，没勾的人去掉标签。
+ * 标签变化会影响人物池的自动加入规则，所以写完顺手同步一次池子。
+ */
+export async function setPersonTagMembers(tag: string, personIds: string[]) {
+  const name = validateTag(tag);
+  const tags = await listPersonTags();
+  if (!tags.includes(name)) throw new Error("标签不存在或已经删除");
+  const selected = [...new Set(personIds.filter(Boolean))];
+
+  if (usesD1Storage()) {
+    const db = await tournamentDatabase();
+    const now = new Date().toISOString();
+    const statements = [
+      // 先把这个标签从所有人身上摘掉，再加回勾选的人：两步都幂等。
+      db.prepare(`
+        UPDATE people
+        SET document = json_set(document, '$.tags', COALESCE((
+              SELECT json_group_array(value) FROM json_each(people.document, '$.tags') WHERE value <> ?
+            ), json('[]'))),
+            version = version + 1, updated_at = ?
+        WHERE EXISTS (SELECT 1 FROM json_each(people.document, '$.tags') WHERE value = ?)
+      `).bind(name, now, name),
+      ...selected.map((id) => db.prepare(`
+        UPDATE people
+        SET document = json_set(document, '$.tags', json_insert(COALESCE(json_extract(document, '$.tags'), json('[]')), '$[#]', ?)),
+            version = version + 1, updated_at = ?
+        WHERE id = ? AND NOT EXISTS (SELECT 1 FROM json_each(people.document, '$.tags') WHERE value = ?)
+      `).bind(name, now, id, name)),
+    ];
+    const results = await db.batch(statements);
+    if (results.some((result) => !result.success)) throw new Error("标签成员保存失败");
+    await synchronizePools();
+    return { selected: selected.length };
+  }
+
+  const people = JSON.parse(await fs.readFile(peopleFile, "utf8")) as Person[];
+  const selectedIds = new Set(selected);
+  let changed = 0;
+  const updated = people.map((person) => {
+    const current = personTags(person);
+    const has = current.includes(name);
+    const should = selectedIds.has(person.id);
+    if (has === should) return person;
+    changed += 1;
+    return { ...person, tags: should ? [...current, name] : current.filter((item) => item !== name) };
+  });
+  if (changed) await writeJson(peopleFile, updated);
+  await synchronizePools();
+  return { selected: selected.length, changed };
 }
