@@ -16,7 +16,7 @@ import {
 } from "@/domain/casual-record";
 import { isAdmin } from "@/server/auth";
 import { currentPlayer } from "@/server/player-auth";
-import { listPeople } from "@/server/person-repository";
+import { listPeople, rememberPersonAccounts } from "@/server/person-repository";
 import {
   parseCachedMajsoulSource,
   parseMajsoulJsonSource,
@@ -24,6 +24,7 @@ import {
   type MatchPreview,
 } from "@/server/tenhou";
 import { casualMatchingCompetition } from "@/server/casual-statistics";
+import { personAccountBindings } from "@/domain/person-accounts";
 import {
   cacheCasualLog,
   deleteCasualRecord,
@@ -195,9 +196,17 @@ export async function saveCasualAction(_state: CasualEntryState, formData: FormD
   } catch (error) {
     return { status: "error", message: error instanceof Error ? error.message : "散排牌谱保存失败", preview };
   }
+  // 手工把没匹配上的昵称指给了某个人物：把这个账号绑定回人物档案，下次同平台牌谱就能自动匹配。
+  let accountWarning = "";
+  try {
+    const bindings = personAccountBindings(seats, preview.accountPlatform);
+    if (bindings.length) await rememberPersonAccounts(bindings);
+  } catch {
+    accountWarning = "（账号绑定失败，可在人物设置里补充账号）";
+  }
   revalidatePath("/casual");
   revalidatePath("/players/[personId]/casual", "page");
-  return { status: "success", message: "散排牌谱已保存，可在人物页的散排数据里查看", preview: null };
+  return { status: "success", message: `散排牌谱已保存，可在人物页的散排数据里查看${accountWarning}`, preview: null };
 }
 
 export async function deleteCasualAction(formData: FormData) {

@@ -8,6 +8,7 @@ import { tournamentDatabase, usesD1Storage } from "@/server/cloudflare-storage";
 import { dataDirectory } from "@/server/data-directory";
 import { listCompetitions } from "@/server/competition-repository";
 import { personTags } from "@/domain/person-tags";
+import type { PersonAccountBinding } from "@/domain/person-accounts";
 
 async function syncMatchPools() {
   const repository = await import("@/server/competition-repository");
@@ -119,7 +120,8 @@ export async function updatePerson(person: Person) {
   await syncMatchPools();
 }
 
-export type ConfirmedPersonAccount = { personId: string; account: PersonAccount };
+/** 与 domain/person-accounts 里的绑定结构一致，供录入流程回写账号。 */
+export type ConfirmedPersonAccount = PersonAccountBinding;
 
 export async function rememberPersonAccounts(mappings: ConfirmedPersonAccount[]) {
   const unique = [...new Map(mappings.map((mapping) => [JSON.stringify([mapping.personId, mapping.account]), mapping])).values()];

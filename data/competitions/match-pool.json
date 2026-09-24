@@ -193,6 +193,41 @@
         "飞鱼宝宝",
         "蜜糖、"
       ]
+    },
+    {
+      "id": "person-Wesley",
+      "personId": "Wesley",
+      "displayName": "Wesley",
+      "kind": "human",
+      "color": "#168f83",
+      "usernames": [
+        "Wesley",
+        "Wesley56",
+        "wesley56"
+      ]
+    },
+    {
+      "id": "person-aniya",
+      "personId": "aniya",
+      "displayName": "おでけけ",
+      "kind": "human",
+      "color": "#168f83",
+      "usernames": [
+        "おでけけ",
+        "弹幕大神",
+        "阿尼亚"
+      ]
+    },
+    {
+      "id": "person-heart",
+      "personId": "heart",
+      "displayName": "心脏会闪烁吗",
+      "kind": "human",
+      "color": "#168f83",
+      "usernames": [
+        "心脏会闪烁吗",
+        "心脏"
+      ]
     }
   ],
   "matches": [
@@ -6158,6 +6193,474 @@
           "rawPoints": 32400,
           "rank": 1,
           "competitionPoints": 37.4,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "match-pool-061",
+      "matchNumber": 61,
+      "status": "completed",
+      "playedAt": "2026-09-23T14:04:56.638Z",
+      "tenhouLogId": "naga-custom-c0fb67b55e79cf4047aa694784add814",
+      "contentFingerprint": "0121a035647dced524d72c179e5eb7da",
+      "tenhouUrl": "",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=88f57903017d5a472910ba30ef5084c15542a1fd4cd243e5eb1c9a8433f23bf3v2_2&tw=0",
+      "nagaReportId": "88f57903017d5a472910ba30ef5084c15542a1fd4cd243e5eb1c9a8433f23bf3v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-Traaaaa",
+          "model": "ニシキ",
+          "rating": 90.857,
+          "agreementRate": 0.8063,
+          "badMoveRate": 0.0437,
+          "decisionCount": 160
+        },
+        {
+          "participantId": "person-Traaaaa",
+          "model": "カガシ",
+          "rating": 88.915,
+          "agreementRate": 0.7813,
+          "badMoveRate": 0.0375,
+          "decisionCount": 160
+        },
+        {
+          "participantId": "person-aniya",
+          "model": "ニシキ",
+          "rating": 89.681,
+          "agreementRate": 0.7785,
+          "badMoveRate": 0.0696,
+          "decisionCount": 158
+        },
+        {
+          "participantId": "person-aniya",
+          "model": "カガシ",
+          "rating": 88.448,
+          "agreementRate": 0.7532,
+          "badMoveRate": 0.0696,
+          "decisionCount": 158
+        },
+        {
+          "participantId": "person-heart",
+          "model": "ニシキ",
+          "rating": 85.645,
+          "agreementRate": 0.7595,
+          "badMoveRate": 0.057,
+          "decisionCount": 158
+        },
+        {
+          "participantId": "person-heart",
+          "model": "カガシ",
+          "rating": 85.036,
+          "agreementRate": 0.7468,
+          "badMoveRate": 0.0633,
+          "decisionCount": 158
+        },
+        {
+          "participantId": "person-Wesley",
+          "model": "ニシキ",
+          "rating": 92.33,
+          "agreementRate": 0.8471,
+          "badMoveRate": 0.051,
+          "decisionCount": 157
+        },
+        {
+          "participantId": "person-Wesley",
+          "model": "カガシ",
+          "rating": 91.111,
+          "agreementRate": 0.8217,
+          "badMoveRate": 0.0318,
+          "decisionCount": 157
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-Traaaaa",
+          "sourceUsername": "Traaaaa",
+          "rawPoints": 13000,
+          "rank": 2,
+          "competitionPoints": -2,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-aniya",
+          "sourceUsername": "おでけけ",
+          "rawPoints": 8000,
+          "rank": 4,
+          "competitionPoints": -47,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-heart",
+          "sourceUsername": "心脏会闪烁吗",
+          "rawPoints": 8800,
+          "rank": 3,
+          "competitionPoints": -26.2,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-Wesley",
+          "sourceUsername": "wesley56",
+          "rawPoints": 70200,
+          "rank": 1,
+          "competitionPoints": 75.2,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "match-pool-062",
+      "matchNumber": 62,
+      "status": "completed",
+      "playedAt": "2026-09-23T14:05:17.793Z",
+      "tenhouLogId": "naga-custom-f5d11a130171bd3e742ba6d608a70d71",
+      "contentFingerprint": "c25a9fca75cfa824ddba2b11b079683a",
+      "tenhouUrl": "",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=4f2bea7103a2d615c76e30749a65976cb18fca75389b8ceb42213eeff26c6a49v2_2&tw=0",
+      "nagaReportId": "4f2bea7103a2d615c76e30749a65976cb18fca75389b8ceb42213eeff26c6a49v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-heart",
+          "model": "ニシキ",
+          "rating": 90.283,
+          "agreementRate": 0.8481,
+          "badMoveRate": 0.0633,
+          "decisionCount": 79
+        },
+        {
+          "participantId": "person-heart",
+          "model": "カガシ",
+          "rating": 89.178,
+          "agreementRate": 0.8228,
+          "badMoveRate": 0.0506,
+          "decisionCount": 79
+        },
+        {
+          "participantId": "person-aniya",
+          "model": "ニシキ",
+          "rating": 90.049,
+          "agreementRate": 0.8276,
+          "badMoveRate": 0.046,
+          "decisionCount": 87
+        },
+        {
+          "participantId": "person-aniya",
+          "model": "カガシ",
+          "rating": 87.099,
+          "agreementRate": 0.7471,
+          "badMoveRate": 0.0805,
+          "decisionCount": 87
+        },
+        {
+          "participantId": "person-Traaaaa",
+          "model": "ニシキ",
+          "rating": 91.325,
+          "agreementRate": 0.8316,
+          "badMoveRate": 0.0632,
+          "decisionCount": 95
+        },
+        {
+          "participantId": "person-Traaaaa",
+          "model": "カガシ",
+          "rating": 90.81,
+          "agreementRate": 0.8316,
+          "badMoveRate": 0.0421,
+          "decisionCount": 95
+        },
+        {
+          "participantId": "person-Wesley",
+          "model": "ニシキ",
+          "rating": 88.013,
+          "agreementRate": 0.7292,
+          "badMoveRate": 0.0521,
+          "decisionCount": 96
+        },
+        {
+          "participantId": "person-Wesley",
+          "model": "カガシ",
+          "rating": 86.716,
+          "agreementRate": 0.7813,
+          "badMoveRate": 0.0833,
+          "decisionCount": 96
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-heart",
+          "sourceUsername": "心脏会闪烁吗",
+          "rawPoints": 29200,
+          "rank": 2,
+          "competitionPoints": 14.2,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-aniya",
+          "sourceUsername": "おでけけ",
+          "rawPoints": 22900,
+          "rank": 3,
+          "competitionPoints": -12.1,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-Traaaaa",
+          "sourceUsername": "Traaaaa",
+          "rawPoints": 11200,
+          "rank": 4,
+          "competitionPoints": -43.8,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-Wesley",
+          "sourceUsername": "wesley56",
+          "rawPoints": 36700,
+          "rank": 1,
+          "competitionPoints": 41.7,
+          "assignmentSource": "manual"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "match-pool-063",
+      "matchNumber": 63,
+      "status": "completed",
+      "playedAt": "2026-09-24T00:00:00+08:00",
+      "tenhouLogId": "2026092400gm-0009-1940-d73bdd04",
+      "contentFingerprint": "f84b08a0a21f55e9b76ad329039cb773",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026092400gm-0009-1940-d73bdd04",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=7794a5185c401c318cdf93ee4197d44753b3ff7bca2111bf44479b7bac31b91av2_2&tw=0&main=%E9%A2%A8%E8%9B%8D%E6%9C%88",
+      "nagaReportId": "7794a5185c401c318cdf93ee4197d44753b3ff7bca2111bf44479b7bac31b91av2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-紫罗兰梦幻花园",
+          "model": "ニシキ",
+          "rating": 88.177,
+          "agreementRate": 0.8067,
+          "badMoveRate": 0.0588,
+          "decisionCount": 119
+        },
+        {
+          "participantId": "person-紫罗兰梦幻花园",
+          "model": "カガシ",
+          "rating": 87.269,
+          "agreementRate": 0.8067,
+          "badMoveRate": 0.0756,
+          "decisionCount": 119
+        },
+        {
+          "participantId": "person-九条",
+          "model": "ニシキ",
+          "rating": 92.452,
+          "agreementRate": 0.8288,
+          "badMoveRate": 0.027,
+          "decisionCount": 111
+        },
+        {
+          "participantId": "person-九条",
+          "model": "カガシ",
+          "rating": 93.411,
+          "agreementRate": 0.8649,
+          "badMoveRate": 0.027,
+          "decisionCount": 111
+        },
+        {
+          "participantId": "person-Traaaaa",
+          "model": "ニシキ",
+          "rating": 90.719,
+          "agreementRate": 0.7941,
+          "badMoveRate": 0.049,
+          "decisionCount": 102
+        },
+        {
+          "participantId": "person-Traaaaa",
+          "model": "カガシ",
+          "rating": 85.369,
+          "agreementRate": 0.6961,
+          "badMoveRate": 0.0588,
+          "decisionCount": 102
+        },
+        {
+          "participantId": "person-越山逐月",
+          "model": "ニシキ",
+          "rating": 92.576,
+          "agreementRate": 0.8491,
+          "badMoveRate": 0.0283,
+          "decisionCount": 106
+        },
+        {
+          "participantId": "person-越山逐月",
+          "model": "カガシ",
+          "rating": 89.813,
+          "agreementRate": 0.783,
+          "badMoveRate": 0.066,
+          "decisionCount": 106
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-紫罗兰梦幻花园",
+          "sourceUsername": "mzhj",
+          "rawPoints": 30600,
+          "rank": 2,
+          "competitionPoints": 15.6,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-九条",
+          "sourceUsername": "マジエロ茉子",
+          "rawPoints": -700,
+          "rank": 4,
+          "competitionPoints": -55.7,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-Traaaaa",
+          "sourceUsername": "mingxuan",
+          "rawPoints": 27800,
+          "rank": 3,
+          "competitionPoints": -7.2,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-越山逐月",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 42300,
+          "rank": 1,
+          "competitionPoints": 47.3,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "match-pool-064",
+      "matchNumber": 64,
+      "status": "completed",
+      "playedAt": "2026-09-24T01:00:00+08:00",
+      "tenhouLogId": "2026092401gm-0009-1940-404fc72a",
+      "contentFingerprint": "fac47fd79c04a2082bca2a96cd7ced3f",
+      "tenhouUrl": "https://tenhou.net/3/?log=2026092401gm-0009-1940-404fc72a",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=d7f1389d52eecac8fb0b4cbf4a847aab54c3fa42bc679193bad66e1980a95214v2_2&tw=0&main=%E3%83%9E%E3%82%B8%E3%82%A8%E3%83%AD%E8%8C%89%E5%AD%90",
+      "nagaReportId": "d7f1389d52eecac8fb0b4cbf4a847aab54c3fa42bc679193bad66e1980a95214v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-Traaaaa",
+          "model": "ニシキ",
+          "rating": 90.732,
+          "agreementRate": 0.7862,
+          "badMoveRate": 0.0252,
+          "decisionCount": 159
+        },
+        {
+          "participantId": "person-Traaaaa",
+          "model": "カガシ",
+          "rating": 90.276,
+          "agreementRate": 0.8113,
+          "badMoveRate": 0.0377,
+          "decisionCount": 159
+        },
+        {
+          "participantId": "person-越山逐月",
+          "model": "ニシキ",
+          "rating": 85.617,
+          "agreementRate": 0.7321,
+          "badMoveRate": 0.0714,
+          "decisionCount": 168
+        },
+        {
+          "participantId": "person-越山逐月",
+          "model": "カガシ",
+          "rating": 84.273,
+          "agreementRate": 0.7083,
+          "badMoveRate": 0.0714,
+          "decisionCount": 168
+        },
+        {
+          "participantId": "person-九条",
+          "model": "ニシキ",
+          "rating": 89.973,
+          "agreementRate": 0.8442,
+          "badMoveRate": 0.0325,
+          "decisionCount": 154
+        },
+        {
+          "participantId": "person-九条",
+          "model": "カガシ",
+          "rating": 90.438,
+          "agreementRate": 0.8442,
+          "badMoveRate": 0.0455,
+          "decisionCount": 154
+        },
+        {
+          "participantId": "person-紫罗兰梦幻花园",
+          "model": "ニシキ",
+          "rating": 82.666,
+          "agreementRate": 0.6886,
+          "badMoveRate": 0.0838,
+          "decisionCount": 167
+        },
+        {
+          "participantId": "person-紫罗兰梦幻花园",
+          "model": "カガシ",
+          "rating": 82.005,
+          "agreementRate": 0.6946,
+          "badMoveRate": 0.1078,
+          "decisionCount": 167
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-Traaaaa",
+          "sourceUsername": "mingxuan",
+          "rawPoints": 1300,
+          "rank": 4,
+          "competitionPoints": -53.7,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-越山逐月",
+          "sourceUsername": "風蛍月",
+          "rawPoints": 12700,
+          "rank": 3,
+          "competitionPoints": -22.3,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-九条",
+          "sourceUsername": "マジエロ茉子",
+          "rawPoints": 44700,
+          "rank": 1,
+          "competitionPoints": 49.7,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-紫罗兰梦幻花园",
+          "sourceUsername": "mzhj",
+          "rawPoints": 41300,
+          "rank": 2,
+          "competitionPoints": 26.3,
           "assignmentSource": "alias"
         }
       ],

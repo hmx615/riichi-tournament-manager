@@ -12,6 +12,7 @@ import { matchContentFingerprint } from "@/domain/tenhou-log-normalizer";
 import { appendMatch, getCompetition, listCompetitions, supplementMatchNagaAnalysis } from "@/server/competition-repository";
 import { parseCachedMajsoulSource, parseMajsoulJsonSource, parseMatchSource, readCachedLogs, type MatchPreview } from "@/server/tenhou";
 import { rememberPersonAccounts, type ConfirmedPersonAccount } from "@/server/person-repository";
+import { personAccountBindings } from "@/domain/person-accounts";
 import { entrySchedule, requireOpenTable, scheduledMatch } from "@/domain/scheduled-match";
 import { canEnterCompetitionMatches } from "@/server/match-entry-auth";
 
@@ -222,12 +223,14 @@ export async function saveMatchAction(_state: MatchEntryState, formData: FormDat
         reviewNote: null,
       };
       await appendMatch(competition.id, match);
-      if (preview.accountPlatform) {
-        confirmedAccounts = match.seats.flatMap((seat) => {
-          const personId = participantById.get(seat.participantId)?.personId;
-          return personId ? [{ personId, account: { platform: preview.accountPlatform!, username: seat.sourceUsername } }] : [];
-        });
-      }
+      // 手工把没匹配上的昵称指给某个人后，把这个账号绑定回人物档案；识别不出平台时记进「其他账号」。
+      confirmedAccounts = personAccountBindings(
+        match.seats.map((seat) => ({
+          personId: participantById.get(seat.participantId)?.personId ?? null,
+          sourceUsername: seat.sourceUsername,
+        })),
+        preview.accountPlatform,
+      );
     }
   } catch (error) {
     return initialError(error instanceof Error ? error.message : "牌谱保存失败");

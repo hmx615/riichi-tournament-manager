@@ -221,7 +221,7 @@
       "color": "#d58a18",
       "usernames": [
         "越山逐月",
-        "越山逐月",
+        "xiaop",
         "風蛍月",
         "猫妥",
         "lechanNa",
@@ -282,7 +282,7 @@
       "usernames": [
         "胡米奥",
         "壶庙",
-        "胡米奥"
+        "humiao"
       ]
     },
     {
@@ -353,6 +353,73 @@
       "usernames": [
         "六脉神剑",
         "六脉神剑6"
+      ]
+    },
+    {
+      "id": "person-三季",
+      "personId": "三季",
+      "displayName": "三季",
+      "kind": "human",
+      "color": "#8a6f2f",
+      "usernames": [
+        "三季",
+        "三季912"
+      ]
+    },
+    {
+      "id": "person-pearl酱",
+      "personId": "pearl酱",
+      "displayName": "pearl酱",
+      "kind": "human",
+      "color": "#3b78a0",
+      "usernames": [
+        "pearl酱"
+      ]
+    },
+    {
+      "id": "person-Wesley",
+      "personId": "Wesley",
+      "displayName": "Wesley",
+      "kind": "human",
+      "color": "#168f83",
+      "usernames": [
+        "Wesley",
+        "Wesley56",
+        "wesley56"
+      ]
+    },
+    {
+      "id": "person-aniya",
+      "personId": "aniya",
+      "displayName": "おでけけ",
+      "kind": "human",
+      "color": "#168f83",
+      "usernames": [
+        "おでけけ",
+        "弹幕大神",
+        "阿尼亚"
+      ]
+    },
+    {
+      "id": "person-heart",
+      "personId": "heart",
+      "displayName": "心脏会闪烁吗",
+      "kind": "human",
+      "color": "#168f83",
+      "usernames": [
+        "心脏会闪烁吗",
+        "心脏"
+      ]
+    },
+    {
+      "id": "person-谦QQ谦",
+      "personId": "谦QQ谦",
+      "displayName": "谦QQ谦",
+      "kind": "human",
+      "color": "#9c5f9c",
+      "usernames": [
+        "谦QQ谦",
+        "谦谦er"
       ]
     }
   ],
@@ -1522,6 +1589,240 @@
           "rawPoints": 31900,
           "rank": 2,
           "competitionPoints": 16.9,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "yougua-training-011",
+      "matchNumber": 11,
+      "status": "completed",
+      "playedAt": "2026-09-24T01:59:57.591Z",
+      "tenhouLogId": "naga-custom-6999fe6b750d31b48d7fdf7607586153",
+      "contentFingerprint": "222ede31d2f34fe385cbfeab4fc04399",
+      "tenhouUrl": "",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=f52e995303a2bd4684cf078dfc056de1a966394ac223efd66af2758e04cf6b12v2_2&tw=0",
+      "nagaReportId": "f52e995303a2bd4684cf078dfc056de1a966394ac223efd66af2758e04cf6b12v2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-maodan6",
+          "model": "ニシキ",
+          "rating": 78.661,
+          "agreementRate": 0.6746,
+          "badMoveRate": 0.1429,
+          "decisionCount": 126
+        },
+        {
+          "participantId": "person-maodan6",
+          "model": "カガシ",
+          "rating": 81.355,
+          "agreementRate": 0.6587,
+          "badMoveRate": 0.1349,
+          "decisionCount": 126
+        },
+        {
+          "participantId": "person-未来",
+          "model": "ニシキ",
+          "rating": 84.961,
+          "agreementRate": 0.719,
+          "badMoveRate": 0.0744,
+          "decisionCount": 121
+        },
+        {
+          "participantId": "person-未来",
+          "model": "カガシ",
+          "rating": 81.589,
+          "agreementRate": 0.6777,
+          "badMoveRate": 0.0826,
+          "decisionCount": 121
+        },
+        {
+          "participantId": "person-枣十三",
+          "model": "ニシキ",
+          "rating": 82.768,
+          "agreementRate": 0.7167,
+          "badMoveRate": 0.1083,
+          "decisionCount": 120
+        },
+        {
+          "participantId": "person-枣十三",
+          "model": "カガシ",
+          "rating": 83.808,
+          "agreementRate": 0.7083,
+          "badMoveRate": 0.0917,
+          "decisionCount": 120
+        },
+        {
+          "participantId": "person-风云一心",
+          "model": "ニシキ",
+          "rating": 82.685,
+          "agreementRate": 0.7542,
+          "badMoveRate": 0.1102,
+          "decisionCount": 118
+        },
+        {
+          "participantId": "person-风云一心",
+          "model": "カガシ",
+          "rating": 82.196,
+          "agreementRate": 0.6949,
+          "badMoveRate": 0.1102,
+          "decisionCount": 118
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-maodan6",
+          "sourceUsername": "maodan6",
+          "rawPoints": 16000,
+          "rank": 4,
+          "competitionPoints": -39,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-未来",
+          "sourceUsername": "未来会有未来",
+          "rawPoints": 29900,
+          "rank": 2,
+          "competitionPoints": 14.9,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-枣十三",
+          "sourceUsername": "枣十三",
+          "rawPoints": 16100,
+          "rank": 3,
+          "competitionPoints": -18.9,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-风云一心",
+          "sourceUsername": "风云一心",
+          "rawPoints": 38000,
+          "rank": 1,
+          "competitionPoints": 43,
+          "assignmentSource": "alias"
+        }
+      ],
+      "reviewNote": null
+    },
+    {
+      "id": "yougua-training-012",
+      "matchNumber": 12,
+      "status": "completed",
+      "playedAt": "2026-09-24T02:00:51.246Z",
+      "tenhouLogId": "naga-custom-506e8f1209a86d4058d8667c27c78ddb",
+      "contentFingerprint": "049f679839ea110bdeaaf0fec6bf4c43",
+      "tenhouUrl": "",
+      "sourceType": "tenhou",
+      "nagaUrl": "https://ricochet.cn/api/naga/proxy/htmls/report_viewer.html?report_id=0ce2f62e2390ecd7b36378c61db55c7f728eecb01af73c3bebe0b4390d67ecdev2_2&tw=0",
+      "nagaReportId": "0ce2f62e2390ecd7b36378c61db55c7f728eecb01af73c3bebe0b4390d67ecdev2_2",
+      "nagaRatings": [
+        {
+          "participantId": "person-谦QQ谦",
+          "model": "ニシキ",
+          "rating": 83.27,
+          "agreementRate": 0.7253,
+          "badMoveRate": 0.1209,
+          "decisionCount": 182
+        },
+        {
+          "participantId": "person-谦QQ谦",
+          "model": "カガシ",
+          "rating": 84.371,
+          "agreementRate": 0.7418,
+          "badMoveRate": 0.0989,
+          "decisionCount": 182
+        },
+        {
+          "participantId": "person-乱花",
+          "model": "ニシキ",
+          "rating": 86.765,
+          "agreementRate": 0.7473,
+          "badMoveRate": 0.0769,
+          "decisionCount": 182
+        },
+        {
+          "participantId": "person-乱花",
+          "model": "カガシ",
+          "rating": 84.763,
+          "agreementRate": 0.7033,
+          "badMoveRate": 0.0879,
+          "decisionCount": 182
+        },
+        {
+          "participantId": "person-九条",
+          "model": "ニシキ",
+          "rating": 91.716,
+          "agreementRate": 0.8158,
+          "badMoveRate": 0.0316,
+          "decisionCount": 190
+        },
+        {
+          "participantId": "person-九条",
+          "model": "カガシ",
+          "rating": 89.27,
+          "agreementRate": 0.8105,
+          "badMoveRate": 0.0474,
+          "decisionCount": 190
+        },
+        {
+          "participantId": "person-25时",
+          "model": "ニシキ",
+          "rating": 86.588,
+          "agreementRate": 0.7892,
+          "badMoveRate": 0.1024,
+          "decisionCount": 166
+        },
+        {
+          "participantId": "person-25时",
+          "model": "カガシ",
+          "rating": 87.177,
+          "agreementRate": 0.7831,
+          "badMoveRate": 0.0964,
+          "decisionCount": 166
+        }
+      ],
+      "seats": [
+        {
+          "seat": 0,
+          "participantId": "person-谦QQ谦",
+          "sourceUsername": "谦谦er",
+          "rawPoints": 35200,
+          "rank": 2,
+          "competitionPoints": 20.2,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 1,
+          "participantId": "person-乱花",
+          "sourceUsername": "、乱花",
+          "rawPoints": 4500,
+          "rank": 4,
+          "competitionPoints": -50.5,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 2,
+          "participantId": "person-九条",
+          "sourceUsername": "九条都嘟嘟",
+          "rawPoints": 12600,
+          "rank": 3,
+          "competitionPoints": -22.4,
+          "assignmentSource": "alias"
+        },
+        {
+          "seat": 3,
+          "participantId": "person-25时",
+          "sourceUsername": "星野爱Ai",
+          "rawPoints": 47700,
+          "rank": 1,
+          "competitionPoints": 52.7,
           "assignmentSource": "alias"
         }
       ],

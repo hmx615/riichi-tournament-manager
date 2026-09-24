@@ -342,7 +342,7 @@ describe("saveMatchAction", () => {
     expect(mocks.redirect).not.toHaveBeenCalled();
   });
 
-  it("does not remember an unknown-platform NAGA custom report as a Tenhou account", async () => {
+  it("remembers an unknown-platform NAGA custom report as「其他账号」而不是天凤账号", async () => {
     mocks.listCompetitions.mockResolvedValue([]);
     mocks.getCompetition.mockResolvedValue({ ...competition, participants: participants.map((participant) => ({ ...participant, personId: `person-${participant.id}` })) });
     mocks.parseMatchSource.mockResolvedValue({ ...preview, accountPlatform: null, logId: "naga-custom-0123456789abcdef0123456789abcdef" });
@@ -352,7 +352,9 @@ describe("saveMatchAction", () => {
     participants.forEach((participant, seat) => form.set(`participant${seat}`, participant.id));
     await expect(saveMatchAction(idleState, form)).rejects.toThrow("NEXT_REDIRECT");
     expect(mocks.appendMatch).toHaveBeenCalledOnce();
-    expect(mocks.rememberPersonAccounts).not.toHaveBeenCalled();
+    // 仍然把昵称绑定到人物，只是平台记成「其他」，不会误标成天凤账号
+    const [[bindings]] = mocks.rememberPersonAccounts.mock.calls;
+    expect(bindings.every((binding: { account: { platform: string } }) => binding.account.platform === "other")).toBe(true);
   });
 
   it("requires an individual table and passes its identity through save", async () => {
