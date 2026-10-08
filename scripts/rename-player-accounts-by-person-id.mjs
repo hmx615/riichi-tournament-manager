@@ -111,7 +111,7 @@ const missing = renames.filter((item) => !previous.has(normalizeUsername(item.us
 if (missing.length) throw new Error(`交付文件里找不到这些人的密码：${missing.map((item) => item.username).join("、")}`);
 
 const stamp = now.slice(0, 10);
-const delivery = path.join(projectRoot, ".secrets", `player-accounts-${stamp}.txt`);
+const delivery = path.join(projectRoot, "secrets", `player-accounts-${stamp}.txt`);
 fs.writeFileSync(delivery, [
   `选手账号（${stamp} 生成，账号=人物ID，密码未变）`,
   "登录地址：https://riichi-tournament-manager.pages.dev/login",

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 校验 .secrets 交付文件里的账号密码与线上 D1 是否一致（用应用自己的校验函数）。
+// 校验 secrets 交付文件里的账号密码与线上 D1 是否一致（用应用自己的校验函数）。
 // 用法：npx vite-node scripts/verify-delivered-credentials.ts <交付文件>
 
 import { execFileSync } from "node:child_process";

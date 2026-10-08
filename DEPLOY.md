@@ -43,7 +43,7 @@ npx wrangler secret put TUTORIAL_EZY_PASSWORD_HASH
 npx wrangler secret put TUTORIAL_WDJ_PASSWORD_HASH
 ```
 
-值来自本机 `.env.local`。不要把 `.env.local` 或 `.secrets/` 提交到 Git。
+值来自本机 `.env.local`。不要把 `.env.local` 或 `secrets/` 提交到 Git。
 
 5. 构建并部署：
 

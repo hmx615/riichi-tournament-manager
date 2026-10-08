@@ -14,7 +14,7 @@ const password = randomBase64Url(18);
 const authSecret = randomBase64Url(48);
 const passwordHash = await hashAdminPassword(password, authSecret);
 const envFile = path.join(root, ".env.local");
-const secretDirectory = path.join(root, ".secrets");
+const secretDirectory = path.join(root, "secrets");
 const loginFile = path.join(secretDirectory, "admin-login.txt");
 
 await fs.mkdir(secretDirectory, { recursive: true });

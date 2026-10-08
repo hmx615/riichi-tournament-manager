@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // 把选手账号改成「排行榜人物名」并重新生成密码：admin 账号不动。
-// 密码只在标准输出和 .secrets/ 下的交付文件里出现一次，不入库、不进 git。
+// 密码只在标准输出和 secrets/ 下的交付文件里出现一次，不入库、不进 git。
 //
 // 用法：
 //   node scripts/reset-player-credentials.mjs --dry-run   只打印将要执行的动作
@@ -119,7 +119,7 @@ try {
 
 // 交付文件：权限 600，密码只在这里出现一次。
 const stamp = now.slice(0, 10);
-const delivery = path.join(projectRoot, ".secrets", `player-accounts-${stamp}.txt`);
+const delivery = path.join(projectRoot, "secrets", `player-accounts-${stamp}.txt`);
 fs.mkdirSync(path.dirname(delivery), { recursive: true });
 fs.writeFileSync(delivery, [
   `选手账号（${stamp} 生成，每人一条，转交本人后请勿公开）`,

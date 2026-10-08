@@ -8,7 +8,7 @@ coverage/
 .DS_Store
 .env*
 !.env.example
-.secrets/
+secrets/
 data/*.db
 data/*.db-*
 data/backups/
