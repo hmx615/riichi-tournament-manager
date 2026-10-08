@@ -103,11 +103,11 @@ describe("启明杯赛制排期", () => {
   });
 
   it("puts the legal times on Sunday and Wednesday evenings (Beijing time)", () => {
-    // 第 1 周周日 20:00 = 2026-10-11T12:00Z，周二轮次 21:30 = 13:30Z，周三 20:00 = 2026-10-14T12:00Z。
+    // 第 1 周周日 20:00 = 2026-10-11T12:00Z，第二场 21:00 = 13:00Z，周三 20:00 = 2026-10-14T12:00Z。
     expect(individualTableTime("2026-10-11", 1, 1, settings)).toBe("2026-10-11T12:00:00.000Z");
-    expect(individualTableTime("2026-10-11", 1, 2, settings)).toBe("2026-10-11T13:30:00.000Z");
+    expect(individualTableTime("2026-10-11", 1, 2, settings)).toBe("2026-10-11T13:00:00.000Z");
     expect(individualTableTime("2026-10-11", 1, 3, settings)).toBe("2026-10-14T12:00:00.000Z");
-    expect(individualTableTime("2026-10-11", 1, 4, settings)).toBe("2026-10-14T13:30:00.000Z");
+    expect(individualTableTime("2026-10-11", 1, 4, settings)).toBe("2026-10-14T13:00:00.000Z");
     expect(individualTableTime("2026-10-11", 2, 1, settings)).toBe("2026-10-18T12:00:00.000Z");
   });
 

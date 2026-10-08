@@ -11,6 +11,7 @@ import {
 } from "./individual-standings";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+const HOUR_MS = 60 * 60 * 1000;
 const BEIJING_OFFSET_MINUTES = 8 * 60;
 
 /** 第一周的第一个比赛日；没配置时退回今天，保证排期不会算出非法时间。 */
@@ -70,7 +71,7 @@ function stableSeed(value: string) {
   return hash >>> 0;
 }
 
-/** 每周每个比赛日打几轮（默认每周 4 半庄 = 每天 2 轮）。 */
+/** 每天打几轮（每周 4 半庄 = 每天 2 轮）。同一天对手固定，赛前一起确认完。 */
 export function individualRoundsPerDay(settings: IndividualCompetitionSettings) {
   const matchesPerWeek = Math.max(1, settings.preliminary.matchesPerPlayerPerWeek);
   return Math.max(1, Math.ceil(matchesPerWeek / 2));
@@ -85,19 +86,25 @@ export function individualRoundsPerDay(settings: IndividualCompetitionSettings) 
  * 这里是「协商这一场」，所以窗口永远开在比赛时间之前，不会出现
  * 「周三都打完了才开放协商周三」的矛盾。
  */
+/** 协商窗口的开放时刻（北京时间当天 22:00，当天两轮一起开放）。 */
+const NEGOTIATION_OPEN_HOUR = 22;
+
 export function individualNegotiationOpensAt(table: { week?: number; round: number }, settings: IndividualCompetitionSettings) {
   const week = individualWeekOf(table);
   const sunday = individualWeekDays(individualStartDate(settings), week)[0];
   if (!Number.isFinite(sunday)) return null;
   const beijingMidnight = BEIJING_OFFSET_MINUTES * 60 * 1000;
   const isWednesdayBatch = table.round > individualRoundsPerDay(settings);
-  // 周日 UTC 零点 +1 天 = 同一周的周一 UTC 零点，再退 8 小时得到北京时间周一 00:00。
-  if (isWednesdayBatch) return new Date(sunday + DAY_MS - beijingMidnight).toISOString();
-  // 第一周的周日没有「上一周周三」可比，否则要等到当天凌晨才开放，
-  // 选手就没法提前回话了。改成首场前一周就开放。
+  // sunday 对应北京时间「本周周日 08:00」，减 8 小时才是北京 00:00。
+  // 第一周没有「上一周」可依，一律从首场前一周就开放。
   if (week <= 1) return new Date(sunday - 7 * DAY_MS - beijingMidnight).toISOString();
-  return new Date(sunday - 3 * DAY_MS - beijingMidnight).toISOString();
+  // 两个窗口都挂在「上一周」的两天晚上 22:00：
+  // 周三那两轮等上一周周日 22:00（-7 天），周日那两轮等上一周周三 22:00（-4 天）。
+  // 注意周日那两轮必须用上一周的周三——本周的周三在周日之后，会开成赛后。
+  const dayOffset = isWednesdayBatch ? -7 * DAY_MS : -4 * DAY_MS;
+  return new Date(sunday + dayOffset - beijingMidnight + NEGOTIATION_OPEN_HOUR * HOUR_MS).toISOString();
 }
+
 
 /** 现在能不能协商这一桌。 */
 export function individualNegotiationOpen(table: { week?: number; round: number }, settings: IndividualCompetitionSettings, now = Date.now()) {

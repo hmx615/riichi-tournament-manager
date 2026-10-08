@@ -78,7 +78,7 @@ function playWeek(competition: Competition, week: number) {
 }
 
 describe("启明杯全流程", () => {
-  it("开赛：一次排出 4 个日常周，时间不倒挂且都在周日/周三 20:00 与 21:30", () => {
+  it("开赛：一次排出 4 个日常周，时间不倒挂且都在周日/周三 20:00 与 21:00", () => {
     const competition = build();
     const tables = competition.individualSchedule!;
     expect(tables).toHaveLength(64);
@@ -88,7 +88,7 @@ describe("启明杯全流程", () => {
     expect(new Set(times).size).toBe(16);
     expect([...times].sort((a, b) => a - b)).toEqual(times);
     for (const table of tables) {
-      expect(beijing(table.scheduledAt)).toMatch(/20:00:00|21:30:00/);
+      expect(beijing(table.scheduledAt)).toMatch(/20:00:00|21:00:00/);
       // Node 的 ICU 输出「星期日 / 星期三」，浏览器里是「周日 / 周三」，两种都接受。
       expect(["周日", "星期日", "周三", "星期三"]).toContain(new Date(table.scheduledAt).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai", weekday: "long" }));
     }
@@ -262,45 +262,59 @@ describe("启明杯全流程", () => {
     expect(() => settlePreliminaryWeek(competition, 5)).toThrow("没有录入牌谱");
   });
 
-  it("协商时间窗：周三那两轮同周周一开放，周日那两轮等上一周周三打完", () => {
+  it("协商时间窗：两个窗口都挂在上一周的晚上 22:00", () => {
     const beijing = (iso: string) => new Date(iso).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", hour12: false });
     expect(individualRoundsPerDay(settings)).toBe(2);
 
-    // 第 2 周：周三 10/21 的两轮，同周周一 10/19 00:00 就开放。
-    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 3 }, settings)!)).toContain("2026/10/19 00:00:00");
-    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 4 }, settings)!)).toContain("2026/10/19 00:00:00");
+    // 第 2 周周三 10/21 的两轮：上一周周日 10/11 22:00 开放。
+    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 3 }, settings)!)).toContain("2026/10/11 22:00:00");
+    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 4 }, settings)!)).toContain("2026/10/11 22:00:00");
 
-    // 第 2 周：周日 10/18 的两轮，要等第 1 周周三 10/14 打完，即 10/15 开放。
-    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 1 }, settings)!)).toContain("2026/10/15 00:00:00");
-    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 2 }, settings)!)).toContain("2026/10/15 00:00:00");
+    // 第 2 周周日 10/18 的两轮：上一周周三 10/14 22:00 开放（不是本周周三，否则开成赛后）。
+    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 1 }, settings)!)).toContain("2026/10/14 22:00:00");
+    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 2 }, settings)!)).toContain("2026/10/14 22:00:00");
 
-    // 第一周的周日没有上一周可比，改成首场前一周（10/04）就开放，让选手能提前回话。
+    // 第 3 周顺延：周三等 10/18 22:00，周日等 10/21 22:00。
+    expect(beijing(individualNegotiationOpensAt({ week: 3, round: 3 }, settings)!)).toContain("2026/10/18 22:00:00");
+    expect(beijing(individualNegotiationOpensAt({ week: 3, round: 1 }, settings)!)).toContain("2026/10/21 22:00:00");
+
+    // 第一周没有上一周可依，从首场前一周就开放（首场 10/11，两场都能提前确认）。
     expect(beijing(individualNegotiationOpensAt({ week: 1, round: 1 }, settings)!)).toContain("2026/10/4 00:00:00");
+    expect(beijing(individualNegotiationOpensAt({ week: 1, round: 3 }, settings)!)).toContain("2026/10/4 00:00:00");
   });
 
-  it("协商时间窗永远早于比赛本身，且不会出现「打完才开放」", () => {
+  it("协商时间窗永远早于比赛本身，且同一天两轮同时开放", () => {
     for (let week = 1; week <= 7; week += 1) {
       for (const round of [1, 2, 3, 4]) {
         const opensAt = Date.parse(individualNegotiationOpensAt({ week, round }, settings)!);
         const playsAt = Date.parse(individualTableTime(START, week, round, settings));
         expect(opensAt).toBeLessThan(playsAt);
-        // 最早也要提前一整天开，别到开打那一刻才开。
+        // 最早的一档是第一周的 188 小时，也保证不会当天才开。
         expect(playsAt - opensAt).toBeGreaterThanOrEqual(24 * 60 * 60 * 1000);
       }
+      // 同一天的两轮必须同一时刻开放，否则又会出现「第一轮能确认、第二轮不能」。
+      expect(individualNegotiationOpensAt({ week, round: 1 }, settings))
+        .toBe(individualNegotiationOpensAt({ week, round: 2 }, settings));
+      expect(individualNegotiationOpensAt({ week, round: 3 }, settings))
+        .toBe(individualNegotiationOpensAt({ week, round: 4 }, settings));
     }
   });
 
-  it("开放判断按当前时间推进：周一开周三，周日那两场要等周三过后", () => {
+  it("每天第二场是 21:00（不是 21:30）", () => {
+    expect(individualTableTime(START, 1, 1, settings)).toBe("2026-10-11T12:00:00.000Z");
+    expect(individualTableTime(START, 1, 2, settings)).toBe("2026-10-11T13:00:00.000Z");
+    expect(individualTableTime(START, 1, 3, settings)).toBe("2026-10-14T12:00:00.000Z");
+    expect(individualTableTime(START, 1, 4, settings)).toBe("2026-10-14T13:00:00.000Z");
+  });
+
+  it("开放判断按当前时间推进", () => {
     const at = (iso: string) => Date.parse(iso);
-    const wednesdayTable = { week: 1, round: 3 };
-    const sundayTable = { week: 2, round: 1 };
-    // 周一 00:00（10/12）刚开，周三那场可协商。
-    expect(individualNegotiationOpen(wednesdayTable, settings, at("2026-10-12T00:00:00+08:00"))).toBe(true);
-    // 前一天周日还不该开。
-    expect(individualNegotiationOpen(wednesdayTable, settings, at("2026-10-11T23:00:00+08:00"))).toBe(false);
-    // 第 2 周周日那场，10/15 之前还没开放（等第 1 周周三打完）。
-    expect(individualNegotiationOpen(sundayTable, settings, at("2026-10-14T23:00:00+08:00"))).toBe(false);
-    expect(individualNegotiationOpen(sundayTable, settings, at("2026-10-15T00:00:00+08:00"))).toBe(true);
+    // 第 2 周周三那场：10/11 22:00 之前还锁着，之后开。
+    expect(individualNegotiationOpen({ week: 2, round: 3 }, settings, at("2026-10-11T21:59:00+08:00"))).toBe(false);
+    expect(individualNegotiationOpen({ week: 2, round: 3 }, settings, at("2026-10-11T22:00:00+08:00"))).toBe(true);
+    // 第 2 周周日那场：10/14 22:00 之前还锁着，之后开。
+    expect(individualNegotiationOpen({ week: 2, round: 1 }, settings, at("2026-10-14T21:59:00+08:00"))).toBe(false);
+    expect(individualNegotiationOpen({ week: 2, round: 1 }, settings, at("2026-10-14T22:00:00+08:00"))).toBe(true);
   });
 
   it("人数不是 4 的倍数时报错，不虚构第四名选手", () => {

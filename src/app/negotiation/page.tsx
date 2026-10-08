@@ -99,13 +99,19 @@ export default async function NegotiationPage({ searchParams }: {
   const recorded = (table: (typeof myTables)[number]) => Boolean(scheduledMatch(competition, table));
   const isSettled = (table: (typeof myTables)[number], negotiation: ReturnType<typeof negotiationFor>) =>
     recorded(table) || ["confirmed", "postponed", "legal_time_final", "completed", "cancelled"].includes(negotiation.status);
-  const negotiable = openTables
+  // 同一天的两轮一起放开：当天对手固定，本来就是一起约时间，
+  // 不能出现「第一轮能确认、第二轮只能等第一轮打完」的割裂。
+  const beijingDay = (iso: string) => new Date(iso).toLocaleDateString("en-CA", { timeZone: "Asia/Shanghai" });
+  const pending = openTables
     .filter((table) => !isSettled(table, negotiationFor(table)))
-    .sort((left, right) => Date.parse(left.scheduledAt) - Date.parse(right.scheduledAt))[0];
+    .sort((left, right) => Date.parse(left.scheduledAt) - Date.parse(right.scheduledAt));
+  const nextDay = pending.length ? beijingDay(pending[0].scheduledAt) : null;
+  const negotiableIds = new Set(pending.filter((table) => beijingDay(table.scheduledAt) === nextDay).map((table) => table.id));
+  const isNegotiable = (table: (typeof myTables)[number]) => negotiableIds.has(table.id);
 
   // 按周分组，方便折叠：默认展开「有需要处理的那一周」，其余收起。
   const weeks = [...new Set(myTables.map((table) => individualWeekOf(table)))].sort((left, right) => left - right);
-  const activeWeek = negotiable ? individualWeekOf(negotiable) : weeks[0];
+  const activeWeek = pending.length ? individualWeekOf(pending[0]) : weeks[0];
 
   return <div className="page form-page">
     <div className="page-heading">
@@ -144,7 +150,7 @@ export default async function NegotiationPage({ searchParams }: {
       const proposal = pendingProposal(negotiation);
       const open = isOpen(table);
       const opensAt = settings ? individualNegotiationOpensAt(table, settings) : null;
-      const isNegotiable = open && negotiable?.id === table.id;
+      const negotiableNow = open && isNegotiable(table);
       const finished = recorded(table);
       const status = finished ? "已完成" : negotiationStatusLabel(negotiation);
       const myVote = proposal?.votes.find((vote) => vote.participantId === participant.id);
@@ -177,7 +183,7 @@ export default async function NegotiationPage({ searchParams }: {
               : formState === "finished"
                 ? "本桌牌谱已经录入，协商结束。"
                 : "";
-     return <section className={`form-section negotiation-player-section${isNegotiable ? " negotiable" : ""}`} id={`table-${table.id}`} key={table.id}>
+     return <section className={`form-section negotiation-player-section${negotiableNow ? " negotiable" : ""}`} id={`table-${table.id}`} key={table.id}>
         <div className="form-section-title"><span>{index + 1}</span><div>
           <h2>{stageLabels[table.stage]} · 第 {individualWeekOf(table)} 周 · 第 {table.round} 轮 · A{table.tableNumber} <em className={`negotiation-status ${negotiation.status === "confirmed" || negotiation.status === "postponed" ? "confirmed" : negotiation.status === "legal_time_final" || negotiation.status === "overdue" ? "final" : "pending"}`}>{status}</em></h2>
         </div></div>
@@ -220,7 +226,7 @@ export default async function NegotiationPage({ searchParams }: {
             noPostpone={false}
             opensAtLabel={opensAt ? formatStamp(opensAt) : undefined}
           />
-          : isNegotiable
+          : negotiableNow
           ? <NegotiationPlayerForm
             competitionId={competition.id}
             scheduleId={table.id}

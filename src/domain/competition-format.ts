@@ -1,6 +1,9 @@
 import type { Competition, CompetitionFormat, IndividualCompetitionSettings } from "./types";
 
-/** 默认按启明杯口径：初赛 4 周日常周 + 3 周淘汰周（每周淘汰末 4 人），决赛 4 人打 12 个半庄。 */
+/**
+ * 默认按启明杯口径：初赛 4 周日常周 + 3 周淘汰周（每周淘汰末 4 人），决赛 4 人打 12 个半庄。
+ * 每天两轮：20:00 第一场、21:00 第二场（两场同一天、对手相同，赛前一起确认完）。
+ */
 export const defaultIndividualPreliminary = {
   regularWeeks: 4,
   eliminationWeeks: 3,
@@ -8,7 +11,7 @@ export const defaultIndividualPreliminary = {
   eliminationCountPerWeek: 4,
   finalistCount: 4,
   legalWeekdays: [0, 3] as [number, number],
-  legalTimes: ["20:00", "21:30"] as [string, string],
+  legalTimes: ["20:00", "21:00"] as [string, string],
 };
 
 export const defaultIndividualCompetitionSettings: IndividualCompetitionSettings = {
