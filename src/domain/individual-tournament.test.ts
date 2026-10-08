@@ -164,6 +164,15 @@ describe("启明杯赛制排期", () => {
     expect(individualPendingSettlement(competition)).toBeNull();
     // 初赛积分在决赛清零。
     expect([...individualCurrentPoints(competition, "final").values()].every((points) => points === 0)).toBe(true);
+
+    // 决赛必须排在初赛全部周次之后，不能算回开赛日附近和初赛重叠。
+    const lastPreliminary = (competition.individualSchedule ?? [])
+      .filter((table) => table.stage === "preliminary")
+      .reduce((latest, table) => (table.scheduledAt > latest ? table.scheduledAt : latest), "");
+    expect(Date.parse(final[0].scheduledAt)).toBeGreaterThan(Date.parse(lastPreliminary));
+    expect(final.every((table) => Date.parse(table.scheduledAt) > Date.parse(lastPreliminary))).toBe(true);
+    // 开赛日是 2026-10-11（周日），初赛 7 周到 11/25，决赛第 1 周应落在 11/29。
+    expect(final[0].scheduledAt).toBe(individualTableTime("2026-10-11", 8, 1, settings));
   });
 
   it("refuses to settle a week whose tables are not all recorded", () => {

@@ -84,11 +84,14 @@ function materializeTables(
 ): { tables: IndividualScheduleTable[]; byes: IndividualStageBye[] } {
   const startDate = individualStartDate(settings);
   const elimination = stage === "preliminary" && (plan.tables[0]?.week ?? 1) > settings.preliminary.regularWeeks;
+  // 决赛的周次从 1 重新计数（individualStageWeeks 与界面都按阶段内周次显示），
+  // 但日期必须接在初赛全部周次之后，否则决赛会被算回开赛日附近，和初赛重叠。
+  const weekOffset = stage === "final" ? individualPreliminaryWeekCount(settings) : 0;
   return {
     tables: plan.tables.map((table) => ({
       ...table,
       id: `${competition.id}-${stage}-w${table.week}-r${table.round}-t${table.tableNumber}`,
-      scheduledAt: individualTableTime(startDate, table.week ?? 1, table.round, settings),
+      scheduledAt: individualTableTime(startDate, (table.week ?? 1) + weekOffset, table.round, settings),
       timezone: "Asia/Shanghai",
       status: "scheduled" as const,
       // 淘汰周只允许提前、不允许顺延。

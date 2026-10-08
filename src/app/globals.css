@@ -595,6 +595,7 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .schedule-editor-card label { display: grid; gap: 5px; color: #59676b; font-size: 10px; }
 .schedule-editor-card input, .schedule-editor-card select { min-height: 36px; padding: 0 8px; border: 1px solid #cbd5d4; border-radius: 4px; background: #fff; color: #2e3d40; }
 .schedule-player-fields { grid-column: 1 / -1; display: grid !important; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.schedule-player-fields > span { min-height: 36px; padding: 9px 8px; border: 1px solid var(--soft-line); border-radius: 4px; background: var(--soft); color: #2e3d40; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .workflow li { min-height: 70px; padding: 7px 22px; border-right: 1px solid var(--line); display: flex; align-items: flex-start; gap: 12px; }
 .workflow li:last-child { border-right: 0; }
 .workflow b { width: 24px; height: 24px; border: 1px solid #9db9b0; display: grid; place-items: center; color: var(--green); font-size: 11px; }

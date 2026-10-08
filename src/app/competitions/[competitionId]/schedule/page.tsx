@@ -50,7 +50,10 @@ export default async function CompetitionSchedulePage({ params, searchParams }: 
         <div><strong>{table.stage === "final" ? "决赛" : "初赛"}</strong><span>第 {individualWeekOf(table)} 周 · 第 {table.round} 轮</span></div>
         <label>时间<input name="scheduledAt" type="datetime-local" defaultValue={formatTableTimeInput(table.scheduledAt)} readOnly={!admin} required /></label>
         <label>桌次<input name="tableNumber" type="number" min="1" defaultValue={table.tableNumber} readOnly={!admin} required /></label>
-        <div className="schedule-player-fields">{[0, 1, 2, 3].map((index) => <label key={index}>选手<select name="participantIds" defaultValue={table.participantIds[index] ?? ""} disabled={!admin} required>{competition.participants.map((participant) => <option value={participant.id} key={participant.id}>{participant.displayName}</option>)}</select></label>)}</div>
+        {/* 访客看到静态名单；只有管理员才需要每桌四个下拉（112 桌 × 4 × 16 个 option 会把页面撑到几百 KB）。 */}
+        {admin
+          ? <div className="schedule-player-fields">{[0, 1, 2, 3].map((index) => <label key={index}>选手<select name="participantIds" defaultValue={table.participantIds[index] ?? ""} required>{competition.participants.map((participant) => <option value={participant.id} key={participant.id}>{participant.displayName}</option>)}</select></label>)}</div>
+          : <div className="schedule-player-fields">{[0, 1, 2, 3].map((index) => <span key={index}>{competition.participants.find((participant) => participant.id === table.participantIds[index])?.displayName ?? "—"}</span>)}</div>}
         {admin && <button className="button primary" type="submit"><Pencil size={15} />保存本桌</button>}
       </form>
       {admin && <ScheduleNegotiationPanel competition={competition} table={table} />}

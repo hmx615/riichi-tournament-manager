@@ -20,3 +20,8 @@ data/club-registrations.json
 data/app-users.json
 data/casual-records.json
 data/casual/
+
+# 数据库全量备份和草稿：只留在本机，不要提交（含全部牌谱与人物数据，体积也很大）
+backups/
+data/backups/
+data/_local-test-backup/
