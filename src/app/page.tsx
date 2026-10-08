@@ -103,17 +103,22 @@ export default async function CompetitionsPage() {
 
       <section className="section-block">
         <div className="section-heading"><div><h2>当前比赛</h2></div></div>
-        <article className={`competition-row${isMatchPoolCompetition(competition) ? " pool-row" : ""}${competition.status === "completed" ? " completed-row" : ""}`}>
+        <article className={`competition-row${isMatchPoolCompetition(competition) ? " pool-row" : ""}${isIndividualCompetition(competition) ? " individual-row" : ""}${competition.status === "completed" ? " completed-row" : ""}`}>
           <div className="competition-main">
             <div className={`competition-title ${styles.competitionTitle}`}>{competition.status === "active" && <span className="live-dot" />}{competition.name}<span className={`status ${competitionStatus[competition.status].className}`}>{competitionStatus[competition.status].label}</span><CompetitionStrength competition={competition} personRanks={personRanks} /></div>
             <div className="competition-meta">{competition.code} · {isMatchPoolCompetition(competition) ? `${completed} 半庄 / 无限` : `${completed}/${competition.plannedMatchCount}半庄`}</div>
             {isMatchPoolCompetition(competition)
               ? <div className="competition-footer"><div className="player-list"><span className="pool-player-count"><Users size={13} />{competition.participants.length} 人</span></div></div>
-              : <CompetitionScores competition={competition} />}
+              : isIndividualCompetition(competition)
+                ? <div className="competition-footer">
+                    <div className="player-list"><span className="individual-player-count"><Users size={13} />{competition.participants.length} 人<em>个人赛 · 按周淘汰</em></span></div>
+                    <CompetitionScores competition={competition} limit={3} />
+                  </div>
+                : <CompetitionScores competition={competition} />}
           </div>
           <div className="competition-row-actions">
             {admin && competition.status !== "completed" && <Link className="icon-link" href={`/competitions/${competition.id}/settings`} title={`${competition.name}设置`} aria-label={`${competition.name}设置`}><Settings size={17} /></Link>}
-            {admin && competition.status !== "completed" && <Link className="icon-link" href={`/competitions/${competition.id}/matches/new`} title={`录入${competition.name}牌谱`} aria-label={`录入${competition.name}牌谱`}><FilePlus2 size={17} /></Link>}
+            {(admin || player) && competition.status !== "completed" && <Link className="icon-link" href={`/competitions/${competition.id}/matches/new`} title={`录入${competition.name}牌谱（选手只能录自己那桌）`} aria-label={`录入${competition.name}牌谱`}><FilePlus2 size={17} /></Link>}
             <Link className="icon-link" href={`/competitions/${competition.id}`} title="打开比赛" aria-label="打开比赛"><ArrowRight /></Link>
           </div>
         </article>
@@ -128,16 +133,21 @@ export default async function CompetitionsPage() {
           </div>
           <div className="competition-row-actions">
             {admin && <Link className="icon-link" href={`/competitions/${matchPool.id}/settings`} title="家妈杯设置" aria-label="家妈杯设置"><Settings size={17} /></Link>}
-            {admin && <Link className="icon-link" href={`/competitions/${matchPool.id}/matches/new`} title="录入家妈杯牌谱" aria-label="录入家妈杯牌谱"><FilePlus2 size={17} /></Link>}
+            {(admin || player) && <Link className="icon-link" href={`/competitions/${matchPool.id}/matches/new`} title="录入家妈杯牌谱" aria-label="录入家妈杯牌谱"><FilePlus2 size={17} /></Link>}
             <Link className="icon-link" href={`/competitions/${matchPool.id}`} title="打开国企天梯赛·家妈杯" aria-label="打开国企天梯赛·家妈杯"><ArrowRight /></Link>
           </div>
         </article>}
         {otherCompetitions.map((item) => (
-          <article className={`competition-row compact-row${isMatchPoolCompetition(item) ? " pool-row" : ""}${item.status === "completed" ? " completed-row" : ""}`} key={item.id}>
+        <article className={`competition-row compact-row${isMatchPoolCompetition(item) ? " pool-row" : ""}${isIndividualCompetition(item) ? " individual-row" : ""}${item.status === "completed" ? " completed-row" : ""}`} key={item.id}>
             <div className="competition-main">
               <div className={`competition-title ${styles.competitionTitle}`}>{item.status === "active" && <span className="live-dot" />}{item.name}<span className={`status ${competitionStatus[item.status].className}`}>{competitionStatus[item.status].label}</span><CompetitionStrength competition={item} personRanks={personRanks} /></div>
               <div className="competition-meta">{item.code} · {isMatchPoolCompetition(item) ? `${completedMatches(item)} 半庄 / 无限` : `${completedMatches(item)}/${item.plannedMatchCount}半庄`}</div>
-              {isMatchPoolCompetition(item)
+              {isIndividualCompetition(item)
+                ? <div className="competition-footer">
+                    <div className="player-list"><span className="individual-player-count"><Users size={13} />{item.participants.length} 人<em>个人赛 · 按周淘汰</em></span></div>
+                    <CompetitionScores competition={item} limit={3} />
+                  </div>
+                : isMatchPoolCompetition(item)
                 ? <div className="competition-footer">
                     <div className="player-list"><span className="pool-player-count"><Users size={13} />{item.participants.length} 人</span></div>
                     <CompetitionScores competition={item} limit={3} />
@@ -146,7 +156,7 @@ export default async function CompetitionsPage() {
             </div>
             <div className="competition-row-actions">
               {admin && item.status !== "completed" && <Link className="icon-link" href={`/competitions/${item.id}/settings`} title={`${item.name}设置`} aria-label={`${item.name}设置`}><Settings size={17} /></Link>}
-              {admin && item.status !== "completed" && <Link className="icon-link" href={`/competitions/${item.id}/matches/new`} title={`录入${item.name}牌谱`} aria-label={`录入${item.name}牌谱`}><FilePlus2 size={17} /></Link>}
+              {(admin || player) && item.status !== "completed" && <Link className="icon-link" href={`/competitions/${item.id}/matches/new`} title={`录入${item.name}牌谱`} aria-label={`录入${item.name}牌谱`}><FilePlus2 size={17} /></Link>}
               <Link className="icon-link" href={`/competitions/${item.id}`} title="打开比赛" aria-label={`打开${item.name}`}><ArrowRight /></Link>
             </div>
           </article>

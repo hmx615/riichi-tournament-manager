@@ -170,3 +170,16 @@ export function individualWeekComplete(competition: Competition, stage: Individu
   const tables = individualWeekTables(competition, stage, week).filter((table) => table.status !== "cancelled");
   return tables.length > 0 && tables.every((table) => table.status === "completed" || Boolean(scheduledMatch(competition, table)));
 }
+
+/**
+ * 淘汰区：按当前排名，末尾 N 名处在下一轮会被淘汰的位置。
+ * 已经淘汰的人不算在内（他们留在榜上只是留档）。
+ * 一场都没打过时不算淘汰区——大家都是 0 分，标了也没意义。
+ */
+export function individualEliminationZone(rows: IndividualStanding[], eliminationCount: number) {
+  if (eliminationCount <= 0) return new Set<string>();
+  if (!rows.some((row) => row.games > 0)) return new Set<string>();
+  const alive = rows.filter((row) => !row.eliminated);
+  if (alive.length <= eliminationCount) return new Set(alive.map((row) => row.participant.id));
+  return new Set(alive.slice(-eliminationCount).map((row) => row.participant.id));
+}

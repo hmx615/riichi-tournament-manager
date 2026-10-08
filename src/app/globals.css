@@ -563,6 +563,23 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 }
 .match-pool-row .score-card-rank, .competition-row.pool-row .score-card-rank { background: #c79a34; }
 .match-pool-row .score-card-name, .competition-row.pool-row .score-card-name { color: #8a5b00; }
+
+/* 个人赛（启明杯）：青绿色系，和家妈杯的金色明确区分 */
+.competition-row.individual-row { grid-template-columns: minmax(300px, 1fr) auto; border: 1px solid #7cc0aa; background: #f2fbf7; box-shadow: 0 8px 24px rgba(16, 97, 79, .1); }
+.individual-row .player-list { flex-wrap: wrap; overflow: visible; row-gap: 6px; }
+.individual-player-count { min-height: 28px; padding: 4px 12px; border: 1px dashed #7cc0aa; border-radius: 999px; background: #ffffff; color: #10614f; display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 750; }
+.individual-player-count > svg { color: #2f9c7d; }
+.individual-player-count em { padding: 1px 8px; border-radius: 999px; background: #d9f0e7; color: #10614f; font-size: 10px; font-weight: 800; font-style: normal; }
+.individual-row .score-card { flex: 0 1 220px; min-width: 210px; max-width: 220px; border-color: #b7ded0; background: #fff; }
+.individual-row .score-card-rank { background: #2f9c7d; color: #fff; }
+.individual-row .score-card-name { color: #10614f; }
+.individual-row.completed-row { opacity: .72; }
+
+/* 积分榜里的淘汰区：末尾几名的行整行标红，和已淘汰区分开 */
+.match-table tr.elimination-zone td { background: #fff4f2; }
+.match-table tr.elimination-zone td:first-child { box-shadow: inset 3px 0 0 #d4694f; }
+.elimination-tag { display: inline-block; padding: 2px 9px; border: 1px solid #e2a394; border-radius: 999px; background: #ffe8e2; color: #a63a20; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.eliminated-tag { display: inline-block; padding: 2px 9px; border: 1px solid #cfd6da; border-radius: 999px; background: #eef1f2; color: #5b676d; font-size: 11px; font-weight: 800; white-space: nowrap; }
 .positive { color: #13725d !important; }
 .negative { color: var(--red) !important; }
 .icon-link, .table-action { display: grid; place-items: center; border: 1px solid var(--line); color: var(--muted); }

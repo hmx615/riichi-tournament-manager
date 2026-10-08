@@ -21,7 +21,7 @@ export default async function CompetitionPage({ params }: PageProps<"/competitio
   const participantRanks = Object.fromEntries(competition.participants.map((participant) => [participant.id, participant.personId ? personRanks[participant.personId] ?? null : null]));
   const canEnterMatches = admin || Boolean(player);
   if (isIndividualCompetition(competition)) {
-    return <IndividualCompetitionOverview competition={competition} summary={summary} showBackLink admin={admin} canEnterMatches={canEnterMatches} />;
+    return <IndividualCompetitionOverview competition={competition} summary={summary} showBackLink admin={admin} canEnterMatches={canEnterMatches} viewerPersonId={player?.personId ?? null} />;
   }
   return <CompetitionOverview competition={competition} summary={summary} participantRanks={participantRanks} showBackLink admin={admin} canEnterMatches={canEnterMatches} />;
 }

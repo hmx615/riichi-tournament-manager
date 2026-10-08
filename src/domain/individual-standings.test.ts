@@ -4,6 +4,7 @@ import {
   individualActiveStage,
   individualCurrentPoints,
   individualEliminatedPlayers,
+  individualEliminationZone,
   individualStageSnapshot,
   individualStageStandings,
   individualStageWeeks,
@@ -154,5 +155,45 @@ describe("individualStageStandings", () => {
     });
     expect(individualWeekComplete(competition, "preliminary", 1)).toBe(true);
     expect(individualWeekComplete(competition, "preliminary", 2)).toBe(false);
+  });
+});
+
+describe("淘汰区标记", () => {
+  const row = (id: string, games: number, eliminated = false) => ({
+    participant: { id, personId: id, displayName: id, kind: "human" as const, color: "#000", usernames: [] },
+    points: 0, matchPoints: 0, adjustmentPoints: 0, games, averageRank: null,
+    firstPlaceCount: 0, secondPlaceCount: 0, rank: 0, eliminated,
+  });
+
+  it("一场都没打过时不标淘汰区（大家都是 0 分，标了没意义）", () => {
+    const rows = [1, 2, 3, 4, 5].map((n) => row(`p${n}`, 0));
+    expect(individualEliminationZone(rows, 4).size).toBe(0);
+  });
+
+  it("打完之后标末尾 4 名", () => {
+    const rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((n) => row(`p${n}`, 4));
+    expect([...individualEliminationZone(rows, 4)].sort()).toEqual(["p13", "p14", "p15", "p16"]);
+  });
+
+  it("已经淘汰的人不算进淘汰区，名额顺延给还活着的人", () => {
+    const rows = [
+      row("p13", 4, true), row("p14", 4, true),
+      ...[3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => row(`p${n}`, 4)),
+      row("p15", 4), row("p16", 4),
+    ];
+    const zone = individualEliminationZone(rows, 4);
+    expect(zone.has("p13")).toBe(false);
+    expect(zone.has("p14")).toBe(false);
+    // 存活 12 人里取末尾 4 名：p11、p12、p15、p16（p13/p14 已淘汰不占名额）。
+    expect([...zone].sort()).toEqual(["p11", "p12", "p15", "p16"]);
+  });
+
+  it("剩余人数不多于淘汰名额时，全都算淘汰区", () => {
+    const rows = [row("p1", 4), row("p2", 4), row("p3", 4)];
+    expect([...individualEliminationZone(rows, 4)].sort()).toEqual(["p1", "p2", "p3"]);
+  });
+
+  it("淘汰人数为 0 时不标", () => {
+    expect(individualEliminationZone([row("p1", 4), row("p2", 4)], 0).size).toBe(0);
   });
 });

@@ -18,9 +18,11 @@ import {
   individualStageWeeks,
   individualTiebreakRule,
   individualWeekOf,
+  individualEliminationZone,
   type IndividualStanding,
 } from "@/domain/individual-standings";
 import { individualPendingSettlement } from "@/domain/individual-tournament";
+import { tableHasParticipant } from "@/domain/scheduled-match";
 import { scheduledMatch } from "@/domain/scheduled-match";
 import styles from "./competition-overview.module.css";
 
@@ -45,12 +47,14 @@ function QualityBadges({ competition, matchNumber }: { competition: Competition;
   </>;
 }
 
-export function IndividualCompetitionOverview({ competition, summary, showBackLink = false, admin, canEnterMatches = admin }: {
+export function IndividualCompetitionOverview({ competition, summary, showBackLink = false, admin, canEnterMatches = admin, viewerPersonId = null }: {
   competition: Competition;
   summary: CompetitionSummary;
   showBackLink?: boolean;
   admin: boolean;
   canEnterMatches?: boolean;
+  /** 当前访问者绑定的人物；用来只在自己那几桌上亮出「录入牌谱」。 */
+  viewerPersonId?: string | null;
 }) {
   const completed = competition.matches.filter((match) => match.status === "completed").length;
   const settings = individualSettingsFor(competition);
@@ -207,7 +211,8 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
             })}</div>
             <footer>{done
               ? <><strong className="schedule-done">已录入牌谱</strong>{admin && match && <Link className="table-edit-link" href={`/competitions/${competition.id}/matches/${match.matchNumber}`}><Pencil size={14} />查看</Link>}</>
-              : canEnterMatches ? <Link className="button primary" href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>录入牌谱</Link> : <span>待开赛</span>}</footer>
+              : canEnterMatches && (admin || (viewerPersonId && tableHasParticipant(competition, table, viewerPersonId))) ? <Link className="button primary" href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>录入牌谱</Link>
+              : <span>{canEnterMatches ? "不在你这桌" : "待开赛"}</span>}</footer>
           </article>;
         })}</div>
       </section>) : <article className="individual-schedule-card schedule-pending-card"><header><strong>赛程</strong></header><div className="schedule-pending-label">待排</div></article>}
@@ -243,6 +248,9 @@ export function IndividualCompetitionData({ competition, summary, week = 0 }: { 
       <em>{week > 0 ? `显示第 ${week} 周结束时（含之前各周）的积分` : "显示当前完整积分"}</em>
     </div>}
     <div className="table-wrap"><table className="match-table"><thead><tr><th>排名</th><th>选手</th><th>当前积分</th><th>加减分</th><th>半庄数</th><th>平均顺位</th><th>顺位分布</th><th>平均 Rating</th><th>和率</th><th>铳率</th><th>详细数据</th></tr></thead><tbody>{sortedPlayers.map((participant, index) => { const row = rowFor(participant.id); const rankCounts = [1, 2, 3, 4].map((rank) => competition.matches.reduce((count, match) => count + (match.seats.find((seat) => seat.participantId === participant.id)?.rank === rank ? 1 : 0), 0)); const ratings = competition.matches.flatMap((match) => (match.nagaRatings ?? []).filter((rating) => match.seats.find((seat) => seat.participantId === participant.id)?.seat === Number(rating.participantId)).map((rating) => rating.rating)); const averageRating = ratings.length ? ratings.reduce((sum, value) => sum + value, 0) / ratings.length : null; const total = row?.points ?? 0; return <tr key={participant.id}><td><strong>{index + 1}</strong></td><td><PlayerTag participant={participant} /></td><td className={total >= 0 ? "positive" : "negative"}>{total >= 0 ? "+" : ""}{total.toFixed(1)}</td><td>{row?.adjustmentPoints ? <span className={row.adjustmentPoints >= 0 ? "positive" : "negative"}>{row.adjustmentPoints >= 0 ? "+" : ""}{row.adjustmentPoints.toFixed(1)}</span> : "-"}</td><td>{row?.games ?? 0}</td><td>{row?.averageRank?.toFixed(2) ?? "-"}</td><td>{rankCounts.join(" / ")}</td><td>{averageRating?.toFixed(1) ?? "-"}</td><td>{rateLabel(summary[participant.id]?.["和牌率"])}</td><td>{rateLabel(summary[participant.id]?.["放铳率"])}</td><td><Link className="table-edit-link" href={`/competitions/${competition.id}/data/${participant.id}`}>详细数据</Link></td></tr>; })}</tbody></table></div>
-    {settings && (["preliminary", "final"] as const).map((stage) => { const rows = week > 0 ? individualStageStandings(competition, stage, week) : individualStageStandings(competition, stage); if (!rows.length) return null; return <div className="table-wrap" key={stage}><h3>{stageLabels[stage]}积分榜{week > 0 ? `（第 ${week} 周结束时）` : ""}</h3><table className="match-table"><thead><tr><th>排名</th><th>选手</th><th>积分</th><th>加减分</th><th>半庄数</th><th>平均顺位</th><th>一位/二位</th><th>状态</th></tr></thead><tbody>{rows.map((row) => <tr key={row.participant.id}><td><strong>{row.rank}</strong></td><td><PlayerTag participant={row.participant} /></td><td>{row.points >= 0 ? "+" : ""}{row.points.toFixed(1)}</td><td>{row.adjustmentPoints ? `${row.adjustmentPoints >= 0 ? "+" : ""}${row.adjustmentPoints.toFixed(1)}` : "-"}</td><td>{row.games}</td><td>{row.averageRank?.toFixed(2) ?? "-"}</td><td>{row.firstPlaceCount} / {row.secondPlaceCount}</td><td>{row.eliminated ? "淘汰" : "-"}</td></tr>)}</tbody></table></div>; })}
+    {settings && (["preliminary", "final"] as const).map((stage) => { const rows = week > 0 ? individualStageStandings(competition, stage, week) : individualStageStandings(competition, stage); if (!rows.length) return null;
+      // 淘汰区只对初赛有意义：排名末尾几名的积分一结算就会被淘汰。
+      const dangerZone = stage === "preliminary" ? individualEliminationZone(rows, settings.preliminary.eliminationCountPerWeek) : new Set<string>();
+      return <div className="table-wrap" key={stage}><h3>{stageLabels[stage]}积分榜{week > 0 ? `（第 ${week} 周结束时）` : ""}</h3><table className="match-table"><thead><tr><th>排名</th><th>选手</th><th>积分</th><th>加减分</th><th>半庄数</th><th>平均顺位</th><th>一位/二位</th><th>状态</th></tr></thead><tbody>{rows.map((row) => { const inZone = dangerZone.has(row.participant.id); return <tr key={row.participant.id} className={inZone ? "elimination-zone" : undefined}><td><strong>{row.rank}</strong></td><td><PlayerTag participant={row.participant} /></td><td>{row.points >= 0 ? "+" : ""}{row.points.toFixed(1)}</td><td>{row.adjustmentPoints ? `${row.adjustmentPoints >= 0 ? "+" : ""}${row.adjustmentPoints.toFixed(1)}` : "-"}</td><td>{row.games}</td><td>{row.averageRank?.toFixed(2) ?? "-"}</td><td>{row.firstPlaceCount} / {row.secondPlaceCount}</td><td>{row.eliminated ? <span className="eliminated-tag">已淘汰</span> : inZone ? <span className="elimination-tag">淘汰区</span> : "-"}</td></tr>; })}</tbody></table></div>; })}
   </section>;
 }
