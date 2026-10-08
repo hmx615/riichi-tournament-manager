@@ -75,7 +75,7 @@ export function NegotiationPlayerForm({
   // 还没到开放协商的时间：只说明什么时候开，不给任何可点的操作。
   if (state === "locked_until_open") {
     return <div className="negotiation-player-form locked">
-      <p className="negotiation-state-hint">这一场还没有开放协商{opensAtLabel ? `，${opensAtLabel} 起可以提交` : ""}。</p>
+      <p className="negotiation-state-hint">本场时间协商将于 {opensAtLabel ?? "稍后"} 开启</p>
     </div>;
   }
 
@@ -84,7 +84,6 @@ export function NegotiationPlayerForm({
     return <div className="negotiation-player-form locked">
       <p className="negotiation-state-hint">{hint}</p>
       <div className="access-code-row">
-        <span className="field-note">当前没有需要你操作的内容。</span>
         {editable || state === "confirmed_waiting" || state === "voted"
           ? <button className="button" type="button" onClick={() => setEditing(true)}><Pencil size={14} />修改我的回应</button>
           : null}

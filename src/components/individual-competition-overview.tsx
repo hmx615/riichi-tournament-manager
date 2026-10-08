@@ -133,7 +133,9 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
     if (done) return "已完成";
     return tables.some((table) => table.status === "completed" || Boolean(scheduledMatch(competition, table))) ? "进行中" : "待进行";
   };
-  const sealOf = (status: string) => status === "已完成" ? "done" : status === "待排" ? "pending" : status === "待进行" ? "pending" : "active";
+  const sealOf = (status: string) => status === "已完成" ? "done" : status === "待排" ? "pending" : status === "待进行" ? "upcoming" : "active";
+  // 当前处在哪个阶段：第一个「进行中」的，否则第一个没打完也没排的。
+  const currentPhase = (statuses: string[]) => statuses.includes("进行中") ? "进行中" : statuses.find((status) => status === "待进行" || status === "待排") ?? "已完成";
 
   const lastRegularWeek = settings?.preliminary.regularWeeks ?? 0;
   const lastPreliminaryWeek = lastRegularWeek + (settings?.preliminary.eliminationWeeks ?? 0);
@@ -170,13 +172,13 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
     {settings && <section className="section-block">
       <div className="section-heading"><div><h2>赛制</h2></div><span className="table-count">同分排序：{individualTiebreakRule}</span></div>
       <ul className="workflow">
-        <li className={`workflow-stage workflow-${sealOf(regularStatus)}`}>
+        <li className={`workflow-stage workflow-${sealOf(regularStatus)}${regularStatus === currentPhase([regularStatus, eliminationStatus, stageWeekStatus("final", 1)]) ? " is-current" : ""}`}>
           <b>1</b><div><strong>初赛 · 日常周 <em className="stage-seal">{regularStatus}</em></strong><small>第 1–{settings.preliminary.regularWeeks} 周 · 每周 {settings.preliminary.matchesPerPlayerPerWeek} 半庄 · 随机配桌、不淘汰</small></div>
         </li>
-        <li className={`workflow-stage workflow-${sealOf(eliminationStatus)}`}>
+        <li className={`workflow-stage workflow-${sealOf(eliminationStatus)}${eliminationStatus === currentPhase([regularStatus, eliminationStatus, stageWeekStatus("final", 1)]) ? " is-current" : ""}`}>
           <b>2</b><div><strong>初赛 · 淘汰周 <em className="stage-seal">{eliminationStatus}</em></strong><small>第 {settings.preliminary.regularWeeks + 1}–{settings.preliminary.regularWeeks + settings.preliminary.eliminationWeeks} 周 · 每周 {settings.preliminary.matchesPerPlayerPerWeek} 半庄 · 每周结算淘汰末 {settings.preliminary.eliminationCountPerWeek} 人</small></div>
         </li>
-        <li className={`workflow-stage workflow-${sealOf(stageWeekStatus("final", 1))}`}>
+        <li className={`workflow-stage workflow-${sealOf(stageWeekStatus("final", 1))}${stageWeekStatus("final", 1) === currentPhase([regularStatus, eliminationStatus, stageWeekStatus("final", 1)]) ? " is-current" : ""}`}>
           <b>3</b><div><strong>决赛 <em className="stage-seal">{stageWeekStatus("final", 1)}</em></strong><small>{settings.preliminary.finalistCount} 人 · 每人 {settings.final.matchCountPerPlayer} 半庄 · 积分清零重计</small></div>
         </li>
       </ul>
@@ -211,8 +213,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
             })}</div>
             <footer>{done
               ? <><strong className="schedule-done">已录入牌谱</strong>{admin && match && <Link className="table-edit-link" href={`/competitions/${competition.id}/matches/${match.matchNumber}`}><Pencil size={14} />查看</Link>}</>
-              : canEnterMatches && (admin || (viewerPersonId && tableHasParticipant(competition, table, viewerPersonId))) ? <Link className="button primary" href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>录入牌谱</Link>
-              : <span>{canEnterMatches ? "不在你这桌" : "待开赛"}</span>}</footer>
+              : canEnterMatches && (admin || (viewerPersonId && tableHasParticipant(competition, table, viewerPersonId))) ? <Link className="button primary" href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>录入牌谱</Link> : null}</footer>
           </article>;
         })}</div>
       </section>) : <article className="individual-schedule-card schedule-pending-card"><header><strong>赛程</strong></header><div className="schedule-pending-label">待排</div></article>}

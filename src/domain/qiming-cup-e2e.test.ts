@@ -100,18 +100,54 @@ describe("启明杯全流程", () => {
     }
   });
 
-  it("配桌：同桌四人互不重复，且跨 4 周尽量不重复遇到同一对手", () => {
+  it("配桌：同一天两轮同桌固定，且对手相遇次数尽量均匀", () => {
     const competition = build();
+    const tables = competition.individualSchedule!;
     const seen = new Set<string>();
-    for (const table of competition.individualSchedule!) {
+    for (const table of tables) {
       expect(new Set(table.participantIds).size).toBe(4);
       for (const id of table.participantIds) seen.add(id);
     }
     expect(seen.size).toBe(16);
-    const counts = Object.values(opponentPairCounts(competition.individualSchedule!));
-    // 16 人打 64 桌：每对平均相遇 3.2 次，均匀时是 3 或 4 次。
-    expect(Math.max(...counts)).toBeLessThanOrEqual(5);
-    expect(counts.filter((count) => count === 1 || count === 2).length).toBeLessThanOrEqual(12);
+
+    // 同一天的两轮必须是同一批人（当天对手固定，才能一起调时间）。
+    const byRound = new Map<string, string[]>();
+    for (const table of tables) {
+      const key = `${individualWeekOf(table)}-${table.round}`;
+      const signature = [...table.participantIds].sort().join(",");
+      if (!byRound.has(key)) byRound.set(key, []);
+      byRound.get(key)!.push(signature);
+    }
+    const roundsPerDay = 2;
+    for (const week of [1, 2, 3, 4]) {
+      const first = byRound.get(`${week}-1`)!.sort();
+      const second = byRound.get(`${week}-2`)!.sort();
+      expect(second).toEqual(first);
+      expect(first).toHaveLength(4);
+      expect(roundsPerDay).toBe(2);
+    }
+
+    // 相遇次数：同桌固定意味着同一对必然成对出现（2 或 4 次），
+    // 16 人 64 桌共 384 次相遇 / 120 对 = 平均 3.2，所以上限是 4。
+    const counts = Object.values(opponentPairCounts(tables));
+    expect(counts).toHaveLength(120);
+    expect(Math.max(...counts)).toBeLessThanOrEqual(4);
+    expect(counts.every((count) => count % 2 === 0)).toBe(true);
+    expect(Math.min(...counts)).toBeGreaterThanOrEqual(2);
+
+    // 每个人的「最多 - 最少」差不超过 2（同一天固定同桌下的理论下限）。
+    const perPlayer = new Map<string, number[]>();
+    for (const participant of competition.participants) perPlayer.set(participant.id, Array(16).fill(0));
+    for (const table of tables) {
+      for (const a of table.participantIds) for (const b of table.participantIds) {
+        if (a === b) continue;
+        perPlayer.get(a)![+b.slice(1)] += 1;
+      }
+    }
+    for (const values of perPlayer.values()) {
+      const played = values.filter((value) => value > 0);
+      expect(Math.max(...played) - Math.min(...played)).toBeLessThanOrEqual(2);
+    }
   });
 
   it("结算门禁：只有第 4 周和淘汰周需要结算，牌谱没录完不许结算", () => {
@@ -247,10 +283,13 @@ describe("启明杯全流程", () => {
     const adjusted = individualStageStandings(competition, "preliminary").find((row) => row.participant.id === "p1")!;
     expect(adjusted.adjustmentPoints).toBe(-50);
     expect(adjusted.points).toBe(adjusted.matchPoints - 50);
-    // 初赛加减分不带进决赛；决赛自己的加减分才计入。
-    expect(individualCurrentPoints(competition, "final").get("p1")).toBe(0);
-    competition.individualAdjustments.push({ id: "adj-2", stage: "final", participantId: "p1", points: 5, reason: "决赛迟到", at: new Date().toISOString() });
-    expect(individualCurrentPoints(competition, "final").get("p1")).toBe(5);
+    // 初赛加减分不带进决赛；决赛自己的加减分才计入。取实际进决赛的那位。
+    const finalists = [...new Set((competition.individualSchedule ?? [])
+      .filter((table) => table.stage === "final").flatMap((table) => table.participantIds))];
+    expect(finalists).toHaveLength(4);
+    for (const id of finalists) expect(individualCurrentPoints(competition, "final").get(id)).toBe(0);
+    competition.individualAdjustments.push({ id: "adj-2", stage: "final", participantId: finalists[0], points: 5, reason: "决赛迟到", at: new Date().toISOString() });
+    expect(individualCurrentPoints(competition, "final").get(finalists[0])).toBe(5);
   });
 
   it("重复结算与非法结算都被挡住", () => {

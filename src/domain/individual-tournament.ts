@@ -144,28 +144,68 @@ function materializeTables(
 }
 
 /** 排出第 N 周（初赛）的桌次：剩余选手、随机配桌、尽量不重复对手。 */
-export function planPreliminaryWeek(competition: Competition, week: number, settings: IndividualCompetitionSettings) {
+export function planPreliminaryWeek(competition: Competition, week: number, settings: IndividualCompetitionSettings, seedSalt = 0) {
   const participantIds = individualSurvivors(competition).map((participant) => participant.id);
   const priorPairs = opponentPairCounts(competition.individualSchedule ?? []);
   const plan = planIndividualWeek(participantIds, "preliminary", week, settings.preliminary.matchesPerPlayerPerWeek, {
     allowUnevenGames: true,
-    seed: stableSeed(`${competition.id}-preliminary-${week}`),
+    seed: stableSeed(`${competition.id}-preliminary-${week}-${seedSalt}`),
     priorPairs,
+    // 同一天的两轮同桌固定：按天分组，一个分组连打两天里的几场。
+    roundsPerDay: individualRoundsPerDay(settings),
   });
   return materializeTables(competition, plan, "preliminary", settings);
 }
 
-/** 开赛时一次排完日常周（第 1 周 – 第 regularWeeks 周）的全部桌次。 */
-export function planPreliminaryRegularWeeks(competition: Competition, settings: IndividualCompetitionSettings) {
-  const tables: IndividualScheduleTable[] = [];
-  const byes: IndividualStageBye[] = [];
-  for (let week = 1; week <= Math.max(0, settings.preliminary.regularWeeks); week += 1) {
-    const draft: Competition = { ...competition, individualSchedule: [...(competition.individualSchedule ?? []), ...tables] };
-    const plan = planPreliminaryWeek(draft, week, settings);
-    tables.push(...plan.tables);
-    byes.push(...plan.byes);
+/** 对手相遇次数的均衡度打分：次数上限越低、偏离均值越小越好。 */
+export function opponentBalanceScore(tables: Array<{ participantIds: string[] }>) {
+  const counts = new Map<string, number>();
+  for (const table of tables) {
+    const ids = [...table.participantIds].sort();
+    for (let i = 0; i < ids.length; i += 1) {
+      for (let j = i + 1; j < ids.length; j += 1) {
+        const key = `${ids[i]}|${ids[j]}`;
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+      }
+    }
   }
-  return { tables, byes };
+  const values = [...counts.values()];
+  if (!values.length) return { max: 0, spread: 0, pairs: 0 };
+  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+  const spread = values.reduce((sum, value) => sum + (value - mean) ** 2, 0);
+  return { max: Math.max(...values), spread, pairs: counts.size };
+}
+
+/** 开赛时一次排完日常周（第 1 周 – 第 regularWeeks 周）的全部桌次。 */
+export function planPreliminaryRegularWeeks(competition: Competition, settings: IndividualCompetitionSettings, seedAttempts = 240) {
+  const weeks = Math.max(0, settings.preliminary.regularWeeks);
+  if (!weeks) return { tables: [], byes: [] };
+
+  const build = (seedSalt: number) => {
+    const tables: IndividualScheduleTable[] = [];
+    const byes: IndividualStageBye[] = [];
+    for (let week = 1; week <= weeks; week += 1) {
+      const draft: Competition = { ...competition, individualSchedule: [...(competition.individualSchedule ?? []), ...tables] };
+      const plan = planPreliminaryWeek(draft, week, settings, seedSalt);
+      tables.push(...plan.tables);
+      byes.push(...plan.byes);
+    }
+    return { tables, byes };
+  };
+
+  // 随机分桌 + 择优：跑多组种子，挑「对手遇见次数上限最低、整体最均匀」的那套。
+  // 仍然随机（种子固定可复现），但不会给出个别对子被反复撞上的排法。
+  let best: ReturnType<typeof build> | null = null;
+  let bestScore = { max: Number.POSITIVE_INFINITY, spread: Number.POSITIVE_INFINITY };
+  for (let attempt = 0; attempt < Math.max(1, seedAttempts); attempt += 1) {
+    const candidate = build(attempt);
+    const score = opponentBalanceScore(candidate.tables);
+    // 先比「最多遇上几次」，一样再看整体偏离均值的程度。
+    const better = score.max < bestScore.max
+      || (score.max === bestScore.max && score.spread < bestScore.spread);
+    if (better) { bestScore = score; best = candidate; }
+  }
+  return best!;
 }
 
 /** 排出决赛（剩 finalistCount 人，12 个半庄分成几周一次排完）。 */
@@ -185,6 +225,7 @@ export function planFinal(competition: Competition, settings: IndividualCompetit
       allowUnevenGames: true,
       seed: stableSeed(`${competition.id}-final-${week}`),
       priorPairs,
+      roundsPerDay: individualRoundsPerDay(settings),
     });
     tables.push(...plan.tables);
     byes.push(...plan.byes);

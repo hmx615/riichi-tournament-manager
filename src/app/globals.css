@@ -900,69 +900,36 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 
 /* 状态徽章：待确认走灰调，不再用琥珀黄，避免和「需要注意」混淆 */
 .negotiation-status.pending { border-color: #ccd3d7; background: #f2f4f5; color: #5b676d; }
-.negotiation-status.confirmed { border-color: #7cc0aa; background: #e3f4ee; color: #10614f; }
+.negotiation-status.confirmed { border-color: #8ecfb9; background: #e6f6ef; color: #1c7a5f; }
 
-/* 四人确认条：自己那一行加左侧色条并加粗 */
+/* 四人确认条。
+   配色约定：
+   - 他人已确认：绿色系（浅绿底 + 深绿字）
+   - 我已确认  ：同一绿色系但更深更饱和，加 5px 实心左条 + 加粗，一眼分得出是自己
+   - 待确认    ：中性灰
+   - 已淘汰    ：灰色标签
+   - 当前生效时间：琥珀色，与上面三种绿/灰都不同色相 */
 .negotiation-responses li { padding: 7px 10px; border-radius: 3px; font-size: 11px; }
 .negotiation-responses li.pending { border-color: #d7dde0; background: #f4f6f7; }
 .negotiation-responses li.pending strong, .negotiation-responses li.pending span { color: #5b676d; }
-.negotiation-responses li.accepted { border-color: #7cc0aa; background: #e3f4ee; }
-.negotiation-responses li.accepted strong, .negotiation-responses li.accepted span { color: #10614f; }
-.negotiation-responses li.mine { box-shadow: none; border-left: 4px solid #1668d4; background: #eef4fd; }
-.negotiation-responses li.mine strong { font-weight: 800; }
-.negotiation-responses li.mine.pending { border-left-color: #1668d4; }
-.negotiation-responses li.mine.accepted { border-left-color: #1668d4; }
+.negotiation-responses li.accepted { border-color: #8ecfb9; background: #e6f6ef; }
+.negotiation-responses li.accepted strong, .negotiation-responses li.accepted span { color: #1c7a5f; }
+.negotiation-responses li.mine { border-left: 5px solid #0f5a43; background: #c9ead9; }
+.negotiation-responses li.mine strong, .negotiation-responses li.mine span { color: #0b4636; font-weight: 800; }
+.negotiation-responses li.mine.pending { border-color: #d7dde0; border-left-color: #0f5a43; background: #dbe8e2; }
+.negotiation-responses li.mine.pending strong, .negotiation-responses li.mine.pending span { color: #17453a; font-weight: 800; }
 .negotiation-responses strong { min-width: 92px; }
 
-/* 时间条：当前生效时间用琥珀底 + 粗左边框，和法定时间明显区分 */
+/* 时间条：当前生效时间用琥珀，和确认条的绿/灰完全不同色相 */
 .negotiation-times > div { padding: 6px 10px; border: 1px solid var(--soft-line); border-radius: 3px; background: #fff; }
 .negotiation-times b { min-width: 84px; color: var(--muted); font-size: 10px; font-weight: 700; padding-top: 2px; }
-.negotiation-times > div.current-time.settled { border-color: #d9a441; border-left: 4px solid #d9a441; background: #fdf6e6; }
-.negotiation-times > div.current-time.settled span, .negotiation-times > div.current-time.settled b { color: #8a6212; font-weight: 800; }
-.negotiation-times > div.current-time.pending { border-color: #9aa7ae; border-left: 4px solid #9aa7ae; background: #f2f4f5; }
-.negotiation-times > div.current-time.pending span, .negotiation-times > div.current-time.pending b { color: #3c4a51; font-weight: 800; }
-
-/* 卡片：待处理的那一场加粗描边，不再只靠左边 4px */
-.negotiation-player-section { border-radius: 4px; }
-.negotiation-player-section.negotiable { border-left: 4px solid var(--green); box-shadow: 0 0 0 2px rgba(22, 124, 101, .12); }
-.negotiation-player-section.negotiable .form-section-title h2 { font-size: 15px; }
-.negotiation-player-section .form-section-title h2 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-
-/* 按钮与输入框：统一 40px 高、13px 字号，手机上好点 */
-.negotiation-player-form .button, .negotiation-gate .button, .negotiation-admin-picker .button { min-height: 40px; padding: 0 16px; border-radius: 4px; font-size: 13px; }
-.negotiation-player-form .button:disabled { opacity: .55; }
-.time-slot-remove { width: 40px; height: 40px; border-radius: 4px; }
-.time-slot input, .negotiation-player-form input, .negotiation-field input { min-height: 40px; font-size: 13px; }
-.time-slot-add { min-height: 40px; }
-.choice-group label { min-height: 40px; padding: 8px 10px; border-radius: 3px; font-size: 13px; }
-
-/* 管理员代管选择列表 */
-.negotiation-admin-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
-.negotiation-admin-picker .button { width: 100%; justify-content: flex-start; }
-
-/* 按周折叠：一周一个抽屉，只有需要处理的那周默认展开 */
-.negotiation-week { margin-bottom: 12px; border: 1px solid var(--line); border-radius: 5px; background: #fff; }
-.negotiation-week > summary { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; list-style: none; border-radius: 5px; }
-.negotiation-week > summary::-webkit-details-marker { display: none; }
-.negotiation-week > summary::before { content: "\25B8"; color: var(--muted); font-size: 15px; transition: transform .15s ease; }
-.negotiation-week[open] > summary::before { transform: rotate(90deg); }
-.negotiation-week > summary strong { font-size: 17px; }
-.negotiation-week > summary:hover { background: var(--soft); }
-.negotiation-week-count { margin-left: auto; color: var(--muted); font-size: 14px; }
-.negotiation-week-state { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 700; }
-.negotiation-week-state.open { border-color: #7cc0aa; background: #e3f4ee; color: #10614f; }
-.negotiation-week-state.done { border-color: #ccd3d7; background: #f2f4f5; color: #5b676d; }
-.negotiation-week-state.locked { border-color: #d7dde0; background: #f7f9f9; color: #7b878d; }
-.negotiation-week-body { padding: 0 16px 16px; display: grid; gap: 12px; }
-
-/* 当前生效时间：实心琥珀底 + 粗左条 + 最大字号，和下面灰/绿的确认行完全不撞色 */
 .negotiation-times > div.current-time { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-width: 1px; border-left-width: 6px; border-radius: 4px; }
 .negotiation-times > div.current-time b { min-width: 0; flex: 0 0 auto; padding-top: 0; }
 .negotiation-times > div.current-time span { font-size: 20px; font-weight: 800; letter-spacing: .3px; }
 .negotiation-times > div.current-time.settled { border-color: #e0a92f; border-left-color: #b8801a; background: #fbe9c2; }
 .negotiation-times > div.current-time.settled b, .negotiation-times > div.current-time.settled span { color: #6b4708; }
-.negotiation-times > div.current-time.pending { border-color: #b6c0c6; border-left-color: #8a979e; background: #e9edef; }
-.negotiation-times > div.current-time.pending b, .negotiation-times > div.current-time.pending span { color: #2f3d44; }
+.negotiation-times > div.current-time.pending { border-color: #a9b3ba; border-left-color: #7b868d; background: #e4e9eb; }
+.negotiation-times > div.current-time.pending b, .negotiation-times > div.current-time.pending span { color: #2b363c; }
 
 /* 卡片整体放大约 1.5 倍：字号、间距、控件一起放大，保持层级不乱 */
 .negotiation-player-section { padding: 18px; border-radius: 6px; }
@@ -1172,3 +1139,10 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 .quality-visuals-off .goldBadge,.quality-visuals-off .diamondBadge,.quality-visuals-off .horseBadge,.quality-visuals-off .playerDiamond,.quality-visuals-off .playerGold,.quality-visuals-off .playerHorse{display:none!important}
 .quality-visuals-off .goldRow,.quality-visuals-off .diamondRow,.quality-visuals-off .horseRow{background:transparent!important;background-image:none!important;color:inherit!important;border-color:inherit!important;text-shadow:none!important}
 .quality-toggle{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid var(--line,#d8dee8);border-radius:999px;background:var(--surface,#fff);color:var(--muted,#64748b);font-size:12px;cursor:pointer;transition:all .18s ease}.quality-toggle:hover{border-color:var(--accent,#168f83);color:var(--accent,#168f83)}.quality-toggle input{appearance:none;width:28px;height:16px;border-radius:999px;background:#cbd5e1;position:relative;margin:0;transition:background .18s ease}.quality-toggle input::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 2px #0003;transition:transform .18s ease}.quality-toggle input:checked{background:var(--accent,#168f83)}.quality-toggle input:checked::after{transform:translateX(12px)}.quality-toggle input:focus-visible{outline:2px solid var(--accent,#168f83);outline-offset:2px}
+
+/* 赛制阶段卡：正在进行的那一个要跳出来，和「待进行」「已完成」区分开 */
+.workflow-stage.is-current { border-color: #0f5a43; background: #e6f6ef; box-shadow: 0 0 0 2px rgba(15, 90, 67, .16); }
+.workflow-stage.is-current strong { color: #0b4636; }
+.workflow-stage.is-current b { background: #0f5a43; color: #fff; border-color: #0f5a43; }
+.workflow-stage.is-current .stage-seal { border-color: #0f5a43; background: #c9ead9; color: #0b4636; }
+.workflow-stage.workflow-upcoming { opacity: .72; }

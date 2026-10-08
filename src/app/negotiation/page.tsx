@@ -243,7 +243,7 @@ export default async function NegotiationPage({ searchParams }: {
             noPostpone={negotiationRules(negotiation).noPostpone}
             opensAtLabel={opensAt ? formatStamp(opensAt) : undefined}
           />
-          : !finished && <p className={`field-note confirmed-count ${confirmedCount(negotiation) >= 4 ? "all" : ""}`}>{proposal && myVote?.status === "pending" ? "这一场也有待表决的申请，但请先处理上面最近的那一场。" : `已确认 ${confirmedCount(negotiation)}/4，本桌暂不需要你操作。`}</p>}
+          : !finished && <p className={`field-note confirmed-count ${confirmedCount(negotiation) >= 4 ? "all" : ""}`}>{proposal && myVote?.status === "pending" ? "这一场也有待表决的申请，但请先处理当前那一场。" : `本场时间协商将于 ${opensAt ? formatStamp(opensAt) : "稍后"} 开启`}</p>}
         {negotiation.history.length > 0 && <details className="negotiation-player-history">
           <summary>查看本桌协商记录（{negotiation.history.length} 条）</summary>
           <ol className="negotiation-history">

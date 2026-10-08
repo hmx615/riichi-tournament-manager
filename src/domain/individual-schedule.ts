@@ -14,6 +14,8 @@ export type ScheduleOptions = {
    */
   seed?: number;
   /** 之前各周已经同桌过的次数（key 为 "选手A|选手B"），用于跨周尽量不重复对手。 */
+  /** 每天几轮；大于 1 时同一天同桌固定不变（一个分组连打几场）。 */
+  roundsPerDay?: number;
   priorPairs?: Record<string, number>;
 };
 
@@ -70,49 +72,73 @@ export function planIndividualSchedule(participantIds: string[], stage: Individu
   if (participantIds.length * gamesPerPlayer % 4 !== 0 && !options.allowUnevenGames) {
     throw new Error("人数乘以每人半庄数必须是 4 的倍数；或允许部分选手少打一个半庄（轮空）");
   }
-  const seatOrder = new Map((options.seed === undefined ? participantIds : shuffled(participantIds, options.seed)).map((id, index) => [id, index]));
+  // 每天几轮。同一天内同桌不变：一个分组连打 roundsPerDay 场，对手是同一批人。
+  const roundsPerDay = Math.max(1, Math.round(options.roundsPerDay ?? 1));
   const remaining = new Map(participantIds.map((id) => [id, gamesPerPlayer]));
   const tables: ScheduledTable[] = [];
   const byes: IndividualStageBye[] = [];
   const pairs = new Map<string, number>(Object.entries(options.priorPairs ?? {}));
-  let round = 1;
-  let roundPlayers = new Set<string>();
-  let tableNumber = 1;
-  while ([...remaining.values()].some((count) => count > 0)) {
+  const tiebreakOrder = new Map((options.seed === undefined ? participantIds : shuffled(participantIds, options.seed)).map((id, index) => [id, index]));
+  // 人数不是 4 的倍数时，一天坐不满的选手留着剩余场次，后面几天轮换上场；
+  // 只有再也没人能和��凑一桌时，才记为轮空。
+  const maxDays = gamesPerPlayer * 4 + participantIds.length;
+
+  for (let day = 1; day <= maxDays; day += 1) {
+    if (![...remaining.values()].some((count) => count > 0)) break;
     const pending = participantIds.filter((id) => remaining.get(id)! > 0);
-    const available = pending.filter((id) => !roundPlayers.has(id));
-    if (available.length < 4) {
-      if (pending.length < 4) {
-        // 剩下的人凑不满一桌：本阶段他们少打一个半庄，记为轮空（不虚构第四名选手）。
-        for (const id of pending) {
-          byes.push({ stage, participantId: id });
-          remaining.set(id, 0);
+    if (pending.length < 4) {
+      for (const id of pending) { byes.push({ stage, participantId: id }); remaining.set(id, 0); }
+      break;
+    }
+
+    const pool = options.seed === undefined ? pending : shuffled(pending, (options.seed + day * 2654435761) >>> 0);
+    const used = new Set<string>();
+    const groups: string[][] = [];
+    for (const first of pool) {
+      if (used.has(first)) continue;
+      const group = [first];
+      used.add(first);
+      // 每多拉一个人都优先挑「已经遇上次数最少」的，重复对手按平方惩罚。
+      while (group.length < 4) {
+        const candidates = pool.filter((id) => !used.has(id));
+        if (!candidates.length) break;
+        const penalty = (id: string) => group.reduce((sum, other) => sum + (pairs.get(pairKey(id, other)) ?? 0) ** 2, 0);
+        // 先照顾「还没打够的人」，再照顾「少遇过的对手」：
+        // 人数整齐时两者一样，退化成按对手重复度随机分桌。
+        candidates.sort((a, b) => remaining.get(b)! - remaining.get(a)!
+          || penalty(a) - penalty(b)
+          || tiebreakOrder.get(a)! - tiebreakOrder.get(b)!
+          || a.localeCompare(b));
+        const pick = candidates[0];
+        group.push(pick);
+        used.add(pick);
+      }
+      // 凑不满 4 人就不成桌，这些人保留剩余场次，等后面几天轮换。
+      if (group.length === 4) groups.push(group);
+      else for (const id of group) used.delete(id);
+    }
+    if (!groups.length) break;
+
+    // 按轮次排：同一轮里各桌时间相同，数组整体保持时间递增。
+    const playsPerGroup = groups.map((group) => Math.max(0, Math.min(roundsPerDay, Math.min(...group.map((id) => remaining.get(id)!)))));
+    for (let round = 0; round < roundsPerDay; round += 1) {
+      groups.forEach((group, groupIndex) => {
+        if (round >= playsPerGroup[groupIndex]) return;
+        tables.push({ stage, round: (day - 1) * roundsPerDay + round + 1, tableNumber: groupIndex + 1, participantIds: [...group] });
+      });
+    }
+    groups.forEach((group, groupIndex) => {
+      const plays = playsPerGroup[groupIndex];
+      if (plays <= 0) return;
+      for (const id of group) {
+        remaining.set(id, remaining.get(id)! - plays);
+        for (const other of group) {
+          if (other === id) continue;
+          const key = pairKey(id, other);
+          pairs.set(key, (pairs.get(key) ?? 0) + plays);
         }
-        break;
       }
-      // 还有足够的人：只是这一轮坐满了，进入下一轮继续排。
-      round += 1;
-      roundPlayers = new Set();
-      tableNumber = 1;
-      continue;
-    }
-    const group: string[] = [];
-    while (group.length < 4) {
-      const candidates = available.filter((id) => !group.includes(id));
-      const repetition = (id: string) => group.reduce((sum, other) => sum + (pairs.get(pairKey(id, other)) ?? 0) ** 2, 0);
-      candidates.sort((a, b) => remaining.get(b)! - remaining.get(a)! || repetition(a) - repetition(b) || seatOrder.get(a)! - seatOrder.get(b)!);
-      if (!candidates.length) throw new Error("无法满足每名选手的目标半庄数");
-      group.push(candidates[0]);
-    }
-    for (let i = 0; i < group.length; i++) {
-      remaining.set(group[i], remaining.get(group[i])! - 1);
-      roundPlayers.add(group[i]);
-      for (const other of group.slice(i + 1)) {
-        const key = pairKey(group[i], other);
-        pairs.set(key, (pairs.get(key) ?? 0) + 1);
-      }
-    }
-    tables.push({ stage, round, tableNumber: tableNumber++, participantIds: group });
+    });
   }
   return { tables, byes };
 }
