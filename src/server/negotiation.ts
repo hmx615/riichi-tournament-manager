@@ -17,6 +17,7 @@ import {
 } from "@/domain/negotiation-access";
 import { createNegotiationSession, verifyNegotiationSession } from "@/domain/negotiation-session";
 import { currentPlayer } from "@/server/player-auth";
+import { isAdmin } from "@/server/auth";
 import type { IndividualScheduleTable, ScheduleNegotiation } from "@/domain/types";
 
 const sessionDays = 30;
@@ -125,9 +126,14 @@ export async function clearNegotiationSession(competitionId: string) {
  * 先看协商会话（口令进入），再看选手登录账号绑定的 personId。
  * 现在选手直接用登录账号进赛程确认，不再需要单独的口令。
  */
-export async function currentNegotiationParticipant(competitionId: string) {
+export async function currentNegotiationParticipant(competitionId: string, asParticipantId?: string) {
   const competition = await getCompetition(competitionId);
   if (!competition) return null;
+  // 管理员可以代任意选手查看和操作协商；非管理员传了也无效。
+  if (asParticipantId && await isAdmin()) {
+    const chosen = competition.participants.find((item) => item.id === asParticipantId);
+    if (chosen) return chosen;
+  }
   const session = await readNegotiationSession(competitionId);
   if (session) {
     const participant = competition.participants.find((item) => item.id === session.participantId);
@@ -164,9 +170,10 @@ export async function applyNegotiationForParticipant(
   competitionId: string,
   scheduleId: string,
   mutate: (negotiation: ScheduleNegotiation, table: IndividualScheduleTable, participantId: string) => ScheduleNegotiation,
+  asParticipantId?: string,
 ) {
-  const participant = await currentNegotiationParticipant(competitionId);
-  if (!participant) throw new Error("请先用选手账号登录，再进入赛程确认");
+  const participant = await currentNegotiationParticipant(competitionId, asParticipantId);
+  if (!participant) throw new Error(asParticipantId ? "管理员指定的选手不在本届名单里" : "请先用选手账号登录，再进入赛程确认");
   const participantId = participant.id;
   return mutateNegotiation(competitionId, scheduleId, (negotiation, table) => {
     if (!table.participantIds.includes(participantId)) throw new Error("你不在这桌的参赛名单里");

@@ -27,6 +27,7 @@ export type PlayerFormState =
 export function NegotiationPlayerForm({
   competitionId,
   scheduleId,
+  asParticipantId,
   state,
   hint,
   proposalType,
@@ -40,6 +41,8 @@ export function NegotiationPlayerForm({
 }: {
   competitionId: string;
   scheduleId: string;
+  /** 管理员代选手操作时带上要扮演的选手 ID；普通选手不传。 */
+  asParticipantId?: string;
   state: PlayerFormState;
   hint: string;
   proposalType: "change_time" | "postpone" | null;
@@ -88,6 +91,7 @@ export function NegotiationPlayerForm({
   return <form className="negotiation-player-form" action={submitNegotiationAction} autoComplete="off">
     <input type="hidden" name="competitionId" value={competitionId} />
     <input type="hidden" name="scheduleId" value={scheduleId} />
+    {asParticipantId && <input type="hidden" name="asParticipantId" value={asParticipantId} />}
     <input type="hidden" name="mode" value={mode} />
     {voting ? <>
       <p>本桌有人申请{proposalType === "postpone" ? "顺延一周" : "更换开打时间"}，需要另外三人一致同意；只要一人拒绝，就回到「确认法定时间」，之前确认过的状态会保留。</p>
@@ -135,7 +139,6 @@ export function NegotiationPlayerForm({
       {mode === "confirm" && <label className="negotiation-field">备注（选填）<input name="note" type="text" placeholder="例如：我会提前到场" /></label>}
     </>}
     <div className="access-code-row">
-      <span className="field-note">提交后身份会被记住，下次打开不用再输口令。</span>
       <button className="button primary" type="submit"><CheckCircle2 size={16} />确认提交</button>
     </div>
   </form>;

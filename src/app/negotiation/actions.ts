@@ -32,6 +32,8 @@ export async function leaveNegotiationSessionAction(formData: FormData) {
 export async function submitNegotiationAction(formData: FormData) {
   const competitionId = String(formData.get("competitionId") || "");
   const scheduleId = String(formData.get("scheduleId") || "");
+  // 管理员代选手操作时带上要扮演的选手；普通选手传了也会被忽略。
+  const asParticipantId = String(formData.get("asParticipantId") || "").trim();
   const mode = String(formData.get("mode") || "");
   const note = String(formData.get("note") || "").trim();
   const proposedTimes = formData.getAll("proposedTime")
@@ -57,9 +59,9 @@ export async function submitNegotiationAction(formData: FormData) {
         default:
           throw new Error("无效的提交选项");
       }
-    });
+    }, asParticipantId || undefined);
   } catch (error) {
     backTo(competitionId, `&error=${encodeURIComponent(error instanceof Error ? error.message : "提交失败，请重试")}`);
   }
-  backTo(competitionId, `&done=${encodeURIComponent(scheduleId)}#table-${encodeURIComponent(scheduleId)}`);
+  backTo(competitionId, `${asParticipantId ? `&as=${encodeURIComponent(asParticipantId)}` : ""}&done=${encodeURIComponent(scheduleId)}#table-${encodeURIComponent(scheduleId)}`);
 }

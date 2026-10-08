@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { getCompetition } from "@/server/competition-repository";
 import { currentNegotiationParticipant, readNegotiationSession } from "@/server/negotiation";
+import { isAdmin } from "@/server/auth";
 import { confirmedCount, formatTableTime, negotiationFor, negotiationStatusLabel, pendingProposal } from "@/domain/schedule-negotiation";
 import { negotiationRules } from "@/domain/schedule-negotiation";
 import { individualWeekOf } from "@/domain/individual-standings";
 import { scheduledMatch } from "@/domain/scheduled-match";
 import { NegotiationPlayerForm } from "@/components/negotiation-player-form";
 import type { PlayerFormState } from "@/components/negotiation-player-form";
-import { LogIn } from "lucide-react";
+import { LogIn, ShieldCheck } from "lucide-react";
 import { leaveNegotiationSessionAction } from "./actions";
 
 const stampFormatter = new Intl.DateTimeFormat("zh-CN", {
@@ -31,12 +32,31 @@ function Gate({ competitionId, competitionName, error }: { competitionId: string
   return <div className="page form-page">
     <div className="page-heading">
       <div><p className="eyebrow">{competitionName} · 赛程确认</p><h1>用选手账号登录后确认赛程</h1>
-        <p>账号由赛事方发给本人，登录一次 14 天内不用再输；登录后这里会显示你的每一桌时间。</p></div>
+      </div>
     </div>
     {error && <p className="form-error" role="alert">{error}</p>}
     <section className="form-section negotiation-gate">
       <Link className="button primary" href={`/login?next=${encodeURIComponent(next)}`}><LogIn size={16} />登录选手账号</Link>
       <p className="field-note">还没有账号或忘记密码，请联系赛事管理员重置。</p>
+    </section>
+  </div>;
+}
+
+/** 管理员没有选手身份，先让他选一个要代管的选手。 */
+function AdminPicker({ competitionId, competitionName, participants }: { competitionId: string; competitionName: string; participants: Array<{ id: string; displayName: string }> }) {
+  return <div className="page form-page">
+    <div className="page-heading">
+      <div><p className="eyebrow">{competitionName} · 赛程确认</p><h1>选择要代管的选手</h1>
+        <p>可以以任意选手的身份查看赛程并代替他提交回应，操作会记录在协商历史里。</p></div>
+    </div>
+    <section className="form-section negotiation-gate">
+      <ul className="negotiation-admin-picker">
+        {participants.map((participant) => <li key={participant.id}>
+          <Link className="button" href={`/negotiation?competition=${encodeURIComponent(competitionId)}&as=${encodeURIComponent(participant.id)}`}>
+            <ShieldCheck size={15} />以 {participant.displayName} 的身份进入
+          </Link>
+        </li>)}
+      </ul>
     </section>
   </div>;
 }
@@ -48,6 +68,7 @@ export default async function NegotiationPage({ searchParams }: {
   const competitionId = typeof query.competition === "string" ? query.competition : "";
   const error = typeof query.error === "string" ? query.error : "";
   const done = typeof query.done === "string" ? query.done : "";
+  const asParticipantId = typeof query.as === "string" ? query.as : "";
   const competition = competitionId ? await getCompetition(competitionId) : null;
   if (!competition) {
     return <div className="page form-page">
@@ -55,8 +76,15 @@ export default async function NegotiationPage({ searchParams }: {
       <p className="form-error" role="alert">链接里的比赛不存在或已被删除，请找管理员确认协商链接。</p>
     </div>;
   }
-  const [session, participant] = await Promise.all([readNegotiationSession(competition.id), currentNegotiationParticipant(competition.id)]);
+  const [session, participant, admin] = await Promise.all([
+    readNegotiationSession(competition.id),
+    currentNegotiationParticipant(competition.id, asParticipantId || undefined),
+    isAdmin(),
+  ]);
+  // 管理员没有选手会话：给他「代管哪位选手」的选择，而不是让他去登录选手账号。
+  if (!participant && admin) return <AdminPicker competitionId={competition.id} competitionName={competition.name} participants={competition.participants} />;
   if (!participant) return <Gate competitionId={competition.id} competitionName={competition.name} error={error} />;
+  const actingAs = admin && asParticipantId === participant.id;
 
   const participantById = new Map(competition.participants.map((item) => [item.id, item]));
   const myTables = (competition.individualSchedule ?? [])
@@ -72,11 +100,12 @@ export default async function NegotiationPage({ searchParams }: {
   return <div className="page form-page">
     <div className="page-heading">
       <div>
-        <p className="eyebrow">{competition.name} · 赛程确认</p>
+        <p className="eyebrow">{competition.name} · 赛程确认{actingAs ? " · 管理员代管" : ""}</p>
         <h1>{participant.displayName} 的赛程</h1>
-        <p>时间均为北京时间（Asia/Shanghai）· 每次只放开最近的一场协商，其余桌次供查看</p>
       </div>
-      {session
+      {actingAs
+        ? <div className="heading-actions"><Link className="button" href={`/negotiation?competition=${encodeURIComponent(competition.id)}`}>换一个选手</Link></div>
+        : session
         ? <form action={leaveNegotiationSessionAction} className="heading-actions">
           <input type="hidden" name="competitionId" value={competition.id} />
           <button className="button" type="submit">切换选手</button>
@@ -123,7 +152,6 @@ export default async function NegotiationPage({ searchParams }: {
       return <section className={`form-section negotiation-player-section${isNegotiable ? " negotiable" : ""}`} id={`table-${table.id}`} key={table.id}>
         <div className="form-section-title"><span>{index + 1}</span><div>
           <h2>{stageLabels[table.stage]} · 第 {individualWeekOf(table)} 周 · 第 {table.round} 轮 · A{table.tableNumber} <em className={`negotiation-status ${negotiation.status === "confirmed" || negotiation.status === "postponed" ? "confirmed" : negotiation.status === "legal_time_final" || negotiation.status === "overdue" ? "final" : "pending"}`}>{status}</em></h2>
-          <p>本桌：{table.participantIds.map((id) => participantById.get(id)?.displayName ?? id).join("、")}{isNegotiable ? " · 现在需要你处理这一场" : ""}</p>
         </div></div>
         <div className="negotiation-times">
           <div><b>法定时间</b><span>{formatTime(negotiation.legalTime)}</span></div>
@@ -132,7 +160,7 @@ export default async function NegotiationPage({ searchParams }: {
           {negotiation.override && <div><b>管理员调整</b><span>{formatTime(negotiation.override.previousTime)} → {formatTime(negotiation.currentTime)}：{negotiation.override.reason}</span></div>}
         </div>
         <ul className="negotiation-responses">
-          {negotiation.confirmations.map((item) => <li key={item.participantId} className={item.status}>
+          {negotiation.confirmations.map((item) => <li key={item.participantId} className={`${item.status}${item.participantId === participant.id ? " mine" : ""}`}>
             <strong>{participantById.get(item.participantId)?.displayName ?? item.participantId}{item.participantId === participant.id ? "（我）" : ""}</strong>
             <span>{responseLabels[item.status]}{item.note ? ` · ${item.note}` : ""}</span>
           </li>)}
@@ -152,6 +180,7 @@ export default async function NegotiationPage({ searchParams }: {
           ? <NegotiationPlayerForm
             competitionId={competition.id}
             scheduleId={table.id}
+            asParticipantId={actingAs ? participant.id : undefined}
             state={formState}
             hint={formHint}
             proposalType={proposal ? proposal.type : null}
