@@ -922,6 +922,59 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
 /* 管理员代管选择列表 */
 .negotiation-admin-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
 .negotiation-admin-picker .button { width: 100%; justify-content: flex-start; }
+
+/* 按周折叠：一周一个抽屉，只有需要处理的那周默认展开 */
+.negotiation-week { margin-bottom: 12px; border: 1px solid var(--line); border-radius: 5px; background: #fff; }
+.negotiation-week > summary { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; list-style: none; border-radius: 5px; }
+.negotiation-week > summary::-webkit-details-marker { display: none; }
+.negotiation-week > summary::before { content: "\25B8"; color: var(--muted); font-size: 15px; transition: transform .15s ease; }
+.negotiation-week[open] > summary::before { transform: rotate(90deg); }
+.negotiation-week > summary strong { font-size: 17px; }
+.negotiation-week > summary:hover { background: var(--soft); }
+.negotiation-week-count { margin-left: auto; color: var(--muted); font-size: 14px; }
+.negotiation-week-state { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 700; }
+.negotiation-week-state.open { border-color: #7cc0aa; background: #e3f4ee; color: #10614f; }
+.negotiation-week-state.done { border-color: #ccd3d7; background: #f2f4f5; color: #5b676d; }
+.negotiation-week-state.locked { border-color: #d7dde0; background: #f7f9f9; color: #7b878d; }
+.negotiation-week-body { padding: 0 16px 16px; display: grid; gap: 12px; }
+
+/* 当前生效时间：实心琥珀底 + 粗左条 + 最大字号，和下面灰/绿的确认行完全不撞色 */
+.negotiation-times > div.current-time { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-width: 1px; border-left-width: 6px; border-radius: 4px; }
+.negotiation-times > div.current-time b { min-width: 0; flex: 0 0 auto; padding-top: 0; }
+.negotiation-times > div.current-time span { font-size: 20px; font-weight: 800; letter-spacing: .3px; }
+.negotiation-times > div.current-time.settled { border-color: #e0a92f; border-left-color: #b8801a; background: #fbe9c2; }
+.negotiation-times > div.current-time.settled b, .negotiation-times > div.current-time.settled span { color: #6b4708; }
+.negotiation-times > div.current-time.pending { border-color: #b6c0c6; border-left-color: #8a979e; background: #e9edef; }
+.negotiation-times > div.current-time.pending b, .negotiation-times > div.current-time.pending span { color: #2f3d44; }
+
+/* 卡片整体放大约 1.5 倍：字号、间距、控件一起放大，保持层级不乱 */
+.negotiation-player-section { padding: 18px; border-radius: 6px; }
+.negotiation-player-section .form-section-title > span { width: 34px; height: 34px; font-size: 16px; }
+.negotiation-player-section .form-section-title h2 { font-size: 19px; line-height: 1.4; }
+.negotiation-times { gap: 8px; margin: 12px 0; }
+.negotiation-times > div:not(.current-time) { padding: 9px 12px; }
+.negotiation-times b { font-size: 13px; min-width: 96px; }
+.negotiation-times > div:not(.current-time) span { font-size: 15px; }
+.negotiation-responses { gap: 8px; }
+.negotiation-responses li { padding: 12px 14px; font-size: 15px; gap: 12px; }
+.negotiation-responses strong { min-width: 110px; font-size: 15px; }
+.negotiation-responses span { font-size: 14px; }
+.negotiation-status { padding: 4px 12px; font-size: 13px; border-radius: 999px; }
+.negotiation-player-form { gap: 12px; }
+.negotiation-player-form p { font-size: 15px; line-height: 1.6; }
+.choice-group { padding: 14px 16px; gap: 10px; }
+.choice-group legend { font-size: 13px; padding: 0 6px; }
+.choice-group label { font-size: 15px; gap: 10px; }
+.negotiation-field { font-size: 13px; gap: 6px; }
+.negotiation-player-form input, .time-slot input, .negotiation-field input { min-height: 46px; font-size: 15px; padding: 10px 12px; }
+.negotiation-player-form .button, .negotiation-gate .button { min-height: 46px; padding: 0 20px; font-size: 15px; }
+.time-slot-remove { width: 46px; height: 46px; }
+.negotiation-state-hint { font-size: 15px; line-height: 1.6; color: var(--muted); margin: 0; }
+.proposal-box { padding: 14px 16px; font-size: 14px; gap: 6px; }
+.proposal-box span, .proposal-box em { font-size: 13px; }
+.field-note.confirmed-count { font-size: 14px; }
+.negotiation-player-history { font-size: 14px; }
+.negotiation-history li { font-size: 13px; }
 .proposal-box em { color: var(--muted); font-size: 10px; font-style: normal; }
 .proposal-times { display: grid; gap: 3px; margin: 0; padding: 0; list-style: none; }
 .proposal-times li { display: flex; align-items: center; gap: 10px; font-size: 11px; }

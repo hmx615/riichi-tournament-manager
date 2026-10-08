@@ -70,6 +70,41 @@ function stableSeed(value: string) {
   return hash >>> 0;
 }
 
+/** 每周每个比赛日打几轮（默认每周 4 半庄 = 每天 2 轮）。 */
+export function individualRoundsPerDay(settings: IndividualCompetitionSettings) {
+  const matchesPerWeek = Math.max(1, settings.preliminary.matchesPerPlayerPerWeek);
+  return Math.max(1, Math.ceil(matchesPerWeek / 2));
+}
+
+/**
+ * 这一桌什么时候才开放协商：
+ * - 周三那两轮（第 3、4 轮）：同周周一 00:00（北京时间）起；
+ * - 周日那两轮（第 1、2 轮）：上一周周三那场打完之后起，也就是上一周的周四 00:00；
+ *   第一周的周日没有上一周可比，开赛前就开放。
+ *
+ * 这里是「协商这一场」，所以窗口永远开在比赛时间之前，不会出现
+ * 「周三都打完了才开放协商周三」的矛盾。
+ */
+export function individualNegotiationOpensAt(table: { week?: number; round: number }, settings: IndividualCompetitionSettings) {
+  const week = individualWeekOf(table);
+  const sunday = individualWeekDays(individualStartDate(settings), week)[0];
+  if (!Number.isFinite(sunday)) return null;
+  const beijingMidnight = BEIJING_OFFSET_MINUTES * 60 * 1000;
+  const isWednesdayBatch = table.round > individualRoundsPerDay(settings);
+  // 周日 UTC 零点 +1 天 = 同一周的周一 UTC 零点，再退 8 小时得到北京时间周一 00:00。
+  if (isWednesdayBatch) return new Date(sunday + DAY_MS - beijingMidnight).toISOString();
+  // 第一周的周日没有「上一周周三」可比，否则要等到当天凌晨才开放，
+  // 选手就没法提前回话了。改成首场前一周就开放。
+  if (week <= 1) return new Date(sunday - 7 * DAY_MS - beijingMidnight).toISOString();
+  return new Date(sunday - 3 * DAY_MS - beijingMidnight).toISOString();
+}
+
+/** 现在能不能协商这一桌。 */
+export function individualNegotiationOpen(table: { week?: number; round: number }, settings: IndividualCompetitionSettings, now = Date.now()) {
+  const opensAt = individualNegotiationOpensAt(table, settings);
+  return opensAt === null || Date.parse(opensAt) <= now;
+}
+
 /** 还没被淘汰的选手（按报名顺序）。 */
 export function individualSurvivors(competition: Competition) {
   const eliminated = individualEliminatedPlayers(competition);

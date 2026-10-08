@@ -130,12 +130,21 @@ export async function createAppUser(input: {
 
 export async function updateAppUser(
   id: string,
-  patch: { displayName?: string; personId?: string | null; role?: AppUserRole; password?: string },
+  patch: { username?: string; displayName?: string; personId?: string | null; role?: AppUserRole; password?: string },
 ) {
   const current = await getAppUser(id);
   if (!current) throw new Error("账号不存在");
+  let username = current.username;
+  if (patch.username !== undefined) {
+    username = normalizeUsername(patch.username);
+    if (username !== current.username) {
+      const taken = await getAppUserByUsername(username);
+      if (taken && taken.id !== id) throw new Error("这个账号已经被别人用了");
+    }
+  }
   const next: AppUser = {
     ...current,
+    username,
     displayName: patch.displayName === undefined ? current.displayName : patch.displayName.trim(),
     personId: patch.personId === undefined ? current.personId : patch.personId,
     role: patch.role ?? current.role,
@@ -145,9 +154,9 @@ export async function updateAppUser(
   if (usesD1Storage()) {
     const db = await tournamentDatabase();
     await db.prepare(`
-      UPDATE app_users SET display_name = ?, person_id = ?, role = ?, password_hash = ?, updated_at = ?
+      UPDATE app_users SET username = ?, display_name = ?, person_id = ?, role = ?, password_hash = ?, updated_at = ?
       WHERE id = ?
-    `).bind(next.displayName, next.personId, next.role, next.passwordHash, next.updatedAt, id).run();
+    `).bind(next.username, next.displayName, next.personId, next.role, next.passwordHash, next.updatedAt, id).run();
     return next;
   }
   await writeLocalUsers((await localUsers()).map((user) => (user.id === id ? next : user)));

@@ -5,6 +5,8 @@ import { isAdmin } from "@/server/auth";
 import { confirmedCount, formatTableTime, negotiationFor, negotiationStatusLabel, pendingProposal } from "@/domain/schedule-negotiation";
 import { negotiationRules } from "@/domain/schedule-negotiation";
 import { individualWeekOf } from "@/domain/individual-standings";
+import { individualNegotiationOpensAt, individualNegotiationOpen } from "@/domain/individual-tournament";
+import { individualSettingsFor } from "@/domain/competition-format";
 import { scheduledMatch } from "@/domain/scheduled-match";
 import { NegotiationPlayerForm } from "@/components/negotiation-player-form";
 import type { PlayerFormState } from "@/components/negotiation-player-form";
@@ -90,12 +92,20 @@ export default async function NegotiationPage({ searchParams }: {
   const myTables = (competition.individualSchedule ?? [])
     .filter((table) => table.participantIds.includes(participant.id))
     .sort((left, right) => Date.parse(left.scheduledAt) - Date.parse(right.scheduledAt));
+  const settings = individualSettingsFor(competition);
+  // 时间窗：周三那两轮同周周一开放；周日那两轮等上一周周三打完再开放。
+  const isOpen = (table: (typeof myTables)[number]) => !settings || individualNegotiationOpen(table, settings);
+  const openTables = myTables.filter(isOpen);
   const recorded = (table: (typeof myTables)[number]) => Boolean(scheduledMatch(competition, table));
   const isSettled = (table: (typeof myTables)[number], negotiation: ReturnType<typeof negotiationFor>) =>
     recorded(table) || ["confirmed", "postponed", "legal_time_final", "completed", "cancelled"].includes(negotiation.status);
-  const negotiable = myTables
+  const negotiable = openTables
     .filter((table) => !isSettled(table, negotiationFor(table)))
     .sort((left, right) => Date.parse(left.scheduledAt) - Date.parse(right.scheduledAt))[0];
+
+  // 按周分组，方便折叠：默认展开「有需要处理的那一周」，其余收起。
+  const weeks = [...new Set(myTables.map((table) => individualWeekOf(table)))].sort((left, right) => left - right);
+  const activeWeek = negotiable ? individualWeekOf(negotiable) : weeks[0];
 
   return <div className="page form-page">
     <div className="page-heading">
@@ -115,10 +125,25 @@ export default async function NegotiationPage({ searchParams }: {
     {done && <p className="form-message success" role="status">已提交，下面是你的赛程。</p>}
     {error && <p className="form-error" role="alert">{error}</p>}
     {!myTables.length && <section className="form-section"><div className="form-section-title"><span>1</span><div><h2>你还没有排到桌次</h2></div></div></section>}
-    {myTables.map((table, index) => {
+    {weeks.map((week) => {
+      const weekTables = myTables.filter((table) => individualWeekOf(table) === week);
+      const weekOpen = weekTables.some(isOpen);
+      const weekDone = weekTables.every((table) => isSettled(table, negotiationFor(table)));
+      return <details className="negotiation-week" key={week} open={week === activeWeek || !weekDone} id={`week-${week}`}>
+        <summary>
+          <strong>{stageLabels[weekTables[0].stage]} · 第 {week} 周</strong>
+          <span className={`negotiation-week-state ${weekOpen ? (weekDone ? "done" : "open") : "locked"}`}>
+            {weekDone ? "已完成" : weekOpen ? "可协商" : "未开放"}
+          </span>
+          <span className="negotiation-week-count">{weekTables.length} 场</span>
+        </summary>
+        <div className="negotiation-week-body">
+    {weekTables.map((table, index) => {
       const negotiation = negotiationFor(table);
       const proposal = pendingProposal(negotiation);
-      const isNegotiable = negotiable?.id === table.id;
+      const open = isOpen(table);
+      const opensAt = settings ? individualNegotiationOpensAt(table, settings) : null;
+      const isNegotiable = open && negotiable?.id === table.id;
       const finished = recorded(table);
       const status = finished ? "已完成" : negotiationStatusLabel(negotiation);
       const myVote = proposal?.votes.find((vote) => vote.participantId === participant.id);
@@ -129,6 +154,8 @@ export default async function NegotiationPage({ searchParams }: {
       const proposalName = proposal?.type === "postpone" ? "顺延一周" : "更换开打时间";
       const formState: PlayerFormState = finished
         ? "finished"
+        : !open
+          ? "locked_until_open"
         : proposal
           ? proposal.requestedBy === participant.id
             ? "proposer_waiting"
@@ -149,7 +176,7 @@ export default async function NegotiationPage({ searchParams }: {
               : formState === "finished"
                 ? "本桌牌谱已经录入，协商结束。"
                 : "";
-      return <section className={`form-section negotiation-player-section${isNegotiable ? " negotiable" : ""}`} id={`table-${table.id}`} key={table.id}>
+     return <section className={`form-section negotiation-player-section${isNegotiable ? " negotiable" : ""}`} id={`table-${table.id}`} key={table.id}>
         <div className="form-section-title"><span>{index + 1}</span><div>
           <h2>{stageLabels[table.stage]} · 第 {individualWeekOf(table)} 周 · 第 {table.round} 轮 · A{table.tableNumber} <em className={`negotiation-status ${negotiation.status === "confirmed" || negotiation.status === "postponed" ? "confirmed" : negotiation.status === "legal_time_final" || negotiation.status === "overdue" ? "final" : "pending"}`}>{status}</em></h2>
         </div></div>
@@ -191,8 +218,9 @@ export default async function NegotiationPage({ searchParams }: {
             legalTime={negotiation.legalTime}
             onlyEarlier={negotiationRules(negotiation).onlyEarlier}
             noPostpone={negotiationRules(negotiation).noPostpone}
+            opensAtLabel={opensAt ? formatStamp(opensAt) : undefined}
           />
-          : !finished && <p className={`field-note confirmed-count ${confirmedCount(negotiation) >= 4 ? "all" : ""}`}>{proposal && myVote?.status === "pending" ? "这一场也有待表决的申请，但请先处理上面最近的那一场。" : `已确认 ${confirmedCount(negotiation)}/4，本桌暂不需要你操作。`}</p>}
+          : !finished && open && <p className={`field-note confirmed-count ${confirmedCount(negotiation) >= 4 ? "all" : ""}`}>{proposal && myVote?.status === "pending" ? "这一场也有待表决的申请，但请先处理上面最近的那一场。" : `已确认 ${confirmedCount(negotiation)}/4，本桌暂不需要你操作。`}</p>}
         {negotiation.history.length > 0 && <details className="negotiation-player-history">
           <summary>查看本桌协商记录（{negotiation.history.length} 条）</summary>
           <ol className="negotiation-history">
@@ -203,6 +231,9 @@ export default async function NegotiationPage({ searchParams }: {
           </ol>
         </details>}
       </section>;
+    })}
+        </div>
+      </details>;
     })}
   </div>;
 }

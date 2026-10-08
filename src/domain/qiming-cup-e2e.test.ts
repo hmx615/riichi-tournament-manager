@@ -16,6 +16,9 @@ import {
   individualSettlementWeeks,
   individualTableTime,
   individualWeekSettlement,
+  individualNegotiationOpensAt,
+  individualNegotiationOpen,
+  individualRoundsPerDay,
   planPreliminaryRegularWeeks,
   settlePreliminaryWeek,
 } from "./individual-tournament";
@@ -257,6 +260,47 @@ describe("启明杯全流程", () => {
     expect(() => settlePreliminaryWeek(competition, 4)).toThrow("已经结算过");
     expect(() => settlePreliminaryWeek(competition, 3)).toThrow("还没有排好");
     expect(() => settlePreliminaryWeek(competition, 5)).toThrow("没有录入牌谱");
+  });
+
+  it("协商时间窗：周三那两轮同周周一开放，周日那两轮等上一周周三打完", () => {
+    const beijing = (iso: string) => new Date(iso).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", hour12: false });
+    expect(individualRoundsPerDay(settings)).toBe(2);
+
+    // 第 2 周：周三 10/21 的两轮，同周周一 10/19 00:00 就开放。
+    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 3 }, settings)!)).toContain("2026/10/19 00:00:00");
+    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 4 }, settings)!)).toContain("2026/10/19 00:00:00");
+
+    // 第 2 周：周日 10/18 的两轮，要等第 1 周周三 10/14 打完，即 10/15 开放。
+    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 1 }, settings)!)).toContain("2026/10/15 00:00:00");
+    expect(beijing(individualNegotiationOpensAt({ week: 2, round: 2 }, settings)!)).toContain("2026/10/15 00:00:00");
+
+    // 第一周的周日没有上一周可比，改成首场前一周（10/04）就开放，让选手能提前回话。
+    expect(beijing(individualNegotiationOpensAt({ week: 1, round: 1 }, settings)!)).toContain("2026/10/4 00:00:00");
+  });
+
+  it("协商时间窗永远早于比赛本身，且不会出现「打完才开放」", () => {
+    for (let week = 1; week <= 7; week += 1) {
+      for (const round of [1, 2, 3, 4]) {
+        const opensAt = Date.parse(individualNegotiationOpensAt({ week, round }, settings)!);
+        const playsAt = Date.parse(individualTableTime(START, week, round, settings));
+        expect(opensAt).toBeLessThan(playsAt);
+        // 最早也要提前一整天开，别到开打那一刻才开。
+        expect(playsAt - opensAt).toBeGreaterThanOrEqual(24 * 60 * 60 * 1000);
+      }
+    }
+  });
+
+  it("开放判断按当前时间推进：周一开周三，周日那两场要等周三过后", () => {
+    const at = (iso: string) => Date.parse(iso);
+    const wednesdayTable = { week: 1, round: 3 };
+    const sundayTable = { week: 2, round: 1 };
+    // 周一 00:00（10/12）刚开，周三那场可协商。
+    expect(individualNegotiationOpen(wednesdayTable, settings, at("2026-10-12T00:00:00+08:00"))).toBe(true);
+    // 前一天周日还不该开。
+    expect(individualNegotiationOpen(wednesdayTable, settings, at("2026-10-11T23:00:00+08:00"))).toBe(false);
+    // 第 2 周周日那场，10/15 之前还没开放（等第 1 周周三打完）。
+    expect(individualNegotiationOpen(sundayTable, settings, at("2026-10-14T23:00:00+08:00"))).toBe(false);
+    expect(individualNegotiationOpen(sundayTable, settings, at("2026-10-15T00:00:00+08:00"))).toBe(true);
   });
 
   it("人数不是 4 的倍数时报错，不虚构第四名选手", () => {

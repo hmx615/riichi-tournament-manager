@@ -21,6 +21,8 @@ export type PlayerFormState =
   | "proposer_waiting"
   /** 本桌时间已经确定。 */
   | "settled"
+  /** 还没到开放协商的时间。 */
+  | "locked_until_open"
   /** 本桌牌谱已经录入。 */
   | "finished";
 
@@ -38,6 +40,7 @@ export function NegotiationPlayerForm({
   legalTime,
   onlyEarlier,
   noPostpone,
+  opensAtLabel,
 }: {
   competitionId: string;
   scheduleId: string;
@@ -54,6 +57,8 @@ export function NegotiationPlayerForm({
   legalTime: string;
   onlyEarlier: boolean;
   noPostpone: boolean;
+  /** 这一场什么时候开放协商，格式化好的中文时间。 */
+  opensAtLabel?: string;
 }) {
   const cannotPostpone = canPostpone && !noPostpone;
   const postponeReason = noPostpone ? "淘汰周不允许顺延比赛，只能提前进行" : postponeBlockedReason;
@@ -66,6 +71,13 @@ export function NegotiationPlayerForm({
   const [times, setTimes] = useState<string[]>(["", "", "", ""]);
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
   const [cannotAttend, setCannotAttend] = useState(myVoteStatus === "declined");
+
+  // 还没到开放协商的时间：只说明什么时候开，不给任何可点的操作。
+  if (state === "locked_until_open") {
+    return <div className="negotiation-player-form locked">
+      <p className="negotiation-state-hint">这一场还没有开放协商{opensAtLabel ? `，${opensAtLabel} 起可以提交` : ""}。</p>
+    </div>;
+  }
 
   // 没有可操作的内容（已确认、已投票、申请待他人表决、本桌已定）：只展示状态。
   if (!editing) {
