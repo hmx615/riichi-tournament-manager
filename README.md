@@ -11,7 +11,7 @@
 - 人物头像由管理员维护；本地开发保存到 `data/avatars/`，正式环境保存到独立的 D1 `avatars` 表。
 - 在校生信息登记入口为 `/join`；提交记录仅管理员可在 `/join/responses` 查看和导出。
 - 散排（自选牌谱）录入入口为 `/casual`：管理员可录任意牌谱，选手账号只能录包含自己（绑定人物）的牌谱；数据保存在独立的 `casual_logs` / `casual_matches` 表，单独统计，不进入比赛数据与排行榜。
-- 选手账号由管理员在 `/admin/users` 创建、重置密码、删除；密码用 PBKDF2 加盐哈希存储。账号名直接用排行榜上的人物名（登录不区分大小写），批量改名并重置密码用 `scripts/reset-player-credentials.mjs`，交付文件写在 `.secrets/` 下、权限 600、不进 Git。
+- 选手账号由管理员在 `/admin/users` 创建、重置密码、删除；密码用 PBKDF2 加盐哈希存储。账号名用人物的全局唯一 ID（`personId`，跨赛事稳定），登录不区分大小写；其中纯英文的 ID 不用切输入法。批量重置凭据用 `scripts/reset-player-credentials.mjs`，只改账号名（保留密码）用 `scripts/rename-player-accounts-by-person-id.mjs`，核对交付文件与 D1 用 `scripts/verify-delivered-credentials.ts`。交付文件写在 `.secrets/` 下、权限 600、不进 Git。
 - **比赛牌谱录入只对管理员开放**（成绩直接决定积分榜和每周淘汰名单）；选手账号用于确认赛程时间，以及在 `/casual` 散排里录入包含自己的牌谱。
 
 ## 本地运行
