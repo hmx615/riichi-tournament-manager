@@ -1,27 +1,36 @@
 import Link from "next/link";
-import { ArrowRight, CirclePlus } from "lucide-react";
+import { cookies } from "next/headers";
+import { CirclePlus } from "lucide-react";
 import { isAdmin } from "@/server/auth";
 import { loadAllPersonStatistics } from "@/server/person-statistics";
 import { loadPersonLuck } from "@/server/luck-statistics";
-import { PersonAvatar } from "@/components/person-avatar";
-import { EstimatedRankValue } from "@/components/estimated-rank-value";
-import { luckInlinePillClass, luckLevelClass, luckPillClass } from "@/components/luck-level";
-import styles from "./players.module.css";
-import { PersonTags } from "@/components/person-tags";
-import { MajsoulRankBadge } from "@/components/majsoul-rank-badge";
+import { PlayerLeaderboard, type LeaderboardEntry } from "@/components/player-leaderboard";
+import {
+  LEADERBOARD_TAG_COOKIE,
+  leaderboardTagOptions,
+  parseLeaderboardTagSelection,
+} from "@/domain/leaderboard-filter";
 import { compareLeaderboardPeople } from "@/server/leaderboard";
 
 export default async function PlayersPage() {
-  const [admin, statistics, luck] = await Promise.all([isAdmin(), loadAllPersonStatistics(), loadPersonLuck()]);
+  const [admin, statistics, luck, cookieStore] = await Promise.all([isAdmin(), loadAllPersonStatistics(), loadPersonLuck(), cookies()]);
   const people = Object.values(statistics).sort(compareLeaderboardPeople);
-  const humanCount = people.filter((item) => item.person.kind === "human").length;
-  const celestialCount = people.filter((item) => item.person.kind === "human" && item.person.majsoulRank === "魂天").length;
+  const entries: LeaderboardEntry[] = people.map(({ person, estimatedRank, estimatedRankPrecise, summary, totalCompetitionPoints }) => ({
+    person,
+    totalCompetitionPoints,
+    estimatedRank,
+    estimatedRankPrecise,
+    matchCount: summary["对局数"] ?? 0,
+    averageRank: summary["平均顺位"] ?? null,
+    recentLuckLevel: luck[person.id]?.recent?.level ?? null,
+  }));
+  // 上次选的标签从 cookie 读出来直接传给榜单，首屏就是筛过的结果，不用等水合。
+  const initialTags = parseLeaderboardTagSelection(
+    cookieStore.get(LEADERBOARD_TAG_COOKIE)?.value,
+    leaderboardTagOptions(entries.map((entry) => entry.person)).map((option) => option.tag),
+  );
   return <div className="page players-page">
     <div className="page-heading"><div><p className="eyebrow">人物总榜</p><h1>排行榜</h1></div>{admin && <Link className="button primary" href="/players/new"><CirclePlus size={17} />新建人物</Link>}</div>
-    <section className="summary-grid"><div className="summary-block"><span>登记人物<strong>{people.length}</strong></span></div><div className="summary-block"><span>人类选手<strong>{humanCount}</strong></span></div><div className="summary-block"><span>魂天实力玩家<strong>{celestialCount}</strong></span></div></section>
-    <section className="section-block person-directory"><div className="section-heading"><div><h2>排行榜</h2></div></div><div className="person-directory-list">{people.map(({ person, estimatedRank, estimatedRankPrecise, summary, totalCompetitionPoints }) => {
-      const recentLuck = luck[person.id]?.recent ?? null;
-      return <article key={person.id} style={{ "--player-color": person.color } as React.CSSProperties}><div className="person-directory-name"><PersonAvatar person={person} size="small" /><div><strong>{person.displayName}</strong><PersonTags person={person} compact /><small>{person.kind === "human" ? "人类" : "AI"} · {person.aliases.slice(0, 3).join(" / ")}</small></div></div><div className={styles.directoryMetrics}><span>总 PT<strong className={totalCompetitionPoints >= 0 ? "positive" : "negative"}>{totalCompetitionPoints >= 0 ? "+" : ""}{totalCompetitionPoints.toFixed(1)}</strong></span><span>半庄<strong>{summary["对局数"] ?? 0}</strong></span><span>平均顺位<strong>{summary["平均顺位"]?.toFixed(2) ?? "-"}</strong></span><span>近期运势{recentLuck ? <strong className={`${luckPillClass} ${luckInlinePillClass} ${luckLevelClass[recentLuck.level]}`}>{recentLuck.level}</strong> : <strong>-</strong>}</span><span>推定段位<EstimatedRankValue rank={estimatedRank} precise={estimatedRankPrecise} /></span><span>雀魂段位<MajsoulRankBadge person={person} /></span></div><Link className="icon-link" href={`/players/${encodeURIComponent(person.id)}`} title="查看人物数据" aria-label={`查看${person.displayName}数据`}><ArrowRight /></Link></article>;
-    })}</div></section>
+    <PlayerLeaderboard entries={entries} initialTags={initialTags} />
   </div>;
 }
