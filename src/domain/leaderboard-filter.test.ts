@@ -3,7 +3,9 @@ import type { Person } from "@/domain/types";
 import {
   leaderboardTagOptions,
   matchesLeaderboardTags,
+  parseLeaderboardFilterOpen,
   parseLeaderboardTagSelection,
+  serializeLeaderboardFilterOpen,
   serializeLeaderboardTagSelection,
 } from "./leaderboard-filter";
 
@@ -67,5 +69,18 @@ describe("tag selection cookie", () => {
     expect(parseLeaderboardTagSelection(undefined, ["校外"])).toEqual([]);
     expect(parseLeaderboardTagSelection("不是 JSON", ["校外"])).toEqual([]);
     expect(parseLeaderboardTagSelection(encodeURIComponent('{"tag":"校外"}'), ["校外"])).toEqual([]);
+  });
+});
+
+describe("filter box cookie", () => {
+  it("round-trips the open and closed states", () => {
+    expect(parseLeaderboardFilterOpen(serializeLeaderboardFilterOpen(false))).toBe(false);
+    expect(parseLeaderboardFilterOpen(serializeLeaderboardFilterOpen(true))).toBe(true);
+  });
+
+  it("keeps the filter expanded for first-time visitors and broken values", () => {
+    expect(parseLeaderboardFilterOpen(undefined)).toBe(true);
+    expect(parseLeaderboardFilterOpen("")).toBe(true);
+    expect(parseLeaderboardFilterOpen("maybe")).toBe(true);
   });
 });

@@ -1,15 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ListFilter } from "lucide-react";
+import { ArrowRight, ChevronDown, ListFilter, SlidersHorizontal } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { EstimatedRank } from "@/domain/estimated-rank";
 import {
+  LEADERBOARD_FILTER_OPEN_COOKIE,
   LEADERBOARD_TAG_COOKIE,
   LEADERBOARD_TAG_COOKIE_MAX_AGE,
   leaderboardTagOptions,
   matchesLeaderboardTags,
+  parseLeaderboardFilterOpen,
   parseLeaderboardTagSelection,
+  serializeLeaderboardFilterOpen,
   serializeLeaderboardTagSelection,
 } from "@/domain/leaderboard-filter";
 import type { LuckLevel } from "@/domain/luck";
@@ -37,8 +40,14 @@ function rememberTags(tags: string[]) {
     + `; path=/; max-age=${LEADERBOARD_TAG_COOKIE_MAX_AGE}; samesite=lax`;
 }
 
-function readRememberedTags() {
-  const prefix = `${LEADERBOARD_TAG_COOKIE}=`;
+/** 展开／收起也记下来，省得每次都要重新点开。 */
+function rememberFilterOpen(open: boolean) {
+  document.cookie = `${LEADERBOARD_FILTER_OPEN_COOKIE}=${serializeLeaderboardFilterOpen(open)}`
+    + `; path=/; max-age=${LEADERBOARD_TAG_COOKIE_MAX_AGE}; samesite=lax`;
+}
+
+function readCookie(name: string) {
+  const prefix = `${name}=`;
   const entry = document.cookie.split("; ").find((item) => item.startsWith(prefix));
   return entry ? entry.slice(prefix.length) : undefined;
 }
@@ -47,8 +56,13 @@ function sameTags(left: string[], right: string[]) {
   return left.length === right.length && left.every((tag) => right.includes(tag));
 }
 
-export function PlayerLeaderboard({ entries, initialTags }: { entries: LeaderboardEntry[]; initialTags: string[] }) {
+export function PlayerLeaderboard({ entries, initialTags, initialFilterOpen }: {
+  entries: LeaderboardEntry[];
+  initialTags: string[];
+  initialFilterOpen: boolean;
+}) {
   const [selectedTags, setSelectedTags] = useState<string[]>(initialTags);
+  const [filterOpen, setFilterOpen] = useState(initialFilterOpen);
   const options = useMemo(() => leaderboardTagOptions(entries.map((entry) => entry.person)), [entries]);
   const availableTagNames = useMemo(() => options.map((option) => option.tag), [options]);
   const visible = useMemo(() => entries.filter((entry) => matchesLeaderboardTags(entry.person, selectedTags)), [entries, selectedTags]);
@@ -58,8 +72,12 @@ export function PlayerLeaderboard({ entries, initialTags }: { entries: Leaderboa
   // 客户端路由缓存会把 30 秒内的旧载荷直接还回来，那时 props 里的 initialTags 已经过期；
   // 挂载后再按 cookie 校正一次，避免"刚选好标签，切走再切回来又变回全部人物"。
   useEffect(() => {
-    const remembered = parseLeaderboardTagSelection(readRememberedTags(), availableTagNames);
+    const remembered = parseLeaderboardTagSelection(readCookie(LEADERBOARD_TAG_COOKIE), availableTagNames);
     setSelectedTags((current) => (sameTags(current, remembered) ? current : remembered));
+    setFilterOpen((current) => {
+      const stored = parseLeaderboardFilterOpen(readCookie(LEADERBOARD_FILTER_OPEN_COOKIE), current);
+      return stored === current ? current : stored;
+    });
     // 只在首次挂载时校正，之后以用户点击为准。
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -74,6 +92,12 @@ export function PlayerLeaderboard({ entries, initialTags }: { entries: Leaderboa
     applyTags(selectedTags.includes(tag) ? selectedTags.filter((item) => item !== tag) : [...selectedTags, tag]);
   }
 
+  function toggleFilter() {
+    const next = !filterOpen;
+    setFilterOpen(next);
+    rememberFilterOpen(next);
+  }
+
   return <>
     <section className="summary-grid">
       <div className="summary-block"><span>登记人物<strong>{visible.length}</strong></span></div>
@@ -82,34 +106,53 @@ export function PlayerLeaderboard({ entries, initialTags }: { entries: Leaderboa
     </section>
     <section className="section-block person-directory">
       <div className="section-heading">
-        <div><h2>排行榜</h2><p>点标签只看对应人群，选择会记住，下次打开还是这批人。</p></div>
-        <span className="table-count">当前显示 {visible.length} / {entries.length} 人</span>
-      </div>
-      {options.length > 0 && <div className={styles.tagFilter} role="group" aria-label="按标签筛选人物">
-        <div className={styles.tagChips}>
-          <button
+        <div><h2>排行榜</h2></div>
+        <div className={styles.headingActions}>
+          {options.length > 0 && <button
             type="button"
-            className={selectedTags.length ? styles.tagChip : `${styles.tagChip} ${styles.tagChipActive}`}
-            aria-pressed={!selectedTags.length}
-            onClick={() => applyTags([])}
-          >全部<small>{entries.length}</small></button>
-          {options.map(({ tag, count }) => {
-            const active = selectedTags.includes(tag);
-            return <button
-              key={tag}
-              type="button"
-              className={active ? `${styles.tagChip} ${styles.tagChipActive}` : styles.tagChip}
-              aria-pressed={active}
-              onClick={() => toggleTag(tag)}
-            >{tag}<small>{count}</small></button>;
-          })}
+            className={filterOpen ? `${styles.filterToggle} ${styles.filterToggleOpen}` : styles.filterToggle}
+            aria-expanded={filterOpen}
+            aria-controls="leaderboard-tag-filter"
+            onClick={toggleFilter}
+          >
+            <SlidersHorizontal size={13} />筛选
+            {selectedTags.length > 0 && <span className={styles.filterCount}>{selectedTags.length}</span>}
+            <ChevronDown size={13} className={filterOpen ? `${styles.filterCaret} ${styles.filterCaretOpen}` : styles.filterCaret} />
+          </button>}
+          <span className="table-count">当前显示 {visible.length} / {entries.length} 人</span>
         </div>
-        <p className={styles.tagFilterMeta}>
+      </div>
+      {options.length > 0 && (filterOpen
+        ? <div className={styles.tagFilter} id="leaderboard-tag-filter" role="group" aria-label="按标签筛选人物">
+          <div className={styles.tagChips}>
+            <button
+              type="button"
+              className={selectedTags.length ? styles.tagChip : `${styles.tagChip} ${styles.tagChipActive}`}
+              aria-pressed={!selectedTags.length}
+              onClick={() => applyTags([])}
+            >全部<small>{entries.length}</small></button>
+            {options.map(({ tag, count }) => {
+              const active = selectedTags.includes(tag);
+              return <button
+                key={tag}
+                type="button"
+                className={active ? `${styles.tagChip} ${styles.tagChipActive}` : styles.tagChip}
+                aria-pressed={active}
+                onClick={() => toggleTag(tag)}
+              >{tag}<small>{count}</small></button>;
+            })}
+          </div>
+          <p className={styles.tagFilterMeta}>
+            <ListFilter size={12} />
+            {selectedTags.length ? `只看 ${selectedTags.join("、")}` : "未筛选，显示全部人物"}
+            {selectedTags.length > 0 && <button type="button" className={styles.tagFilterReset} onClick={() => applyTags([])}>清除筛选</button>}
+          </p>
+        </div>
+        : selectedTags.length > 0 && <p className={styles.filterSummary}>
           <ListFilter size={12} />
-          {selectedTags.length ? `只看 ${selectedTags.join("、")}` : "未筛选，显示全部人物"}
-          {selectedTags.length > 0 && <button type="button" className={styles.tagFilterReset} onClick={() => applyTags([])}>清除筛选</button>}
-        </p>
-      </div>}
+          只看 <strong>{selectedTags.join("、")}</strong>
+          <button type="button" className={styles.tagFilterReset} onClick={() => applyTags([])}>清除筛选</button>
+        </p>)}
       <div className="person-directory-list">
         {visible.map(({ person, estimatedRank, estimatedRankPrecise, matchCount, averageRank, totalCompetitionPoints, recentLuckLevel }) => (
           <article key={person.id} style={{ "--player-color": person.color } as React.CSSProperties}>

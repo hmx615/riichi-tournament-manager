@@ -9,6 +9,9 @@ import { personTags, type PersonTagSource } from "./person-tags";
 export const LEADERBOARD_TAG_COOKIE = "xrc-leaderboard-tags";
 export const LEADERBOARD_TAG_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
+/** 筛选框展开／收起状态，和标签选择一样按年记住。 */
+export const LEADERBOARD_FILTER_OPEN_COOKIE = "xrc-leaderboard-filter-open";
+
 export type LeaderboardTagOption = { tag: string; count: number };
 
 /** 可筛选的标签：只列当前确实挂在某个人身上的标签，人数多的排前面。 */
@@ -49,4 +52,15 @@ export function parseLeaderboardTagSelection(value: string | null | undefined, a
 /** 写 cookie 用的值：中文标签要转义，避免非法 cookie 字符。 */
 export function serializeLeaderboardTagSelection(tags: readonly string[]) {
   return encodeURIComponent(JSON.stringify([...new Set(tags)]));
+}
+
+export function serializeLeaderboardFilterOpen(open: boolean) {
+  return open ? "1" : "0";
+}
+
+/** 没存过或值不合法时按 fallback 展开，保证第一次来还能看到标签。 */
+export function parseLeaderboardFilterOpen(value: string | null | undefined, fallback = true) {
+  if (value === "1") return true;
+  if (value === "0") return false;
+  return fallback;
 }
