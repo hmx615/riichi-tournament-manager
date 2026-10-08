@@ -1,0 +1,1264 @@
+{
+  "id": "1st-qm",
+  "name": "第一届启明杯",
+  "code": "1ST-QM",
+  "format": "individual",
+  "status": "active",
+  "plannedMatchCount": 112,
+  "initialPoints": 25000,
+  "rankPoints": [
+    30,
+    10,
+    -10,
+    -30
+  ],
+  "participants": [
+    {
+      "id": "player-1",
+      "personId": "3q",
+      "displayName": "3q",
+      "kind": "human",
+      "color": "#d1495b",
+      "usernames": [
+        "3q",
+        "散情情情情"
+      ]
+    },
+    {
+      "id": "player-2",
+      "personId": "Doraemon",
+      "displayName": "叮当",
+      "kind": "human",
+      "color": "#168f83",
+      "usernames": [
+        "叮当",
+        "momososo",
+        "小叮当之歌"
+      ]
+    },
+    {
+      "id": "player-3",
+      "personId": "胡米奥",
+      "displayName": "胡米奥",
+      "kind": "human",
+      "color": "#6657c7",
+      "usernames": [
+        "胡米奥",
+        "壶庙",
+        "humiao"
+      ]
+    },
+    {
+      "id": "player-4",
+      "personId": "九条",
+      "displayName": "九条",
+      "kind": "human",
+      "color": "#d58a18",
+      "usernames": [
+        "九条",
+        "九条都嘟嘟",
+        "雨后土墙",
+        "マジエロ茉子"
+      ]
+    },
+    {
+      "id": "player-5",
+      "personId": "卡夫卡爱上坡路",
+      "displayName": "卡夫卡爱上坡路",
+      "kind": "human",
+      "color": "#4e8fc5",
+      "usernames": [
+        "卡夫卡爱上坡路",
+        "Veritas"
+      ]
+    },
+    {
+      "id": "player-6",
+      "personId": "乱花",
+      "displayName": "乱花",
+      "kind": "human",
+      "color": "#9c5f9c",
+      "usernames": [
+        "乱花",
+        "、乱花",
+        "沐雨乱花"
+      ]
+    },
+    {
+      "id": "player-7",
+      "personId": "乌蒙一号机",
+      "displayName": "乌蒙一号机",
+      "kind": "human",
+      "color": "#4d9b73",
+      "usernames": [
+        "乌蒙一号机",
+        "ljw",
+        "人神"
+      ]
+    },
+    {
+      "id": "player-8",
+      "personId": "heart",
+      "displayName": "心脏会闪烁吗",
+      "kind": "human",
+      "color": "#b56a3b",
+      "usernames": [
+        "心脏会闪烁吗",
+        "心脏"
+      ]
+    },
+    {
+      "id": "player-9",
+      "personId": "越山逐月",
+      "displayName": "越山逐月",
+      "kind": "human",
+      "color": "#c2456b",
+      "usernames": [
+        "越山逐月",
+        "xiaop",
+        "風蛍月",
+        "猫妥",
+        "lechanNa",
+        "こくらあさひ",
+        "ハンバーガー"
+      ]
+    },
+    {
+      "id": "player-10",
+      "personId": "中華有为",
+      "displayName": "中華有为",
+      "kind": "human",
+      "color": "#2f8f9d",
+      "usernames": [
+        "中華有为",
+        "DH",
+        "東海大黄魚",
+        "陈黑水"
+      ]
+    },
+    {
+      "id": "player-11",
+      "personId": "紫罗兰梦幻花园",
+      "displayName": "紫罗兰梦幻花园",
+      "kind": "human",
+      "color": "#7a5bd6",
+      "usernames": [
+        "紫罗兰梦幻花园",
+        "紫罗兰万古长存",
+        "mzhj"
+      ]
+    },
+    {
+      "id": "player-12",
+      "personId": "Hamburger",
+      "displayName": "Hamburger",
+      "kind": "human",
+      "color": "#c07020",
+      "usernames": [
+        "Hamburger",
+        "日尧赤赤",
+        "ハンバーガー"
+      ]
+    },
+    {
+      "id": "player-13",
+      "personId": "Nanaishi",
+      "displayName": "Nanaishi",
+      "kind": "human",
+      "color": "#3c76b5",
+      "usernames": [
+        "Nanaishi",
+        "小石",
+        "尘落",
+        "なないし"
+      ]
+    },
+    {
+      "id": "player-14",
+      "personId": "Traaaaa",
+      "displayName": "Traaaaa",
+      "kind": "human",
+      "color": "#8c6bb1",
+      "usernames": [
+        "Traaaaa",
+        "東海大黄魚",
+        "猫妥",
+        "mingxuan",
+        "風蛍月"
+      ]
+    },
+    {
+      "id": "player-15",
+      "personId": "Wesley",
+      "displayName": "Wesley",
+      "kind": "human",
+      "color": "#5b9a8b",
+      "usernames": [
+        "Wesley",
+        "Wesley56",
+        "wesley56"
+      ]
+    },
+    {
+      "id": "player-16",
+      "personId": "aniya",
+      "displayName": "おでけけ",
+      "kind": "human",
+      "color": "#a8552f",
+      "usernames": [
+        "おでけけ",
+        "弹幕大神",
+        "阿尼亚"
+      ]
+    }
+  ],
+  "matches": [],
+  "individualSettings": {
+    "preliminary": {
+      "regularWeeks": 4,
+      "eliminationWeeks": 3,
+      "matchesPerPlayerPerWeek": 4,
+      "eliminationCountPerWeek": 4,
+      "finalistCount": 4,
+      "legalWeekdays": [
+        0,
+        3
+      ],
+      "legalTimes": [
+        "20:00",
+        "21:30"
+      ],
+      "startDate": "2026-10-11"
+    },
+    "final": {
+      "matchCountPerPlayer": 12
+    },
+    "pairingMode": "balanced_opponents"
+  },
+  "individualSchedule": [
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-1",
+        "player-7",
+        "player-9",
+        "player-15"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r1-t1",
+      "scheduledAt": "2026-10-11T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-12",
+        "player-8",
+        "player-13",
+        "player-10"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r1-t2",
+      "scheduledAt": "2026-10-11T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-2",
+        "player-16",
+        "player-4",
+        "player-11"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r1-t3",
+      "scheduledAt": "2026-10-11T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-5",
+        "player-14",
+        "player-6",
+        "player-3"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r1-t4",
+      "scheduledAt": "2026-10-11T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-1",
+        "player-12",
+        "player-2",
+        "player-5"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r2-t1",
+      "scheduledAt": "2026-10-11T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-7",
+        "player-8",
+        "player-16",
+        "player-14"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r2-t2",
+      "scheduledAt": "2026-10-11T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-9",
+        "player-13",
+        "player-4",
+        "player-6"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r2-t3",
+      "scheduledAt": "2026-10-11T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-15",
+        "player-10",
+        "player-11",
+        "player-3"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r2-t4",
+      "scheduledAt": "2026-10-11T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-1",
+        "player-8",
+        "player-4",
+        "player-3"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r3-t1",
+      "scheduledAt": "2026-10-14T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-7",
+        "player-12",
+        "player-11",
+        "player-6"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r3-t2",
+      "scheduledAt": "2026-10-14T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-9",
+        "player-10",
+        "player-2",
+        "player-14"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r3-t3",
+      "scheduledAt": "2026-10-14T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-15",
+        "player-13",
+        "player-16",
+        "player-5"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r3-t4",
+      "scheduledAt": "2026-10-14T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-1",
+        "player-13",
+        "player-11",
+        "player-14"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r4-t1",
+      "scheduledAt": "2026-10-14T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-7",
+        "player-10",
+        "player-4",
+        "player-5"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r4-t2",
+      "scheduledAt": "2026-10-14T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-9",
+        "player-12",
+        "player-16",
+        "player-3"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r4-t3",
+      "scheduledAt": "2026-10-14T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-15",
+        "player-8",
+        "player-2",
+        "player-6"
+      ],
+      "week": 1,
+      "id": "1st-qm-preliminary-w1-r4-t4",
+      "scheduledAt": "2026-10-14T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-10",
+        "player-1",
+        "player-6",
+        "player-16"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r1-t1",
+      "scheduledAt": "2026-10-18T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-12",
+        "player-4",
+        "player-15",
+        "player-14"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r1-t2",
+      "scheduledAt": "2026-10-18T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-13",
+        "player-7",
+        "player-3",
+        "player-2"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r1-t3",
+      "scheduledAt": "2026-10-18T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-8",
+        "player-9",
+        "player-5",
+        "player-11"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r1-t4",
+      "scheduledAt": "2026-10-18T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-10",
+        "player-12",
+        "player-13",
+        "player-4"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r2-t1",
+      "scheduledAt": "2026-10-18T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-15",
+        "player-1",
+        "player-7",
+        "player-6"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r2-t2",
+      "scheduledAt": "2026-10-18T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-14",
+        "player-3",
+        "player-16",
+        "player-8"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r2-t3",
+      "scheduledAt": "2026-10-18T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-2",
+        "player-9",
+        "player-5",
+        "player-11"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r2-t4",
+      "scheduledAt": "2026-10-18T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-10",
+        "player-15",
+        "player-14",
+        "player-2"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r3-t1",
+      "scheduledAt": "2026-10-21T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-12",
+        "player-1",
+        "player-3",
+        "player-9"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r3-t2",
+      "scheduledAt": "2026-10-21T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-13",
+        "player-7",
+        "player-16",
+        "player-5"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r3-t3",
+      "scheduledAt": "2026-10-21T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-4",
+        "player-6",
+        "player-8",
+        "player-11"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r3-t4",
+      "scheduledAt": "2026-10-21T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-10",
+        "player-1",
+        "player-16",
+        "player-11"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r4-t1",
+      "scheduledAt": "2026-10-21T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-12",
+        "player-15",
+        "player-8",
+        "player-5"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r4-t2",
+      "scheduledAt": "2026-10-21T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-13",
+        "player-6",
+        "player-14",
+        "player-9"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r4-t3",
+      "scheduledAt": "2026-10-21T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-4",
+        "player-7",
+        "player-3",
+        "player-2"
+      ],
+      "week": 2,
+      "id": "1st-qm-preliminary-w2-r4-t4",
+      "scheduledAt": "2026-10-21T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-15",
+        "player-11",
+        "player-13",
+        "player-3"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r1-t1",
+      "scheduledAt": "2026-10-25T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-12",
+        "player-6",
+        "player-16",
+        "player-2"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r1-t2",
+      "scheduledAt": "2026-10-25T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-10",
+        "player-7",
+        "player-8",
+        "player-9"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r1-t3",
+      "scheduledAt": "2026-10-25T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-4",
+        "player-14",
+        "player-5",
+        "player-1"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r1-t4",
+      "scheduledAt": "2026-10-25T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-15",
+        "player-4",
+        "player-16",
+        "player-9"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r2-t1",
+      "scheduledAt": "2026-10-25T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-11",
+        "player-12",
+        "player-7",
+        "player-14"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r2-t2",
+      "scheduledAt": "2026-10-25T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-10",
+        "player-6",
+        "player-5",
+        "player-3"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r2-t3",
+      "scheduledAt": "2026-10-25T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-13",
+        "player-1",
+        "player-8",
+        "player-2"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r2-t4",
+      "scheduledAt": "2026-10-25T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-15",
+        "player-11",
+        "player-12",
+        "player-10"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r3-t1",
+      "scheduledAt": "2026-10-28T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-4",
+        "player-6",
+        "player-16",
+        "player-7"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r3-t2",
+      "scheduledAt": "2026-10-28T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-13",
+        "player-14",
+        "player-5",
+        "player-1"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r3-t3",
+      "scheduledAt": "2026-10-28T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-8",
+        "player-2",
+        "player-9",
+        "player-3"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r3-t4",
+      "scheduledAt": "2026-10-28T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-15",
+        "player-4",
+        "player-13",
+        "player-8"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r4-t1",
+      "scheduledAt": "2026-10-28T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-11",
+        "player-6",
+        "player-14",
+        "player-2"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r4-t2",
+      "scheduledAt": "2026-10-28T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-12",
+        "player-16",
+        "player-5",
+        "player-9"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r4-t3",
+      "scheduledAt": "2026-10-28T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-10",
+        "player-7",
+        "player-1",
+        "player-3"
+      ],
+      "week": 3,
+      "id": "1st-qm-preliminary-w3-r4-t4",
+      "scheduledAt": "2026-10-28T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-11",
+        "player-5",
+        "player-8",
+        "player-7"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r1-t1",
+      "scheduledAt": "2026-11-01T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-14",
+        "player-10",
+        "player-9",
+        "player-4"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r1-t2",
+      "scheduledAt": "2026-11-01T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-12",
+        "player-2",
+        "player-1",
+        "player-15"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r1-t3",
+      "scheduledAt": "2026-11-01T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 1,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-6",
+        "player-13",
+        "player-3",
+        "player-16"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r1-t4",
+      "scheduledAt": "2026-11-01T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-11",
+        "player-1",
+        "player-9",
+        "player-6"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r2-t1",
+      "scheduledAt": "2026-11-01T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-14",
+        "player-12",
+        "player-8",
+        "player-7"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r2-t2",
+      "scheduledAt": "2026-11-01T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-10",
+        "player-5",
+        "player-2",
+        "player-16"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r2-t3",
+      "scheduledAt": "2026-11-01T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 2,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-15",
+        "player-3",
+        "player-4",
+        "player-13"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r2-t4",
+      "scheduledAt": "2026-11-01T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-11",
+        "player-16",
+        "player-14",
+        "player-15"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r3-t1",
+      "scheduledAt": "2026-11-04T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-10",
+        "player-8",
+        "player-6",
+        "player-5"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r3-t2",
+      "scheduledAt": "2026-11-04T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-12",
+        "player-13",
+        "player-2",
+        "player-7"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r3-t3",
+      "scheduledAt": "2026-11-04T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 3,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-1",
+        "player-4",
+        "player-9",
+        "player-3"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r3-t4",
+      "scheduledAt": "2026-11-04T12:00:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 1,
+      "participantIds": [
+        "player-11",
+        "player-13",
+        "player-10",
+        "player-9"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r4-t1",
+      "scheduledAt": "2026-11-04T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 2,
+      "participantIds": [
+        "player-14",
+        "player-3",
+        "player-5",
+        "player-12"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r4-t2",
+      "scheduledAt": "2026-11-04T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 3,
+      "participantIds": [
+        "player-8",
+        "player-1",
+        "player-16",
+        "player-2"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r4-t3",
+      "scheduledAt": "2026-11-04T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    },
+    {
+      "stage": "preliminary",
+      "round": 4,
+      "tableNumber": 4,
+      "participantIds": [
+        "player-7",
+        "player-15",
+        "player-6",
+        "player-4"
+      ],
+      "week": 4,
+      "id": "1st-qm-preliminary-w4-r4-t4",
+      "scheduledAt": "2026-11-04T13:30:00.000Z",
+      "timezone": "Asia/Shanghai",
+      "status": "scheduled"
+    }
+  ]
+}

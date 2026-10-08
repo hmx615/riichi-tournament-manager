@@ -5,6 +5,7 @@ import { MatchEntryForm } from "@/components/match-entry-form";
 import { getCompetition } from "@/server/competition-repository";
 import { requireCompetitionMatchEntryPage } from "@/server/match-entry-auth";
 import { scheduledMatch } from "@/domain/scheduled-match";
+import { individualWeekOf } from "@/domain/individual-standings";
 
 export default async function NewMatchPage({ params, searchParams }: {
   params: Promise<{ competitionId: string }>;
@@ -17,7 +18,7 @@ export default async function NewMatchPage({ params, searchParams }: {
   await requireCompetitionMatchEntryPage(competitionId, `/competitions/${competitionId}/matches/new${selection.size ? `?${selection}` : ""}`);
   const competition = await getCompetition(competitionId);
   if (!competition) notFound();
-  const labels = { preliminary: "初赛", semifinal: "半决赛", final: "决赛" };
+  const labels = { preliminary: "初赛", final: "决赛" };
   const schedule = competition.format === "individual" ? competition.individualSchedule?.find((table) =>
     query.scheduleId ? table.id === query.scheduleId : table.stage === query.stage && table.round === Number(query.round) && table.tableNumber === Number(query.table)
   ) : undefined;
@@ -26,7 +27,7 @@ export default async function NewMatchPage({ params, searchParams }: {
     <div className="page-heading"><h1>选择录入桌次</h1></div>
     <div className="individual-schedule-grid">{competition.individualSchedule?.filter((table) => table.status === "scheduled" && !scheduledMatch(competition, table)).map((table) =>
       <Link className="individual-schedule-card" key={table.id} href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>
-        <strong>{labels[table.stage]} · 第 {table.round} 轮 · A{table.tableNumber}</strong>
+        <strong>{labels[table.stage]} · 第 {individualWeekOf(table)} 周 · 第 {table.round} 轮 · A{table.tableNumber}</strong>
         <p>{table.participantIds.map((id) => competition.participants.find((p) => p.id === id)?.displayName).join("、")}</p>
       </Link>
     )}</div>
@@ -34,7 +35,7 @@ export default async function NewMatchPage({ params, searchParams }: {
   return (
     <div className="page form-page">
       <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回 {competition.name}</Link>
-      <div className="page-heading"><div><p className="eyebrow">{schedule ? `${labels[schedule.stage]} · 第 ${schedule.round} 轮 · A${schedule.tableNumber}` : `第 ${Math.max(0, ...competition.matches.map((match) => match.matchNumber)) + 1} 场`}</p><h1>录入牌谱</h1></div></div>
+      <div className="page-heading"><div><p className="eyebrow">{schedule ? `${labels[schedule.stage]} · 第 ${individualWeekOf(schedule)} 周 · 第 ${schedule.round} 轮 · A${schedule.tableNumber}` : `第 ${Math.max(0, ...competition.matches.map((match) => match.matchNumber)) + 1} 场`}</p><h1>录入牌谱</h1></div></div>
       <MatchEntryForm competition={competition} schedule={schedule} />
     </div>
   );

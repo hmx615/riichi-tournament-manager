@@ -11,7 +11,7 @@ const initialState: CreateCompetitionState = { message: "" };
 const colors = ["#d1495b", "#168f83", "#6657c7", "#d58a18", "#4e8fc5", "#9c5f9c", "#4d9b73", "#b56a3b"];
 type CreationType = "four_player" | "individual" | "match_pool";
 
-export function NewCompetitionForm({ people, availableTags }: { people: Person[]; availableTags: string[] }) {
+export function NewCompetitionForm({ people, availableTags, defaultStartDate }: { people: Person[]; availableTags: string[]; defaultStartDate: string }) {
   const [state, action, pending] = useActionState(createCompetitionAction, initialState);
   const [creationType, setCreationType] = useState<CreationType>("four_player");
   const [participantCount, setParticipantCount] = useState(4);
@@ -38,12 +38,13 @@ export function NewCompetitionForm({ people, availableTags }: { people: Person[]
           <label className="field"><span>原点</span><input name="initialPoints" type="number" step="100" defaultValue="25000" required /></label>
           <label className="field wide"><span>顺位马点</span><input name="rankPoints" defaultValue={value("rankPoints", "+30, +10, -10, -30")} required />{error("rankPoints") && <small className="field-validation error">{error("rankPoints")}</small>}</label>
           {individual && <>
-            <label className="field"><span>初赛每人半庄数</span><input name="preliminaryMatches" type="number" min="0" defaultValue="4" required /></label>
-            <label className="field"><span>半决赛每人半庄数</span><input name="semifinalMatches" type="number" min="0" defaultValue="0" required /></label>
-            <label className="field"><span>决赛每人半庄数</span><input name="finalMatches" type="number" min="0" defaultValue="3" required /></label>
-            <label className="field"><span>初赛晋级半决赛人数</span><input name="preliminaryAdvancing" type="number" min="0" defaultValue="0" required /></label>
-            <label className="field"><span>初赛直通决赛人数</span><input name="preliminaryDirectFinal" type="number" min="0" defaultValue="0" required /></label>
-            <label className="field"><span>半决赛晋级决赛人数</span><input name="semifinalAdvancing" type="number" min="0" defaultValue="0" required /></label>
+            <label className="field"><span>初赛日常周数</span><input name="regularWeeks" type="number" min="0" defaultValue="4" required /></label>
+            <label className="field"><span>初赛淘汰周数</span><input name="eliminationWeeks" type="number" min="0" defaultValue="3" required /></label>
+            <label className="field"><span>每周每人半庄数</span><input name="matchesPerPlayerPerWeek" type="number" min="1" defaultValue="4" required /></label>
+            <label className="field"><span>每周淘汰人数</span><input name="eliminationCountPerWeek" type="number" min="0" defaultValue="4" required /></label>
+            <label className="field"><span>决赛人数</span><input name="finalistCount" type="number" min="4" defaultValue="4" required /></label>
+            <label className="field"><span>决赛每人半庄数</span><input name="finalMatches" type="number" min="0" defaultValue="12" required /></label>
+            <label className="field"><span>开赛日（第一周周日）</span><input name="startDate" type="date" defaultValue={defaultStartDate} required /></label>
           </>}
         </div>
       </section>

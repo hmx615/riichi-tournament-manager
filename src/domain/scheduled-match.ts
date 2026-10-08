@@ -2,7 +2,7 @@ import type { Competition, IndividualScheduleTable, MatchRecord } from "./types"
 
 export function scheduledMatch(competition: Competition, table: IndividualScheduleTable) {
   return competition.matches.find((match) => match.scheduleId ? match.scheduleId === table.id : (
-    match.stage === table.stage && match.round === table.round && match.tableNumber === table.tableNumber
+    match.stage === table.stage && (match.week ?? 1) === (table.week ?? 1) && match.round === table.round && match.tableNumber === table.tableNumber
   ));
 }
 
@@ -27,6 +27,7 @@ export function completeScheduledMatch(competition: Competition, match: MatchRec
     throw new Error("牌谱四名选手必须与本桌赛程一致");
   }
   match.stage = table.stage;
+  match.week = table.week ?? 1;
   match.round = table.round;
   match.tableNumber = table.tableNumber;
   table.status = "completed";

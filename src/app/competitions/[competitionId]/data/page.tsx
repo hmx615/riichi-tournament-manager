@@ -15,7 +15,9 @@ export default async function CompetitionDataPage({ params, searchParams }: {
 }) {
   const { competitionId } = await params;
   const query = await searchParams;
-  const round = typeof query.round === "string" && /^\d+$/.test(query.round) ? Number(query.round) : 0;
+  // 个人赛按周查看积分榜快照（老链接里的 round 参数仍然当周次处理）。
+  const rawWeek = typeof query.week === "string" ? query.week : typeof query.round === "string" ? query.round : "";
+  const week = /^\d+$/.test(rawWeek) ? Number(rawWeek) : 0;
   const competition = await getCompetition(competitionId);
   if (!competition) notFound();
   if (competition.matches.length === 0) return (
@@ -37,7 +39,7 @@ export default async function CompetitionDataPage({ params, searchParams }: {
     <div className="page data-page">
       <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回比赛</Link>
       <div className="page-heading"><div><p className="eyebrow">{competition.code} · 个人赛</p><h1>积分与数据</h1></div></div>
-      <IndividualCompetitionData competition={competition} summary={summary} round={round} />
+      <IndividualCompetitionData competition={competition} summary={summary} week={week} />
     </div>
   );
   return (

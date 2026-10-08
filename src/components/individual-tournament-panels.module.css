@@ -1,0 +1,20 @@
+.settlement { margin-bottom: 18px; padding: 14px 16px; border: 1px solid #d8c9a8; background: #fdf9f0; display: grid; gap: 9px; }
+.settlementHead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.settlementHead strong { display: inline-flex; align-items: center; gap: 7px; color: #7a5a17; font-size: 13px; }
+.settlementHead span { color: var(--muted); font-size: 11px; }
+.settlementNote { margin: 0; color: #6b6152; font-size: 11px; line-height: 1.6; }
+.leaving { margin: 0; padding: 8px 10px; border: 1px solid #e3c9c9; background: #fff5f5; color: #9b323a; font-size: 11px; }
+.settlementForm { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.doneNote { margin: 0 0 16px; padding: 10px 13px; border: 1px solid #b5d4ca; background: var(--green-soft); color: var(--green); font-size: 11px; }
+
+.adjustments { margin-top: 18px; padding: 14px 16px; border: 1px solid var(--line); background: #fbfcfc; display: grid; gap: 9px; }
+.adjustmentForm { display: grid; grid-template-columns: 150px 110px 110px minmax(180px, 1fr) max-content; align-items: end; gap: 8px; }
+.adjustmentForm label { display: grid; gap: 4px; color: var(--muted); font-size: 10px; }
+.adjustmentForm select, .adjustmentForm input { min-height: 32px; padding: 0 8px; border: 1px solid #c7d0d4; border-radius: 4px; background: #fff; font-size: 11px; }
+.adjustmentList { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.adjustmentList li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 9px; border: 1px solid var(--soft-line); background: #fff; font-size: 11px; }
+
+@media (max-width: 920px) {
+  .adjustmentForm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reasonField { grid-column: 1 / -1; }
+}

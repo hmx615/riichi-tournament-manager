@@ -10,6 +10,7 @@ import { hasDuplicateHumanParticipants } from "@/domain/participant-validation";
 import { isValidPersonId } from "../../../../domain/person-id";
 import { normalizePersonTags } from "@/domain/person-tags";
 import { listPersonTags } from "@/server/person-tag-repository";
+import { defaultIndividualPreliminary } from "@/domain/competition-format";
 
 export type CompetitionSettingsState = { status: "idle" | "error" | "success"; message: string; redirectTo?: string; fieldErrors?: Record<string, string[]>; values?: Record<string, string> };
 function formValues(formData: FormData) { return Object.fromEntries([...formData.entries()].filter(([, v]) => typeof v === "string").map(([k, v]) => [k, v as string])); }
@@ -56,12 +57,13 @@ const schema = z.object({
       .refine((value) => value.length > 0, "每个参赛席位至少需要一个牌谱用户名"),
     color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
   })).min(4).max(200),
-  preliminaryMatches: z.coerce.number().int().min(0).max(1000),
-  semifinalMatches: z.coerce.number().int().min(0).max(1000),
+  regularWeeks: z.coerce.number().int().min(0).max(52),
+  eliminationWeeks: z.coerce.number().int().min(0).max(52),
+  matchesPerPlayerPerWeek: z.coerce.number().int().min(1).max(20),
+  eliminationCountPerWeek: z.coerce.number().int().min(0).max(50),
+  finalistCount: z.coerce.number().int().min(4).max(50),
   finalMatches: z.coerce.number().int().min(0).max(1000),
-  preliminaryAdvancing: z.coerce.number().int().min(0).max(200),
-  preliminaryDirectFinal: z.coerce.number().int().min(0).max(200),
-  semifinalAdvancing: z.coerce.number().int().min(0).max(200),
+  startDate: z.preprocess((value) => (typeof value === "string" && value.trim() ? value.trim() : undefined), z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "请填写开赛日").optional()),
 });
 
 async function saveCompetitionSettings(
@@ -86,12 +88,13 @@ async function saveCompetitionSettings(
       usernames: formData.get(`participantUsernames${index}`),
       color: formData.get(`participantColor${index}`),
     })),
-    preliminaryMatches: formData.get("preliminaryMatches") || 0,
-    semifinalMatches: formData.get("semifinalMatches") || 0,
+    regularWeeks: formData.get("regularWeeks") || 0,
+    eliminationWeeks: formData.get("eliminationWeeks") || 0,
+    matchesPerPlayerPerWeek: formData.get("matchesPerPlayerPerWeek") || 1,
+    eliminationCountPerWeek: formData.get("eliminationCountPerWeek") || 0,
+    finalistCount: formData.get("finalistCount") || 4,
     finalMatches: formData.get("finalMatches") || 0,
-    preliminaryAdvancing: formData.get("preliminaryAdvancing") || 0,
-    preliminaryDirectFinal: formData.get("preliminaryDirectFinal") || 0,
-    semifinalAdvancing: formData.get("semifinalAdvancing") || 0,
+    startDate: formData.get("startDate"),
   });
   if (!parsed.success) return { status: "error", message: "请修正标红字段后再保存", fieldErrors: z.flattenError(parsed.error).fieldErrors, values: formValues(formData) };
   const competition = await getCompetition(parsed.data.competitionId);
@@ -101,10 +104,19 @@ async function saveCompetitionSettings(
   if (parsed.data.participantCount !== competition.participants.length || parsed.data.participants.length !== competition.participants.length) {
     return { status: "error", message: "报名人数创建后不能修改" };
   }
-  if (currentFormat === "individual" && (
-    parsed.data.preliminaryAdvancing + parsed.data.preliminaryDirectFinal > parsed.data.participantCount
-    || parsed.data.semifinalAdvancing > parsed.data.participantCount
-  )) return { status: "error", message: "晋级人数不能超过报名人数" };
+  if (currentFormat === "individual") {
+    const survivors = parsed.data.participantCount - parsed.data.eliminationCountPerWeek * parsed.data.eliminationWeeks;
+    if (parsed.data.participantCount % 4 !== 0) return { status: "error", message: "个人赛报名人数必须是 4 的倍数（每桌 4 人）" };
+    if (survivors < parsed.data.finalistCount) return { status: "error", message: `按每周淘汰 ${parsed.data.eliminationCountPerWeek} 人淘汰 ${parsed.data.eliminationWeeks} 周，最后只剩 ${survivors} 人，少于决赛人数 ${parsed.data.finalistCount} 人` };
+    if (survivors % 4 !== 0) return { status: "error", message: `淘汰到最后剩 ${survivors} 人，不是 4 的倍数，凑不齐一桌` };
+    // 赛程已经排出来之后再改周次/每周半庄数会让既有桌次对不上，禁止中途修改。
+    const existing = competition.individualSettings;
+    const scheduleStarted = (competition.individualSchedule ?? []).length > 0 || competition.matches.length > 0;
+    if (scheduleStarted && existing && (
+      existing.preliminary.regularWeeks !== parsed.data.regularWeeks
+      || existing.preliminary.matchesPerPlayerPerWeek !== parsed.data.matchesPerPlayerPerWeek
+    )) return { status: "error", message: "赛程已经排出，日常周数与每周半庄数不能再改；如需调整请先删除已排赛程" };
+  }
   if (competition.matches.length && (
     competition.initialPoints !== parsed.data.initialPoints
     || competition.rankPoints.some((value, index) => value !== parsed.data.rankPoints[index])
@@ -125,13 +137,19 @@ async function saveCompetitionSettings(
   competition.initialPoints = parsed.data.initialPoints;
   competition.rankPoints = parsed.data.rankPoints as [number, number, number, number];
   if (currentFormat === "individual") {
+    const previous = competition.individualSettings;
     competition.individualSettings = {
-      stages: {
-        preliminary: { matchCountPerPlayer: parsed.data.preliminaryMatches, advancingPlayerCount: parsed.data.preliminaryAdvancing },
-        semifinal: { matchCountPerPlayer: parsed.data.semifinalMatches, advancingPlayerCount: parsed.data.semifinalAdvancing },
-        final: { matchCountPerPlayer: parsed.data.finalMatches },
+      preliminary: {
+        regularWeeks: parsed.data.regularWeeks,
+        eliminationWeeks: parsed.data.eliminationWeeks,
+        matchesPerPlayerPerWeek: parsed.data.matchesPerPlayerPerWeek,
+        eliminationCountPerWeek: parsed.data.eliminationCountPerWeek,
+        finalistCount: parsed.data.finalistCount,
+        legalWeekdays: previous?.preliminary.legalWeekdays ?? defaultIndividualPreliminary.legalWeekdays,
+        legalTimes: previous?.preliminary.legalTimes ?? defaultIndividualPreliminary.legalTimes,
+        ...(parsed.data.startDate ? { startDate: parsed.data.startDate } : previous?.preliminary.startDate ? { startDate: previous.preliminary.startDate } : {}),
       },
-      preliminaryDirectFinalPlayerCount: parsed.data.preliminaryDirectFinal,
+      final: { matchCountPerPlayer: parsed.data.finalMatches },
       pairingMode: "balanced_opponents",
     };
   }

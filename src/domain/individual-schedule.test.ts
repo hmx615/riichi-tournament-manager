@@ -12,7 +12,7 @@ describe("generateIndividualSchedule", () => {
   it("rejects duplicate participants", () => expect(() => generateIndividualSchedule(["a", "a", "b", "c"], "final", 1)).toThrow("参赛者不能重复"));
   it.each([[8, 4, 8], [6, 4, 6], [4, 4, 4], [5, 4, 5], [12, 3, 9]])("balances %i players over %i games", (count, games, tableCount) => {
     const ids = Array.from({ length: count }, (_, i) => String(i));
-    const tables = generateIndividualSchedule(ids, "semifinal", games);
+    const tables = generateIndividualSchedule(ids, "preliminary", games);
     expect(tables).toHaveLength(tableCount);
     for (const id of ids) expect(tables.filter((t) => t.participantIds.includes(id))).toHaveLength(games);
     for (const round of new Set(tables.map((t) => t.round))) {
@@ -28,7 +28,7 @@ describe("generateIndividualSchedule", () => {
     expect(opponents.size).toBe(8);
   });
   it("rejects schedules whose equal game totals cannot form four-player tables", () => {
-    expect(() => generateIndividualSchedule(["a", "b", "c", "d", "e", "f"], "semifinal", 3)).toThrow("4 的倍数");
+    expect(() => generateIndividualSchedule(["a", "b", "c", "d", "e", "f"], "preliminary", 3)).toThrow("4 的倍数");
   });
   it("satisfies all feasible small tournament sizes and game counts", () => {
     for (let count = 4; count <= 24; count++) {
@@ -85,7 +85,7 @@ describe("generateIndividualSchedule", () => {
   });
 
   it("still refuses uneven totals unless the caller opts in", () => {
-    expect(() => planIndividualSchedule(["a", "b", "c", "d", "e"], "semifinal", 2)).toThrow("4 的倍数");
+    expect(() => planIndividualSchedule(["a", "b", "c", "d", "e"], "preliminary", 2)).toThrow("4 的倍数");
   });
 
   it("rejects rosters smaller than one table", () => {

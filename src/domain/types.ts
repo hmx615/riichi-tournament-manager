@@ -5,20 +5,53 @@ export type CompetitionStatus = "draft" | "active" | "completed" | "archived";
 export type MatchStatus = "scheduled" | "processing" | "completed" | "needs_review" | "invalid";
 export type CompetitionFormat = "four_player" | "individual";
 
-export type IndividualStage = "preliminary" | "semifinal" | "final";
+/** 个人赛只有初赛（日常周 + 淘汰周）与决赛两个阶段。 */
+export type IndividualStage = "preliminary" | "final";
 
-export type IndividualStageSettings = {
-  matchCountPerPlayer: number;
-  advancingPlayerCount?: number;
+/** 初赛日程：前若干周是日常周（只打不淘汰），之后每周结算一次淘汰末位选手。 */
+export type IndividualPreliminarySettings = {
+  /** 日常周数：第 1–N 周不产生淘汰。 */
+  regularWeeks: number;
+  /** 淘汰周数：第 N+1 周起每周结算一次淘汰。 */
+  eliminationWeeks: number;
+  /** 每周每人半庄数，也就是每周的轮数。 */
+  matchesPerPlayerPerWeek: number;
+  /** 每周淘汰人数。 */
+  eliminationCountPerWeek: number;
+  /** 淘汰到只剩几人进入决赛。 */
+  finalistCount: number;
+  /** 每周两个法定比赛日（0=周日，3=周三），默认周日 + 周三。 */
+  legalWeekdays?: [number, number];
+  /** 两个比赛日的开赛时间（北京时间 HH:mm），默认 20:00、21:30。 */
+  legalTimes?: [string, string];
+  /** 第一周的第一个比赛日（周日），例如 2026-10-11。 */
+  startDate?: string;
 };
 
 export type IndividualCompetitionSettings = {
-  stages: Record<IndividualStage, IndividualStageSettings>;
-  /** Players who skip the semifinal and advance directly from preliminary to final. */
-  preliminaryDirectFinalPlayerCount?: number;
-  /** Players advancing from semifinal to final. */
-  semifinalAdvancingPlayerCount?: number;
+  preliminary: IndividualPreliminarySettings;
+  final: { matchCountPerPlayer: number };
   pairingMode: "balanced_opponents";
+};
+
+/** 淘汰周结算结果：第几周淘汰了谁。 */
+export type IndividualElimination = {
+  stage: IndividualStage;
+  week: number;
+  participantIds: string[];
+  /** 结算时的积分快照，仅用于复盘展示。 */
+  points?: Record<string, number>;
+  at: string;
+};
+
+/** 管理员手工加减分（迟到扣分、误判修正等），只计入所在阶段。 */
+export type IndividualAdjustment = {
+  id: string;
+  stage: IndividualStage;
+  participantId: string;
+  points: number;
+  reason: string;
+  at: string;
 };
 
 export type IndividualScheduleStatus = "scheduled" | "completed" | "cancelled";
@@ -91,6 +124,8 @@ export type ScheduleNegotiation = {
   postponeBlocked?: boolean;
   /** 本场已经顺延到下周。 */
   postponed?: boolean;
+  /** 本桌的额外协商限制：淘汰周只允许提前、不允许顺延。 */
+  rules?: { onlyEarlier?: boolean; noPostpone?: boolean };
   override?: { at: string; reason: string; previousTime: string };
   history: ScheduleNegotiationEvent[];
 };
@@ -113,6 +148,10 @@ export type IndividualStageBye = {
 export type IndividualScheduleTable = {
   id: string;
   stage: IndividualStage;
+  /** 阶段内的第几周（初赛 1–7、决赛 1–3），旧数据缺省按第 1 周处理。 */
+  week?: number;
+  /** 本桌的额外协商限制：淘汰周只允许提前、不允许顺延。 */
+  rules?: { onlyEarlier?: boolean; noPostpone?: boolean };
   round: number;
   tableNumber: number;
   scheduledAt: string;
@@ -198,6 +237,8 @@ export type MatchRecord = {
   scheduleId?: string;
   /** Optional scheduling metadata used by multi-stage individual competitions. */
   stage?: IndividualStage;
+  /** 初赛/决赛中的第几周（个人赛按周结算淘汰时使用）。 */
+  week?: number;
   round?: number;
   tableNumber?: number;
   status: MatchStatus;
@@ -233,6 +274,10 @@ export type Competition = {
   individualSchedule?: IndividualScheduleTable[];
   /** 人数不是 4 的倍数时产生的轮空名单（按阶段）。 */
   individualByes?: IndividualStageBye[];
+  /** 淘汰周每周结算的结果（第几周淘汰了谁）。 */
+  individualEliminations?: IndividualElimination[];
+  /** 管理员手工加减分记录。 */
+  individualAdjustments?: IndividualAdjustment[];
   /** 本届个人赛每名选手的时间协商口令（只存哈希）。 */
   negotiationAccessCodes?: ScheduleAccessCode[];
   /** 本届口令的防爆破闸门。 */

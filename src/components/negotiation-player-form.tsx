@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CheckCircle2, Pencil, Plus, X } from "lucide-react";
 import { submitNegotiationAction } from "@/app/negotiation/actions";
-import { formatTableTime } from "@/domain/schedule-negotiation";
+import { formatTableTime, formatTableTimeInput } from "@/domain/schedule-negotiation";
 
 const maxTimes = 4;
 type Mode = "confirm" | "change_time" | "postpone" | "vote_accept" | "vote_decline";
@@ -34,6 +34,9 @@ export function NegotiationPlayerForm({
   myVoteStatus,
   canPostpone,
   postponeBlockedReason,
+  legalTime,
+  onlyEarlier,
+  noPostpone,
 }: {
   competitionId: string;
   scheduleId: string;
@@ -44,7 +47,13 @@ export function NegotiationPlayerForm({
   myVoteStatus: "accepted" | "declined" | null;
   canPostpone: boolean;
   postponeBlockedReason: string;
+  /** 本桌的法定时间，用于淘汰周限制"只能提前"。 */
+  legalTime: string;
+  onlyEarlier: boolean;
+  noPostpone: boolean;
 }) {
+  const cannotPostpone = canPostpone && !noPostpone;
+  const postponeReason = noPostpone ? "淘汰周不允许顺延比赛，只能提前进行" : postponeBlockedReason;
   const voting = state === "needs_vote" || state === "voted";
   const editable = state === "needs_action" || state === "needs_vote";
   const [editing, setEditing] = useState(editable);
@@ -109,12 +118,14 @@ export function NegotiationPlayerForm({
         <legend>请选择你的回应</legend>
         {option("confirm", "同意按法定时间开打")}
         {option("change_time", "申请更换开打时间", false, "需要另外三人同意")}
-        {option("postpone", canPostpone ? "申请顺延到下周同一时间" : "申请顺延到下周同一时间（本场不可再用）", !canPostpone, postponeBlockedReason)}
+        {option("postpone", cannotPostpone ? "申请顺延到下周同一时间" : "申请顺延到下周同一时间（本场不可再用）", !cannotPostpone, postponeReason)}
       </fieldset>
       {mode === "change_time" && <div className="time-slots">
-        <span className="time-slots-title">你希望的开打时间（最多 4 个，取最早的一个生效；点 × 删掉多余的行）</span>
+        <span className="time-slots-title">{onlyEarlier
+          ? `你希望提前到什么时候（最多 4 个，取最早的一个生效；不能晚于法定时间 ${formatTableTime(legalTime)}）`
+          : "你希望的开打时间（最多 4 个，取最早的一个生效；点 × 删掉多余的行）"}</span>
         {times.map((value, index) => <div className="time-slot" key={index}>
-          <input name="proposedTime" type="datetime-local" value={value} onChange={(event) => updateTime(index, event.target.value)} />
+          <input name="proposedTime" type="datetime-local" value={value} max={onlyEarlier ? formatTableTimeInput(legalTime) : undefined} onChange={(event) => updateTime(index, event.target.value)} />
           <button type="button" className="time-slot-remove" onClick={() => removeTime(index)} aria-label={`删除时间 ${index + 1}`}><X size={14} /></button>
         </div>)}
         {times.length < maxTimes && <button type="button" className="button time-slot-add" onClick={() => setTimes((current) => [...current, ""])}><Plus size={14} />再加一个时间</button>}

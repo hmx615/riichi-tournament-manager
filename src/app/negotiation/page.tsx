@@ -1,9 +1,14 @@
+import Link from "next/link";
 import { getCompetition } from "@/server/competition-repository";
-import { readNegotiationSession } from "@/server/negotiation";
+import { currentNegotiationParticipant, readNegotiationSession } from "@/server/negotiation";
 import { confirmedCount, formatTableTime, negotiationFor, negotiationStatusLabel, pendingProposal } from "@/domain/schedule-negotiation";
+import { negotiationRules } from "@/domain/schedule-negotiation";
+import { individualWeekOf } from "@/domain/individual-standings";
+import { scheduledMatch } from "@/domain/scheduled-match";
 import { NegotiationPlayerForm } from "@/components/negotiation-player-form";
 import type { PlayerFormState } from "@/components/negotiation-player-form";
-import { leaveNegotiationSessionAction, startNegotiationSessionAction } from "./actions";
+import { LogIn } from "lucide-react";
+import { leaveNegotiationSessionAction } from "./actions";
 
 const stampFormatter = new Intl.DateTimeFormat("zh-CN", {
   timeZone: "Asia/Shanghai",
@@ -16,22 +21,23 @@ const stampFormatter = new Intl.DateTimeFormat("zh-CN", {
 
 const formatTime = formatTableTime;
 const formatStamp = (iso: string) => Number.isFinite(Date.parse(iso)) ? stampFormatter.format(new Date(iso)) : iso;
-const stageLabels = { preliminary: "初赛", semifinal: "半决赛", final: "决赛" } as const;
+const stageLabels = { preliminary: "初赛", final: "决赛" } as const;
 const responseLabels = { pending: "待确认", accepted: "已确认", declined: "不能参加" } as const;
 const voteLabels = { pending: "待表决", accepted: "同意", declined: "拒绝" } as const;
 
+/** 选手用赛场账号登录后进入赛程确认；没登录就先引导登录。 */
 function Gate({ competitionId, competitionName, error }: { competitionId: string; competitionName: string; error: string }) {
+  const next = `/negotiation?competition=${encodeURIComponent(competitionId)}`;
   return <div className="page form-page">
     <div className="page-heading">
-      <div><p className="eyebrow">{competitionName} · 赛程确认</p><h1>输入口令进入我的赛程</h1>
-        <p>口令由管理员发给本人，一条口令本届通用；验证通过后本届比赛内不用再输。</p></div>
+      <div><p className="eyebrow">{competitionName} · 赛程确认</p><h1>用选手账号登录后确认赛程</h1>
+        <p>账号由赛事方发给本人，登录一次 14 天内不用再输；登录后这里会显示你的每一桌时间。</p></div>
     </div>
     {error && <p className="form-error" role="alert">{error}</p>}
-    <form className="form-section negotiation-gate" action={startNegotiationSessionAction}>
-      <input type="hidden" name="competitionId" value={competitionId} />
-      <label>8 位口令<input name="accessCode" inputMode="numeric" autoComplete="one-time-code" pattern="\d{8}" maxLength={8} placeholder="例如 20260916" required /></label>
-      <button className="button primary" type="submit">进入我的赛程</button>
-    </form>
+    <section className="form-section negotiation-gate">
+      <Link className="button primary" href={`/login?next=${encodeURIComponent(next)}`}><LogIn size={16} />登录选手账号</Link>
+      <p className="field-note">还没有账号或忘记密码，请联系赛事管理员重置。</p>
+    </section>
   </div>;
 }
 
@@ -49,21 +55,18 @@ export default async function NegotiationPage({ searchParams }: {
       <p className="form-error" role="alert">链接里的比赛不存在或已被删除，请找管理员确认协商链接。</p>
     </div>;
   }
-  const session = await readNegotiationSession(competition.id);
-  if (!session) return <Gate competitionId={competition.id} competitionName={competition.name} error={error} />;
-  const participant = competition.participants.find((item) => item.id === session.participantId);
-  if (!participant) return <Gate competitionId={competition.id} competitionName={competition.name} error="口令对应的选手已经不在本届名单里，请联系管理员" />;
+  const [session, participant] = await Promise.all([readNegotiationSession(competition.id), currentNegotiationParticipant(competition.id)]);
+  if (!participant) return <Gate competitionId={competition.id} competitionName={competition.name} error={error} />;
 
   const participantById = new Map(competition.participants.map((item) => [item.id, item]));
   const myTables = (competition.individualSchedule ?? [])
     .filter((table) => table.participantIds.includes(participant.id))
     .sort((left, right) => Date.parse(left.scheduledAt) - Date.parse(right.scheduledAt));
-  const recorded = (tableId: string, stage: string, round: number, tableNumber: number) => competition.matches.some((match) =>
-    match.scheduleId === tableId || (match.stage === stage && match.round === round && match.tableNumber === tableNumber));
-  const isSettled = (tableId: string, stage: string, round: number, tableNumber: number, negotiation: ReturnType<typeof negotiationFor>) =>
-    recorded(tableId, stage, round, tableNumber) || ["confirmed", "postponed", "legal_time_final", "completed", "cancelled"].includes(negotiation.status);
+  const recorded = (table: (typeof myTables)[number]) => Boolean(scheduledMatch(competition, table));
+  const isSettled = (table: (typeof myTables)[number], negotiation: ReturnType<typeof negotiationFor>) =>
+    recorded(table) || ["confirmed", "postponed", "legal_time_final", "completed", "cancelled"].includes(negotiation.status);
   const negotiable = myTables
-    .filter((table) => !isSettled(table.id, table.stage, table.round, table.tableNumber, negotiationFor(table)))
+    .filter((table) => !isSettled(table, negotiationFor(table)))
     .sort((left, right) => Date.parse(left.scheduledAt) - Date.parse(right.scheduledAt))[0];
 
   return <div className="page form-page">
@@ -73,10 +76,12 @@ export default async function NegotiationPage({ searchParams }: {
         <h1>{participant.displayName} 的赛程</h1>
         <p>时间均为北京时间（Asia/Shanghai）· 每次只放开最近的一场协商，其余桌次供查看</p>
       </div>
-      <form action={leaveNegotiationSessionAction} className="heading-actions">
-        <input type="hidden" name="competitionId" value={competition.id} />
-        <button className="button" type="submit">切换选手（清除口令）</button>
-      </form>
+      {session
+        ? <form action={leaveNegotiationSessionAction} className="heading-actions">
+          <input type="hidden" name="competitionId" value={competition.id} />
+          <button className="button" type="submit">切换选手</button>
+        </form>
+        : <div className="heading-actions"><Link className="button" href="/login?next=/casual">切换账号</Link></div>}
     </div>
     {done && <p className="form-message success" role="status">已提交，下面是你的赛程。</p>}
     {error && <p className="form-error" role="alert">{error}</p>}
@@ -85,7 +90,7 @@ export default async function NegotiationPage({ searchParams }: {
       const negotiation = negotiationFor(table);
       const proposal = pendingProposal(negotiation);
       const isNegotiable = negotiable?.id === table.id;
-      const finished = recorded(table.id, table.stage, table.round, table.tableNumber);
+      const finished = recorded(table);
       const status = finished ? "已完成" : negotiationStatusLabel(negotiation);
       const myVote = proposal?.votes.find((vote) => vote.participantId === participant.id);
       const myConfirmation = negotiation.confirmations.find((item) => item.participantId === participant.id);
@@ -117,7 +122,7 @@ export default async function NegotiationPage({ searchParams }: {
                 : "";
       return <section className={`form-section negotiation-player-section${isNegotiable ? " negotiable" : ""}`} id={`table-${table.id}`} key={table.id}>
         <div className="form-section-title"><span>{index + 1}</span><div>
-          <h2>{stageLabels[table.stage]} · 第 {table.round} 轮 · A{table.tableNumber} <em className={`negotiation-status ${negotiation.status === "confirmed" || negotiation.status === "postponed" ? "confirmed" : negotiation.status === "legal_time_final" || negotiation.status === "overdue" ? "final" : "pending"}`}>{status}</em></h2>
+          <h2>{stageLabels[table.stage]} · 第 {individualWeekOf(table)} 周 · 第 {table.round} 轮 · A{table.tableNumber} <em className={`negotiation-status ${negotiation.status === "confirmed" || negotiation.status === "postponed" ? "confirmed" : negotiation.status === "legal_time_final" || negotiation.status === "overdue" ? "final" : "pending"}`}>{status}</em></h2>
           <p>本桌：{table.participantIds.map((id) => participantById.get(id)?.displayName ?? id).join("、")}{isNegotiable ? " · 现在需要你处理这一场" : ""}</p>
         </div></div>
         <div className="negotiation-times">
@@ -154,6 +159,9 @@ export default async function NegotiationPage({ searchParams }: {
             myVoteStatus={myVote?.status === "accepted" || myVote?.status === "declined" ? myVote.status : null}
             canPostpone={!negotiation.postponed && !negotiation.postponeBlocked}
             postponeBlockedReason={negotiation.postponed ? "本场已经顺延过" : negotiation.postponeBlocked ? "本场顺延申请曾被拒绝" : ""}
+            legalTime={negotiation.legalTime}
+            onlyEarlier={negotiationRules(negotiation).onlyEarlier}
+            noPostpone={negotiationRules(negotiation).noPostpone}
           />
           : !finished && <p className={`field-note confirmed-count ${confirmedCount(negotiation) >= 4 ? "all" : ""}`}>{proposal && myVote?.status === "pending" ? "这一场也有待表决的申请，但请先处理上面最近的那一场。" : `已确认 ${confirmedCount(negotiation)}/4，本桌暂不需要你操作。`}</p>}
         {negotiation.history.length > 0 && <details className="negotiation-player-history">

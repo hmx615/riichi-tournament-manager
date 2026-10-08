@@ -16,6 +16,7 @@ import {
   verifyAccessCode,
 } from "@/domain/negotiation-access";
 import { createNegotiationSession, verifyNegotiationSession } from "@/domain/negotiation-session";
+import { currentPlayer } from "@/server/player-auth";
 import type { IndividualScheduleTable, ScheduleNegotiation } from "@/domain/types";
 
 const sessionDays = 30;
@@ -119,6 +120,24 @@ export async function clearNegotiationSession(competitionId: string) {
   (await cookies()).delete(sessionCookieName(competitionId));
 }
 
+/**
+ * 当前访问者在某一届里的参赛席位：
+ * 先看协商会话（口令进入），再看选手登录账号绑定的 personId。
+ * 现在选手直接用登录账号进赛程确认，不再需要单独的口令。
+ */
+export async function currentNegotiationParticipant(competitionId: string) {
+  const competition = await getCompetition(competitionId);
+  if (!competition) return null;
+  const session = await readNegotiationSession(competitionId);
+  if (session) {
+    const participant = competition.participants.find((item) => item.id === session.participantId);
+    if (participant) return participant;
+  }
+  const player = await currentPlayer();
+  if (!player?.personId) return null;
+  return competition.participants.find((participant) => participant.personId === player.personId) ?? null;
+}
+
 async function mutateNegotiation(competitionId: string, scheduleId: string, mutate: (negotiation: ScheduleNegotiation, table: IndividualScheduleTable) => ScheduleNegotiation) {
   const competition = await getCompetition(competitionId);
   if (!competition?.individualSchedule) throw new Error("该比赛没有独立赛程");
@@ -146,9 +165,9 @@ export async function applyNegotiationForParticipant(
   scheduleId: string,
   mutate: (negotiation: ScheduleNegotiation, table: IndividualScheduleTable, participantId: string) => ScheduleNegotiation,
 ) {
-  const session = await readNegotiationSession(competitionId);
-  if (!session) throw new Error("请先输入口令进入协商页");
-  const participantId = session.participantId;
+  const participant = await currentNegotiationParticipant(competitionId);
+  if (!participant) throw new Error("请先用选手账号登录，再进入赛程确认");
+  const participantId = participant.id;
   return mutateNegotiation(competitionId, scheduleId, (negotiation, table) => {
     if (!table.participantIds.includes(participantId)) throw new Error("你不在这桌的参赛名单里");
     return mutate(negotiation, table, participantId);

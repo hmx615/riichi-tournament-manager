@@ -5,8 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireAdmin } from "@/server/auth";
 import { getCompetition, updateCompetition } from "@/server/competition-repository";
-import { individualStageStandings } from "@/domain/individual-standings";
-import { planIndividualSchedule } from "@/domain/individual-schedule";
+import { settlePreliminaryWeek } from "@/domain/individual-tournament";
 import { expireNegotiation, formatTableTime, overrideTime, parseTableTimeInput, setNegotiationDeadline } from "@/domain/schedule-negotiation";
 import { updateTableNegotiation } from "@/server/negotiation";
 import { generateCompetitionAccessCodes } from "@/server/negotiation";
@@ -128,29 +127,96 @@ export async function generateAccessCodesAction(_state: AccessCodesState, formDa
   }
 }
 
-export async function confirmStageAction(formData: FormData) {
+/**
+ * 结算某一周：本周全部牌谱录入后才能结算。
+ * 淘汰周会按累计积分倒序淘汰末位选手，然后生成下一周（或决赛）的赛程。
+ */
+export async function settleWeekAction(formData: FormData) {
   await requireAdmin();
   const competitionId = String(formData.get("competitionId") || "");
-  const stage = String(formData.get("stage") || "");
-  if (stage !== "preliminary" && stage !== "semifinal") throw new Error("阶段无效");
+  const week = Number(formData.get("week") || 0);
   const competition = await getCompetition(competitionId);
   if (!competition?.individualSettings) throw new Error("不是个人赛");
-  const completed = competition.matches.filter((match) => match.status === "completed" && match.stage === stage);
-  if (!completed.length) redirect(`/competitions/${competition.id}/schedule?error=${encodeURIComponent("该阶段尚未完成任何牌谱")}`);
-  const settings = competition.individualSettings;
-  const count = stage === "preliminary" ? settings.stages.preliminary.advancingPlayerCount ?? 0 : settings.semifinalAdvancingPlayerCount ?? settings.stages.semifinal.advancingPlayerCount ?? 0;
-  if (!count) redirect(`/competitions/${competition.id}/schedule?error=${encodeURIComponent("尚未设置晋级人数，请先在比赛设置中填写")}`);
-  const nextStage = stage === "preliminary" ? "semifinal" : "final";
-  if (competition.individualSchedule?.some((table) => table.stage === nextStage)) throw new Error("下一阶段赛程已经生成");
-  const ids = individualStageStandings(competition, stage).slice(0, count).map((row) => row.participant.id);
-  const games = settings.stages[nextStage].matchCountPerPlayer;
-  // 晋级人数不是 4 的倍数时（例如 6 人晋级），允许部分选手少打一个半庄并记为轮空。
-  const plan = planIndividualSchedule(ids, nextStage, games, { allowUnevenGames: true });
-  const generated = plan.tables.map((table, index) => ({ ...table, id: `${competition.id}-${nextStage}-${table.round}-${table.tableNumber}`, scheduledAt: new Date(Date.UTC(2026, 8, 19 + index, 12)).toISOString(), timezone: "Asia/Shanghai", status: "scheduled" as const }));
-  competition.individualSchedule = [...(competition.individualSchedule ?? []), ...generated];
-  competition.individualByes = [...(competition.individualByes ?? []), ...plan.byes];
-  await updateCompetition(competition);
+  if (!Number.isInteger(week) || week <= 0) throw new Error("周次无效");
+  let message = "";
+  try {
+    settlePreliminaryWeek(competition, week);
+    await updateCompetition(competition);
+  } catch (error) {
+    message = error instanceof Error ? error.message : "结算失败";
+  }
   revalidatePath(`/competitions/${competition.id}`);
   revalidatePath(`/competitions/${competition.id}/schedule`);
-  redirect(`/competitions/${competition.id}/schedule`);
+  revalidatePath(`/competitions/${competition.id}/data`);
+  revalidatePath("/");
+  if (message) scheduleErrorRedirect(competition.id, message);
+  redirect(`/competitions/${competition.id}/schedule?saved=1`);
+}
+
+const adjustmentSchema = z.object({
+  competitionId: z.string().regex(/^[a-z0-9-]+$/),
+  participantId: z.string().min(1),
+  stage: z.enum(["preliminary", "final"]),
+  points: z.coerce.number().min(-1000).max(1000),
+  reason: z.string().trim().min(1, "请填写加减分原因").max(60),
+});
+
+/** 管理员手工加减分（迟到扣分等），只计入所选阶段。 */
+export async function addAdjustmentAction(formData: FormData) {
+  await requireAdmin();
+  const parsed = adjustmentSchema.safeParse({
+    competitionId: formData.get("competitionId"),
+    participantId: formData.get("participantId"),
+    stage: formData.get("stage"),
+    points: formData.get("points"),
+    reason: formData.get("reason"),
+  });
+  if (!parsed.success) {
+    scheduleErrorRedirect(String(formData.get("competitionId") || ""), "请选择选手并填写分值、原因");
+    return;
+  }
+  const { competitionId, participantId, stage, points, reason } = parsed.data;
+  const competition = await getCompetition(competitionId);
+  if (!competition?.individualSettings) {
+    scheduleErrorRedirect(competitionId, "不是个人赛");
+    return;
+  }
+  if (!competition.participants.some((participant) => participant.id === participantId)) {
+    scheduleErrorRedirect(competitionId, "找不到这名选手");
+    return;
+  }
+  competition.individualAdjustments = [...(competition.individualAdjustments ?? []), {
+    id: `adj-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
+    stage,
+    participantId,
+    points,
+    reason,
+    at: new Date().toISOString(),
+  }];
+  await updateCompetition(competition);
+  revalidatePath(`/competitions/${competition.id}`);
+  revalidatePath(`/competitions/${competition.id}/data`);
+  redirect(`/competitions/${competition.id}?saved=1`);
+}
+
+/** 删掉一条加减分记录（录错了可以撤销）。 */
+export async function deleteAdjustmentAction(formData: FormData) {
+  await requireAdmin();
+  const competitionId = String(formData.get("competitionId") || "");
+  const adjustmentId = String(formData.get("adjustmentId") || "");
+  const competition = await getCompetition(competitionId);
+  if (!competition) {
+    scheduleErrorRedirect(competitionId, "比赛不存在");
+    return;
+  }
+  const before = (competition.individualAdjustments ?? []).length;
+  competition.individualAdjustments = (competition.individualAdjustments ?? []).filter((item) => item.id !== adjustmentId);
+  if (competition.individualAdjustments.length === before) {
+    scheduleErrorRedirect(competition.id, "这条记录已经删过了");
+    return;
+  }
+  await updateCompetition(competition);
+  revalidatePath(`/competitions/${competition.id}`);
+  revalidatePath(`/competitions/${competition.id}/data`);
+  redirect(`/competitions/${competition.id}?saved=1`);
 }

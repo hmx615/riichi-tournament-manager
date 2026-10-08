@@ -46,7 +46,7 @@ export function formatTableTimeInput(iso: string, offsetMinutes = 8 * 60): strin
   return new Date(timestamp + offsetMinutes * 60 * 1000).toISOString().slice(0, 16);
 }
 
-type NegotiableTable = Pick<IndividualScheduleTable, "scheduledAt" | "participantIds" | "status" | "negotiation">;
+type NegotiableTable = Pick<IndividualScheduleTable, "scheduledAt" | "participantIds" | "status" | "negotiation" | "rules">;
 
 /** 兼容旧版本的协商记录（当时叫 responses / reschedule / negotiating），读到就换算成新结构。 */
 function normalizeNegotiation(stored: ScheduleNegotiation & {
@@ -78,15 +78,25 @@ function normalizeNegotiation(stored: ScheduleNegotiation & {
 
 /** 没有协商记录时，以赛程里的时间为法定时间，状态为「待确认法定时间」。 */
 export function negotiationFor(table: NegotiableTable): ScheduleNegotiation {
-  if (table.negotiation) return normalizeNegotiation(table.negotiation);
+  if (table.negotiation) {
+    const stored = normalizeNegotiation(table.negotiation);
+    // 淘汰周的限制写在桌次上，老协商记录里可能还没有，读的时候补上。
+    return table.rules && !stored.rules ? { ...stored, rules: table.rules } : stored;
+  }
   return {
     status: table.status === "completed" ? "completed" : table.status === "cancelled" ? "cancelled" : "legal_time",
     legalTime: table.scheduledAt,
     currentTime: table.scheduledAt,
     candidateTimes: [],
     confirmations: table.participantIds.map((participantId) => ({ participantId, status: "pending" as const })),
+    ...(table.rules ? { rules: table.rules } : {}),
     history: [],
   };
+}
+
+/** 本桌的协商限制（淘汰周只能提前、不能顺延）。 */
+export function negotiationRules(negotiation: ScheduleNegotiation) {
+  return { onlyEarlier: Boolean(negotiation.rules?.onlyEarlier), noPostpone: Boolean(negotiation.rules?.noPostpone) };
 }
 
 /** 逾期按当前时间判断，不需要后台任务：只读时就能得出。 */
@@ -179,6 +189,9 @@ export function proposeChangeTime(negotiation: ScheduleNegotiation, input: { par
   const times = [...new Set(input.times.map((time) => time.trim()).filter(Boolean))].sort((left, right) => Date.parse(left) - Date.parse(right));
   if (!times.length) throw new Error("请至少填写一个希望开打的时间");
   if (times.length > maxProposedTimes) throw new Error(`最多可以提 ${maxProposedTimes} 个时间`);
+  if (negotiationRules(negotiation).onlyEarlier && times.some((time) => !(Date.parse(time) < Date.parse(negotiation.legalTime)))) {
+    throw new Error("淘汰周只能提前比赛，不能把时间改到法定时间之后");
+  }
   return createProposal(negotiation, {
     participantId: input.participantId,
     type: "change_time",
@@ -190,6 +203,7 @@ export function proposeChangeTime(negotiation: ScheduleNegotiation, input: { par
 }
 
 export function canProposePostpone(negotiation: ScheduleNegotiation) {
+  if (negotiationRules(negotiation).noPostpone) return false;
   if (negotiation.postponed || negotiation.postponeBlocked) return false;
   const status = effectiveStatus(negotiation);
   return status === "legal_time";
@@ -197,6 +211,7 @@ export function canProposePostpone(negotiation: ScheduleNegotiation) {
 
 /** 申请顺延到下周（本周实在找不到时间时的兜底方案）。 */
 export function proposePostpone(negotiation: ScheduleNegotiation, input: { participantId: string; note?: string; at: string }): ScheduleNegotiation {
+  if (negotiationRules(negotiation).noPostpone) throw new Error("淘汰周不能顺延比赛，只能提前进行");
   if (negotiation.postponed) throw new Error("本场已经顺延过，不能再顺延");
   if (negotiation.postponeBlocked) throw new Error("本场的顺延申请已经被拒绝过，不能再申请");
   const postponeTime = new Date(Date.parse(negotiation.legalTime) + rescheduleDelayMs).toISOString();

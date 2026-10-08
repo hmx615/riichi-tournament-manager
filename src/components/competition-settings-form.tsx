@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Save } from "lucide-react";
 import type { Competition, Person } from "@/domain/types";
 import { saveCompetitionSettingsAction, type CompetitionSettingsState } from "@/app/competitions/[competitionId]/settings/actions";
+import { individualSettingsFor } from "@/domain/competition-format";
 
 const initialState: CompetitionSettingsState = { status: "idle", message: "" };
 
@@ -15,6 +16,7 @@ export function CompetitionSettingsForm({ competition, people }: { competition: 
   useEffect(() => { if (state.status === "success" && state.redirectTo) router.push(state.redirectTo); }, [state.status, state.redirectTo, router]);
   const scoringLocked = competition.matches.length > 0;
   const individual = competition.format === "individual";
+  const individualSettings = individualSettingsFor(competition);
   const error = (name: string) => state.fieldErrors?.[name]?.[0];
   return (
     <form className="form-layout" action={action} onSubmit={(event) => { const form = event.currentTarget; const rank = (form.elements.namedItem("rankPoints") as HTMLInputElement).value.split(/[,，\s]+/).filter(Boolean); if (rank.length !== 4 || rank.some((value) => !Number.isFinite(Number(value)))) { event.preventDefault(); const input = form.elements.namedItem("rankPoints") as HTMLInputElement; input.setCustomValidity("请填写四个有效的顺位马点"); input.reportValidity(); input.addEventListener("input", () => input.setCustomValidity(""), { once: true }); } }}>
@@ -31,12 +33,13 @@ export function CompetitionSettingsForm({ competition, people }: { competition: 
           <label className="field"><span>原点</span><input name="initialPoints" type="number" step="100" defaultValue={competition.initialPoints} readOnly={scoringLocked} required /></label>
           <label className="field wide"><span>顺位马点</span><input name="rankPoints" defaultValue={competition.rankPoints.join(", ")} readOnly={scoringLocked} required /></label>
           {individual && <>
-            <label className="field"><span>初赛每人半庄数</span><input name="preliminaryMatches" type="number" min="0" defaultValue={competition.individualSettings?.stages.preliminary.matchCountPerPlayer ?? 0} required /></label>
-            <label className="field"><span>半决赛每人半庄数</span><input name="semifinalMatches" type="number" min="0" defaultValue={competition.individualSettings?.stages.semifinal.matchCountPerPlayer ?? 0} required /></label>
-            <label className="field"><span>决赛每人半庄数</span><input name="finalMatches" type="number" min="0" defaultValue={competition.individualSettings?.stages.final.matchCountPerPlayer ?? 0} required /></label>
-            <label className="field"><span>初赛晋级半决赛人数</span><input name="preliminaryAdvancing" type="number" min="0" defaultValue={competition.individualSettings?.stages.preliminary.advancingPlayerCount ?? 0} required /></label>
-            <label className="field"><span>初赛直通决赛人数</span><input name="preliminaryDirectFinal" type="number" min="0" defaultValue={competition.individualSettings?.preliminaryDirectFinalPlayerCount ?? 0} required /></label>
-            <label className="field"><span>半决赛晋级决赛人数</span><input name="semifinalAdvancing" type="number" min="0" defaultValue={competition.individualSettings?.semifinalAdvancingPlayerCount ?? 0} required /></label>
+            <label className="field"><span>初赛日常周数</span><input name="regularWeeks" type="number" min="0" defaultValue={individualSettings?.preliminary.regularWeeks ?? 4} required /></label>
+            <label className="field"><span>初赛淘汰周数</span><input name="eliminationWeeks" type="number" min="0" defaultValue={individualSettings?.preliminary.eliminationWeeks ?? 3} required /></label>
+            <label className="field"><span>每周每人半庄数</span><input name="matchesPerPlayerPerWeek" type="number" min="1" defaultValue={individualSettings?.preliminary.matchesPerPlayerPerWeek ?? 4} required /></label>
+            <label className="field"><span>每周淘汰人数</span><input name="eliminationCountPerWeek" type="number" min="0" defaultValue={individualSettings?.preliminary.eliminationCountPerWeek ?? 4} required /></label>
+            <label className="field"><span>决赛人数</span><input name="finalistCount" type="number" min="4" defaultValue={individualSettings?.preliminary.finalistCount ?? 4} required /></label>
+            <label className="field"><span>决赛每人半庄数</span><input name="finalMatches" type="number" min="0" defaultValue={individualSettings?.final.matchCountPerPlayer ?? 12} required /></label>
+            <label className="field"><span>开赛日（第一周周日）</span><input name="startDate" type="date" defaultValue={individualSettings?.preliminary.startDate ?? ""} /></label>
           </>}
         </div>
       </section>
