@@ -17,8 +17,10 @@ export type AppUser = {
 };
 
 export const createAppUserSchema = z.object({
-  username: z.string().trim().min(3, "账号至少 3 个字符").max(32, "账号最多 32 个字符")
-    .regex(/^[A-Za-z0-9_]+$/, "账号只能包含字母、数字和下划线"),
+  // 账号直接用排行榜上的人物名，中文/日文名也是合法账号；
+  // 禁止的是空白、控制字符和容易混淆的分隔符，登录时不区分大小写。
+  username: z.string().trim().min(2, "账号至少 2 个字符").max(32, "账号最多 32 个字符")
+    .regex(/^[^\s\u0000-\u001f\/\\:@?#]+$/u, "账号不能包含空格、斜杠或冒号等分隔符"),
   displayName: z.string().trim().max(40, "备注最多 40 个字符").optional(),
   personId: z.string().trim().min(1, "请选择绑定人物"),
   password: z.string().min(8, "密码至少 8 位").max(72, "密码最多 72 位"),
@@ -27,7 +29,8 @@ export const createAppUserSchema = z.object({
 export type CreateAppUserInput = z.infer<typeof createAppUserSchema>;
 
 export function normalizeUsername(value: string) {
-  return value.trim().toLowerCase();
+  // NFC 归一化：避免「が」这类字符因为组合形式不同被当成两个账号。
+  return value.trim().normalize("NFC").toLowerCase();
 }
 
 const passwordAlphabet = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";

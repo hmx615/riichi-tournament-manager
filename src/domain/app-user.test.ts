@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   appUserPasswordIterations,
+  createAppUserSchema,
   generateAppUserPassword,
   hashAppUserPassword,
   normalizeUsername,
@@ -36,7 +37,21 @@ describe("选手账号密码", () => {
     expect(password).not.toMatch(/[0O1lI]/);
   });
 
-  it("账号统一转小写", () => {
+  it("账号统一转小写并做 NFC 归一化", () => {
     expect(normalizeUsername("  PHQ ")).toBe("phq");
+    // 「が」用组合形式输入时也要归一化成同一个账号。
+    expect(normalizeUsername("が")).toBe(normalizeUsername("か\u3099"));
+  });
+
+  it("账号直接用排行榜人物名：中文、日文、两位数都合法", () => {
+    for (const name of ["胡米奥", "九条", "乱花", "心脏会闪烁吗", "おでけけ", "3q", "Nanaishi", "Wesley", "紫罗兰梦幻花园"]) {
+      expect(createAppUserSchema.safeParse({ username: name, personId: "p", password: "Abcd2345xy" }).success).toBe(true);
+    }
+  });
+
+  it("拒绝空格、控制字符和路径分隔符", () => {
+    for (const name of ["a b", "胡 米", "a/b", "a:b", "a@b", "x\ny", "", "a"]) {
+      expect(createAppUserSchema.safeParse({ username: name, personId: "p", password: "Abcd2345xy" }).success).toBe(false);
+    }
   });
 });

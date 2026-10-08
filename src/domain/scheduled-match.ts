@@ -1,4 +1,4 @@
-import type { Competition, IndividualScheduleTable, MatchRecord, Participant } from "./types";
+import type { Competition, IndividualScheduleTable, MatchRecord } from "./types";
 
 export function scheduledMatch(competition: Competition, table: IndividualScheduleTable) {
   return competition.matches.find((match) => match.scheduleId ? match.scheduleId === table.id : (
@@ -12,20 +12,6 @@ export function entrySchedule(competition: Competition, scheduleId: string) {
   if (!table) throw new Error("请从具体赛程卡片选择要录入的对局");
   if (table.status === "cancelled") throw new Error("该桌赛程已取消");
   return table;
-}
-
-/** 桌上的某个人物对应哪个参赛席位（同一人物在一届里只报名一次）。 */
-export function participantIdForPerson(competition: Pick<Competition, "participants">, personId: string) {
-  return competition.participants.find((participant) => participant.personId === personId)?.id ?? null;
-}
-
-/**
- * 选手只能给自己那桌录入牌谱：把登录账号绑定的人物换算成参赛席位，
- * 必须落在本桌名单里。否则任何选手账号都能替别人那桌提交成绩。
- */
-export function tableHasParticipant(competition: Pick<Competition, "participants">, table: IndividualScheduleTable, personId: string) {
-  const participantId = participantIdForPerson(competition, personId);
-  return participantId !== null && table.participantIds.includes(participantId);
 }
 
 export function requireOpenTable(competition: Competition, table: IndividualScheduleTable) {

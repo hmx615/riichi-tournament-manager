@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { completeScheduledMatch, entrySchedule, participantIdForPerson, tableHasParticipant } from "./scheduled-match";
+import { completeScheduledMatch, entrySchedule } from "./scheduled-match";
 import type { Competition, MatchRecord } from "./types";
 
 export function fixture() {
@@ -33,39 +33,5 @@ describe("scheduled match association", () => {
     match.seats[0].participantId = id;
     expect(() => completeScheduledMatch(competition, match)).toThrow("四名选手");
     expect(competition.individualSchedule![0].status).toBe("scheduled");
-  });
-});
-
-describe("选手只能给自己那桌录牌谱", () => {
-  function withPeople() {
-    const { competition } = fixture();
-    competition.participants = competition.participants.map((participant, index) => ({ ...participant, personId: `person-${participant.id}` }));
-    return competition;
-  }
-
-  it("把人的人物 ID 换算成本届的参赛席位", () => {
-    const competition = withPeople();
-    expect(participantIdForPerson(competition, "person-b")).toBe("b");
-    expect(participantIdForPerson(competition, "person-missing")).toBeNull();
-  });
-
-  it("本桌选手可以录这一桌", () => {
-    const competition = withPeople();
-    expect(tableHasParticipant(competition, competition.individualSchedule![0], "person-a")).toBe(true);
-    expect(tableHasParticipant(competition, competition.individualSchedule![0], "person-d")).toBe(true);
-  });
-
-  it("不在本桌的选手被挡住（哪怕他是同一个人赛的参赛者）", () => {
-    const competition = withPeople();
-    expect(tableHasParticipant(competition, competition.individualSchedule![0], "person-e")).toBe(false);
-  });
-
-  it("没有绑定人物或人物不在名单里时一律挡住", () => {
-    const competition = withPeople();
-    expect(tableHasParticipant(competition, competition.individualSchedule![0], "")).toBe(false);
-    expect(tableHasParticipant(competition, competition.individualSchedule![0], "person-不存在")).toBe(false);
-    // 参赛席位没有 personId 时，人物 ID 匹配不上任何人。
-    const anonymous = fixture().competition;
-    expect(tableHasParticipant(anonymous, anonymous.individualSchedule![0], "person-a")).toBe(false);
   });
 });

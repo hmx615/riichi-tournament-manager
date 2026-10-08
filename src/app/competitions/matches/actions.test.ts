@@ -13,7 +13,7 @@ const mocks = vi.hoisted(() => ({
   readCachedLogs: vi.fn(),
   matchContentFingerprint: vi.fn(),
   canEnterCompetitionMatches: vi.fn(),
-  competitionMatchEntryError: vi.fn(),
+
   rememberPersonAccounts: vi.fn(),
   revalidatePath: vi.fn(),
   redirect: vi.fn(() => { throw new Error("NEXT_REDIRECT"); }),
@@ -35,7 +35,7 @@ vi.mock("@/server/tenhou", () => ({
   parseMatchSource: mocks.parseMatchSource,
   readCachedLogs: mocks.readCachedLogs,
 }));
-vi.mock("@/server/match-entry-auth", () => ({ canEnterCompetitionMatches: mocks.canEnterCompetitionMatches, competitionMatchEntryError: mocks.competitionMatchEntryError }));
+vi.mock("@/server/match-entry-auth", () => ({ canEnterCompetitionMatches: mocks.canEnterCompetitionMatches }));
 vi.mock("@/server/person-repository", () => ({ rememberPersonAccounts: mocks.rememberPersonAccounts }));
 
 import { parseMatchAction, saveMatchAction, type MatchEntryState } from "./actions";
@@ -116,7 +116,6 @@ describe("saveMatchAction", () => {
     mocks.readCachedLogs.mockResolvedValue(new Map());
     mocks.matchContentFingerprint.mockResolvedValue("different-fingerprint");
     mocks.canEnterCompetitionMatches.mockResolvedValue(true);
-    mocks.competitionMatchEntryError.mockResolvedValue(null);
     mocks.supplementMatchNagaAnalysis.mockResolvedValue(undefined);
     mocks.appendMatch.mockResolvedValue(undefined);
     mocks.rememberPersonAccounts.mockResolvedValue(undefined);
@@ -154,7 +153,6 @@ describe("saveMatchAction", () => {
 
   it("rejects visitors before reading or writing match data", async () => {
     mocks.canEnterCompetitionMatches.mockResolvedValue(false);
-    mocks.competitionMatchEntryError.mockResolvedValue("当前账号没有该比赛的牌谱录入权限");
     const formData = new FormData();
     formData.set("competitionId", competition.id);
     formData.set("sourceUrl", preview.sourceUrl);
@@ -162,26 +160,26 @@ describe("saveMatchAction", () => {
     const parseState = await parseMatchAction(idleState, formData);
     const saveState = await saveMatchAction(idleState, formData);
 
-    expect(parseState.message).toBe("当前账号没有该比赛的牌谱录入权限");
-    expect(saveState.message).toBe("当前账号没有该比赛的牌谱录入权限");
+    expect(parseState.message).toBe("比赛牌谱录入只对管理员开放");
+    expect(saveState.message).toBe("比赛牌谱录入只对管理员开放");
     expect(mocks.parseMatchSource).not.toHaveBeenCalled();
     expect(mocks.appendMatch).not.toHaveBeenCalled();
     expect(mocks.supplementMatchNagaAnalysis).not.toHaveBeenCalled();
     expect(mocks.rememberPersonAccounts).not.toHaveBeenCalled();
   });
 
-  it("stops a player from recording another table before touching match data", async () => {
-    mocks.competitionMatchEntryError.mockResolvedValue("只能录入自己所在桌次的牌谱");
+  it("stops a player account from recording any match at all", async () => {
+    mocks.canEnterCompetitionMatches.mockResolvedValue(false);
     const formData = new FormData();
     formData.set("competitionId", competition.id);
-    formData.set("scheduleId", "other-table");
+    formData.set("scheduleId", "some-table");
     formData.set("sourceUrl", preview.sourceUrl);
 
     const parseState = await parseMatchAction(idleState, formData);
     const saveState = await saveMatchAction(idleState, formData);
 
-    expect(parseState.message).toBe("只能录入自己所在桌次的牌谱");
-    expect(saveState.message).toBe("只能录入自己所在桌次的牌谱");
+    expect(parseState.message).toBe("比赛牌谱录入只对管理员开放");
+    expect(saveState.message).toBe("比赛牌谱录入只对管理员开放");
     expect(mocks.parseMatchSource).not.toHaveBeenCalled();
     expect(mocks.appendMatch).not.toHaveBeenCalled();
   });
