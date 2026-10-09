@@ -1,12 +1,27 @@
-.behind { border: 1px solid #e2c9a0; border-radius: 6px; background: #fdf8ee; padding: 14px 16px; margin-bottom: 16px; }
-.behindHead { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 10px; }
-.behindHead strong { display: flex; align-items: center; gap: 6px; color: #8a6212; font-size: 14px; }
-.behindHead span { color: #8a7a5c; font-size: 12px; }
-.behindList { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
-.behindList li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid #ecdcbd; border-radius: 4px; background: #fff; }
-.behindList a { font-weight: 700; color: #6b4708; }
-.behindCount { color: #8a7a5c; font-size: 12px; }
-.declinedTag { padding: 1px 8px; border-radius: 999px; background: #ffe8e2; color: #a63a20; font-size: 11px; font-weight: 700; }
+/* 「当前要盯的场次」：八点场 / 九点场两张卡片 */
+.now { margin-bottom: 16px; }
+.nowHead { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 8px; }
+.nowHead strong { display: flex; align-items: center; gap: 6px; color: #8a6212; font-size: 14px; }
+.nowHead span { color: #667078; font-size: 12px; }
+.nowCards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+.nowCard { border: 1px solid var(--line, #e2e8ea); border-radius: 6px; overflow: hidden; background: #fff; }
+.nowCard > header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--soft-line, #e9edef); background: #f7f9f9; }
+.nowCard > header strong { font-size: 15px; }
+.nowCard > header span { color: #667078; font-size: 13px; }
+.nowCard > header em { margin-left: auto; color: #667078; font-size: 12px; font-style: normal; font-weight: 700; }
+.nowFlag { padding: 2px 9px; border-radius: 999px; background: #fdeceb; color: #a63a20; font-size: 11px; font-style: normal; font-weight: 700; }
+.nowCard ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 6px; margin: 0; padding: 10px 12px; list-style: none; }
+/* 绿=已确认，黄=待确认，红=协商中或不能来 */
+.nowCard li { display: grid; justify-items: start; gap: 4px; padding: 7px 9px; border: 1px solid; border-radius: 5px; }
+.nowCard li em { font-size: 12px; font-style: normal; font-weight: 700; }
+.nowCard li.done { border-color: #8ecfb9; background: #e6f6ef; }
+.nowCard li.done em { color: #1c7a5f; }
+.nowCard li.wait { border-color: #e2bd52; background: #fdf3d4; }
+.nowCard li.wait em { color: #7a5a09; }
+.nowCard li.admin { border-color: #dda7a7; background: #fdeceb; }
+.nowCard li.admin em { color: #a63a20; }
+.nowCard li .player-tag { margin: 0; }
+.nowCard li .player-tag.compact { font-size: 13px; }
 
 .day { margin-bottom: 10px; border: 1px solid var(--line, #e2e8ea); border-radius: 6px; background: #fff; }
 .day > summary { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; list-style: none; border-radius: 6px; }
@@ -26,7 +41,9 @@
 
 
 .dayBody { padding: 0 14px 14px; display: grid; gap: 10px; }
-.waitingLine { margin: 0; padding: 8px 10px; border-radius: 4px; background: #fdf8ee; color: #8a6212; font-size: 13px; }
+.waitingLine { display: grid; gap: 4px; margin: 0; padding: 8px 10px; border-radius: 4px; background: #fdf8ee; color: #8a6212; font-size: 13px; }
+.waitingLine span { display: block; }
+.waitingLine b { display: inline-block; min-width: 60px; font-weight: 800; }
 .declinedLine { margin: 0; padding: 8px 10px; border-radius: 4px; background: #fff1f1; color: #a63a20; font-size: 13px; }
 
 .table { border: 1px solid var(--soft-line, #e9edef); border-radius: 5px; overflow: hidden; }

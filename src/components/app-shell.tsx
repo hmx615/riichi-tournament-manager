@@ -76,7 +76,11 @@ export function AppShell({ children, admin, player }: {
             {admin && <Link className="topbar-action" href="/admin/tags"><Tags size={15} />标签管理</Link>}
             {!admin && player && <Link className="topbar-action" href="/account"><UserCog size={15} />我的资料</Link>}
             {admin || player
-              ? <form action={logoutAction}><button className="topbar-action" type="submit"><LogOut size={15} />退出</button></form>
+              ? <form action={logoutAction}>
+                  {/* 带上当前路径：登出后回到这里，而不是回首页。 */}
+                  <input type="hidden" name="next" value={pathname} />
+                  <button className="topbar-action" type="submit"><LogOut size={15} />退出</button>
+                </form>
               : <Link className="topbar-action" href="/login"><LogIn size={15} />登录</Link>}
           </div>
         </header>

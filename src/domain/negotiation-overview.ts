@@ -45,6 +45,28 @@ export function beijingDayOf(iso: string) {
   return date.toLocaleDateString("en-CA", { timeZone: "Asia/Shanghai" });
 }
 
+/**
+ * 场次口语名：20 点那场叫「八点场」、21 点那场叫「九点场」。
+ * 以北京时间的小时数为准，改了开赛时间标签也跟着变。
+ */
+export function sessionLabel(iso: string) {
+  const hour = Number(new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Shanghai", hour: "2-digit", hour12: false }).format(new Date(iso)));
+  if (!Number.isFinite(hour)) return "场次";
+  return hour >= 21 ? "九点场" : "八点场";
+}
+
+/** 一个桌次当前是不是「有协商在进行中」（需要管理员介入的特殊状态）。 */
+export function tableNeedsAdmin(competition: Competition, table: IndividualScheduleTable) {
+  const negotiation = negotiationFor(table);
+  if (negotiation.status === "proposal_pending") return true;
+  return negotiation.confirmations.some((item) => item.status === "declined");
+}
+
+/** 管理员总览里「当前该看的那一天」：最早一个已开放协商、且还没全部回话的日子。 */
+export function currentOpenNegotiationDay(days: NegotiationDayGroup[], isOpen: (table: IndividualScheduleTable) => boolean) {
+  return days.find((day) => !day.complete && day.tables.some((item) => isOpen(item.table))) ?? null;
+}
+
 export type NegotiationDayGroup = {
   /** 北京时间日期，如 2026-10-11。 */
   day: string;
@@ -158,4 +180,39 @@ export function participantPendingSummaries(competition: Competition): Participa
     }
   }
   return [...byId.values()].sort((left, right) => right.pending - left.pending || right.declinedTables.length - left.declinedTables.length);
+}
+
+/** 一个场次（同一轮）在总览里的卡片数据。 */
+export type SessionCard = {
+  round: number;
+  label: string;
+  time: string;
+  tables: TableResponseSummary[];
+  entries: Array<{ participantId: string; status: NegotiationResponse; needsAdmin: boolean }>;
+  confirmed: number;
+  total: number;
+  adminCount: number;
+};
+
+/** 把某一天按场次拆成「八点场 / 九点场」两张卡片。 */
+export function sessionCards(competition: Competition, day: NegotiationDayGroup): SessionCard[] {
+  return [...day.tables]
+    .sort((left, right) => left.table.round - right.table.round || left.table.tableNumber - right.table.tableNumber)
+    .reduce((cards, summary) => {
+      let card = cards.find((item) => item.round === summary.table.round);
+      if (!card) {
+        card = { round: summary.table.round, label: sessionLabel(summary.table.scheduledAt), time: summary.table.scheduledAt, tables: [], entries: [], confirmed: 0, total: 0, adminCount: 0 };
+        cards.push(card);
+      }
+      card.tables.push(summary);
+      const needsAdmin = tableNeedsAdmin(competition, summary.table);
+      for (const item of summary.responses) {
+        card.entries.push({ participantId: item.participantId, status: item.status, needsAdmin });
+        if (item.status !== "pending") card.confirmed += 1;
+      }
+      card.total += summary.total;
+      if (needsAdmin) card.adminCount += summary.responses.filter((item) => item.status !== "accepted").length;
+      return cards;
+    }, [] as SessionCard[])
+    .sort((left, right) => left.round - right.round);
 }

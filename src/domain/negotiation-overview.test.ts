@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   beijingDayOf,
+  currentOpenNegotiationDay,
+  sessionCards,
+  sessionLabel,
   negotiationDayGroups,
   participantPendingSummaries,
   tableResponseSummary,
@@ -123,5 +126,54 @@ describe("协商进度总览", () => {
     ]));
     const waitingCounts = days[0].tables.map((item) => item.responses.filter((entry) => entry.status === "pending").length);
     expect(waitingCounts).toEqual([4, 2, 0]);
+  });
+});
+
+describe("场次卡片", () => {
+  const accepted = (pid: string) => ({ participantId: pid, status: "accepted" as const });
+
+  it("八点那场叫八点场，九点那场叫九点场", () => {
+    expect(sessionLabel("2026-10-11T12:00:00Z")).toBe("八点场");
+    expect(sessionLabel("2026-10-11T13:00:00Z")).toBe("九点场");
+  });
+
+  it("同一天拆成八点场、九点场两张卡片，各自带确认进度", () => {
+    const tables = [
+      table("a", "2026-10-11T12:00:00Z", 1, 1, ["p1", "p2", "p3", "p4"], [accepted("p1")]),
+      table("b", "2026-10-11T13:00:00Z", 2, 1, ["p1", "p2", "p3", "p4"], []),
+    ];
+    const day = negotiationDayGroups(competition(tables))[0];
+    const cards = sessionCards(competition(tables), day);
+    expect(cards).toHaveLength(2);
+    expect(cards.map((card) => card.label)).toEqual(["八点场", "九点场"]);
+    expect(cards[0].confirmed).toBe(1);
+    expect(cards[1].confirmed).toBe(0);
+    expect(cards[1].entries.filter((item) => item.status === "pending")).toHaveLength(4);
+  });
+
+  it("有协商在进行的桌次标成需要介入", () => {
+    const withProposal = table("a", "2026-10-11T12:00:00Z", 1, 1, ["p1", "p2", "p3", "p4"], [accepted("p1")]);
+    withProposal.negotiation = { ...withProposal.negotiation!, status: "proposal_pending" } as any;
+    const day = negotiationDayGroups(competition([withProposal]))[0];
+    const cards = sessionCards(competition([withProposal]), day);
+    expect(cards[0].adminCount).toBe(3);
+    expect(cards[0].entries.every((item) => item.needsAdmin)).toBe(true);
+  });
+
+  it("当前该盯的那一天：这轮回完就自动落到下一轮", () => {
+    // 第一天只回了一半 -> 还该盯第一天
+    const partial = table("a", "2026-10-11T12:00:00Z", 1, 1, ["p1", "p2", "p3", "p4"], [accepted("p1"), accepted("p2")]);
+    const later = table("b", "2026-10-14T12:00:00Z", 3, 1, ["p1", "p2", "p3", "p4"]);
+    const tables = [partial, later];
+    const days = negotiationDayGroups(competition(tables));
+    expect(currentOpenNegotiationDay(days, () => true)?.day).toBe("2026-10-11");
+    // 第一天全部回完 -> 自动落到第二天，不用管理员手动切
+    const finished = negotiationDayGroups(competition([
+      { ...partial, negotiation: { ...partial.negotiation!, confirmations: ["p1", "p2", "p3", "p4"].map((id) => ({ participantId: id, status: "accepted" as const })) } } as any,
+      later,
+    ]));
+    expect(currentOpenNegotiationDay(finished, () => true)?.day).toBe("2026-10-14");
+    // 一天都还没开放 -> 没有当前场次
+    expect(currentOpenNegotiationDay(days, () => false)).toBeNull();
   });
 });

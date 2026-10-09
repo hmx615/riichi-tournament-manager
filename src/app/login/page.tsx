@@ -7,6 +7,6 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const params = await searchParams;
   const nextPath = typeof params.next === "string" && params.next.startsWith("/") && !params.next.startsWith("//") ? params.next : "/";
   const [admin, player] = await Promise.all([isAdmin(), currentPlayer()]);
-  if (admin || player) redirect(admin || nextPath !== "/" ? nextPath : "/casual");
+  if (admin || player) redirect(nextPath);
   return <div className="login-page"><LoginForm nextPath={nextPath} /></div>;
 }

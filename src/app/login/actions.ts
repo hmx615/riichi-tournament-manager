@@ -48,11 +48,13 @@ export async function loginAction(_state: LoginState, formData: FormData): Promi
   await clearLoginFailures(address);
   await clearAdminSession();
   await createPlayerSession(player);
-  redirect(safeDestination(parsed.data.next === "/" ? "/casual" : parsed.data.next));
+  redirect(safeDestination(parsed.data.next));
 }
 
-export async function logoutAction() {
+/** 登出后回到退出前所在的那个页面，而不是一律回首页。 */
+export async function logoutAction(formData?: FormData) {
   await clearAdminSession();
   await clearPlayerSession();
-  redirect("/");
+  const next = formData ? String(formData.get("next") ?? "") : "";
+  redirect(safeDestination(next));
 }

@@ -2,10 +2,11 @@ import Link from "next/link";
 import { ArrowLeft, CircleAlert } from "lucide-react";
 import { requireAdminPage } from "@/server/auth";
 import { getCompetition } from "@/server/competition-repository";
-import { negotiationDayGroups, participantPendingSummaries } from "@/domain/negotiation-overview";
+import { currentOpenNegotiationDay, negotiationDayGroups, sessionCards, sessionLabel } from "@/domain/negotiation-overview";
 import { individualSettingsFor } from "@/domain/competition-format";
 import { individualNegotiationOpen, individualNegotiationOpensAt } from "@/domain/individual-tournament";
 import { PlayerTag } from "@/components/player-tag";
+import type { Competition } from "@/domain/types";
 import styles from "./negotiation.module.css";
 
 const dayFormatter = new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", month: "2-digit", day: "2-digit", weekday: "short" });
@@ -20,13 +21,12 @@ export default async function NegotiationOverviewPage({ params }: { params: Prom
 
   const settings = individualSettingsFor(competition);
   const days = negotiationDayGroups(competition);
-  const pending = participantPendingSummaries(competition).filter((row) => row.total > 0);
+  const isOpen = (table: NonNullable<Competition["individualSchedule"]>[number]) => !settings || individualNegotiationOpen(table, settings);
+  // 只盯当前开放的那一天；这轮回完就会自动落到下一轮，不用管理员手动切。
+  const liveDay = currentOpenNegotiationDay(days, isOpen);
+  const liveCards = liveDay ? sessionCards(competition, liveDay) : [];
   const nameOf = (participantId: string) => competition.participants.find((item) => item.id === participantId)?.displayName ?? participantId;
 
-  const respondedTotal = pending.reduce((sum, row) => sum + row.responded, 0);
-  const totalTotal = pending.reduce((sum, row) => sum + row.total, 0);
-  const behind = pending.filter((row) => row.pending > 0);
-  const refused = pending.filter((row) => row.declinedTables.length > 0);
 
   // 默认展开最近一个「已开放但还有人没确认」的日子；没有就展开第一天。
   const focusDay = days.find((day) => !day.complete && day.tables.some((item) => !settings || individualNegotiationOpen(item.table, settings)))?.day
@@ -42,22 +42,33 @@ export default async function NegotiationOverviewPage({ params }: { params: Prom
       </div>
     </div>
 
-    <section className="summary-grid" aria-label="协商总进度">
-      <div className="summary-block"><span>已回应<strong>{respondedTotal}/{totalTotal}</strong></span></div>
-      <div className="summary-block"><span>还没回话<strong>{behind.length} 人</strong></span></div>
-      <div className="summary-block"><span>明确不能来<strong>{refused.length} 人</strong></span></div>
+    <section className={styles.now} aria-label="当前开放的场次">
+      <div className={styles.nowHead}>
+        <strong><CircleAlert size={15} />当前要盯的场次</strong>
+        <span>{liveDay
+          ? `${dayFormatter.format(new Date(liveDay.startsAt))} · ${liveDay.rounds.join(" / ")} 轮`
+          : "眼下没有开放协商的场次"}</span>
+      </div>
+      {liveCards.length === 0 && <p className="field-note">这一轮都回完了，或还没到开放时间；下面的按天列表可以翻看后续场次。</p>}
+      <div className={styles.nowCards}>
+        {liveCards.map((card) => <div className={styles.nowCard} key={card.round}>
+          <header><strong>{card.label}</strong><span>{beijing(card.time)}</span>
+            <em>{card.confirmed}/{card.total} 已确认</em>
+            {card.adminCount > 0 && <i className={styles.nowFlag}>需要介入 {card.adminCount}</i>}
+          </header>
+          <ul>
+            {card.entries.map((item) => {
+              const participant = competition.participants.find((entry) => entry.id === item.participantId);
+              const state = item.needsAdmin ? "admin" : item.status === "accepted" ? "done" : item.status === "declined" ? "admin" : "wait";
+              return <li key={item.participantId} className={styles[state]}>
+                {participant && <PlayerTag participant={participant} compact />}
+                <em>{item.needsAdmin ? (item.status === "declined" ? "不能来" : "协商中") : item.status === "accepted" ? "已确认" : "待确认"}</em>
+              </li>;
+            })}
+          </ul>
+        </div>)}
+      </div>
     </section>
-
-    {behind.length > 0 && <section className={styles.behind}>
-      <div className={styles.behindHead}><strong><CircleAlert size={15} />还没确认的选手</strong></div>
-      <ul className={styles.behindList}>
-        {behind.map((row) => <li key={row.participantId}>
-          <Link href={`/players/${encodeURIComponent(row.participantId)}`}>{nameOf(row.participantId)}</Link>
-          <span className={styles.behindCount}>已确认 {row.responded} 场</span>
-          {row.declinedTables.length > 0 && <span className={styles.declinedTag}>拒绝过 {row.declinedTables.length} 场</span>}
-        </li>)}
-      </ul>
-    </section>}
 
     <section className="form-section">
       <div className="form-section-title"><span>1</span><div><h2>按天查看</h2></div></div>
@@ -78,7 +89,7 @@ export default async function NegotiationOverviewPage({ params }: { params: Prom
           </summary>
           <div className={styles.dayBody}>
             {!open && opensAt && <p className="field-note">本场时间协商将于 {dayFormatter.format(new Date(opensAt))} {beijing(opensAt)} 开启。</p>}
-            {day.waitingByRound.some((item) => item.participantIds.length > 0) && <p className={styles.waitingLine}>还差：{day.waitingByRound.filter((item) => item.participantIds.length).map((item) => `${beijing(item.time)} 场 ${item.participantIds.map(nameOf).join("、")}`).join("　")}</p>}
+            {day.waitingByRound.some((item) => item.participantIds.length > 0) && <div className={styles.waitingLine}>还差：{day.waitingByRound.filter((item) => item.participantIds.length).map((item) => <span key={item.round}><b>{sessionLabel(item.time)}</b> {item.participantIds.map(nameOf).join("、")}</span>)}</div>}
             {day.declined.length > 0 && <p className={styles.declinedLine}>表示不能来：{day.declined.map(nameOf).join("、")}</p>}
             {day.tables.map((summary) => <div className={styles.table} key={summary.table.id}>
               <div className={styles.tableHead}>
