@@ -142,8 +142,12 @@ export function negotiationDayGroups(competition: Competition): NegotiationDayGr
       for (const item of summary.responses) if (item.status === "pending") entry.participantIds.push(item.participantId);
       byRound.set(summary.table.round, entry);
     }
+    // 按报名顺序排，两个场次的名单才能上下对齐：同一个人不会一会儿在前一会儿在后。
+    const rosterOrder = new Map(competition.participants.map((participant, index) => [participant.id, index]));
+    const byRoster = (ids: string[]) => [...new Set(ids)]
+      .sort((left, right) => (rosterOrder.get(left) ?? 999) - (rosterOrder.get(right) ?? 999) || left.localeCompare(right));
     day.waitingByRound = [...byRound.entries()]
-      .map(([round, entry]) => ({ round, time: entry.time, participantIds: [...new Set(entry.participantIds)] }))
+      .map(([round, entry]) => ({ round, time: entry.time, participantIds: byRoster(entry.participantIds) }))
       .sort((left, right) => left.round - right.round);
     day.complete = day.responded === day.total && day.total > 0;
   }
@@ -214,5 +218,17 @@ export function sessionCards(competition: Competition, day: NegotiationDayGroup)
       if (needsAdmin) card.adminCount += summary.responses.filter((item) => item.status !== "accepted").length;
       return cards;
     }, [] as SessionCard[])
-    .sort((left, right) => left.round - right.round);
+    .sort((left, right) => left.round - right.round)
+    // 卡片内把还要催的人顶到上面：待确认 -> 协商中/不能来 -> 已确认
+    .map((card) => ({
+      ...card,
+      entries: [...card.entries].sort((left, right) => attentionRank(left) - attentionRank(right)),
+    }));
+}
+
+/** 催办优先级：待确认最急，其次需要管理员介入的协商/拒绝，最后才是已确认。 */
+function attentionRank(entry: { status: NegotiationResponse; needsAdmin: boolean }) {
+  if (entry.status === "pending" && !entry.needsAdmin) return 0;
+  if (entry.needsAdmin) return 1;
+  return 2;
 }

@@ -176,4 +176,32 @@ describe("场次卡片", () => {
     // 一天都还没开放 -> 没有当前场次
     expect(currentOpenNegotiationDay(days, () => false)).toBeNull();
   });
+  it("还差名单按报名顺序排，两个场次能上下对齐", () => {
+    // 报名顺序是 p1..p8，故意让 p5 只欠八点场、p2 只欠九点场
+    const tables = [
+      table("a", "2026-10-11T12:00:00Z", 1, 1, ["p5", "p2", "p7", "p1"], [
+        { participantId: "p5", status: "accepted" }]),
+      table("b", "2026-10-11T13:00:00Z", 2, 1, ["p6", "p3", "p4", "p1"], [
+        { participantId: "p6", status: "accepted" }]),
+    ];
+    const day = negotiationDayGroups(competition(tables))[0];
+    const eight = day.waitingByRound.find((item) => item.round === 1)!;
+    const nine = day.waitingByRound.find((item) => item.round === 2)!;
+    // 报名顺序是 p1..p8；八点场欠 p1/p2/p7，九点场欠 p1/p3/p4，
+    // 两个名单内部都按报名顺序排，同一个人不会一会儿在前一会儿在后。
+    expect(eight.participantIds).toEqual(["p1", "p2", "p7"]);
+    expect(nine.participantIds).toEqual(["p1", "p3", "p4"]);
+  });
+
+  it("场次卡片内把要催的人顶到上面", () => {
+    const tables = [
+      table("a", "2026-10-11T12:00:00Z", 1, 1, ["p1", "p2", "p3", "p4"], [
+        { participantId: "p1", status: "accepted" }, { participantId: "p2", status: "accepted" }]),
+    ];
+    const day = negotiationDayGroups(competition(tables))[0];
+    const card = sessionCards(competition(tables), day)[0];
+    // p3/p4 待确认，应该排在已确认的 p1/p2 前面
+    expect(card.entries.slice(0, 2).map((item) => item.participantId)).toEqual(["p3", "p4"]);
+    expect(card.entries.slice(2).every((item) => item.status === "accepted")).toBe(true);
+  });
 });
