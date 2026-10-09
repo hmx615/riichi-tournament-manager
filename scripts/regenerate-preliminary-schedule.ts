@@ -35,6 +35,11 @@ for (const row of query("SELECT id, document FROM competitions WHERE json_extrac
   const before = competition.individualSchedule ?? [];
   const recorded = competition.matches.filter((match) => match.status === "completed").length;
   if (recorded > 0) throw new Error(`${competition.name} 已经有 ${recorded} 场成绩，重排会让成绩对不上桌次，先处理掉`);
+  // 已正式发布的赛程是对选手的承诺，必须人工确认后才能重排：
+  // 去掉 --force，或者先把 schedulePublishedAt 清掉。
+  if (competition.schedulePublishedAt && !process.argv.includes("--force")) {
+    throw new Error(`${competition.name} 的赛程已于 ${competition.schedulePublishedAt} 正式发布（指纹 ${competition.schedulePublishedSummary?.fingerprint ?? "无"}），拒绝自动重排；确需重排请加 --force`);
+  }
 
   const regular = planPreliminaryRegularWeeks(competition, settings);
   // 只替换日常周（week <= regularWeeks）的桌次；淘汰周和决赛还没生成。

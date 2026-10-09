@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { ArrowLeft, Award, BarChart3, CalendarDays, Diamond, FilePlus2, Medal, Pencil, Settings } from "lucide-react";
+import { ArrowLeft, Award, BarChart3, CalendarDays, ClipboardList, Diamond, FilePlus2, Medal, Pencil, Settings } from "lucide-react";
 import type { Competition } from "@/domain/types";
 import { individualSettingsFor } from "@/domain/competition-format";
 import { assessMatchQuality } from "@/domain/match-quality";
@@ -164,6 +164,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
       <div className="heading-actions">
         <Link className="button" href={`/negotiation?competition=${competition.id}`} title="选手在这里确认开打时间"><CalendarDays size={17} />选手时间确认入口</Link>
         {admin && <>
+          <Link className="button" href={`/competitions/${competition.id}/negotiation`}><ClipboardList size={17} />协商进度总览</Link>
           <Link className="button" href={`/competitions/${competition.id}/settings`}><Settings size={17} />比赛设置</Link>
           {competition.matches.length > 0 && <Link className="button" href={`/competitions/${competition.id}/data`}><BarChart3 size={17} />查看数据</Link>}
         </>}

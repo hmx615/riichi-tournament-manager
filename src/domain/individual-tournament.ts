@@ -96,14 +96,18 @@ export function individualNegotiationOpensAt(table: { week?: number; round: numb
   const beijingMidnight = BEIJING_OFFSET_MINUTES * 60 * 1000;
   const isWednesdayBatch = table.round > individualRoundsPerDay(settings);
   // sunday 对应北京时间「本周周日 08:00」，减 8 小时才是北京 00:00。
-  // 第一周没有「上一周」可依，一律从首场前一周就开放。
-  if (week <= 1) return new Date(sunday - 7 * DAY_MS - beijingMidnight).toISOString();
-  // 两个窗口都挂在「上一周」的两天晚上 22:00：
-  // 周三那两轮等上一周周日 22:00（-7 天），周日那两轮等上一周周三 22:00（-4 天）。
-  // 注意周日那两轮必须用上一周的周三——本周的周三在周日之后，会开成赛后。
-  const dayOffset = isWednesdayBatch ? -7 * DAY_MS : -4 * DAY_MS;
-  return new Date(sunday + dayOffset - beijingMidnight + NEGOTIATION_OPEN_HOUR * HOUR_MS).toISOString();
+  const at22 = (dayBase: number) => dayBase - beijingMidnight + NEGOTIATION_OPEN_HOUR * HOUR_MS;
+  // 周三那两轮：等它前面那个周日（就是本周的周日）22:00。
+  if (isWednesdayBatch) return new Date(at22(sunday)).toISOString();
+  // 周日那两轮：等上一周的周三 22:00——本周的周三在周日之后，用它会开成赛后。
+  if (week <= 1) {
+    // 第一周的周日没有「上一周周三」可依，只能从现在起就开放，
+    // 否则首场没人来得及确认。
+    return new Date(sunday - 7 * DAY_MS - beijingMidnight).toISOString();
+  }
+  return new Date(at22(sunday - 4 * DAY_MS)).toISOString();
 }
+
 
 
 /** 现在能不能协商这一桌。 */
@@ -195,6 +199,16 @@ export function planPreliminaryRegularWeeks(competition: Competition, settings: 
 
   // 随机分桌 + 择优：跑多组种子，挑「对手遇见次数上限最低、整体最均匀」的那套。
   // 仍然随机（种子固定可复现），但不会给出个别对子被反复撞上的排法。
+  // 同一天同桌固定，所以相遇次数一定是 roundsPerDay 的整数倍；
+  // 平均值向上取到下一个倍数就是能达到的理论上限，达到即可停止搜索。
+  const rosterSize = competition.participants.length;
+  // 一张四人桌产生 6 对相遇，所以总相遇次数 = 座位数 × 3 / 2。
+  const totalSeats = weeks * rosterSize * settings.preliminary.matchesPerPlayerPerWeek;
+  const possiblePairs = rosterSize * (rosterSize - 1) / 2;
+  const meanPerPair = possiblePairs > 0 ? (totalSeats * 3) / 2 / possiblePairs : 0;
+  const step = individualRoundsPerDay(settings);
+  const idealMax = Math.ceil(meanPerPair / step) * step;
+
   let best: ReturnType<typeof build> | null = null;
   let bestScore = { max: Number.POSITIVE_INFINITY, spread: Number.POSITIVE_INFINITY };
   for (let attempt = 0; attempt < Math.max(1, seedAttempts); attempt += 1) {
@@ -204,6 +218,7 @@ export function planPreliminaryRegularWeeks(competition: Competition, settings: 
     const better = score.max < bestScore.max
       || (score.max === bestScore.max && score.spread < bestScore.spread);
     if (better) { bestScore = score; best = candidate; }
+    if (bestScore.max <= idealMax) break;
   }
   return best!;
 }

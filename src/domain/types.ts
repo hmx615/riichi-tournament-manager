@@ -272,6 +272,20 @@ export type Competition = {
   autoIncludePersonTags?: string[];
   individualSettings?: IndividualCompetitionSettings;
   individualSchedule?: IndividualScheduleTable[];
+  /**
+   * 赛程正式发布时间。发布后视为对选手的承诺，重排脚本会拒绝自动改写，
+   * 要改必须人工确认并留档。
+   */
+  schedulePublishedAt?: string;
+  /** 发布时的赛程摘要（桌次数、人数、起始时间），用于核对当前赛程是否被动过。 */
+  schedulePublishedSummary?: {
+    tables: number;
+    participants: number;
+    firstTableAt: string;
+    lastTableAt: string;
+    /** 发布时间点的赛程内容指纹，用来发现发布后被改动。 */
+    fingerprint: string;
+  };
   /** 人数不是 4 的倍数时产生的轮空名单（按阶段）。 */
   individualByes?: IndividualStageBye[];
   /** 淘汰周每周结算的结果（第几周淘汰了谁）。 */

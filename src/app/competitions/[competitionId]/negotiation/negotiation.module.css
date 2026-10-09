@@ -1,0 +1,49 @@
+.behind { border: 1px solid #e2c9a0; border-radius: 6px; background: #fdf8ee; padding: 14px 16px; margin-bottom: 16px; }
+.behindHead { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 10px; }
+.behindHead strong { display: flex; align-items: center; gap: 6px; color: #8a6212; font-size: 14px; }
+.behindHead span { color: #8a7a5c; font-size: 12px; }
+.behindList { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.behindList li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid #ecdcbd; border-radius: 4px; background: #fff; }
+.behindList a { font-weight: 700; color: #6b4708; }
+.behindCount { color: #8a7a5c; font-size: 12px; }
+.declinedTag { padding: 1px 8px; border-radius: 999px; background: #ffe8e2; color: #a63a20; font-size: 11px; font-weight: 700; }
+
+.day { margin-bottom: 10px; border: 1px solid var(--line, #e2e8ea); border-radius: 6px; background: #fff; }
+.day > summary { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; list-style: none; border-radius: 6px; }
+.day > summary::-webkit-details-marker { display: none; }
+.day > summary::before { content: "\25B8"; color: var(--muted, #667078); transition: transform .15s ease; }
+.day[open] > summary::before { transform: rotate(90deg); }
+.day > summary:hover { background: var(--soft, #f7f8f8); }
+.day > summary strong { font-size: 16px; }
+.dayRounds { color: var(--muted, #667078); font-size: 13px; }
+.dayBar { flex: 1 1 90px; min-width: 70px; height: 7px; overflow: hidden; border-radius: 999px; background: #eef1f2; }
+.dayBar i { display: block; height: 100%; border-radius: 999px; background: #2f9c7d; }
+.dayCount { color: var(--ink, #20262b); font-size: 13px; font-weight: 800; }
+.dayState { padding: 3px 10px; border: 1px solid var(--line, #e2e8ea); border-radius: 999px; background: #f7f9f9; color: #7b878d; font-size: 12px; font-weight: 700; }
+.stateDone { border-color: #8ecfb9; background: #e6f6ef; color: #1c7a5f; }
+.stateOpen { border-color: #e0a92f; background: #fbe9c2; color: #6b4708; }
+.stateLocked { border-color: #d7dde0; background: #f4f6f7; color: #5b676d; }
+.dayDone > summary strong { color: var(--muted, #667078); }
+
+.dayBody { padding: 0 14px 14px; display: grid; gap: 10px; }
+.waitingLine { margin: 0; padding: 8px 10px; border-radius: 4px; background: #fdf8ee; color: #8a6212; font-size: 13px; }
+.declinedLine { margin: 0; padding: 8px 10px; border-radius: 4px; background: #fff1f1; color: #a63a20; font-size: 13px; }
+
+.table { border: 1px solid var(--soft-line, #e9edef); border-radius: 5px; overflow: hidden; }
+.tableHead { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 9px 12px; background: #f7f9f9; border-bottom: 1px solid var(--soft-line, #e9edef); }
+.tableHead strong { font-size: 14px; }
+.tableHead > span { color: var(--muted, #667078); font-size: 13px; }
+.tableState { padding: 2px 9px; border: 1px solid #d7dde0; border-radius: 999px; background: #f4f6f7; color: #5b676d; font-size: 12px; font-weight: 700; }
+.tableState.stateDone { border-color: #8ecfb9; background: #e6f6ef; color: #1c7a5f; }
+
+.players { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin: 0; padding: 10px 12px; list-style: none; }
+.players li { display: flex; align-items: center; gap: 6px; padding: 5px 9px; border: 1px solid #d7dde0; border-radius: 4px; background: #f4f6f7; font-size: 13px; }
+.players li span { color: #5b676d; }
+.players li em { margin-left: auto; color: #7b878d; font-size: 11px; font-style: normal; font-weight: 700; }
+.players li.accepted { border-color: #8ecfb9; background: #e6f6ef; }
+.players li.accepted span { color: #1c7a5f; font-weight: 700; }
+.players li.accepted em { color: #1c7a5f; }
+.players li.declined { border-color: #dfa9ab; background: #fff1f1; }
+.players li.declined span { color: #a63a20; font-weight: 700; }
+.players li.declined em { color: #a63a20; }
+.players li.pending em { color: #8a6212; }
