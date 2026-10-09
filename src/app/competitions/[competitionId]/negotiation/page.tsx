@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, CircleAlert, CircleSlash } from "lucide-react";
+import { ArrowLeft, CircleAlert } from "lucide-react";
 import { requireAdminPage } from "@/server/auth";
 import { getCompetition } from "@/server/competition-repository";
 import { negotiationDayGroups, participantPendingSummaries } from "@/domain/negotiation-overview";
 import { individualSettingsFor } from "@/domain/competition-format";
 import { individualNegotiationOpen, individualNegotiationOpensAt } from "@/domain/individual-tournament";
-import { formatTableTime } from "@/domain/schedule-negotiation";
 import { PlayerTag } from "@/components/player-tag";
 import styles from "./negotiation.module.css";
 
@@ -37,8 +36,7 @@ export default async function NegotiationOverviewPage({ params }: { params: Prom
   return <div className="page form-page">
     <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回比赛</Link>
     <div className="page-heading">
-      <div><p className="eyebrow">{competition.code} · 管理员视角</p><h1>协商进度总览</h1>
-        <p>按天折叠，一眼看谁还没回话。{competition.name}</p></div>
+      <div><p className="eyebrow">{competition.code} · 管理员视角</p><h1>协商进度总览</h1></div>
       <div className="heading-actions">
         <Link className="button" href={`/negotiation?competition=${encodeURIComponent(competition.id)}`}>代选手进入协商</Link>
       </div>
@@ -51,12 +49,11 @@ export default async function NegotiationOverviewPage({ params }: { params: Prom
     </section>
 
     {behind.length > 0 && <section className={styles.behind}>
-      <div className={styles.behindHead}><strong><CircleAlert size={15} />还没确认的选手</strong>
-        <span>按欠的场次从多到少排</span></div>
+      <div className={styles.behindHead}><strong><CircleAlert size={15} />还没确认的选手</strong></div>
       <ul className={styles.behindList}>
         {behind.map((row) => <li key={row.participantId}>
           <Link href={`/players/${encodeURIComponent(row.participantId)}`}>{nameOf(row.participantId)}</Link>
-          <span className={styles.behindCount}>还欠 {row.pending} / {row.total} 场</span>
+          <span className={styles.behindCount}>已确认 {row.responded} 场</span>
           {row.declinedTables.length > 0 && <span className={styles.declinedTag}>拒绝过 {row.declinedTables.length} 场</span>}
         </li>)}
       </ul>
@@ -81,7 +78,7 @@ export default async function NegotiationOverviewPage({ params }: { params: Prom
           </summary>
           <div className={styles.dayBody}>
             {!open && opensAt && <p className="field-note">本场时间协商将于 {dayFormatter.format(new Date(opensAt))} {beijing(opensAt)} 开启。</p>}
-            {day.waiting.length > 0 && <p className={styles.waitingLine}>还差：{day.waiting.map(nameOf).join("、")}</p>}
+            {day.waitingByRound.some((item) => item.participantIds.length > 0) && <p className={styles.waitingLine}>还差：{day.waitingByRound.filter((item) => item.participantIds.length).map((item) => `${beijing(item.time)} 场 ${item.participantIds.map(nameOf).join("、")}`).join("　")}</p>}
             {day.declined.length > 0 && <p className={styles.declinedLine}>表示不能来：{day.declined.map(nameOf).join("、")}</p>}
             {day.tables.map((summary) => <div className={styles.table} key={summary.table.id}>
               <div className={styles.tableHead}>
@@ -97,7 +94,6 @@ export default async function NegotiationOverviewPage({ params }: { params: Prom
                   const participant = competition.participants.find((entry) => entry.id === item.participantId);
                   return <li key={item.participantId} className={styles[item.status]}>
                     {participant && <PlayerTag participant={participant} compact />}
-                    <span>{nameOf(item.participantId)}</span>
                     <em>{item.status === "accepted" ? "已确认" : item.status === "declined" ? "不能来" : "待确认"}</em>
                   </li>;
                 })}

@@ -93,4 +93,35 @@ describe("协商进度总览", () => {
     const p5 = rows.find((row) => row.participantId === "p5")!;
     expect(p5.total).toBe(0);
   });
+
+  it("待回应按场次拆开：名字后面要能标出是哪一场", () => {
+    // p1 只欠 20:00 那场，p2 只欠 21:00 那场
+    const tables = [
+      table("a", "2026-10-11T12:00:00Z", 1, 1, ["p1", "p2", "p3", "p4"], [
+        { participantId: "p2", status: "accepted" }, { participantId: "p3", status: "accepted" }, { participantId: "p4", status: "accepted" }]),
+      table("b", "2026-10-11T13:00:00Z", 2, 1, ["p1", "p2", "p3", "p4"], [
+        { participantId: "p1", status: "accepted" }, { participantId: "p3", status: "accepted" }, { participantId: "p4", status: "accepted" }]),
+    ];
+    const days = negotiationDayGroups(competition(tables));
+    const first = days[0].waitingByRound.find((item) => item.round === 1)!;
+    const second = days[0].waitingByRound.find((item) => item.round === 2)!;
+    expect(first.participantIds).toEqual(["p1"]);
+    expect(second.participantIds).toEqual(["p2"]);
+    // 去重后当天还欠的人仍是两个
+    expect([...days[0].waiting].sort()).toEqual(["p1", "p2"]);
+  });
+
+  it("桌按未确认人数降序：四个人都没回的排最前", () => {
+    const allPending = (id: string, round: number, tableNumber: number) => table(id, "2026-10-11T12:00:00Z", round, tableNumber, ["p1", "p2", "p3", "p4"]);
+    const half = (id: string, round: number, tableNumber: number) => table(id, "2026-10-11T12:00:00Z", round, tableNumber, ["p1", "p2", "p3", "p4"], [
+      { participantId: "p1", status: "accepted" }, { participantId: "p2", status: "accepted" }]);
+    const full = (id: string, round: number, tableNumber: number) => table(id, "2026-10-11T12:00:00Z", round, tableNumber, ["p1", "p2", "p3", "p4"], [
+      { participantId: "p1", status: "accepted" }, { participantId: "p2", status: "accepted" },
+      { participantId: "p3", status: "accepted" }, { participantId: "p4", status: "accepted" }]);
+    const days = negotiationDayGroups(competition([
+      full("z", 1, 3), allPending("y", 1, 2), half("x", 1, 1),
+    ]));
+    const waitingCounts = days[0].tables.map((item) => item.responses.filter((entry) => entry.status === "pending").length);
+    expect(waitingCounts).toEqual([4, 2, 0]);
+  });
 });

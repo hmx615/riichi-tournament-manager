@@ -57,6 +57,8 @@ export type NegotiationDayGroup = {
   total: number;
   /** 这一天还没回应的选手（去重）。 */
   waiting: string[];
+  /** 按场次拆开的待回应名单：同一人两场都可能欠，要标出是哪一场。 */
+  waitingByRound: Array<{ round: number; time: string; participantIds: string[] }>;
   declined: string[];
   /** 整天都确认完了。 */
   complete: boolean;
@@ -86,6 +88,7 @@ export function negotiationDayGroups(competition: Competition): NegotiationDayGr
         responded: summary.responded,
         total: summary.total,
         waiting: [],
+        waitingByRound: [],
         declined: [],
         complete: false,
       });
@@ -94,7 +97,12 @@ export function negotiationDayGroups(competition: Competition): NegotiationDayGr
   const days = [...groups.values()].sort((left, right) => left.startsAt - right.startsAt);
   for (const day of days) {
     day.rounds.sort((left, right) => left - right);
-    day.tables.sort((left, right) => left.table.round - right.table.round || left.table.tableNumber - right.table.tableNumber);
+    // 先按未确认人数降序（四个都没回的排最前），再按轮次、桌号。
+    day.tables.sort((left, right) => {
+      const leftWaiting = left.responses.filter((item) => item.status === "pending").length;
+      const rightWaiting = right.responses.filter((item) => item.status === "pending").length;
+      return rightWaiting - leftWaiting || left.table.round - right.table.round || left.table.tableNumber - right.table.tableNumber;
+    });
     const waiting = new Set<string>();
     const declined = new Set<string>();
     for (const summary of day.tables) {
@@ -105,6 +113,16 @@ export function negotiationDayGroups(competition: Competition): NegotiationDayGr
     }
     day.waiting = [...waiting];
     day.declined = [...declined];
+    // 按场次拆开：一个选手可能只欠其中一场，名字后面要标出是哪一场。
+    const byRound = new Map<number, { time: string; participantIds: string[] }>();
+    for (const summary of day.tables) {
+      const entry = byRound.get(summary.table.round) ?? { time: summary.table.scheduledAt, participantIds: [] };
+      for (const item of summary.responses) if (item.status === "pending") entry.participantIds.push(item.participantId);
+      byRound.set(summary.table.round, entry);
+    }
+    day.waitingByRound = [...byRound.entries()]
+      .map(([round, entry]) => ({ round, time: entry.time, participantIds: [...new Set(entry.participantIds)] }))
+      .sort((left, right) => left.round - right.round);
     day.complete = day.responded === day.total && day.total > 0;
   }
   return days;
