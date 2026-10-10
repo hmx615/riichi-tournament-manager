@@ -215,7 +215,10 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
         <div className="individual-schedule-grid">{group.tables.map((table) => {
           const match = scheduledMatch(competition, table);
           const done = table.status === "completed" || Boolean(match);
-          return <article className={`individual-schedule-card${done ? " schedule-completed" : ""}`} key={table.id}>
+          // 三种卡片：白＝和我无关、浅绿＝我自己这桌（还要打）、灰蓝＝已经打完。
+          // 管理员没有「自己的桌」，那就按「还没录入、需要他处理的」算，一样标绿。
+          const mine = viewerPersonId ? tableHasParticipant(competition, table, viewerPersonId) : admin && !done;
+          return <article className={`individual-schedule-card${done ? " schedule-completed" : ""}${mine ? " schedule-mine" : ""}`} key={table.id}>
             <header><strong>{dateFormatter.format(new Date(table.scheduledAt))}</strong><span>{table.stage === "final" ? "决赛" : "初赛"} · 第 {table.round} 轮 · A{table.tableNumber}</span></header>
             <div className="individual-schedule-players">{(match ? match.seats.map((seat) => seat.participantId) : table.participantIds).map((id) => {
               const participant = competition.participants.find((item) => item.id === id);
