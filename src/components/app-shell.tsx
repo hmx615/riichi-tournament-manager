@@ -72,16 +72,17 @@ export function AppShell({ children, admin, player }: {
           <div><strong>立直麻将赛事控制台</strong></div>
           <div className="auth-controls">
             <label className="quality-toggle"><input type="checkbox" checked={qualityVisuals} onChange={(event) => { const enabled = event.target.checked; setQualityVisuals(enabled); window.localStorage.setItem(qualityVisualsKey, enabled ? "on" : "off"); }} />显示金钻马</label><span className={`environment ${admin ? "admin-mode" : player ? "player-mode" : "viewer-mode"}`}>{admin ? "管理员模式" : player ? `选手 · ${player.displayName || player.username}` : "浏览模式"}</span>
-            {admin && <Link className="topbar-action" href="/admin/users"><KeyRound size={15} />账号管理</Link>}
-            {admin && <Link className="topbar-action" href="/admin/tags"><Tags size={15} />标签管理</Link>}
-            {!admin && player && <Link className="topbar-action" href="/account"><UserCog size={15} />我的资料</Link>}
+            {/* 窄屏上只留图标，文字放在 title/aria-label 里，顶栏不会被撑成两行。 */}
+            {admin && <Link className="topbar-action topbar-icon-action" href="/admin/users" title="账号管理" aria-label="账号管理"><KeyRound size={15} /><span>账号管理</span></Link>}
+            {admin && <Link className="topbar-action topbar-icon-action" href="/admin/tags" title="标签管理" aria-label="标签管理"><Tags size={15} /><span>标签管理</span></Link>}
+            {!admin && player && <Link className="topbar-action topbar-icon-action" href="/account" title="我的资料" aria-label="我的资料"><UserCog size={15} /><span>我的资料</span></Link>}
             {admin || player
               ? <form action={logoutAction}>
                   {/* 带上当前路径：登出后回到这里，而不是回首页。 */}
                   <input type="hidden" name="next" value={pathname} />
-                  <button className="topbar-action" type="submit"><LogOut size={15} />退出</button>
+                  <button className="topbar-action topbar-icon-action" type="submit" title="退出登录" aria-label="退出登录"><LogOut size={15} /><span>退出</span></button>
                 </form>
-              : <Link className="topbar-action" href="/login"><LogIn size={15} />登录</Link>}
+              : <Link className="topbar-action topbar-icon-action" href="/login" title="登录" aria-label="登录"><LogIn size={15} /><span>登录</span></Link>}
           </div>
         </header>
         <main>{children}</main>

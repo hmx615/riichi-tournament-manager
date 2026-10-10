@@ -106,15 +106,16 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
     const previous = !eliminated.has(participant.id) && index > 0 ? rowByParticipant.get(sortedPlayers[index - 1].id)?.points ?? 0 : null;
     const gap = previous == null ? null : previous - points;
     const rowClass = eliminated.has(participant.id) ? "eliminated-standing-row" : medalClass ? `medal-row ${medalClass.replace("medal-", "medal-row-")}` : "";
+    // data-label 供窄屏把这一行折成卡片（每格前面显示列名），桌面上仍然是普通表格。
     return <tr key={participant.id} className={rowClass}>
-      <td><strong>{index + 1}</strong></td>
-      <td><PlayerTag participant={participant} /></td>
-      <td className={points >= 0 ? "positive" : "negative"}>{points >= 0 ? "+" : ""}{points.toFixed(1)}</td>
-      <td>{row?.adjustmentPoints ? <span className={row.adjustmentPoints >= 0 ? "positive" : "negative"}>{row.adjustmentPoints >= 0 ? "+" : ""}{row.adjustmentPoints.toFixed(1)}</span> : "-"}</td>
-      <td>{gap == null ? "-" : gap.toFixed(1)}</td>
-      <td>{row?.games ?? 0}</td>
-      <td>{row?.averageRank?.toFixed(2) ?? "-"}</td>
-      <td>{medalClass
+      <td data-label="排名"><strong>{index + 1}</strong></td>
+      <td data-label="选手"><PlayerTag participant={participant} /></td>
+      <td data-label="积分" className={points >= 0 ? "positive" : "negative"}>{points >= 0 ? "+" : ""}{points.toFixed(1)}</td>
+      <td data-label="加减分">{row?.adjustmentPoints ? <span className={row.adjustmentPoints >= 0 ? "positive" : "negative"}>{row.adjustmentPoints >= 0 ? "+" : ""}{row.adjustmentPoints.toFixed(1)}</span> : "-"}</td>
+      <td data-label="与上一名差">{gap == null ? "-" : gap.toFixed(1)}</td>
+      <td data-label="已打半庄">{row?.games ?? 0}</td>
+      <td data-label="平均顺位">{row?.averageRank?.toFixed(2) ?? "-"}</td>
+      <td data-label="状态">{medalClass
         ? <span className={`stage-status medal ${medalClass}`}>{status === "冠军" ? <Diamond size={12} /> : status === "亚军" ? <Medal size={12} /> : status === "季军" ? <span className="medal-mark">♞</span> : <Award size={12} />}{status}</span>
         : <span className={`stage-status ${statusClass}`}>{status}</span>}</td>
     </tr>;
@@ -156,6 +157,8 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
     status: stageWeekStatus(stage, week),
     tables: plannedTables.filter((table) => table.stage === stage && individualWeekOf(table) === week),
   })));
+  // 默认只展开「还没打完的第一周」，其余周次收起来，手机上不用一路滑到底。
+  const openWeek = scheduleGroups.find((group) => group.status !== "已完成") ?? scheduleGroups[0];
 
   return <div className="page competition-page">
     {showBackLink && <Link className="back-link" href="/"><ArrowLeft size={16} />返回比赛列表</Link>}
@@ -168,6 +171,8 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
           <Link className="button" href={`/competitions/${competition.id}/settings`}><Settings size={17} />比赛设置</Link>
           {competition.matches.length > 0 && <Link className="button" href={`/competitions/${competition.id}/data`}><BarChart3 size={17} />查看数据</Link>}
         </>}
+        {/* 和其他比赛一样：能录的人（管理员 / 已登录选手）顶部就有「录入牌谱」，手机竖屏不用往下翻卡片。 */}
+        {canEnterMatches && <Link className="button primary" href={`/competitions/${competition.id}/matches/new`}><FilePlus2 size={17} />录入牌谱</Link>}
       </div>
     </div>
     {settings && <section className="section-block">
@@ -201,8 +206,12 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
     <section className="section-block">
       <div className="section-heading"><div><h2>赛程</h2></div><span className="table-count">已进行 {completed} 个半庄</span></div>
       {admin && <IndividualWeekSettlementPanel competition={competition} />}
-      {scheduleGroups.length ? scheduleGroups.map((group) => <section className="schedule-stage-group" key={`${group.stage}-${group.week}`}>
-        <h4>{group.label} <em className={`stage-seal stage-seal-${sealOf(group.status)}`}>{group.status}</em></h4>
+      {scheduleGroups.length ? scheduleGroups.map((group) => <details className="schedule-stage-group" key={`${group.stage}-${group.week}`} open={openWeek?.stage === group.stage && openWeek?.week === group.week}>
+        <summary className="schedule-week-summary">
+          <strong>{group.label}</strong>
+          <em className={`stage-seal stage-seal-${sealOf(group.status)}`}>{group.status}</em>
+          <span className="table-count">{group.tables.length} 桌</span>
+        </summary>
         <div className="individual-schedule-grid">{group.tables.map((table) => {
           const match = scheduledMatch(competition, table);
           const done = table.status === "completed" || Boolean(match);
@@ -217,7 +226,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
               : canEnterMatches && (admin || (viewerPersonId && tableHasParticipant(competition, table, viewerPersonId))) ? <Link className="button primary" href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>录入牌谱</Link> : null}</footer>
           </article>;
         })}</div>
-      </section>) : <article className="individual-schedule-card schedule-pending-card"><header><strong>赛程</strong></header><div className="schedule-pending-label">待排</div></article>}
+      </details>) : <article className="individual-schedule-card schedule-pending-card"><header><strong>赛程</strong></header><div className="schedule-pending-label">待排</div></article>}
       <Link className="button" href={`/competitions/${competition.id}/matches`}>查看牌谱记录</Link>
     </section>
   </div>;

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { AppShell } from "@/components/app-shell";
 import { isAdmin } from "@/server/auth";
 import { currentPlayer } from "@/server/player-auth";
@@ -7,6 +7,14 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "XRC 赛事管理",
   description: "立直麻将比赛、牌谱与数据管理",
+};
+
+// 安卓竖屏：按设备宽度排版，并留出手势条/刘海的边距。
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#242b30",
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

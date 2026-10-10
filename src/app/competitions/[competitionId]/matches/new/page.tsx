@@ -35,12 +35,30 @@ export default async function NewMatchPage({ params, searchParams }: {
     <Link className="back-link" href={`/competitions/${competition.id}`}><ArrowLeft size={16} />返回比赛</Link>
     <div className="page-heading"><h1>选择录入桌次</h1></div>
     {enterable && <p className="field-note">这里只显示你所在桌次还没录入的牌谱，共 {enterable.size} 桌。</p>}
-    <div className="individual-schedule-grid">{competition.individualSchedule?.filter((table) => table.status === "scheduled" && !scheduledMatch(competition, table) && (!enterable || enterable.has(table.id))).map((table) =>
-      <Link className="individual-schedule-card" key={table.id} href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>
-        <strong>{labels[table.stage]} · 第 {individualWeekOf(table)} 周 · 第 {table.round} 轮 · A{table.tableNumber}</strong>
-        <p>{table.participantIds.map((id) => competition.participants.find((p) => p.id === id)?.displayName).join("、")}</p>
-      </Link>
-    )}</div>
+    {/* 按周分组折叠：六十多桌全铺开在手机上要滑很久，默认只开最近的一周。 */}
+    {(() => {
+      const waiting = competition.individualSchedule?.filter((table) => table.status === "scheduled" && !scheduledMatch(competition, table) && (!enterable || enterable.has(table.id))) ?? [];
+      const weeks = [...new Set(waiting.map((table) => individualWeekOf(table)))].sort((left, right) => left - right);
+      if (!weeks.length) return <p className="field-note">没有待录入的桌次。</p>;
+      // 默认展开「离现在最近的那一周」，全部都是过去场次时就展开第一周。
+      const upcoming = waiting.filter((table) => Date.parse(table.scheduledAt) >= Date.now()).sort((left, right) => Date.parse(left.scheduledAt) - Date.parse(right.scheduledAt))[0];
+      const openWeek = upcoming ? individualWeekOf(upcoming) : weeks[0];
+      return weeks.map((week) => {
+        const tables = waiting.filter((table) => individualWeekOf(table) === week);
+        return <details className="schedule-stage-group" key={week} open={week === openWeek}>
+          <summary className="schedule-week-summary">
+            <strong>{labels[tables[0].stage]} · 第 {week} 周</strong>
+            <span className="table-count">{tables.length} 桌待录</span>
+          </summary>
+          <div className="individual-schedule-grid">{tables.map((table) =>
+            <Link className="individual-schedule-card" key={table.id} href={`/competitions/${competition.id}/matches/new?scheduleId=${encodeURIComponent(table.id)}`}>
+              <strong>{labels[table.stage]} · 第 {individualWeekOf(table)} 周 · 第 {table.round} 轮 · A{table.tableNumber}</strong>
+              <p>{table.participantIds.map((id) => competition.participants.find((p) => p.id === id)?.displayName).join("、")}</p>
+            </Link>
+          )}</div>
+        </details>;
+      });
+    })()}
   </div>;
   return (
     <div className="page form-page">
