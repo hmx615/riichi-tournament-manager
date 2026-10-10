@@ -210,18 +210,29 @@
 .medal-row.medal-row-silver { background: linear-gradient(100deg, #f6f8fa 0%, #d5dde4 44%, #fbfcfd 100%) !important; color: #46545f; }
 .medal-row.medal-row-silver td { border-color: #ccd6de; }
 .medal-silver { border-color: #9aa8b3; background: linear-gradient(115deg, #fbfcfd 0%, #d3dce3 48%, #f2f5f8 100%); color: #46545f; box-shadow: 0 0 0 1px rgba(226, 233, 239, .9), 0 0 13px rgba(120, 138, 152, .3); text-shadow: 0 1px 0 #fff; }
-/* 前三名名次牌：和奖牌同一套语言，扫光只给钻 */
-.rank-medal { gap: 3px; padding: 2px 6px; font-size: 10px; font-style: normal; }
+/* 前三名：名次数字自己做特效（渐变填充 + 微光呼吸），不再挂文字徽章 */
+.individual-standings-table tr.rank-podium td:first-child strong { position: relative; font-size: 20px; font-weight: 900; letter-spacing: -.5px; animation: rankGlow 3.6s ease-in-out infinite; }
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .individual-standings-table tr.medal-row-diamond td:first-child strong { background-image: linear-gradient(155deg, #0d4d66 0%, #46aed1 38%, #0f6a8c 58%, #6fd0e8 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .individual-standings-table tr.medal-row-gold td:first-child strong { background-image: linear-gradient(155deg, #8a5a06 0%, #e8b62f 38%, #a87209 58%, #f5d888 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .individual-standings-table tr.medal-row-silver td:first-child strong { background-image: linear-gradient(155deg, #55636e 0%, #ccd7de 38%, #78868f 58%, #eaf0f4 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+}
+@keyframes rankGlow {
+  0%, 100% { filter: drop-shadow(0 1px 2px rgba(24, 44, 54, .16)); }
+  50% { filter: drop-shadow(0 1px 4px rgba(24, 44, 54, .3)); }
+}
+@media (prefers-reduced-motion: reduce) { .individual-standings-table tr.rank-podium td:first-child strong { animation: none; } }
 .rank-podium td:first-child { border-left-color: currentColor; }
 /* 中间名次：从上到下逐渐加温，靠近淘汰区时整行偏暖 */
 .individual-standings-table tr.rank-middle { background: linear-gradient(100deg, rgba(206, 236, 224, .85) 0%, rgba(255, 255, 255, .6) 38%, rgba(255, 219, 175, calc(.18 + var(--mid-warm, 0) * .72)) 100%); }
 .individual-standings-table tr.rank-middle:hover { background: linear-gradient(100deg, rgba(196, 232, 218, .95) 0%, rgba(255, 255, 255, .7) 38%, rgba(255, 212, 165, calc(.26 + var(--mid-warm, 0) * .74)) 100%); }
 .individual-standings-table tr.rank-middle td { border-color: #e2ece8; }
-/* 预计淘汰区：末 N 名，浅红底 + 左侧红条 + 小标签 */
-.individual-standings-table tr.rank-elimination-zone { background: linear-gradient(100deg, #fff3f0 0%, #ffe7e0 60%, #fff6f3 100%); }
-.individual-standings-table tr.rank-elimination-zone td { border-color: #f2d6cd; }
-.individual-standings-table tr.rank-elimination-zone td:first-child { box-shadow: inset 4px 0 0 #d4694f; }
-.elimination-zone-tag { display: inline-block; margin-right: 5px; padding: 2px 7px; border: 1px solid #e3a99c; border-radius: 999px; background: #ffece7; color: #b4472f; font-size: 10px; font-weight: 850; white-space: nowrap; }
+/* 预计淘汰区：末 N 名，冷灰底 + 暗红警示（不用粉色，那是友善色不是危险色） */
+.individual-standings-table tr.rank-elimination-zone { background: linear-gradient(100deg, #e3e6e8 0%, #d3d8dc 58%, #e9ecee 100%); }
+.individual-standings-table tr.rank-elimination-zone td { border-color: #c6ccd1; }
+.individual-standings-table tr.rank-elimination-zone td:first-child { box-shadow: inset 4px 0 0 #a8452c; }
+.individual-standings-table tr.rank-elimination-zone td[data-label="排名"] strong { color: #7c3120; }
+.elimination-zone-tag { display: inline-block; margin-right: 5px; padding: 2px 7px; border: 1px solid #bb8371; border-radius: 999px; background: #f6e6df; color: #96381d; font-size: 10px; font-weight: 850; white-space: nowrap; }
 .medal { animation: medalPulse 3.8s ease-in-out infinite; }
 .medal-diamond { position: relative; overflow: hidden; }
 /* 冠军额外加一道扫光，和另外三个区分开 */

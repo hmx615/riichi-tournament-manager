@@ -99,7 +99,6 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
   const survivorBoundary = eliminatedStart < 0 ? sortedPlayers.length : eliminatedStart;
   // 视觉分层：前三名钻/金/银，末 N 名预计淘汰区，中间按名次从冷到暖渐变。
   const podiumMetals = ["diamond", "gold", "silver"] as const;
-  const podiumLabels = { diamond: "钻", gold: "金", silver: "银" } as const;
   // 只有初赛按周淘汰才画淘汰区；决赛没有淘汰，别误导。
   const eliminationZoneSize = activeStage === "preliminary" ? settings?.preliminary.eliminationCountPerWeek ?? 0 : 0;
   const zoneStart = Math.max(0, survivorBoundary - eliminationZoneSize);
@@ -133,7 +132,7 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
     // data-label 供窄屏把这一行折成卡片（每格前面显示列名），桌面上仍然是普通表格。
     return <tr key={participant.id} className={rowClass} style={rowStyle}>
       <td data-label="排名"><strong>{rank}</strong></td>
-      <td data-label="选手">{podium && <em className={`medal rank-medal medal-${podium}`}><span className="medal-mark">{podium === "diamond" ? <Diamond size={11} /> : podium === "gold" ? <Medal size={11} /> : "♛"}</span>{podiumLabels[podium]}</em>}<PlayerTag participant={participant} /></td>
+      <td data-label="选手"><PlayerTag participant={participant} /></td>
       <td data-label="积分" className={points >= 0 ? "positive" : "negative"}>{points >= 0 ? "+" : ""}{points.toFixed(1)}</td>
       <td data-label="加减分">{row?.adjustmentPoints ? <span className={row.adjustmentPoints >= 0 ? "positive" : "negative"}>{row.adjustmentPoints >= 0 ? "+" : ""}{row.adjustmentPoints.toFixed(1)}</span> : "-"}</td>
       <td data-label="与上一名差">{gap == null ? "-" : gap.toFixed(1)}</td>
