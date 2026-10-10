@@ -141,7 +141,18 @@
 .individual-schedule-players span { padding: 9px 8px; border-left: 3px solid #6c9d91; background: #f4f8f7; color: #304348; font-size: 12px; }
 .individual-schedule-players span { border-left-color: var(--player-color, #6c9d91); background: color-mix(in srgb, var(--player-color, #6c9d91) 10%, #fff); }
 .individual-schedule-card footer { color: #6d7a7d; font-size: 10px; }
-.individual-schedule-card.schedule-completed { background: #f7faf9; border-color: #c6ddd5; }
+/* 已打完的桌次整张压深色，和还没打的浅色卡一眼分开（不只靠「已录入牌谱」那行字） */
+.individual-schedule-card.schedule-completed { background: #22302c; border-color: #16211e; box-shadow: 0 4px 14px rgba(11, 22, 19, .3); }
+.individual-schedule-card.schedule-completed header { border-bottom-color: #3a4a46; }
+.individual-schedule-card.schedule-completed header strong { color: #eef5f3; }
+.individual-schedule-card.schedule-completed header span { color: #a3b7b2; }
+.individual-schedule-card.schedule-completed footer { color: #a9bdb8; }
+.individual-schedule-card.schedule-completed .individual-schedule-players span { background: color-mix(in srgb, var(--player-color, #6c9d91) 24%, #1a2523); color: #eef5f3; }
+.individual-schedule-card.schedule-completed .individual-schedule-players span.schedule-eliminated { background: #2b3538; color: #9dabaa; border-left-color: #6d7b7d; }
+.individual-schedule-card.schedule-completed .individual-schedule-players span small { color: #e0a99c; }
+.individual-schedule-card.schedule-completed .schedule-done { color: #86d8ba; }
+.individual-schedule-card.schedule-completed .table-edit-link { border-color: #4d605c; color: #cfe0dc; }
+.individual-schedule-card.schedule-completed .table-edit-link:hover { border-color: #86d8ba; color: #86d8ba; }
 .schedule-done { color: #23745f; font-size: 11px; }
 .schedule-stage-group { margin-top: 14px; }
 .schedule-stage-group h4 { margin: 0 0 8px; color: #44565a; font-size: 13px; font-weight: 750; }
@@ -1054,7 +1065,8 @@ h1 { margin-bottom: 7px; font-size: 27px; line-height: 1.25; }
   .sidebar { position: fixed; z-index: 20; top: auto; bottom: 0; width: 100%; height: 58px; padding: 6px 12px; flex-direction: row; align-items: center; border-top: 1px solid #465158; }
   .workspace { margin-left: 0; }
   .brand { display: none; }
-  .sidebar nav { padding: 0; flex: 1; display: grid; grid-template-columns: repeat(6, 1fr); }
+  /* 导航项数量会变（登记已隐藏），用 auto-flow 均分，别写死 6 列 */
+  .sidebar nav { padding: 0; flex: 1; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
   .sidebar nav a { min-height: 44px; }
   .new-competition { width: 44px; height: 44px; margin: 0; }
   .topbar { height: 55px; padding: 0 17px; }
