@@ -81,7 +81,8 @@ export function AppShell({ children, admin, player }: {
                   <input type="hidden" name="next" value={pathname} />
                   <button className="topbar-action topbar-icon-action" type="submit" title="退出登录" aria-label="退出登录"><LogOut size={15} /><span>退出</span></button>
                 </form>
-              : <Link className="topbar-action topbar-icon-action" href="/login" title="登录" aria-label="登录"><LogIn size={15} /><span>登录</span></Link>}
+              // 带上当前路径：登录完回到原来这一页，而不是一律回赛事主站（和退出登录一致）。
+              : <Link className="topbar-action topbar-icon-action" href={`/login?next=${encodeURIComponent(pathname)}`} title="登录" aria-label="登录"><LogIn size={15} /><span>登录</span></Link>}
           </div>
         </header>
         <main>{children}</main>
