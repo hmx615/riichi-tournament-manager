@@ -97,6 +97,13 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
   });
   const eliminatedStart = sortedPlayers.findIndex((participant) => eliminated.has(participant.id));
   const survivorBoundary = eliminatedStart < 0 ? sortedPlayers.length : eliminatedStart;
+  // 视觉分层：前三名钻/金/银，末 N 名预计淘汰区，中间按名次从冷到暖渐变。
+  const podiumMetals = ["diamond", "gold", "silver"] as const;
+  const podiumLabels = { diamond: "钻", gold: "金", silver: "银" } as const;
+  // 只有初赛按周淘汰才画淘汰区；决赛没有淘汰，别误导。
+  const eliminationZoneSize = activeStage === "preliminary" ? settings?.preliminary.eliminationCountPerWeek ?? 0 : 0;
+  const zoneStart = Math.max(0, survivorBoundary - eliminationZoneSize);
+  const midSpan = Math.max(1, zoneStart - 3);
   const standingRow = (participant: Competition["participants"][number], index: number) => {
     const status = statusOf(participant.id);
     const row = rowByParticipant.get(participant.id);
@@ -105,17 +112,34 @@ export function IndividualCompetitionOverview({ competition, summary, showBackLi
     const medalClass = status === "冠军" ? "medal-diamond" : status === "亚军" ? "medal-gold" : status === "季军" ? "medal-horse" : status === "殿军" ? "medal-bronze" : "";
     const previous = !eliminated.has(participant.id) && index > 0 ? rowByParticipant.get(sortedPlayers[index - 1].id)?.points ?? 0 : null;
     const gap = previous == null ? null : previous - points;
-    const rowClass = eliminated.has(participant.id) ? "eliminated-standing-row" : medalClass ? `medal-row ${medalClass.replace("medal-", "medal-row-")}` : "";
+    const rank = index + 1;
+    const isOut = eliminated.has(participant.id);
+    const podium = !medalClass && !isOut && rank <= 3 ? podiumMetals[rank - 1] : null;
+    const inZone = !isOut && eliminationZoneSize > 0 && index >= zoneStart;
+    // 中间名次：越靠下越「热」，形成一条从上到下加温的渐变带。
+    const midWarm = !isOut && !podium && !inZone && index >= 3 ? Math.min(1, (index - 3) / midSpan) : null;
+    const rowClass = isOut
+      ? "eliminated-standing-row"
+      : medalClass
+        ? `medal-row ${medalClass.replace("medal-", "medal-row-")}`
+        : podium
+          ? `medal-row rank-podium medal-row-${podium}`
+          : inZone
+            ? "rank-elimination-zone"
+            : midWarm === null
+              ? ""
+              : "rank-middle";
+    const rowStyle = midWarm === null ? undefined : ({ "--mid-warm": midWarm.toFixed(3) } as React.CSSProperties);
     // data-label 供窄屏把这一行折成卡片（每格前面显示列名），桌面上仍然是普通表格。
-    return <tr key={participant.id} className={rowClass}>
-      <td data-label="排名"><strong>{index + 1}</strong></td>
-      <td data-label="选手"><PlayerTag participant={participant} /></td>
+    return <tr key={participant.id} className={rowClass} style={rowStyle}>
+      <td data-label="排名"><strong>{rank}</strong></td>
+      <td data-label="选手">{podium && <em className={`medal rank-medal medal-${podium}`}><span className="medal-mark">{podium === "diamond" ? <Diamond size={11} /> : podium === "gold" ? <Medal size={11} /> : "♛"}</span>{podiumLabels[podium]}</em>}<PlayerTag participant={participant} /></td>
       <td data-label="积分" className={points >= 0 ? "positive" : "negative"}>{points >= 0 ? "+" : ""}{points.toFixed(1)}</td>
       <td data-label="加减分">{row?.adjustmentPoints ? <span className={row.adjustmentPoints >= 0 ? "positive" : "negative"}>{row.adjustmentPoints >= 0 ? "+" : ""}{row.adjustmentPoints.toFixed(1)}</span> : "-"}</td>
       <td data-label="与上一名差">{gap == null ? "-" : gap.toFixed(1)}</td>
       <td data-label="已打半庄">{row?.games ?? 0}</td>
       <td data-label="平均顺位">{row?.averageRank?.toFixed(2) ?? "-"}</td>
-      <td data-label="状态">{medalClass
+      <td data-label="状态">{inZone && <span className="elimination-zone-tag">淘汰区</span>}{medalClass
         ? <span className={`stage-status medal ${medalClass}`}>{status === "冠军" ? <Diamond size={12} /> : status === "亚军" ? <Medal size={12} /> : status === "季军" ? <span className="medal-mark">♞</span> : <Award size={12} />}{status}</span>
         : <span className={`stage-status ${statusClass}`}>{status}</span>}</td>
     </tr>;
